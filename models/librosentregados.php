@@ -1,0 +1,49 @@
+<?php
+require_once '../config/conexion.php';
+
+class LibroEntregado extends conexion{
+
+  private $acesso;
+
+  public function __CONSTRUCT()
+  {
+    $this->acesso = parent::getConexion();
+  }
+  
+  public function obtenerlibroentregado($idlibroentregado){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_obtener_libroentregado(?)");
+      $consulta->execute(array($idlibroentregado));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }  
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function EditarEpendiente($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" => ""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_editar_Ependientes(?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibroentregado"],
+          $datos["idprestamo"],
+          $datos["fechadevolucion"],
+          $datos["fechaprestamo"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
+    }
+    return $respuesta;
+  } 
+
+  
+
+}
