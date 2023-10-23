@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <!-- <img src="../assets/img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;"> -->
+            <img src="../views/img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros que faltan regresar y podra registrar el libro para que se pueda completar el prestamo
@@ -11,7 +11,7 @@
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ENTREGAS PENDIENTES</h6>
+        <h6 class="m-0 font-weight-bold text-primary">LISTADO DE DEVOLUCIONES</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -24,6 +24,7 @@
                         <th>Tipo</th>
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
+                        <th>F. Devolucion</th>
                         <th>Recibir</th>
                         <th>Eliminar</th>
                     </tr>
@@ -106,6 +107,7 @@
                         <td>${element.tipo}</td>
                         <td>${element.fechasolicitud}</td>
                         <td>${element.fechaentrega}</td>
+                        <td>${element.fechadevolucion}</td>
                         <td>
                             <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
                         </td>

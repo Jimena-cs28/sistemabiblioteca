@@ -10,7 +10,6 @@ CREATE PROCEDURE spu_registrar_prestamo
 	IN _fechaentrega DATETIME, -- null
 	IN _descripcion VARCHAR(40),
 	IN _enbiblioteca CHAR(2),
-	IN _lugardestino VARCHAR(90),
 	IN _lugardestino VARCHAR(90)
  )
 BEGIN 
@@ -20,8 +19,8 @@ INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fecharespue
 	(_idbeneficiario, _idbibliotecario,_fechaprestamo,_fecharespuesta,_fechaentrega,_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
-CALL spu_registrar_prestamo(6,1,'2023-10-24','','','3M','SI','');
-SELECT * FROM prestamos
+CALL spu_registrar_prestamo(9,11,'2023-10-23','','','5F','SI','');
+SELECT * FROM usuarios
 
 -- LISTAR LOS PRESTAMOS, SIN LIBROS PASO1
 DELIMITER $$
@@ -68,7 +67,7 @@ END $$
 
 
 -- registrar Libro
-SELECT * FROM libros
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libroentregado_reservar
@@ -87,6 +86,10 @@ BEGIN
 	estado = 'R'
 	WHERE idprestamo = _idprestamo;
 END $$
+
+CALL spu_registrar_libroentregado_reservar(6,6,1,'Nuevo','');
+
+SELECT * FROM libros
 
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libroentregado_ahora
@@ -167,7 +170,8 @@ CALL spu_update_pentregasp(2);
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, libros.nombre, personas.nombres, libros.tipo, prestamos.fechasolicitud, prestamos.fechaentrega
+	SELECT idlibroentregado,prestamos.idprestamo, libros.nombre, personas.nombres, libros.tipo, prestamos.fechasolicitud, 
+	prestamos.fechaentrega, librosentregados.fechadevolucion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro

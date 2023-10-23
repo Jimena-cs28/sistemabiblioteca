@@ -4,7 +4,7 @@ class conexion{
 
   private $servidor = "localhost";
   private $puerto = "3306";
-  private $baseDatos = "";
+  private $baseDatos = "sistemabiblioteca";
   private $usuario = "root";
   private $clave = "";
 

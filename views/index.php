@@ -102,7 +102,7 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php?view=entregaspendientes.php">
+                <a class="nav-link" href="index.php?view=reservas.php">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Reservacion</span></a>
             </li>
@@ -122,7 +122,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="index.php?view=reservacion.php">
+                <a class="nav-link" href="index.php?view=solicitud.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Solicitud</span></a>
             </li>
@@ -386,28 +386,27 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="./libs/jquery/jquery.min.js"></script>
     <script src="./libs/bootstrap/js/bootstrap.bundle.min.js"></script>       
-    <script src="./js/sb-admin-2.min.js"></script>
-    <script src="./js/sb-admin-2.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.js"></script>
 
 
     <!-- Bootstrap core JavaScript-->
-    <!-- <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./libs/jquery/jquery.min.js"></script>
+    <script src="./libs/bootstrap/js/bootstrap.bundle.min.js"></script> 
 
     <!-- Core plugin JavaScript-->
     <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
 
     <!-- Custom scripts for all pages-->
-    <!-- <script src="js/sb-admin-2.min.js"></script> -->
+    <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
     <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <!-- <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script> -->
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             function getURL(){

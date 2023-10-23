@@ -36,6 +36,22 @@
             </table>
         </div>
     </div>
+    
+</div>
+<div class="row" id="cardreserva">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">${element.nombre}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+        </ul>
+    </div>
 </div>
 
 <div class="modal fade" id="Meditar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -89,6 +105,7 @@
     <script>
         let idprestamo = '';
         let idlibroentregado = '';
+        const card = document.querySelector("#cardreserva");
         const cuerpo = document.querySelector("tbody");
         const descripcion = document.querySelector("#descripcion");
         const persona = document.querySelector("#persona");
@@ -108,8 +125,24 @@
             })
             .then(response => response.json())
             .then(datos => {
+                card.innerHTML = ``;
                 datos.forEach(element => {
                     idprestamo = element.idprestamo; 
+                    // const reserva = `    
+                    // <div class="card" style="width: 18rem;">
+                    //     <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="imagenLibro">
+                    //     <div class="card-body">
+                    //         <h5 class="card-title text-center">${element.nombre}</h5>
+                    //         <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
+                    //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </div>
+                    //     <ul class="list-group list-group-flush">
+                    //         <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
+                    //         <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
+                    //         <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
+                    //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </ul>
+                    // </div>`;
+                    // card.innerHTML +=reserva;
+
                     const pres = `
                     <tr>
                         <td>${element.idlibroentregado}</td>
@@ -123,7 +156,7 @@
                         <td>
                             <a href='#' type='button' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
                         </td>
-                        <td>
+                        <td>                            
                             <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
                         </td>
                     </tr>
@@ -189,7 +222,7 @@
                 parametros.append("fechadevolucion", fechadevolucion.value);
                 parametros.append("fechaprestamo",fechaprestamo.value);
                 
-                fetch("../controller/prestamos.php",{
+                fetch("../controller/librosentregados.php",{
                     method:'POST',
                     body: parametros
                 })
