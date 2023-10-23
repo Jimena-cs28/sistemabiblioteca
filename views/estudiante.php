@@ -3,7 +3,7 @@
         <div class="card-body border-0">
             <div class="row mt-4 mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <!-- <img src="../assets/img/user03.png" alt="user" class="img-responsive center-box" style="max-width: 110px;"> -->
+                    <img src="../views/img/undraw_profile_1.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     Bienvenido a la sección para registrar nuevos estudiantes, para poder registrar un estudiante deberás de llenar todos los campos del siguiente formulario

@@ -1,3 +1,15 @@
+        
+<div class="container-fluid" style="margin: 50px 0;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <img src="../views/img/user01.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9 text-justify lead">
+            Bienvenido a esta sección, aquí se muestran las reservaciones de libros hechas por los docentes y estudiantes, las cuales están pendientes para ser aprobadas por ti
+        </div>
+    </div>
+</div>
+    
     <!-- tabla -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">

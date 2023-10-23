@@ -1,8 +1,8 @@
 USE sistemabiblioteca 
 
 INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
-	-- (1, 1, '75123489', '1234567'),-- administrador
-	-- (2, 3, '75140236', '223344');
+	(1, 1, '75123489', '1234567'),-- administrador
+	 (2, 3, '75140236', '223344');
 	(3, 3, '73129045', 'sofi12'),
 	(4, 3, '78674219', '121223'),
 	(5, 3, '76401538', 'SalaLu23'),
@@ -12,13 +12,13 @@ INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
 WHERE idusuario = 1;
 
-SELECT * FROM usuarios
+SELECT * FROM personas
 
 INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac, direccion, telefono, email) VALUES
 	('Palma Navarro','Sylvie','DNI','74150120','','Grocio Prado','951207403',''),
 	('Berrocal paima', 'Luis Fernando', 'DNI', '76543001', '', 'Sunampe', '964513274', ''),
 	('Cartagena Salas','Maira','DNI','83215278','','Chincha','956432176',''),
-	3('Lopez Salas','Sofia','DNI','73129045','','Chincha','956432176',''),
+	('Lopez Salas','Sofia','DNI','73129045','','Chincha','956432176',''),
 	('Duren Buenamarca','Layla','DNI','78674219','','Chincha','956432176',''),
 	('Salazar Rojas','Luisa','DNI','76401538','','El carmen','912458130',''),
 	('Fajardo Cordova','Nayla','DNI','74102589','','Chincha Alta','987400335',''),
@@ -80,7 +80,7 @@ INSERT INTO libros (idsubcategoria, ideditorial,nombre, tipo,cantidad, numeropag
 	(3, 2, 'El mentor de matematicas', 'texto', 11,'102', '513', '','', '2010', 'castellano', '',''),
 	(4, 2, 'Atlas del cielo', 'texto', 12 ,'100', '525', '','', '2020', 'castellano', '',''),
 	(6, 2, 'Atlas del cuerpo humano', 'texto', 9,'12', '574', '','', '2001', 'castellano', '',''),
-	(7, 2, 'el guardian entre el enteno', 'texto', 12,'232', '813.005', '','', '2000', 'castellano', '',''),
+	(7, 1, 'el guardian entre el enteno', 'texto', 12,'232', '813.005', '','', '2000', 'castellano', '',''),
 	(10, 2, 'La vuelta al mundo entero en 80 dias', 'texto', 23,'22', '843.008', '','', '2011', 'castellano', '','');
 
 SELECT * FROM libros
@@ -95,12 +95,9 @@ INSERT INTO detalleautores (idlibro, idautor) VALUES
 SELECT * FROM libros
 
 INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo, fecharespuesta, fechaentrega, descripcion, enbiblioteca, lugardestino) VALUES
-			(2,1,'2023-09-28', '', '', '2F', 'SI', '');
+			(6,11,'2023-10-28', '', '', '2F', 'SI', '');
 
-UPDATE prestamos SET fechaentrega = '2023-09-25'
-WHERE idprestamo = 1;
-
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 -- luego 
 -- cuando se registra pasa a A(administrador)
 INSERT INTO librosentregados (idprestamo, idlibro, cantidad, condicionentrega, condiciondevolucion, observaciones, fechadevolucion) VALUES
