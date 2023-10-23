@@ -1,3 +1,12 @@
+<?php
+session_start();
+if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
+{
+    header("Location:../");
+}
+
+$datoID = json_encode($_SESSION['login']);
+?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -20,7 +29,7 @@
         </div>
         <div class="card border-0">
             <div class="card-body">            
-                <form id="">
+                <form id="form-prestamos">
                     <div class="ml-5 row">
                         <div class="col-md-3">
                             <label>NOMBRES Y APELLIDOS :</label>
@@ -42,8 +51,8 @@
                         <div class="col-md-3">
                             <label for="">EN BIBLIOTECA</label>
                             <select class="form-control form-control-sm" required="" data-placement="top" id="enbiblioteca">
-                                <option value="NO" selected="">NO</option>
-                                <option value="SI" selected="">SI</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -245,7 +254,9 @@
 <script>
     
     let idprestamo = '';
+    const Guardar = document.querySelector("#btguardar");
     const tablas = document.querySelector("#tablalibros");
+    const filtroStudent = document.querySelector("#filtronombres");
     const cuerpoT = tablas.querySelector("tbody");
     const cuerpo = document.querySelector("tbody");
     const btguardar = document.querySelector("#guardar");
@@ -450,11 +461,58 @@
         });
     }
 
+    function listarCategoria(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","filtrobeneficiario");
+
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                let select = `
+                    <option value='${element.idusuario}'>${element.nombres} ${element.apellidos}</option> 
+                `;
+                filtroStudent.innerHTML += select;
+            });
+        })
+    }
+    function registrarPrestamo(){
+        const respuesta = <?php echo $datoID;?>;
+        const idusuario = respuesta.idbibliotecario;
+        if(confirm("estas seguro de guardar?")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","registrarPrestamo");
+            parametros.append("idbeneficiario", filtroStudent.value);
+            parametros.append("idbibliotecario", parseInt(idbibliotecario));
+            parametros.append("fechaprestamo", document.querySelector("#fprestamo").value);
+            parametros.append("descripcion", document.querySelector("#descripcion").value);
+            parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
+            parametros.append("lugardestino", document.querySelector("#lugardestino").value);
+
+            fetch("../controller/prestamos.php" ,{
+                method:'POST',
+                body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                console.log(datos);
+                if(datos.status){
+                    alert("Datos guardados correctamente")
+                    document.querySelector("#form-prestamos").reset();
+                }
+            })
+        }
+    }
     listarprestamo();
-    // listarLibros();
+    listarLibros();
+    listarCategoria();
     // btBuscarLibro.addEventListener("click", conseguirlibro);
     btBuscarLibro.addEventListener("click", conseguirlibro2);
-
+    Guardar.addEventListener("click", registrarPrestamo);
     // libro.addEventListener("keypress", (evt) => {
     //     if(evt.charCode == 13) conseguirlibro();
     // });

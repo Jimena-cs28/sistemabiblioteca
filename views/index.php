@@ -369,7 +369,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Jimena Cartagena Salazar &copy; SENATI 2023</span>
                     </div>
                 </div>
             </footer>

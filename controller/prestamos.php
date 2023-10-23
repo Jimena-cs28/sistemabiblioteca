@@ -35,8 +35,6 @@
         "idbeneficiario"     => $_POST['idbeneficiario'],
         "idbibliotecario"    => $_POST['idbibliotecario'],
         "fechaprestamo"    => $_POST['fechaprestamo'],
-        "fecharespuesta"    => $_POST['fecharespuesta'],
-        "fechaentrega"    => $_POST['fechaentrega'],
         "descripcion"    => $_POST['descripcion'],
         "enbiblioteca"    => $_POST['enbiblioteca'],
         "lugardestino"    => $_POST['lugardestino']

@@ -10,9 +10,10 @@ INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
 	(7, 3, '76410258', 'Ari');
 
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
-WHERE idusuario = 1;
+WHERE idusuario = 11;
 
-SELECT * FROM personas
+SELECT * FROM usuarios
+SELECT * FROM autores
 
 INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac, direccion, telefono, email) VALUES
 	('Palma Navarro','Sylvie','DNI','74150120','','Grocio Prado','951207403',''),
