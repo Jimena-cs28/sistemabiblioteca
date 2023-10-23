@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <img src="../views/img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
+            <img src="../views/img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 129px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros registrados por el estudiante, se podra editar y eliminar los libros que usted desee

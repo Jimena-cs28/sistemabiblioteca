@@ -49,6 +49,32 @@ class Libro extends conexion{
     }
   }
 
+  public function selectAutor(){
+    try {
+      $consulta = $this->acesso->prepare("SELECT * FROM autores");
+      $consulta->execute();
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function listarSubcategoria(){
+    try {
+      $consulta = $this->acesso->prepare("SELECT * FROM subcategorias");
+      $consulta->execute();
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
   public function registrarLibro($datos = []){
     $respuesta = [
       "status" => false,
@@ -62,7 +88,7 @@ class Libro extends conexion{
 
       if(isset($_FILES['imagenportada'])){
 
-        $rutaDestino = '../assets/img/';
+        $rutaDestino = '../views/img/';
         //Nombre archivo (host)
         $nombreArchivo = sha1(date('c')) . ".jpg";
         //Ruta completa (ruta + nombre)
@@ -73,7 +99,7 @@ class Libro extends conexion{
         }
       }
 
-      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idsubcategoria"],
@@ -88,6 +114,7 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
+          $datos["idautor"],
           $nombreGuardar
         )
       );

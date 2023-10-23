@@ -43,14 +43,12 @@ class Prestamos extends conexion{
     ];
     
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo(?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo(?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idbeneficiario"],
           $datos["idbibliotecario"],
           $datos["fechaprestamo"],
-          $datos["fecharespuesta"],
-          $datos["fechaentrega"],
           $datos["descripcion"],
           $datos["enbiblioteca"],
           $datos["lugardestino"]

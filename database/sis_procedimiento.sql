@@ -230,3 +230,19 @@ BEGIN
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
 END $$
+
+ -- para subcategoria
+ SELECT * FROM autores
+ 
+DELIMITER $$
+CREATE PROCEDURE spu_listar_subcategoria
+( IN _idcat INT)
+BEGIN 
+SELECT * FROM subcategorias 
+WHERE idcategoria = _idcat;
+END$$
+ SELECT * FROM categorias
+ 
+
+ 
+ 

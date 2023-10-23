@@ -105,6 +105,7 @@
                     <p class="text-center mt-4">
                         <button type="reset" class="btn btn-success" style="margin-right: 20px;">Limpiar</button>
                         <button type="submit" class="btn btn-primary" id="btguardar">Guardar</button>
+                        <a href="index.php?view=listlibros.php" class="btn btn-info ml-2">Ver Libros</a>
                     </p>  
                 </form>
             </div>
@@ -115,6 +116,7 @@
     const selectcategoria = document.querySelector("#selectcategoria");
     const selectsubcategoria = document.querySelector("#selectsubcategoria");
     const selectEditorial = document.querySelector("#selecteditorial");
+    const selectAutores  = document.querySelector("#autor");
     const img = document.querySelector("#img");
     const inputFile = document.querySelector("#fotografia");
     const btGuardar = document.querySelector("#btGuardar");
@@ -180,6 +182,25 @@
         })
     }
 
+    function SelectActor(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectAutores");
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            selectAutores.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                let selectAutor = `
+                    <option value='${element.idautor}'>${element.nombres}-${element.apellidos}-${element.nacionalidad} </option> 
+                `;
+                selectAutores.innerHTML += selectAutor;
+            });
+        })
+    }
     function register(){
         if(confirm("¿Esta seguro de guardar?")){
             //Para binarios
@@ -198,6 +219,7 @@
             fd.append("idioma",document.querySelector("#idioma").value);
             fd.append("descripcion",document.querySelector("#descripcion").value);
             fd.append("imagenportado",inputFile.files[0]);
+            fd.append("idautor",selectAutores.value);
             
             fetch("../controller/libros.php",{
                 method: "POST",
@@ -220,6 +242,7 @@
     selectcategoria.addEventListener("change", selectsubCategoria);
     listarCategoria();
     listarEditorial();
+    SelectActor();
     btGuardar.addEventListener("click", register);
 
     

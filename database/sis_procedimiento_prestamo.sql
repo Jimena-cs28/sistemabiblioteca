@@ -6,8 +6,6 @@ CREATE PROCEDURE spu_registrar_prestamo
 	IN _idbeneficiario INT, -- s
 	IN _idbibliotecario INT, -- n 
 	IN _fechaprestamo DATETIME, -- null
-	IN _fecharespuesta DATETIME, -- null
-	IN _fechaentrega DATETIME, -- null
 	IN _descripcion VARCHAR(40),
 	IN _enbiblioteca CHAR(2),
 	IN _lugardestino VARCHAR(90)
@@ -15,11 +13,12 @@ CREATE PROCEDURE spu_registrar_prestamo
 BEGIN 
 -- if cargo = 'estudiante' then set cantidadmax < 10;
 
-INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fecharespuesta,fechaentrega,descripcion,enbiblioteca,lugardestino) VALUES
-	(_idbeneficiario, _idbibliotecario,_fechaprestamo,_fecharespuesta,_fechaentrega,_descripcion,_enbiblioteca,_lugardestino);
+INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,descripcion,enbiblioteca,lugardestino) VALUES
+	(_idbeneficiario, _idbibliotecario,_fechaprestamo,_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
-CALL spu_registrar_prestamo(9,11,'2023-10-23','','','5F','SI','');
+SELECT * FROM prestamos
+CALL spu_registrar_prestamo(9,11,'2023-10-23','5F','SI');
 SELECT * FROM usuarios
 
 -- LISTAR LOS PRESTAMOS, SIN LIBROS PASO1
