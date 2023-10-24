@@ -15,16 +15,20 @@ if(isset($_POST['operacion'])) {
     $resultado = [
       "status" => false,
       "nombres" => "",
-      "mensaje" => ""
+      "mensaje" => "",
+      "idusuario" => 0,
+      "nombrerol" => ""
     ];
 
     if($datosObtenidos) {
       //encontramos el registro
-      $claveEncriptada = $datosObtenidos['claveacceso'];
-      if(password_verify($_POST['claveIngresada'], $claveEncriptada)){
+      $claveIngresada = $_POST['claveIngresada'];
+      if(password_verify( $claveIngresada,$datosObtenidos['claveacceso'])){
         //clave correcta
         $resultado["status"] = true;
-        $resultado["nombreusuario"] = $datosObtenidos["nombreusuario"];
+        $resultado["nombres"] = $datosObtenidos["nombres"];
+        $resultado["idusuario"]=$datosObtenidos["idusuario"];
+        $resultado["nombrerol"]=$datosObtenidos["nombrerol"];
       } else {
         //clave incorrecta
         $resultado["mensaje"] = "contraseña incorrecta";

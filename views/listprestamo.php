@@ -252,7 +252,7 @@ $datoID = json_encode($_SESSION['login']);
 </div>
 
 <script>
-    
+    console.log(idUsuario);
     let idprestamo = '';
     const Guardar = document.querySelector("#btguardar");
     const tablas = document.querySelector("#tablalibros");
@@ -424,7 +424,9 @@ $datoID = json_encode($_SESSION['login']);
         .then(response => response.json())
         .then(datos => {
             datos.forEach(element => {
-                libro.value = element.idlibro;
+                const idlibro = element.idlibro
+                libro.dataset.idlibro = idlibro;
+                console.log(libro.dataset.idlibro);
                 selectcategoria.value = element.categoria;
                 filtrosubcategoria.value = element.subcategoria;
             });
@@ -487,7 +489,7 @@ $datoID = json_encode($_SESSION['login']);
             const parametros = new URLSearchParams();
             parametros.append("operacion","registrarPrestamo");
             parametros.append("idbeneficiario", filtroStudent.value);
-            parametros.append("idbibliotecario", parseInt(idbibliotecario));
+            parametros.append("idbibliotecario", idUsuario);
             parametros.append("fechaprestamo", document.querySelector("#fprestamo").value);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
             parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
@@ -502,7 +504,7 @@ $datoID = json_encode($_SESSION['login']);
                 console.log(datos);
                 if(datos.status){
                     alert("Datos guardados correctamente")
-                    document.querySelector("#form-prestamos").reset();
+                    // document.querySelector("#form-prestamos").reset();
                 }
             })
         }
