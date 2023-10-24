@@ -18,7 +18,7 @@ INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,descripcion
 END $$
 
 SELECT * FROM prestamos
-CALL spu_registrar_prestamo(9,11,'2023-10-23','5F','SI');
+CALL spu_registrar_prestamo(9,11,'2023-10-25','5F','SI','salon1');
 SELECT * FROM usuarios
 
 -- LISTAR LOS PRESTAMOS, SIN LIBROS PASO1

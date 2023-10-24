@@ -190,5 +190,6 @@
         });
 
         listarprestamo();
+        
 
     </script>
