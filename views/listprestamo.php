@@ -32,32 +32,32 @@ $datoID = json_encode($_SESSION['login']);
                 <form id="form-prestamos">
                     <div class="ml-5 row">
                         <div class="col-md-3">
-                            <label>NOMBRES Y APELLIDOS :</label>
+                            <label style="color:#574E4E;">NOMBRES Y APELLIDOS :</label>
                         </div>
                         <div class="col-md-8">
-                            <select class="form-control form-control-sm" id="filtronombres">
+                            <select class="form-control" id="filtronombres">
                             </select>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
-                            <label for="">FECHA PRESTAMO</label>
-                            <input type="date" class="form-control form-control-sm" required=""id="fprestamo">
+                            <label for="" style="color:#574E4E;">FECHA PRESTAMO</label>
+                            <input type="date" class="form-control" required=""id="fprestamo">
                         </div>
                         <div class="col-md-3">
-                            <label for="">DESCRIPCION</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Grado o Curso" id="descripcion">
+                            <label for="" style="color:#574E4E;">DESCRIPCION</label>
+                            <input type="text" class="form-control" placeholder="Grado o Curso" id="descripcion">
                         </div>
                         <div class="col-md-3">
-                            <label for="">EN BIBLIOTECA</label>
-                            <select class="form-control form-control-sm" required="" data-placement="top" id="enbiblioteca">
+                            <label for="" style="color:#574E4E;">EN BIBLIOTECA</label>
+                            <select class="form-control" required="" data-placement="top" id="enbiblioteca">
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="">DESTINO</label>
-                            <input type="text" class="form-control form-control-sm" maxlength="20" placeholder="Salon 1" id="lugardestino">
+                            <label for="" style="color:#574E4E;">DESTINO</label>
+                            <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino">
                         </div>
                     </div>
                     <p class="text-center mt-4">
@@ -76,15 +76,15 @@ $datoID = json_encode($_SESSION['login']);
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
-                                <th>Usuario</th>
-                                <th>F. Solicitud</th>
-                                <th>F. Prestamo</th>
-                                <th>Rol</th>
-                                <th>Ahora</th>
-                                <th>Reservar</th>
+                                <th style="color:#574E4E;">#</th>
+                                <th style="color:#574E4E;">Nombres</th>
+                                <th style="color:#574E4E;">Apellidos</th>
+                                <th style="color:#574E4E;">Usuario</th>
+                                <th style="color:#574E4E;">F. Solicitud</th>
+                                <th style="color:#574E4E;">F. Prestamo</th>
+                                <th style="color:#574E4E;">Rol</th>
+                                <th style="color:#574E4E;">Ahora</th>
+                                <th style="color:#574E4E;">Reservar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,7 +113,7 @@ $datoID = json_encode($_SESSION['login']);
                         <div class="col-md-4">
                             <label for="Libro">Libro</label>
                             <div class="input-group mb-4">
-                                <input type="text" class="form-control" id="libro">
+                                <input type="text" class="form-control" id="libro2">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-success" type="button" id="btBuscarLibro">Buscar</button>
                                 </div>
@@ -252,7 +252,7 @@ $datoID = json_encode($_SESSION['login']);
 </div>
 
 <script>
-    console.log(idUsuario);
+    // console.log(idUsuario);
     let idprestamo = '';
     const Guardar = document.querySelector("#btguardar");
     const tablas = document.querySelector("#tablalibros");
@@ -267,6 +267,7 @@ $datoID = json_encode($_SESSION['login']);
     const filtrosubcategoria = document.querySelector("#filtrosubcategoria");            
     const cantidad = document.querySelector("#cantidad");
     const libro = document.querySelector("#libro");
+    const libro2 = document.querySelector("#libro2");
     const condicionentrega = document.querySelector("#condicionentrega");
     const fechadevolucion = document.querySelector("#fechadevolucion");
     const RbtBuscarLibros = document.querySelector("#RbtBuscarLibro");
@@ -320,9 +321,9 @@ $datoID = json_encode($_SESSION['login']);
             .then(response => response.json())
             .then(datos => {
                 listarLibros();
-                btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
+                // btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
                 // btguardar.addEventListener("click", registrarLibroentregados);
-            })  
+            })
         }
     })
 
@@ -338,7 +339,7 @@ $datoID = json_encode($_SESSION['login']);
             })
             .then(response => response.json())
             .then(datos => {
-                Rbtguardar.addEventListener("click", registrarlibroentregadoReserva);
+                // Rbtguardar.addEventListener("click", registrarlibroentregadoReserva);
             })  
         }
     })
@@ -394,25 +395,6 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function conseguirlibro(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","conseguirlibro");
-        parametros.append("nombre", libro.value);
-
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            datos.forEach(element => {
-                libro.value = element.idlibro;
-                selectcategoria.value = element.categoria;
-                filtrosubcategoria.value = element.subcategoria;
-            });
-        });
-    }
-
-    function conseguirlibro2(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","conseguirlibro");
         parametros.append("nombre", libro.value);
@@ -482,6 +464,7 @@ $datoID = json_encode($_SESSION['login']);
             });
         })
     }
+
     function registrarPrestamo(){
         const respuesta = <?php echo $datoID;?>;
         const idusuario = respuesta.idbibliotecario;
@@ -509,14 +492,19 @@ $datoID = json_encode($_SESSION['login']);
             })
         }
     }
+    
     listarprestamo();
     listarLibros();
     listarCategoria();
-    // btBuscarLibro.addEventListener("click", conseguirlibro);
-    btBuscarLibro.addEventListener("click", conseguirlibro2);
+
+    RbtBuscarLibros.addEventListener("click", conseguirlibro);
     Guardar.addEventListener("click", registrarPrestamo);
-    // libro.addEventListener("keypress", (evt) => {
-    //     if(evt.charCode == 13) conseguirlibro();
-    // });
+
+    libro.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) conseguirlibro();
+    });
+    libro2.addEventListener("keypress", (evt) => {
+        if(evt.charCode = 13) conseguirlibro();
+    })
 
 </script>

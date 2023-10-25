@@ -21,50 +21,50 @@
                 <form id="form-docente">
                     <div class="ml-5 row">
                         <div class="col-md-6">
-                            <label>NOMBRES</label>
-                            <input class="form-control form-control-sm" maxlength="70"  required id="nombres">
+                            <label style="color:#574E4E;">NOMBRES</label>
+                            <input class="form-control" maxlength="70"  required id="nombres">
                         </div>
                         <div class="col-md-6">
-                            <label>APELLIDOS</label>
-                            <input class="form-control form-control-sm" maxlength="70"  required id="apellidos">
+                            <label style="color:#574E4E;">APELLIDOS</label>
+                            <input class="form-control" maxlength="70"  required id="apellidos">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
-                            <label for="">TIPO</label>
-                            <select class="form-control form-control-sm" id="documento">
+                            <label for="" style="color:#574E4E;">TIPO</label>
+                            <select class="form-control" id="documento">
                                 <option value="DNI" disabled="" selected="">DNI</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="">DNI</label>
-                            <input type="text" class="form-control form-control-sm"  id="dni" placeholder="1234567" maxlength="7">
+                            <label for="" style="color:#574E4E;">DNI</label>
+                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="7">
                         </div>
                         <div class="col-md-3">
-                            <label for="">FECHA NACIMIENTO</label>
-                            <input type="date" class="form-control form-control-sm" id="fechanacimiento">
+                            <label for="" style="color:#574E4E;">FECHA NACIMIENTO</label>
+                            <input type="date" class="form-control" id="fechanacimiento">
                         </div>
                         <div class="col-md-3">
-                            <label for="">Dirección</label>
-                            <input type="text" class="form-control form-control-sm" maxlength="20" id="direccion">
+                            <label for="" style="color:#574E4E;">Dirección</label>
+                            <input type="text" class="form-control" maxlength="20" id="direccion">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
-                            <label for="">CORREO ELECTRONICO</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="correo@com.pe"  id="correo" maxlength="50">
+                            <label for="" style="color:#574E4E;">CORREO ELECTRONICO</label>
+                            <input type="text" class="form-control" placeholder="correo@com.pe"  id="correo" maxlength="50">
                         </div>
                         <div class="col-md-3">
-                            <label for="">TELEFONO</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="123456789" id="telefono" maxlength="9">
+                            <label for="" style="color:#574E4E;">TELEFONO</label>
+                            <input type="text" class="form-control" placeholder="123456789" id="telefono" maxlength="9">
                         </div>
                         <div class="col-md-3">
-                            <label for="">NOMBRE USUARIO</label>  
-                            <input type="text" class="form-control form-control-sm" required=""  id="usuario" maxlength="50" id="nombreusuario">
+                            <label for="" style="color:#574E4E;">NOMBRE USUARIO</label>  
+                            <input type="text" class="form-control" required=""  id="usuario" maxlength="50" id="nombreusuario">
                         </div>
                         <div class="col-md-3">
-                            <label for="">CONTRASEÑA</label>
-                            <input type="text" class="form-control form-control-sm" required=""  id="contraseña" maxlength="50" id="contraseña">
+                            <label for="" style="color:#574E4E;">CONTRASEÑA</label>
+                            <input type="text" class="form-control" required=""  id="contraseña" maxlength="50" id="contraseña">
                         </div>
                     </div>
                     <p class="text-center mt-4">

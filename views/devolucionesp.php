@@ -1,9 +1,9 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-3">
-            <img src="../views/img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
+        <div class="col-md-3">
+            <img src="../views/img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
         </div>
-        <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
+        <div class="col-md-9 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros que faltan regresar y podra registrar el libro para que se pueda completar el prestamo
         </div>
     </div>
@@ -18,15 +18,15 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Libro</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>F. Solicitud</th>
-                        <th>F. Entrega</th>
-                        <th>F. Devolucion</th>
-                        <th>Recibir</th>
-                        <th>Eliminar</th>
+                        <th style="color:#574E4E;">#</th>
+                        <th style="color:#574E4E;">Libro</th>
+                        <th style="color:#574E4E;">Nombre</th>
+                        <th style="color:#574E4E;">Tipo</th>
+                        <th style="color:#574E4E;">F. Solicitud</th>
+                        <th style="color:#574E4E;">F. Entrega</th>
+                        <th style="color:#574E4E;">F. Devolucion</th>
+                        <th style="color:#574E4E;">Recibir</th>
+                        <th style="color:#574E4E;">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -241,6 +241,7 @@ BEGIN
 SELECT * FROM subcategorias 
 WHERE idcategoria = _idcat;
 END$$
+
  SELECT * FROM categorias
  
 

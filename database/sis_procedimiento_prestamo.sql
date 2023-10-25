@@ -48,6 +48,7 @@ BEGIN
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	WHERE libros.nombre = _nombre;
 END $$
+
 CALL spu_conseguir_libro ('ad');
 SELECT * FROM libros
 

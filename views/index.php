@@ -115,7 +115,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=devolucionesp.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Devolucion</span></a>
             </li>
 
@@ -405,14 +405,14 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
 
     <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
+    <!-- <script src="/js/sb-admin-2.min.js"></script> -->
 
     <!-- Page level plugins -->
     <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="/js/demo/chart-area-demo.js"></script>
-    <script src="/js/demo/chart-pie-demo.js"></script>
+    <!-- <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script> -->
     <script>
         
         document.addEventListener("DOMContentLoaded", () => {

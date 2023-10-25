@@ -18,16 +18,16 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Libro</th>
-                        <th>Cantidad</th>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>F. Solicitud</th>
-                        <th>F. Prestamo</th>
-                        <th>F. Devolucion</th>
-                        <th>Entregar</th>
-                        <th>Eliminar</th>
+                        <th style="color:#574E4E;">#</th>
+                        <th style="color:#574E4E;">Libro</th>
+                        <th style="color:#574E4E;">Cantidad</th>
+                        <th style="color:#574E4E;">Nombre</th>
+                        <th style="color:#574E4E;">Descripcion</th>
+                        <th style="color:#574E4E;">F. Solicitud</th>
+                        <th style="color:#574E4E;">F. Prestamo</th>
+                        <th style="color:#574E4E;">F. Devolucion</th>
+                        <th style="color:#574E4E;">Entregar</th>
+                        <th style="color:#574E4E;">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,139 +102,139 @@
         </div>
     </div>
 </div>
-    <script>
-        let idprestamo = '';
-        let idlibroentregado = '';
-        const card = document.querySelector("#cardreserva");
-        const cuerpo = document.querySelector("tbody");
-        const descripcion = document.querySelector("#descripcion");
-        const persona = document.querySelector("#persona");
-        const cantidad = document.querySelector("#cantidad");
-        const libro = document.querySelector("#libro");
-        const fechadevolucion = document.querySelector("#fechadevolucion");
-        const fechaprestamo = document.querySelector("#fechaprestamo");
-        const btguardar = document.querySelector("#guardar");
-        
-        function listarEntregas(){
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","listarEpendientes")
+<script>
+    let idprestamo = '';
+    let idlibroentregado = '';
+    const card = document.querySelector("#cardreserva");
+    const cuerpo = document.querySelector("tbody");
+    const descripcion = document.querySelector("#descripcion");
+    const persona = document.querySelector("#persona");
+    const cantidad = document.querySelector("#cantidad");
+    const libro = document.querySelector("#libro");
+    const fechadevolucion = document.querySelector("#fechadevolucion");
+    const fechaprestamo = document.querySelector("#fechaprestamo");
+    const btguardar = document.querySelector("#guardar");
+    
+    function listarEntregas(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarEpendientes")
 
-            fetch("../controller/prestamos.php", {
+        fetch("../controller/prestamos.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            card.innerHTML = ``;
+            datos.forEach(element => {
+                idprestamo = element.idprestamo; 
+                // const reserva = `    
+                // <div class="card" style="width: 18rem;">
+                //     <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="imagenLibro">
+                //     <div class="card-body">
+                //         <h5 class="card-title text-center">${element.nombre}</h5>
+                //         <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
+                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </div>
+                //     <ul class="list-group list-group-flush">
+                //         <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
+                //         <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
+                //         <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
+                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </ul>
+                // </div>`;
+                // card.innerHTML +=reserva;
+
+                const pres = `
+                <tr>
+                    <td>${element.idlibroentregado}</td>
+                    <td>${element.nombre}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.nombres}</td>
+                    <td>${element.descripcion}</td>
+                    <td>${element.fechasolicitud}</td>
+                    <td>${element.fechaprestamo}</td>
+                    <td>${element.fechadevolucion}</td>
+                    <td>
+                        <a href='#' type='button' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
+                    </td>
+                    <td>                            
+                        <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += pres;
+            });
+        })
+    }
+
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'entrega'){
+        idprestamo = parseInt(event.target.dataset.idprestamo);
+        console.log(idprestamo);
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","updateEpendiente");
+        parametros.append("idprestamo", idprestamo);
+
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            listarEntregas();
+        })  
+        }
+    });
+
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'editar'){
+            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            // console.log(idlibroentregado);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","obtenerlibroentregado");
+            parametros.append("idlibroentregado", idlibroentregado);
+
+            fetch("../controller/librosentregados.php",{
                 method: 'POST',
                 body: parametros
             })
             .then(response => response.json())
             .then(datos => {
-                card.innerHTML = ``;
                 datos.forEach(element => {
-                    idprestamo = element.idprestamo; 
-                    // const reserva = `    
-                    // <div class="card" style="width: 18rem;">
-                    //     <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="imagenLibro">
-                    //     <div class="card-body">
-                    //         <h5 class="card-title text-center">${element.nombre}</h5>
-                    //         <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
-                    //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </div>
-                    //     <ul class="list-group list-group-flush">
-                    //         <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
-                    //         <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
-                    //         <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
-                    //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </ul>
-                    // </div>`;
-                    // card.innerHTML +=reserva;
-
-                    const pres = `
-                    <tr>
-                        <td>${element.idlibroentregado}</td>
-                        <td>${element.nombre}</td>
-                        <td>${element.cantidad}</td>
-                        <td>${element.nombres}</td>
-                        <td>${element.descripcion}</td>
-                        <td>${element.fechasolicitud}</td>
-                        <td>${element.fechaprestamo}</td>
-                        <td>${element.fechadevolucion}</td>
-                        <td>
-                            <a href='#' type='button' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
-                        </td>
-                        <td>                            
-                            <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
-                        </td>
-                    </tr>
-                    `;
-                    cuerpo.innerHTML += pres;
+                    descripcion.value = element.descripcion;
+                    persona.value = element.nombres;
+                    cantidad.value = element.cantidad;
+                    libro.value = element.nombre;
+                    fechadevolucion.value = element.fechadevolucion;
+                    fechaprestamo.value = element.fechaprestamo;
                 });
+                btguardar.addEventListener("click", EditarEpendiente);
+        
             })
         }
+    });
 
-        cuerpo.addEventListener("click", (event) => {
-            if(event.target.classList[0] === 'entrega'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            console.log(idprestamo);
+    function EditarEpendiente(){
+        if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
-            parametros.append("operacion","updateEpendiente");
+            parametros.append("operacion","EditarEpendiente");
             parametros.append("idprestamo", idprestamo);
-
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
+            parametros.append("idlibroentregado", idlibroentregado);
+            parametros.append("fechadevolucion", fechadevolucion.value);
+            parametros.append("fechaprestamo",fechaprestamo.value);
+            
+            fetch("../controller/librosentregados.php",{
+                method:'POST',
                 body: parametros
             })
-            .then(response => response.json())
+            .then(respuesta => respuesta.json())
             .then(datos => {
-                listarEntregas();
-            })  
-            }
-        });
-
-        cuerpo.addEventListener("click", (event) => {
-            if(event.target.classList[0] === 'editar'){
-                idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-                // console.log(idlibroentregado);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","obtenerlibroentregado");
-                parametros.append("idlibroentregado", idlibroentregado);
-
-                fetch("../controller/librosentregados.php",{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    datos.forEach(element => {
-                        descripcion.value = element.descripcion;
-                        persona.value = element.nombres;
-                        cantidad.value = element.cantidad;
-                        libro.value = element.nombre;
-                        fechadevolucion.value = element.fechadevolucion;
-                        fechaprestamo.value = element.fechaprestamo;
-                    });
-                    btguardar.addEventListener("click", EditarEpendiente);
-            
-                })
-            }
-        });
-
-        function EditarEpendiente(){
-            if(confirm("estas seguro de guardar?")){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","EditarEpendiente");
-                parametros.append("idprestamo", idprestamo);
-                parametros.append("idlibroentregado", idlibroentregado);
-                parametros.append("fechadevolucion", fechadevolucion.value);
-                parametros.append("fechaprestamo",fechaprestamo.value);
-                
-                fetch("../controller/librosentregados.php",{
-                    method:'POST',
-                    body: parametros
-                })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    console.log(datos);
-                    if(datos.status){
-                        document.querySelector("#modal-editar").reset();
-                    }
-                })
-            }
-        };
-        listarEntregas();
-        
-    </script>
+                console.log(datos);
+                if(datos.status){
+                    document.querySelector("#modal-editar").reset();
+                }
+            })
+        }
+    };
+    listarEntregas();
+    
+</script>
