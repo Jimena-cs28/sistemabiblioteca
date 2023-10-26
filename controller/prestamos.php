@@ -98,9 +98,10 @@
     if($_POST['operacion'] == 'updatedevoluciones'){
       $datosActulizar = [
         "idlibroentregado"    => $_POST['idlibroentregado'],
+        "idprestamo"          => $_POST['idprestamo'],
         "condiciondevolucion" => $_POST['condiciondevolucion'],
-        "observaciones"       => $_POST['observaciones'],
-        "idprestamo"          => $_POST['idprestamo']
+        "observaciones"       => $_POST['observaciones']
+        
       ];
   
       $respuesta = $prestamo->updatedevoluciones($datosActulizar);

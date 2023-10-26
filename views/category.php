@@ -22,13 +22,13 @@
                     <div class="row ml-5 mt-4">
                         <div class="col-md-4">
                             <label for="">CATEGORIA</label>
-                            <select class="form-control form-control-sm" id="selectcategoria" >
+                            <select class="form-control form-control-sm" id="selectcategoria">
                                     
                             </select>    
                         </div>
                         <div class="col-md-4">
                             <label for="">SUBCATEGORIA</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Grado o Curso" id="subcategoria">
+                            <input type="text" class="form-control form-control-sm" required id="subcategoria">
                         </div>
                         <div class="col-md-4">
                             <label for="">CODIGO</label>
@@ -37,7 +37,7 @@
                     </div>
                     <p class="text-center mt-4">
                         <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
-                        <button type="submit" class="btn btn-primary" id="btguardar">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                     </p>  
                 </form>
             </div>
@@ -51,10 +51,12 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>id</th>
                                 <th>Categoria</th>
                                 <th>Sub Categoria</th>
                                 <th>Codigo</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,5 +68,65 @@
         </div>
     </div>
 </div>
+
+<script>
+    const cuerpo = document.querySelector("tbody");
+    const selectcategoria = document.querySelector("#selectcategoria");
+
+    function listarsubcategorias(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarSubcategorias")
+
+        fetch("../controller/libros.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                // console.log(datos);
+                const pres = `
+                <tr>
+                    <td>${element.idsubcategoria}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.subcategoria}</td>
+                    <td>${element.codigo}</td>
+                    <td>
+                        <a href='#modal-nuevo' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Nuevo</a>
+                    </td>
+                    <td>
+                        <a href='#'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Reservar</a>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += pres;
+            });
+        })
+    }
+
+    function listarCategoria(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectcategoria");
+
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            selectcategoria.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                let select = `
+                    <option value='${element.idcategoria}'>${element.categoria}</option> 
+                `;
+                selectcategoria.innerHTML += select;
+            });
+        })
+    }
+    listarCategoria();
+
+    listarsubcategorias();
+</script>
         
         

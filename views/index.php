@@ -33,7 +33,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <!-- img -->
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                 </div>
-                <div class="sidebar-brand-text mx-3">MEDIATECA</div>
+                <div class="sidebar-brand-text mx-3" style="color: rgb(216, 129, 129);">MEDIATECA</div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -177,7 +177,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                             </div>
                         </div>
                     </form> -->
-                    <h4 class="ml-5">SISTEMA BIBLIOTECA</h4>
+                    <h4 class="ml-5" style="color:rgb(189, 52, 52);">SISTEMA BIBLIOTECA</h4>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -392,9 +392,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="./libs/bootstrap/js/bootstrap.bundle.min.js"></script>       
-    <script src="/js/sb-admin-2.min.js"></script>
-    <script src="/js/sb-admin-2.js"></script>
+        
+    <!-- <script src="../js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.js"></script> -->
 
 
     <!-- Bootstrap core JavaScript-->
@@ -402,7 +402,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <script src="./libs/bootstrap/js/bootstrap.bundle.min.js"></script> 
 
     <!-- Core plugin JavaScript-->
-    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
+    <!-- <script src="./libs/jquery/jquery.min.js"></script> -->
 
     <!-- Custom scripts for all pages-->
     <!-- <script src="/js/sb-admin-2.min.js"></script> -->
@@ -430,7 +430,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         contenedor.innerHTML = datos;
                         const scriptsTag = contenedor.getElementsByTagName("script");
                         for (i = 0; i < scriptsTag.length; i++){
-                        eval(scriptsTag[i].innerText);
+                            eval(scriptsTag[i].innerText);
                         }
                     });
                 }

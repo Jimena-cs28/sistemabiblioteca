@@ -37,8 +37,7 @@
     </div>
 </div>
 
-<div>
-        
+<div>       
     <div class="modal fade" id="modal-id">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -126,9 +125,10 @@
                 const parametros = new URLSearchParams();
                 parametros.append("operacion","updatedevoluciones");
                 parametros.append("idlibroentregado", idlibroentregado);
+                parametros.append("idprestamo", idprestamos);
                 parametros.append("condiciondevolucion",condicion.value);
                 parametros.append("observaciones", observaciones.value);
-                parametros.append("idprestamo", idprestamos);
+                
                 fetch("../controller/prestamos.php",{
                     method:'POST',
                     body: parametros

@@ -53,7 +53,7 @@
                     </div>
                     <p class="text-center mt-4">
                         <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
-                        <button type="submit" class="btn btn-primary" id="btguardar">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                     </p>  
                 </form>
             </div>
