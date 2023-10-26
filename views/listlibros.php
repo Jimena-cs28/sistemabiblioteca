@@ -38,6 +38,94 @@
         </div>
     </div>
 </div>
+<!-- modal reserva -->
+<div class="modal fade" id="mdl-libro" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form id="">
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">CATEGORIA</label>
+                            <input type="text" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">SUBCATEGORIA</label>
+                            <input type="text" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">EDITORIAL</label>
+                            <input type="text" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">NOMBRE</label>
+                            <input type="text" id="libro" class="form-control form-control-sm" disabled maxlength="70">
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">CANTIDAD</label>
+                            <input type="number" class="form-control form-control-sm"  disabled id="cantidad">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">NUMERO DE PAGINA</label>
+                            <input type="number" class="form-control form-control-sm" disabled id="paginas">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">CODIGO</label>  
+                            <input type="text" class="form-control form-control-sm" disabled id="codigo">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">FORMATO</label>
+                            <input type="text" class="form-control form-control-sm" maxlength="50"id="formato" disabled>
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">Descripcion</label>
+                            <input type="text" id="descripcion" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">IDIOMA</label>
+                            <input type="text" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">AÑO</label>
+                            <input type="date" id="anio" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">TIPO</label>
+                            <input type="text" id="tipo" class="form-control form-control-sm" disabled>
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-6">
+                            <label for="">Imagen</label>
+                            <img class="visor" alt="" id="img">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">EDICION</label>
+                            <input type="text" id="edicion" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Autor</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     const cuerpo = document.querySelector("tbody");
 
@@ -65,10 +153,10 @@
                     <td>${element.codigo}</td>
                     <td>${element.idioma}</td>
                     <td>
-                        <a href='#modal-id' class='btn btn-success registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'><i class='glyphicon glyphicon-book'></i></a>
+                        <a href='#mdl-libro' class='btn btn-success registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Libros</a>
                     </td>
                     <td>
-                        <a href='' class='btn btn-info registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'><i class='glyphicon glyphicon-book'></i></a>
+                        <a href='' class='btn btn-info registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Actualizar</a>
                     </td>
                 </tr>
                 `;

@@ -66,9 +66,9 @@ BEGIN
 END $$
 
 
--- registrar Libro
-SELECT * FROM prestamos
 
+SELECT * FROM prestamos
+-- reservar('R')
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libroentregado_reservar
 (
@@ -87,10 +87,11 @@ BEGIN
 	WHERE idprestamo = _idprestamo;
 END $$
 
-CALL spu_registrar_libroentregado_reservar(6,6,1,'Nuevo','');
+CALL spu_registrar_libroentregado_reservar(7,16,1,'Nuevo','');
 
 SELECT * FROM libros
 
+-- devolucion('D')
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libroentregado_ahora
 (
@@ -102,7 +103,7 @@ CREATE PROCEDURE spu_registrar_libroentregado_ahora
 )
 BEGIN 
 	INSERT INTO librosentregados (idprestamo,idlibro,cantidad, condicionentrega, fechadevolucion)VALUES
-			(_idprestamo,_idlibro,_cantidad,_condicionentrega,_fechadevolucion);
+				(_idprestamo,_idlibro,_cantidad,_condicionentrega,_fechadevolucion);
 			
 	UPDATE prestamos SET
 	estado = 'D',
@@ -119,7 +120,7 @@ SELECT * FROM librosentregados
 DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
 BEGIN
-	SELECT idlibroentregado, prestamos.idprestamo, libros.nombre, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaprestamo, librosentregados.fechadevolucion
+	SELECT idlibroentregado, prestamos.idprestamo, libros.nombre, libros.imagenportada, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaprestamo, librosentregados.fechadevolucion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
@@ -141,6 +142,7 @@ BEGIN
 	WHERE idprestamo = _idprestamo;
 END $$
 
+SELECT * FROM libros
 -- ACTUALIZAR F PRESTA,P Y DEVOLUCION
 DELIMITER $$
 CREATE PROCEDURE spu_editar_Ependientes
@@ -271,15 +273,18 @@ CREATE PROCEDURE spu_cantidad_reservaciones()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'reservaciones'
 	FROM prestamos 
-	WHERE estado = 'A';
+	WHERE estado = 'R';
 END$$
+
+SELECT * FROM prestamos
+CALL spu_cantidad_reservaciones()
 
 DELIMITER $$
 CREATE PROCEDURE spu_cantidad_devoluciones()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'devoluciones'
 	FROM prestamos
-	WHERE estado = 'T';
+	WHERE estado = 'D';
 END$$
 
 DELIMITER $$
@@ -321,6 +326,6 @@ BEGIN
 				(@idlibro, _idautor);
 END$$
 
-SELECT * FROM detalleautores
+SELECT * FROM libros
 
-CALL spu_registrar_libro(3,1,'nose','texto',2,33,233.3,'','','','español','','');
+CALL spu_registrar_libro(3,1,'nose','texto',2,33,233.3,'','','','español','','',3);

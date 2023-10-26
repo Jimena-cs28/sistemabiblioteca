@@ -8,6 +8,17 @@
         </div>
     </div>
 </div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE ENTREGAS PENDIENTES</h6>
+    </div>
+    
+</div>
+<div class="row p-5" id="cardreserva">
+    
+</div>
+
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -35,22 +46,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    
-</div>
-<div class="row" id="cardreserva">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="Card image cap">
-        <div class="card-body">
-        <h5 class="card-title">${element.nombre}</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
-        </ul>
     </div>
 </div>
 
@@ -127,41 +122,49 @@
         .then(datos => {
             card.innerHTML = ``;
             datos.forEach(element => {
-                idprestamo = element.idprestamo; 
-                // const reserva = `    
-                // <div class="card" style="width: 18rem;">
-                //     <img class="card-img-top" src="../views/img/undraw_posting_photo.svg" alt="imagenLibro">
-                //     <div class="card-body">
-                //         <h5 class="card-title text-center">${element.nombre}</h5>
-                //         <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
-                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </div>
-                //     <ul class="list-group list-group-flush">
-                //         <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
-                //         <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
-                //         <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
-                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>                        </ul>
-                // </div>`;
-                // card.innerHTML +=reserva;
+                //idprestamo = element.idprestamo; 
+                const reserva = `   
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-content">
+                            <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">${element.nombre}</h5>
+                                <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
+                                <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
+                                <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
+                                <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
+                                <a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>                        
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+                `
+                ;
+                card.innerHTML +=reserva;
 
-                const pres = `
-                <tr>
-                    <td>${element.idlibroentregado}</td>
-                    <td>${element.nombre}</td>
-                    <td>${element.cantidad}</td>
-                    <td>${element.nombres}</td>
-                    <td>${element.descripcion}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>${element.fechadevolucion}</td>
-                    <td>
-                        <a href='#' type='button' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
-                    </td>
-                    <td>                            
-                        <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += pres;
+                // const pres = `
+                // <tr>
+                //     <td>${element.idlibroentregado}</td>
+                //     <td>${element.nombre}</td>
+                //     <td>${element.cantidad}</td>
+                //     <td>${element.nombres}</td>
+                //     <td>${element.descripcion}</td>
+                //     <td>${element.fechasolicitud}</td>
+                //     <td>${element.fechaprestamo}</td>
+                //     <td>${element.fechadevolucion}</td>
+                //     <td>
+                //         <a href='#'  class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
+                //     </td>
+                //     <td>                            
+                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
+                //     </td>
+                // </tr>
+                // `;
+                // cuerpo.innerHTML += pres;
             });
         })
     }

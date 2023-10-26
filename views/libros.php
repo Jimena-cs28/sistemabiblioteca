@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">AÑO</label>
-                            <input type="date" id="año" class="form-control form-control-sm" required="">
+                            <input type="date" id="anio" class="form-control form-control-sm" required="">
                         </div>
                         <div class="col-md-3">
                             <label for="">TIPO</label>
@@ -84,27 +84,27 @@
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="">Imagen</label>
-                            <input type="file" id="fotografia" accept=".jpg" class="input-group" placeholder="imagen del libro">
+                            <input type="file" id="fotografia" accept=".jpg" class="form-control form-control-sm" placeholder="imagen del libro">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <img class="visor" alt="" id="img">
+                        </div>
+                        <div class="col-md-3">
                             <label for="">EDICION</label>
                             <input type="text" id="edicion" class="form-control form-control-sm" placeholder="nose" required="">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="">Autor</label>
                             <select name="" id="autor" class="form-control form-control-sm">
 
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <img src="" alt="" id="img">
-                    </div>
                     <p class="text-center mt-4">
                         <button type="reset" class="btn btn-success" style="margin-right: 20px;">Limpiar</button>
-                        <button type="submit" class="btn btn-primary" id="btguardar">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                         <a href="index.php?view=listlibros.php" class="btn btn-info ml-2">Ver Libros</a>
                     </p>  
                 </form>
@@ -119,7 +119,7 @@
     const selectAutores  = document.querySelector("#autor");
     const img = document.querySelector("#img");
     const inputFile = document.querySelector("#fotografia");
-    const btGuardar = document.querySelector("#btGuardar");
+    const btGuardar = document.querySelector("#btguardar");
 
 
     function listarCategoria(){
@@ -204,7 +204,7 @@
     function register(){
         if(confirm("¿Esta seguro de guardar?")){
             //Para binarios
-            const fd = new URLSearchParams();
+            const fd = new FormData();
             fd.append("operacion","registrarLibro");
             fd.append("idsubcategoria",selectsubcategoria.value);
             fd.append("ideditorial",selectEditorial.value);
@@ -215,10 +215,10 @@
             fd.append("codigo",document.querySelector("#codigo").value);
             fd.append("edicion",document.querySelector("#edicion").value);
             fd.append("formato",document.querySelector("#formato").value);
-            fd.append("anio",document.querySelector("#año").value);
+            fd.append("anio",document.querySelector("#anio").value);
             fd.append("idioma",document.querySelector("#idioma").value);
             fd.append("descripcion",document.querySelector("#descripcion").value);
-            fd.append("imagenportado",inputFile.files[0]);
+            fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
             fd.append("idautor",selectAutores.value);
             
             fetch("../controller/libros.php",{
@@ -227,7 +227,11 @@
             })
             .then(response => response.json())
             .then(datos => {
-                console.log(datos);
+                if(datos.status){
+                    console.log("se guardoooooo")
+                }else{
+                    console.log("no se pudo :c");
+                }
             })
         }
     }
@@ -236,6 +240,7 @@
         if(inputFile.files.length > 0) {  
             const patchImg = URL.createObjectURL(inputFile.files[0]);
             img.src = patchImg;
+            console.log(img.src);
         }
     });
 

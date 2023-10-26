@@ -82,22 +82,7 @@ class Libro extends conexion{
     ];
     
     try{
-      $rutaDestino = '';
-      $nombreArchivo = '';
-      $nombreGuardar = 'NULL';
-
-      if(isset($_FILES['imagenportada'])){
-
-        $rutaDestino = '../views/img/';
-        //Nombre archivo (host)
-        $nombreArchivo = sha1(date('c')) . ".jpg";
-        //Ruta completa (ruta + nombre)
-        $rutaDestino .= $nombreArchivo;
-        
-        if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
-          $nombreGuardar = $nombreArchivo;
-        }
-      }
+      
 
       $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
@@ -114,13 +99,13 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
-          $datos["idautor"],
-          $nombreGuardar
+          $datos["imagenportada"],
+          $datos["idautor"]
         )
       );
     }
     catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getCode();
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
     return $respuesta;
   
@@ -129,6 +114,20 @@ class Libro extends conexion{
   public function listadolibro(){
     try {
       $consulta = $this->acesso->prepare("CALL spu_listado_libros()");
+      $consulta->execute();
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  
+  }
+  
+  public function listarSubcategorias(){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_listar_subcategorias()");
       $consulta->execute();
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo

@@ -31,6 +31,24 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'registrarLibro'){
+    
+    $rutaDestino = '';
+    $nombreArchivo = '';
+    $nombreGuardar = 'NULL';
+
+    if(isset($_FILES['imagenportada'])){
+
+      $rutaDestino = '../views/img/';
+      //Nombre archivo (host)
+      $nombreArchivo = sha1(date('c')) . ".jpg";
+      //Ruta completa (ruta + nombre)
+      $rutaDestino .= $nombreArchivo;
+      
+      if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
+        $nombreGuardar = $nombreArchivo;
+      }
+    }
+
     $datosGuardar = [
       "idsubcategoria"     => $_POST['idsubcategoria'],
       "ideditorial"       => $_POST['ideditorial'],
@@ -44,7 +62,7 @@ if (isset($_POST['operacion'])){
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
-      "imagenportada"     => $_POST['imagenportada'],
+      "imagenportada"     => $nombreGuardar,
       "idautor"           => $_POST['idautor']
     ];
 
@@ -61,6 +79,14 @@ if (isset($_POST['operacion'])){
   }
   if($_POST['operacion'] == 'selectAutores'){
     $datos = $libro->selectAutor();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'listarSubcategorias'){
+
+    $datos = $libro->listarSubcategorias();
     if($datos){
       echo json_encode($datos);
     }

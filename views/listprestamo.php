@@ -98,7 +98,7 @@ $datoID = json_encode($_SESSION['login']);
 </div>
 
     <!-- modal Rnuevo -->
-<div class="modal fade" id="modal-id" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modal-nuevo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl ">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,7 +113,7 @@ $datoID = json_encode($_SESSION['login']);
                         <div class="col-md-4">
                             <label for="Libro">Libro</label>
                             <div class="input-group mb-4">
-                                <input type="text" class="form-control" id="libro2">
+                                <input type="text" class="form-control" id="libro">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-success" type="button" id="btBuscarLibro">Buscar</button>
                                 </div>
@@ -174,8 +174,8 @@ $datoID = json_encode($_SESSION['login']);
     </div>
 </div>
 
-    <!-- modal reserva -->
-<div class="modal fade" id="LReservar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- modal reserva -->
+<!-- <div class="modal fade" id="LReservar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl ">
         <div class="modal-content">
             <div class="modal-header">
@@ -249,28 +249,24 @@ $datoID = json_encode($_SESSION['login']);
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <script>
     // console.log(idUsuario);
     let idprestamo = '';
+    let idlibro = '';
     const Guardar = document.querySelector("#btguardar");
-    const tablas = document.querySelector("#tablalibros");
     const filtroStudent = document.querySelector("#filtronombres");
-    const cuerpoT = tablas.querySelector("tbody");
     const cuerpo = document.querySelector("tbody");
     const btguardar = document.querySelector("#guardar");
-    const Rbtguardar = document.querySelector("#Rguardarlibro")
-    const btBuscarLibro = document.querySelector("#btBuscarLibro");
     const btguardarlibro = document.querySelector("#gudarlibro");
     const selectcategoria = document.querySelector("#filtrocategoria");
     const filtrosubcategoria = document.querySelector("#filtrosubcategoria");            
     const cantidad = document.querySelector("#cantidad");
     const libro = document.querySelector("#libro");
-    const libro2 = document.querySelector("#libro2");
     const condicionentrega = document.querySelector("#condicionentrega");
     const fechadevolucion = document.querySelector("#fechadevolucion");
-    const RbtBuscarLibros = document.querySelector("#RbtBuscarLibro");
+    const btBuscarLibro = document.querySelector("#btBuscarLibro");
     
     function listarprestamo(){
         const parametros = new URLSearchParams();
@@ -295,10 +291,10 @@ $datoID = json_encode($_SESSION['login']);
                     <td>${element.fechaprestamo}</td>
                     <td>${element.nombrerol}</td>
                     <td>
-                        <a href='#LReservar' class='Rnuevo' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Nuevo</a>
+                        <a href='#modal-nuevo' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Nuevo</a>
                     </td>
                     <td>
-                        <a href='#modal-id'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Reservar</a>
+                        <a href='#'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Reservar</a>
                     </td>
                 </tr>
                 `;
@@ -318,38 +314,39 @@ $datoID = json_encode($_SESSION['login']);
                 method: 'POST',
                 body: parametros
             })
+            console.log(idprestamo)
             .then(response => response.json())
             .then(datos => {
-                listarLibros();
+                // listarLibros();
                 // btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
-                // btguardar.addEventListener("click", registrarLibroentregados);
+                btguardar.addEventListener("click", registrarLibroentregados);
             })
         }
-    })
+    });
 
-    cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'Rreservar'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerprestamo");
-            parametros.append("idprestamo", idprestamo);
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                // Rbtguardar.addEventListener("click", registrarlibroentregadoReserva);
-            })  
-        }
-    })
+    // cuerpo.addEventListener("click", (event) => {
+    //     if(event.target.classList[0] === 'Rreservar'){
+    //         idprestamo = parseInt(event.target.dataset.idprestamo);
+    //         const parametros = new URLSearchParams();
+    //         parametros.append("operacion","obtenerprestamo");
+    //         parametros.append("idprestamo", idprestamo);
+    //         fetch("../controller/prestamos.php",{
+    //             method: 'POST',
+    //             body: parametros
+    //         })
+    //         .then(response => response.json())
+    //         .then(datos => {
+    //             // Rbtguardar.addEventListener("click", registrarlibroentregadoReserva);
+    //         })  
+    //     }
+    // })
 
-    function registrarLibroentregadosnuevo(){
+    function registrarLibroentregados(){
         if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion","registrarLibroentregado");
             parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibro", libro.value);
+            parametros.append("idlibro", libro.dataset.idlibro);
             parametros.append("cantidad", cantidad.value);
             parametros.append("condicionentrega", condicionentrega.value);
             parametros.append("fechadevolucion", fechadevolucion.value);
@@ -360,7 +357,7 @@ $datoID = json_encode($_SESSION['login']);
             })
             .then(respuesta => respuesta.json())
             .then(datos => {
-                console.log(datos);
+                // console.log(datos);
                 if(datos.status){
                 alert("Datos guardados correctamente")
                     document.querySelector("#modal-registrarlibro").reset();
@@ -369,30 +366,30 @@ $datoID = json_encode($_SESSION['login']);
         }
     }
 
-    function registrarlibroentregadoReserva(){
-        if(confirm("estas seguro de guardar?")){
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","registrarlibroentregadoReserva");
-            parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibro", document.querySelector("#Rlibro").value);
-            parametros.append("cantidad", document.querySelector("#Rcantidad").value);
-            parametros.append("condicionentrega", document.querySelector("#Rcondicionentrega").value);
-            parametros.append("fechadevolucion", document.querySelector("#Rfechadevolucion").value);
+    // function registrarlibroentregadoReserva(){
+    //     if(confirm("estas seguro de guardar?")){
+    //         const parametros = new URLSearchParams();
+    //         parametros.append("operacion","registrarlibroentregadoReserva");
+    //         parametros.append("idprestamo", idprestamo);
+    //         parametros.append("idlibro", document.querySelector("#Rlibro").value);
+    //         parametros.append("cantidad", document.querySelector("#Rcantidad").value);
+    //         parametros.append("condicionentrega", document.querySelector("#Rcondicionentrega").value);
+    //         parametros.append("fechadevolucion", document.querySelector("#Rfechadevolucion").value);
 
-            fetch("../controller/prestamos.php" ,{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                console.log(datos);
-                if(datos.status){
-                alert("Datos guardados correctamente")
-                    document.querySelector("#modal-registrarlibroreserva").reset();
-                }
-            })
-        }
-    }
+    //         fetch("../controller/prestamos.php" ,{
+    //             method:'POST',
+    //             body: parametros
+    //         })
+    //         .then(respuesta => respuesta.json())
+    //         .then(datos => {
+    //             console.log(datos);
+    //             if(datos.status){
+    //             alert("Datos guardados correctamente")
+    //                 document.querySelector("#modal-registrarlibroreserva").reset();
+    //             }
+    //         })
+    //     }
+    // }
 
     function conseguirlibro(){
         const parametros = new URLSearchParams();
@@ -408,42 +405,43 @@ $datoID = json_encode($_SESSION['login']);
             datos.forEach(element => {
                 const idlibro = element.idlibro
                 libro.dataset.idlibro = idlibro;
-                console.log(libro.dataset.idlibro);
+                // console.log(libro.dataset.idlibro);
                 selectcategoria.value = element.categoria;
                 filtrosubcategoria.value = element.subcategoria;
             });
         });
     }
 
-    function listarLibros(){
-        const para = new URLSearchParams();
-        para.append("operacion", "guardarLibro");
-        para.append("idprestamo", idprestamo);
-        fetch("../controller/prestamos.php", {
-            method: 'POST',
-            body: para
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpoT.innerHTML = ``;
-            if(datos){
-                datos.forEach(element => {
-                    const libro = `
-                    <tr>
-                        <td>${element.idlibroentregado}</td>
-                        <td>${element.subcategoria}</td>
-                        <td>${element.nombre}</td>
-                        <td>${element.cantidad}</td>
-                        <td>${element.fechadevolucion}</td>
-                        <td>${element.condicionentrega}</td>
-                    </tr>`;
-                    cuerpoT.innerHTML +=libro;
-                });
-            }else{
-                tablas.reset();
-            }
-        });
-    }
+    // listarlibros
+    // function listarLibros(){
+    //     const para = new URLSearchParams();
+    //     para.append("operacion", "guardarLibro");
+    //     para.append("idprestamo", idprestamo);
+    //     fetch("../controller/prestamos.php", {
+    //         method: 'POST',
+    //         body: para
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         cuerpoT.innerHTML = ``;
+    //         if(datos){
+    //             datos.forEach(element => {
+    //                 const libro = `
+    //                 <tr>
+    //                     <td>${element.idlibroentregado}</td>
+    //                     <td>${element.subcategoria}</td>
+    //                     <td>${element.nombre}</td>
+    //                     <td>${element.cantidad}</td>
+    //                     <td>${element.fechadevolucion}</td>
+    //                     <td>${element.condicionentrega}</td>
+    //                 </tr>`;
+    //                 cuerpoT.innerHTML +=libro;
+    //             });
+    //         }else{
+    //             tablas.reset();
+    //         }
+    //     });
+    // }
 
     function listarCategoria(){
         const parametros = new URLSearchParams();
@@ -494,17 +492,16 @@ $datoID = json_encode($_SESSION['login']);
     }
     
     listarprestamo();
-    listarLibros();
+    // listarLibros();
     listarCategoria();
 
-    RbtBuscarLibros.addEventListener("click", conseguirlibro);
     Guardar.addEventListener("click", registrarPrestamo);
-
+    btBuscarLibro.addEventListener("click", conseguirlibro);
     libro.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) conseguirlibro();
     });
-    libro2.addEventListener("keypress", (evt) => {
-        if(evt.charCode = 13) conseguirlibro();
-    })
+    // libro2.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode = 13) conseguirlibro();
+    // })
 
 </script>

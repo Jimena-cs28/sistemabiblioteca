@@ -177,9 +177,10 @@ class Prestamos extends conexion{
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibroentregado"],
+          $datos["idprestamo"],
           $datos["condiciondevolucion"],
-          $datos["observaciones"],
-          $datos["idprestamo"]
+          $datos["observaciones"]
+          
         )
       );
     }

@@ -228,9 +228,11 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	ORDER BY iddetalleautor DESC;
 END $$
 
+SELECT * FROM libros
  -- para subcategoria
  SELECT * FROM autores
  
@@ -242,8 +244,34 @@ SELECT * FROM subcategorias
 WHERE idcategoria = _idcat;
 END$$
 
- SELECT * FROM categorias
+ SELECT * FROM prestamos WHERE estado = 'T'
  
+-- Category
+DELIMITER $$
+CREATE PROCEDURE spu_listar_subcategorias()
+BEGIN
+	SELECT idsubcategoria, categorias.categoria, subcategorias.subcategoria, subcategorias.codigo
+	FROM subcategorias
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
+END$$
 
+ -- REPORTES
+ SELECT libros.nombre
+ FROM librosentregados
+ INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+ INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+ INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
+ INNER JOIN usuarios usu2 ON usu2.idusuario = prestamos.idbibliotecario
+ INNER JOIN roles ON roles.idrol = usu1.idrol
+ INNER JOIN personas ON personas.idpersona = usu1.idpersona;
+ 
+ -- 2f y 3m
+ SELECT idlibroentregado, prestamos.descripcion, COUNT(prestamos.idprestamo) AS 'cantPrestamos', 
+ libros.nombre
+ FROM librosentregados
+ INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+ INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+ WHERE prestamos.estado = 'T' AND prestamos.descripcion = '3m'
+ 
  
  
