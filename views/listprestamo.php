@@ -148,7 +148,7 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                     </div>
                     <div class="row p-5">
-                        <table class="table table-bordered mt-4" id="tablalibros" width="100%" cellspacing="0">
+                        <table class="table table-bordered mt-4" id="" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -157,6 +157,7 @@ $datoID = json_encode($_SESSION['login']);
                                     <th>Cantidad</th>
                                     <th>F.Devolucion</th>
                                     <th>Condicion</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="tablalibros">
@@ -256,7 +257,7 @@ $datoID = json_encode($_SESSION['login']);
     const Guardar = document.querySelector("#btguardar");
     const tabla2 = document.querySelector("#tabla2");
     const tablalibro = document.querySelector("#tablalibros");
-    const cuerpoT = tablalibro.querySelector("tbody");
+    // const cuerpoT = tablalibro.querySelector("tbody");
     const filtroStudent = document.querySelector("#filtronombres");
     const cuerpo = document.querySelector("tbody");
     const GuardarR = document.querySelector("#Rguardar");
@@ -273,20 +274,53 @@ $datoID = json_encode($_SESSION['login']);
     
     function agregarLibros(){
         //const fila =  tablalibro.rows;
-        const idlibro = parseInt(libro.dataset.idlibro);
-        console.log(idlibro);
-        let nuevaFila = `
-        <tr>
-            <td>${libro.dataset.idlibro}</td>
-            <td>${filtrosubcategoria.value}</td>
-            <td>${libro.value}</td>
-            <td>${cantidad.value}</td>
-            <td>${fechadevolucion.value}</td>
-            <td>${condicionentrega.value}</td>
-        </tr>  
-        `;
-        tablalibro.innerHTML += nuevaFila;
+        if (validacionIgual) {
+            const idlibro = parseInt(libro.dataset.idlibro);
+            console.log(idlibro);
+            let nuevaFila = `
+            <tr>
+                <td>${libro.dataset.idlibro}</td>
+                <td>${filtrosubcategoria.value}</td>
+                <td>${libro.value}</td>
+                <td>${cantidad.value}</td>
+                <td>${fechadevolucion.value}</td>
+                <td>${condicionentrega.value}</td>
+                <td>Eliminar</td>
+            </tr>  
+            `;
+            tablalibro.innerHTML += nuevaFila;
+        } else {
+            confirm("esta bien");
+        }
     }
+
+    // function agregarLibros(){
+    //     const fila = tablalibro.rows;
+    //     for (let i = 1; i < fila.length; i++) {
+    //         const idlibro = parseInt(fila[i].cells[0].innerText);            
+    //         if(idlibro == libro.dataset.idlibro){
+    //             console.log("se repite");
+    //             // alert("se esta repitiendo")
+    //         }else{
+    //             // const idlibro = parseInt(libro.dataset.idlibro);
+    //             // console.log(idlibro);
+    //             let nuevaFila = `
+    //             <tr>
+    //                 <td>${libro.dataset.idlibro}</td>
+    //                 <td>${filtrosubcategoria.value}</td>
+    //                 <td>${libro.value}</td>
+    //                 <td>${cantidad.value}</td>
+    //                 <td>${fechadevolucion.value}</td>
+    //                 <td>${condicionentrega.value}</td>
+    //                 <td>Eliminar</td>
+    //             </tr>  
+    //             `;
+    //             tablalibro.innerHTML += nuevaFila;
+    //         }
+    //     }
+        
+    // }
+
     agregarLibro.addEventListener("click", agregarLibros);
 
     function agregarLibros2(){
@@ -305,6 +339,19 @@ $datoID = json_encode($_SESSION['login']);
     }
     agregarlibro2.addEventListener("click", agregarLibros2);
     
+    function validacionIgual(){
+        const fila = tablalibro.rows;
+        for (let i = 1; i < fila.length; i++) {
+            const cantidadd = parseInt(fila[i].cells[3].innerText);            
+            if(cantidadd == cantidad.value){
+                console.log("se repite")
+                // alert("se esta repitiendo")
+            }else{
+                agregarLibros();
+            }
+        }
+    }
+
 
     function registrarLibroentregados(){
         const filas = tablalibro.rows;
@@ -389,7 +436,7 @@ $datoID = json_encode($_SESSION['login']);
             .then(datos => {
                 listarprestamo();
                 // btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
-                btguardar.addEventListener("click", registrarLibroentregados);
+                // btguardar.addEventListener("click", validacionIgual);
             })
         }
     });

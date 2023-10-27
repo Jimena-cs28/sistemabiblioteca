@@ -111,7 +111,7 @@ END $$
 
 CALL spu_registrar_libroentregado(1,3,1,'Buen Estado');
 
-SELECT * FROM prestamos
+SELECT * FROM libros
 SELECT * FROM librosentregados
 
 -- PASO 3 LISTAR ENTREGAS PENDIENTES
