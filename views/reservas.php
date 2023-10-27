@@ -124,11 +124,11 @@
             datos.forEach(element => {
                 //idprestamo = element.idprestamo; 
                 const reserva = `
-                <div class="col-md-4 card-deck">
+                <div class="col-md-6 card-deck">
                     <div class="card  mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
+                                <img class="card-img-top" src="./img/ba56ec149ae7272f0d581cdab944278aed3da109.jpg" alt="imagenLibro">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
