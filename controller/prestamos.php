@@ -150,10 +150,10 @@
         echo json_encode($datos);
       }
     }
-    if($_POST['operacion'] == 'guardarLibro'){
-      $datos = $prestamo->guardarLibro($_POST['idprestamo']);
-      if($datos){
-        echo json_encode($datos);
-      }
-    }
+    // if($_POST['operacion'] == 'guardarLibro'){
+    //   $datos = $prestamo->guardarLibro($_POST['idprestamo']);
+    //   if($datos){
+    //     echo json_encode($datos);
+    //   }
+    // }
   }

@@ -264,15 +264,15 @@ class Prestamos extends conexion{
     }
   }
 
-  public function guardarLibro($idprestamo){
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_libro(?)");
-      $consulta->execute(array($idprestamo));
+  // public function guardarLibro($idprestamo){
+  //   try{
+  //     $consulta = $this->acesso->prepare("CALL spu_libro(?)");
+  //     $consulta->execute(array($idprestamo));
 
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-  }
+  //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
+  //   }
+  //   catch(Exception $e){
+  //     die($e->getMessage());
+  //   }
+  // }
 }

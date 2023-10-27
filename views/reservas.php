@@ -20,34 +20,33 @@
 </div>
 
 <!-- tablas -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ENTREGAS PENDIENTES</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th style="color:#574E4E;">#</th>
-                        <th style="color:#574E4E;">Libro</th>
-                        <th style="color:#574E4E;">Cantidad</th>
-                        <th style="color:#574E4E;">Nombre</th>
-                        <th style="color:#574E4E;">Descripcion</th>
-                        <th style="color:#574E4E;">F. Solicitud</th>
-                        <th style="color:#574E4E;">F. Prestamo</th>
-                        <th style="color:#574E4E;">F. Devolucion</th>
-                        <th style="color:#574E4E;">Entregar</th>
-                        <th style="color:#574E4E;">Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+<!-- <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ENTREGAS PENDIENTES</h6>
         </div>
-    </div>
-</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="color:#574E4E;">#</th>
+                            <th style="color:#574E4E;">Libro</th>
+                            <th style="color:#574E4E;">Cantidad</th>
+                            <th style="color:#574E4E;">Nombre</th>
+                            <th style="color:#574E4E;">Descripcion</th>
+                            <th style="color:#574E4E;">F. Solicitud</th>
+                            <th style="color:#574E4E;">F. Prestamo</th>
+                            <th style="color:#574E4E;">F. Devolucion</th>
+                            <th style="color:#574E4E;">Entregar</th>
+                            <th style="color:#574E4E;">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
 
 <div class="modal fade" id="Meditar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -97,6 +96,7 @@
         </div>
     </div>
 </div>
+
 <script>
     let idprestamo = '';
     let idlibroentregado = '';
@@ -123,25 +123,31 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 //idprestamo = element.idprestamo; 
-                const reserva = `   
-                <div class="col-md-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-content">
-                            <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">${element.nombre}</h5>
-                                <p class="card-text">Estudiante: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
-                                <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
+                const reserva = `
+                <div class="col-md-4 card-deck">
+                    <div class="card  mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">F.Solicitud${element.fechasolicitud}</li>
-                                <li class="list-group-item">F.Prestamo${element.fechaprestamo}</li>
-                                <li class="list-group-item">F.Devolucion${element.fechadevolucion}</li>
-                                <a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>                        
-                            </ul>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">${element.nombre}</h5>
+                                    <p class="card-text" style="color:#635555;">Beneficiario: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
+                                    <li class="list-group-item" style="color:#635555;">F.Prestamo: ${element.fechaprestamo}</li>
+                                    <li class="list-group-item" style="color:#635555;">F.Devolucion: ${element.fechadevolucion}</li>
+                                    <div class="row">
+                                        <div class="col-md-6"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
+                                        <div class="col-md-6"><a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 `
                 ;
                 card.innerHTML +=reserva;
@@ -169,7 +175,7 @@
         })
     }
 
-    cuerpo.addEventListener("click", (event) => {
+    card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'entrega'){
         idprestamo = parseInt(event.target.dataset.idprestamo);
         console.log(idprestamo);
@@ -188,7 +194,7 @@
         }
     });
 
-    cuerpo.addEventListener("click", (event) => {
+    card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'editar'){
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             // console.log(idlibroentregado);
