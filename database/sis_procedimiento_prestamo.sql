@@ -65,8 +65,6 @@ BEGIN
 	WHERE librosentregados.idprestamo = _idprestamo;
 END $$
 
-
-
 SELECT * FROM prestamos
 -- reservar('R')
 DELIMITER $$

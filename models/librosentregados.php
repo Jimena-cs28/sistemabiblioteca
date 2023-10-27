@@ -43,7 +43,17 @@ class LibroEntregado extends conexion{
     }
     return $respuesta;
   } 
-
   
+  public function obtenerDetalleautores($iddetalleautor){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_obtener_detalleautores(?)");
+      $consulta->execute(array($iddetalleautor));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }  
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 
 }

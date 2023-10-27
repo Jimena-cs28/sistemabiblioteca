@@ -274,4 +274,27 @@ END$$
  WHERE prestamos.estado = 'T' AND prestamos.descripcion = '3m'
  
  
+ -- Traer libros 
+ SELECT * FROM detalleautores
+  SELECT * FROM libros
+ 
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_detalleautores
+(
+	IN _iddetalleautor INT
+)
+BEGIN
+	SELECT detalleautores.iddetalleautor, categorias.categoria, subcategorias.subcategoria, CONCAT(editoriales.nombres,' ', editoriales.paisorigen) AS 'Editorial',
+	libros.nombre, libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
+	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, CONCAT(autores.nombres,' ',autores.apellidos) AS 'Autor'
+	FROM detalleautores
+	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	INNER JOIN autores ON autores.idautor = detalleautores.idautor 
+	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE detalleautores.iddetalleautor = _iddetalleautor;
+END $$
+
+CALL spu_obtener_detalleautores(4);
  

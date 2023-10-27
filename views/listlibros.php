@@ -38,7 +38,7 @@
         </div>
     </div>
 </div>
-<!-- modal reserva -->
+<!-- modal libro -->
 <div class="modal fade" id="mdl-libro" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl ">
         <div class="modal-content">
@@ -53,19 +53,19 @@
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">CATEGORIA</label>
-                            <input type="text" class="form-control form-control-sm" disabled>
+                            <input type="text" class="form-control form-control-sm" disabled id="categoria">
                         </div>
                         <div class="col-md-3">
                             <label for="">SUBCATEGORIA</label>
-                            <input type="text" class="form-control form-control-sm" disabled>
+                            <input type="text" class="form-control form-control-sm" disabled id="subcategoria">
                         </div>
                         <div class="col-md-3">
                             <label for="">EDITORIAL</label>
-                            <input type="text" class="form-control form-control-sm" disabled>
+                            <input type="text" class="form-control form-control-sm" disabled id="editorial">
                         </div>
                         <div class="col-md-3">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="libro" class="form-control form-control-sm" disabled maxlength="70">
+                            <input type="text" class="form-control form-control-sm" disabled maxlength="70" id="libro">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">IDIOMA</label>
-                            <input type="text" class="form-control form-control-sm" disabled>
+                            <input type="text" class="form-control form-control-sm" id="idioma" disabled>
                         </div>
                         <div class="col-md-3">
                             <label for="">AÑO</label>
@@ -106,16 +106,20 @@
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-6">
-                            <label for="">Imagen</label>
-                            <img class="visor" alt="" id="img">
+                            <div class="row">
+                                <label for="">Imagen</label>                                
+                            </div>
+                            <div class="row">
+                                <img class="visor" alt="" id="img" width="300px">
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label for="">EDICION</label>
-                            <input type="text" id="edicion" class="form-control form-control-sm" disabled>
+                            <input type="text" id="edicion" class="form-control form-control-sm" disabled id="edicion">
                         </div>
                         <div class="col-md-3">
                             <label for="">Autor</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled id="autor">
                         </div>
                     </div>
                 </form>
@@ -128,6 +132,7 @@
 </div>
 <script>
     const cuerpo = document.querySelector("tbody");
+    let iddetalleautor = ''
 
     function listadoLibro(){
         const parametros = new URLSearchParams();
@@ -153,10 +158,10 @@
                     <td>${element.codigo}</td>
                     <td>${element.idioma}</td>
                     <td>
-                        <a href='#mdl-libro' class='btn btn-success registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Libros</a>
+                        <a href='#mdl-libro' class='registrar' data-toggle='modal' type='button' data-iddetalleautor='${element.iddetalleautor}'>Libros</a>
                     </td>
                     <td>
-                        <a href='' class='btn btn-info registrar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Actualizar</a>
+                        <a href='' class='btn btn-info registrar' data-toggle='modal' type='button' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
                     </td>
                 </tr>
                 `;
@@ -164,6 +169,43 @@
             });
         })
     }
+
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'registrar'){
+        iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
+        console.log(iddetalleautor);
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","obtenerDetalleautores");
+        parametros.append("iddetalleautor", iddetalleautor);
+
+        fetch("../controller/librosentregados.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            
+            datos.forEach(element => {
+                const sdf = './img/'
+                document.querySelector("#categoria").value = element.categoria;
+                document.querySelector("#subcategoria").value = element.subcategoria;
+                document.querySelector("#editorial").value = element.Editorial;
+                document.querySelector("#libro").value = element.nombre;
+                document.querySelector("#cantidad").value = element.cantidad;
+                document.querySelector("#paginas").value = element.numeropaginas;
+                document.querySelector("#codigo").value = element.codigo;
+                document.querySelector("#formato").value = element.formato;
+                document.querySelector("#descripcion").value = element.descripcion;
+                document.querySelector("#idioma").value = element.idioma;
+                document.querySelector("#anio").value = element.anio;
+                document.querySelector("#tipo").value = element.tipo;
+                document.querySelector("#img").src = `./img/${element.imagenportada}`;
+                document.querySelector("#edicion").value = element.edicion;
+                document.querySelector("#autor").value = element.Autor;
+            });
+        })  
+        }
+    });
 
     listadoLibro();
 </script>

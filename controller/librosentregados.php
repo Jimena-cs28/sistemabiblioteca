@@ -24,4 +24,11 @@
       $respuesta = $libroentregado->EditarEpendiente($datosGuardar);
       echo json_encode($respuesta);
     }
+
+    if($_POST['operacion'] == 'obtenerDetalleautores'){
+      $datos = $libroentregado->obtenerDetalleautores($_POST['iddetalleautor']);
+      if($datos){
+        echo json_encode($datos);
+      }
+    }
   }
