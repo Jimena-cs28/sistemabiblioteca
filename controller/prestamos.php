@@ -145,7 +145,7 @@
     }
 
     if($_POST['operacion'] == 'conseguirlibro'){
-      $datos = $prestamo->conseguirlibro($_POST['nombre']);
+      $datos = $prestamo->conseguirlibro();
       if($datos){
         echo json_encode($datos);
       }

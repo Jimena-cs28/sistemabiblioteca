@@ -252,10 +252,10 @@ class Prestamos extends conexion{
     }
   }
 
-  public function conseguirlibro($nombre){
+  public function conseguirlibro(){
     try{
-      $consulta = $this->acesso->prepare("CALL spu_conseguir_libro(?)");
-      $consulta->execute(array($nombre));
+      $consulta = $this->acesso->prepare("CALL spu_conseguir_libro()");
+      $consulta->execute();
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

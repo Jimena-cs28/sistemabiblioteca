@@ -37,16 +37,12 @@ END $$
 -- REGISTRAR LIBROENTREGADO PASO 2  /cuando pide un libro altoke es s/cuando hace una reserva es A
 -- OBtener libro
 DELIMITER $$
-CREATE PROCEDURE spu_conseguir_libro
-(
-	IN _nombre VARCHAR(50)
-)
+CREATE PROCEDURE spu_conseguir_libro()
 BEGIN 
 	SELECT idlibro, nombre, subcategorias.subcategoria, categorias.categoria
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE libros.nombre = _nombre;
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
 END $$
 
 CALL spu_conseguir_libro ('ad');
