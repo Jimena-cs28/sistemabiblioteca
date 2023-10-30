@@ -83,7 +83,8 @@ END $$
 
 CALL spu_registrar_libroentregado_reservar(7,16,1,'Nuevo','');
 
-SELECT * FROM libros
+SELECT fechaprestamo FROM prestamo WHERE
+SELECT * FROM prestamos WHERE estado = 'E' AND idprestamo = 15
 
 -- devolucion('D')
 DELIMITER $$

@@ -79,7 +79,23 @@
 </div>
 
     <script>
+        var fechactual =  new Date();
+        var añoactual =fechactual.getFullYear();
+        var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
+        var diaActual =String(fechactual.getDate()).padStart(2,'0');
+
+        var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
+
         const Btguardar = document.querySelector("#btguardar");
+        const fecharegistar =document.querySelector("#fechanacimiento");
+
+        function fecha(){
+            if(fecharegistar <= fechaActualFormateada){
+                registrarEstudiante();
+            }else{
+                alert("Error en la fecha de nacimiento");
+            }
+        }
 
         function registrarEstudiante(){
             if(confirm("esta seguro de guardar")){
@@ -89,7 +105,7 @@
                 parametros.append("nombres", document.querySelector("#nombres").value);
                 parametros.append("nrodocumento", document.querySelector("#dni").value);
                 parametros.append("tipodocumento", document.querySelector("#documento").value);
-                parametros.append("fechanac", document.querySelector("#fechanacimiento").value);
+                parametros.append("fechanac", fecharegistar.value);
                 parametros.append("direccion", document.querySelector("#direccion").value);
                 parametros.append("telefono", document.querySelector("#telefono").value);
                 parametros.append("email", document.querySelector("#correo").value);
@@ -109,5 +125,5 @@
             }
         }
 
-        Btguardar.addEventListener("click",registrarEstudiante);
+        Btguardar.addEventListener("click",fecha);
     </script>
