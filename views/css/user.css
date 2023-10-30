@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav {
+    width: 100%;
+    background: rgba(240, 95, 95, 0.966);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+nav img {
+    height: 100px;
+}
+
+/* figure div div div div p{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: left;
+} */
+
+
+figure div div img{
+    margin-left: 70%;
+    
+}
+
+figure {
+    height: calc(100vh - 100px);
+    width: 100%;
+    background: hsl(90, 1%, 67%);
+    /* background-image: url("../images/fondo.webp");
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;*/
+    background-size: cover;
+
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+
+    padding: 40px;
+}
+
+/* h1 {
+    color: darkblue;
+    text-align: center;
+} */
+
+
+/* Section Area Libros*/
+.featured{
+    padding: 120px;
+    margin-top: -100px;
+    color: #ee9191;
+}
+.heading{
+    text-align: center;
+    padding: 2rem 0;
+    padding-bottom: 3rem;
+    font-size: 3rem;
+    color: #000;
+}
+.heading span{
+    background-color: rgba(247, 28, 39, 0.719);
+    color: #fff;
+    display: inline-block;
+    padding: .3rem 2rem;
+    border-radius: 4px;
+    clip-path: polygon(100% 0,100% 50%,100% 99%,0% 100%,7% 50%,0% 0%);
+}
+.featured .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
+    gap: 1.5rem;
+}
+.featured .box-container .box{
+    padding: 2rem 1rem;
+    background-color: #fff;
+    outline: .1rem solid rgba(0, 0, 0, .1);
+    outline-offset: -1rem;
+    text-align: center;
+    box-shadow:0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+.featured .box-container .box:hover{
+    outline: .1rem solid #000;
+    outline-offset: 0rem;
+}
+.featured .box-container .box img{
+    margin: 1rem 0;
+    height: 10rem;
+}
+.featured .box-container .box h3{
+    font-size: 2rem;
+    line-height: 1.8;
+    color: #000;
+}
+.featured .box-container .box p{
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #ce1919;
+    padding: 1rem 0;
+}
+  
+
+
+
+footer {
+    background: #4e4040;
+    padding: 60px 0 30px 0;
+    margin: auto;
+    overflow: hidden;
+}
+
+.contenedor-footer{
+    display: flex;
+    width: 90%;
+    justify-content: space-evenly;
+    margin: auto;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #000000;
+}
+
+.content-footer{
+    text-align: center;
+}
+
+.content-footer h4{
+    color: #ffffff;
+    border-bottom: 3px solid #ee9191;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.content-footer p{
+    color: #ffffff;
+}
