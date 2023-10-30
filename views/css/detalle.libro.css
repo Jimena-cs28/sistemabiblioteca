@@ -1,0 +1,29 @@
+.titulo {
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center; /* Centra el contenido del elemento <ul> */
+}
+
+.descripcion {
+    margin-top: 40px;
+    margin-left: 60px;
+}
+
+
+.campo-busqueda {
+    width: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+.campo-busqueda::placeholder {
+    color: #999;
+}
+
+.campo-busqueda:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
