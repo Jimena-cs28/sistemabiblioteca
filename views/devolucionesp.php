@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-md-3">
-            <img src="../views/img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
+            <img src="../img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
         </div>
         <div class="col-md-9 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros que faltan regresar y podra registrar el libro para que se pueda completar el prestamo

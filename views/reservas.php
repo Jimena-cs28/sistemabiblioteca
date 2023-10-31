@@ -208,6 +208,7 @@
             })
             .then(response => response.json())
             .then(datos => {
+                listarEntregas();
                 datos.forEach(element => {
                     descripcion.value = element.descripcion;
                     persona.value = element.nombres;

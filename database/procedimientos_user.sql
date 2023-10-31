@@ -19,7 +19,7 @@ CREATE PROCEDURE spu_listar_libro_user
 	IN _nombre VARCHAR(70)
 )
 BEGIN
-	SELECT libros.idlibro, libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	SELECT libros.idlibro,libros.imagenportada,libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
 	autores.nombres AS "autor", editoriales.nombres AS "editorial"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
@@ -32,7 +32,7 @@ BEGIN
 	AND (_nombre ="" OR libros.nombre LIKE CONCAT("%", _nombre, "%"));
 END$$
 
-CALL spu_listar_libro_user(NULL, 6, 'del');
+CALL spu_listar_libro_user(NULL, 6, 'funciona');
 SELECT * FROM categorias
 
 
@@ -45,7 +45,7 @@ CREATE PROCEDURE spu_list_libro
 (	
 )
 BEGIN
-	SELECT libros.idlibro, libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	SELECT libros.idlibro, libros.nombre, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
 	autores.nombres AS "autor", editoriales.nombres AS "editorial"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria

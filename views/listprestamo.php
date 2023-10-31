@@ -50,9 +50,10 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">EN BIBLIOTECA</label>
-                            <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+                            <select class="form-control" required="" id="enbiblioteca">
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
+                                <option value="">jjjjj</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -255,6 +256,9 @@ $datoID = json_encode($_SESSION['login']);
 </div>
 
 <script>
+
+
+
     let idprestamo = '';
     const tablaPrestamo = document.querySelector("#dataTable");
     const fecharegistar = document.querySelector("#fprestamo");
@@ -441,7 +445,11 @@ $datoID = json_encode($_SESSION['login']);
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
-
+            // const filasP = tablalibro.rows;
+            // for (let i = 0; 1 < filasP.length; i++) {
+            //     const fechaP = new Date(filasP[i].cells[5].innerText);
+            //     console.log(fechaP)
+            // }
             fetch("../controller/prestamos.php",{
                 method: 'POST',
                 body: parametros
@@ -449,6 +457,7 @@ $datoID = json_encode($_SESSION['login']);
             // console.log(idprestamo)
             .then(response => response.json())
             .then(datos => {
+                
                 listarprestamo();
                 // btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
                 btguardar.addEventListener("click", registrarLibroentregados);
@@ -635,5 +644,4 @@ $datoID = json_encode($_SESSION['login']);
     listarCategoria();
 
     Guardar.addEventListener("click", fecha);
-
 </script>

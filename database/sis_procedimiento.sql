@@ -112,10 +112,11 @@ BEGIN
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usu1.idrol
-	INNER JOIN personas ON personas.idpersona = usu1.idpersona;
+	INNER JOIN personas ON personas.idpersona = usu1.idpersona
+	WHERE idlibroentregado = _idlibrosentregados;
 END $$
 
-CALL spu_listar_fichaprestamo();
+CALL spu_listar_fichaprestamo(2);
 SELECT * FROM prestamos
 
 
