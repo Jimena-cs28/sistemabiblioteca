@@ -16,6 +16,12 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
+            <div id="dataTable_filter" class="dataTables_filter">
+                <label for="">Search
+                    <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable">
+                </label>
+                
+            </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>

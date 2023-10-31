@@ -178,7 +178,7 @@
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="./views/img/portada.libro.jpg" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">
@@ -193,9 +193,7 @@
                                     </ul>
                                     
                                 </div>
-                                
                                 <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}">Ver más</a>
-                                
                             </div>
                         </div>
                         
@@ -221,7 +219,7 @@
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="./assets/img/portada.libro.jpg" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">
@@ -261,7 +259,7 @@
                             <option value='${element.idsubcategoria}'>${element.subcategoria}</option>`;
                             selectsubcategoria.innerHTML += opcion1;  
                     });
-                     
+                    
                 });
             }
             

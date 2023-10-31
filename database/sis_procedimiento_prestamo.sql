@@ -115,7 +115,8 @@ SELECT * FROM librosentregados
 DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
 BEGIN
-	SELECT idlibroentregado, prestamos.idprestamo, libros.nombre, libros.imagenportada, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaprestamo, librosentregados.fechadevolucion
+	SELECT idlibroentregado, prestamos.idprestamo, libros.nombre, libros.imagenportada, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', 
+	DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
@@ -123,6 +124,7 @@ BEGIN
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'R';
 END $$
+
 -- PASO 4 ACTUALIZAR  FECHAENTREGADELIMITER $$
 CALL spu_listar_entregaspendiente()
 DELIMITER $$
@@ -168,7 +170,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
 	SELECT idlibroentregado,prestamos.idprestamo, libros.nombre, personas.nombres, libros.tipo, prestamos.fechasolicitud, 
-	prestamos.fechaentrega, librosentregados.fechadevolucion
+	prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
