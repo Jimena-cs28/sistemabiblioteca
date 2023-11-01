@@ -29,7 +29,7 @@
     </style>
 
     <nav>
-      <a href="./user.php"><img class="img" src="../../views/img/logo2.png" alt="logo"></a>
+      <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
         
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href="">Historial</a>

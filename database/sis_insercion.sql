@@ -14,7 +14,7 @@ WHERE idusuario = 11;
 
 -- 1234
 -- 73129045
-UPDATE usuarios SET claveacceso = '$2Y$10$NlsBaY9Kwv85R8jqX8Vvf./a53EZl2TJoaOXjRn41/NQ0trwEvskK'
+UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
 WHERE idusuario = 6;
 
 
