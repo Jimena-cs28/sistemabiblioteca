@@ -26,7 +26,7 @@ if(isset($_POST['operacion'])) {
       if(password_verify( $claveIngresada,$datosObtenidos['claveacceso'])){
         //clave correcta
         $resultado["status"] = true;
-        $resultado["nombres"] = $datosObtenidos["nombres"];
+        $resultado["nombres"] = $datosObtenidos["nombres"] . " " . $datosObtenidos["apellidos"];
         $resultado["idusuario"]=$datosObtenidos["idusuario"];
         $resultado["nombrerol"]=$datosObtenidos["nombrerol"];
       } else {

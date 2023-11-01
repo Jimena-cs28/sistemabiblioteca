@@ -54,6 +54,11 @@
           usuario.focus();
         } else {
           window.location.href = './views/index.php?view=dashboard.php';
+          if (datos.nombrerol==="Administrador"){
+            window.location.href = './views/index.php?view=dashboard.php';
+          } else {
+            window.location.href = './views/usuario/user.php'
+          }
         }
       })
       .catch(error => {

@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
+    header("Location:../");
+ }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,7 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/detalle.libro.css">
-    <link rel="icon" href="../../views/img/logo2.png">
+    <link rel="icon" href="../../img/logo2.png">
 </head>
 
 <body>
@@ -24,23 +30,25 @@
     </style>
 
     <nav>
-        <img class="img" src="../../views/img/logo2.png" alt="logo">
+        <img class="img" src="../../img/logo2.png" alt="logo">
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href=" ">Historial</a>
-        <a class="btn btn-outline-dark" href=" ">Cerrar sesión</a>
+        <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesion</a>
+        <?php echo $_SESSION["login"]["nombres"]?>
+			</p>
 
     </nav>
     <!-- fondo de portada-->
     <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="../../views/img/fondo.jpg" class="d-block w-100" alt="banner 1">
+      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 1">
     </div>
     <div class="carousel-item">
-      <img src="../../views/img/fondo.jpg" class="d-block w-100" alt="banner 2">
+      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 2">
     </div>
     <div class="carousel-item">
-      <img src="../../views/img/fondo.jpg" class="d-block w-100" alt="banner 3">
+      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 3">
     </div>
   </div>
   
