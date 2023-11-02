@@ -16,15 +16,11 @@
     <form>
       <div class="group-material-login">
         <input type="text" class="material-login-control" required="" maxlength="70" name="nombreuser" id="nombreusuario">
-        <span class="highlight-login"></span>
-        <span class="bar-login"></span>
-        <label for="nombreusuario"><i class="zmdi zmdi-account"></i> &nbsp; Nombres</label>
+        <label for="nombreusuario">Nombres</label>
       </div><br>
       <div class="group-material-login">
         <input type="password" class="material-login-control" name="clave" required="" maxlength="70" id="claveacceso">
-        <span class="highlight-login"></span>
-        <span class="bar-login"></span>
-        <label for="claveacceso"><i class="zmdi zmdi-lock"></i> &nbsp; Contraseña</label>
+        <label for="claveacceso"> Contraseña</label>
       </div>
       <input class="btn-login" type="button" id="iniciar" name="login" value="Ingresar al sistema →"/>
     </form>

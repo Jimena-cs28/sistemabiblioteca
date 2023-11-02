@@ -128,7 +128,7 @@
                     <div class="card  mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img class="card-img-top" src="./img/ba56ec149ae7272f0d581cdab944278aed3da109.jpg" alt="imagenLibro">
+                                <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -177,20 +177,20 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'entrega'){
-        idprestamo = parseInt(event.target.dataset.idprestamo);
-        console.log(idprestamo);
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","updateEpendiente");
-        parametros.append("idprestamo", idprestamo);
+            idprestamo = parseInt(event.target.dataset.idprestamo);
+            console.log(idprestamo);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","updateEpendiente");
+            parametros.append("idprestamo", idprestamo);
 
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            listarEntregas();
-        })  
+            fetch("../controller/prestamos.php",{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                listarEntregas();
+            })  
         }
     });
 
@@ -240,6 +240,7 @@
             .then(datos => {
                 console.log(datos);
                 if(datos.status){
+                    listarEntregas();
                     document.querySelector("#modal-editar").reset();
                 }
             })

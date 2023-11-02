@@ -250,5 +250,5 @@
     SelectActor();
     btGuardar.addEventListener("click", register);
 
-    
+
 </script>

@@ -87,10 +87,7 @@ END $$
 CALL spu_filtro_student();
 
 SELECT * FROM roles;
-SELECT * FROM prestamos WHERE estado ='D';
 SELECT * FROM personas;
-
-
 SELECT * FROM librosentregados;
 
 SELECT * FROM libros
@@ -213,12 +210,15 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE estado = 'R';
+	WHERE estado = 'R' AND idlibroentregado = _idlibroentregado;
 END $$
 
 CALL spu_obtener_libroentregado(9);
 
-SELECT * FROM prestamos
+SELECT * FROM librosentregados WHERE estado = 'D' AND idlibroentregado = 8 SET ;
+
+UPDATE librosentregados SET fechadevolucion = '2023-11-06'
+WHERE idlibroentregado = 27;
 
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
@@ -298,4 +298,15 @@ BEGIN
 END $$
 
 CALL spu_obtener_detalleautores(4);
+ 
+ 
+ -- actualizar libro
+SELECT * FROM libros 
+ 
+DELETE FILE  TABLE libros WHERE idlibro = 10
+ 
+ 
+ 
+ 
+ 
  

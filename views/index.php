@@ -19,7 +19,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- Custom styles for this template-->
     <link href="./css/sb-admin-2.min.css" rel="stylesheet">
     
-    <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -177,7 +177,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                             </div>
                         </div>
                     </form> -->
-                    <h4 class="ml-5" style="color:rgb(65, 4, 4);">SISTEMA BIBLIOTECA</h4>
+                    <marquee><h4 class="ml-5" style="color:rgb(65, 4, 4);">SISTEMA BIBLIOTECA</h4></marquee>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -211,7 +211,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" data-id="<?= $_SESSION['login']['idusuario']?>" id="id"><?= $_SESSION['login']['nombres']?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -229,7 +229,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="./controller/usuario.controller.php?operacion=destroy" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -246,8 +246,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
 
                 </div>
-                <!-- /.container-fluid -->
-                
             </div>
             <!-- End of Main Content -->
 
@@ -295,13 +293,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- Page level custom scripts -->
     <!-- <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script> -->
-    <script src="../js/demo/datatables-demo.js"></script>
+    <!-- <script src="../js/demo/datatables-demo.js"></script> -->
 
     <!-- tablas -->
 
-    <script src="./libs/datatables/dataTables.bootstrap4.js"></script>
+    <!-- <script src="./libs/datatables/dataTables.bootstrap4.js"></script>
     <scrip src="./libs/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="./libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="./libs/datatables/jquery.dataTables.min.js"></script> -->
 
     <script>
         
