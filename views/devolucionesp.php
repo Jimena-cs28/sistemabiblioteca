@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div>       
+<div> 
     <div class="modal fade" id="modal-id">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -85,7 +85,9 @@
         const observaciones = document.querySelector("#observacion");
         let idprestamos = ''; //variable que almacena el id del prestamo
         let idlibroentregado = '';
-        
+
+        const diahoy = new Date();
+
         function listarDevoluciones(){
             const parametros = new URLSearchParams();
             parametros.append("operacion","listarDpendientes")
@@ -116,6 +118,9 @@
                     </tr>
                     `;
                     cuerpo.innerHTML += recibir;
+                    if(element.fechadevolucion == diahoy){
+                        alert("Alerta");
+                    }
                 });
             })
         }
@@ -128,22 +133,19 @@
                 parametros.append("idprestamo", idprestamos);
                 parametros.append("condiciondevolucion",condicion.value);
                 parametros.append("observaciones", observaciones.value);
-                
                 fetch("../controller/prestamos.php",{
                     method:'POST',
                     body: parametros
                 })
                 .then(respuesta => respuesta.json())
                 .then(datos => {
-                    console.log(datos);
+                    // console.log(datos);
                     if(datos.status){
                         document.querySelector("#form-devolucion").reset();
-                    
                     }
                 })
             }
         };
-
 
         cuerpo.addEventListener("click", (event) => {
             if(event.target.classList[0] === 'recibir'){
@@ -151,7 +153,6 @@
                 const parametros = new URLSearchParams();
                 parametros.append("operacion","obtenerlibroentregado");
                 parametros.append("idlibroentregado", idlibroentregado);
-
                 fetch("../controller/librosentregados.php",{
                     method: 'POST',
                     body: parametros
@@ -162,7 +163,7 @@
                     // console.log(idlibroentregado);
                     btGuadar.addEventListener("click", updatedevoluciones);
                     listarDevoluciones();
-                })  
+                }) 
             }
         })
 

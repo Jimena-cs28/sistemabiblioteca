@@ -2,7 +2,7 @@
     color: #fff;
     padding: 20px;
     border-radius: 5px;
-    background-color: rgba(50,64,77,.90);
+    background-color: rgba(77, 50, 57, 0.9);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -99,14 +99,5 @@ label{
     font-size: 16px;
 }
 .radio-inline label:hover{
-    cursor: pointer;
-}
-select.material-control-login{
-    -ms-appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background: #444F55 url(../assets/icons/SelectMaterialIndicator-white.png) no-repeat scroll right 0.75rem center / 13px 8px;
-}
-select.material-control-login:hover{
     cursor: pointer;
 }

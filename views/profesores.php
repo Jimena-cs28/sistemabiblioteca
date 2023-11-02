@@ -77,7 +77,8 @@
         </div>
     </div>
 </div>
-    <script>
+    <script>            
+        const btGuadar = document.querySelector("#btguardar");
         var fechactual =  new Date();
         var añoactual =fechactual.getFullYear();
         var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
@@ -85,18 +86,18 @@
 
         var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
 
-        const fecharegistar =document.querySelector("#fprestamo");
+        const fecharegistar =document.querySelector("#fechanacimiento");
 
         
         function fecha(){
-            if(fecharegistar >= fechaActualFormateada){
+            if(fecharegistar < fechaActualFormateada){
                 registrarProfesor();
             }else{
                 alert("Error en la fecha de nacimiento");
             }
         }
 
-        const btGuadar = document.querySelector("#btguardar");
+        
 
         function registrarProfesor(){
             if(confirm("esta seguro de guardar")){

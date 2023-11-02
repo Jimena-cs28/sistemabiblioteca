@@ -3,7 +3,7 @@
         <div class="card-body border-0">
             <div class="row mt-4 mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <img src="../views/img/undraw_profile_1.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
+                    <img src="../img/undraw_profile_1.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     Bienvenido a la sección para registrar nuevos estudiantes, para poder registrar un estudiante deberás de llenar todos los campos del siguiente formulario
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-3">
                             <label style="color:#574E4E;" for="">DNI</label>
-                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="7">
+                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="8">
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">FECHA NACIMIENTO</label>
@@ -79,26 +79,32 @@
 </div>
 
     <script>
-        var fechactual =  new Date();
-        var añoactual =fechactual.getFullYear();
-        var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
-        var diaActual =String(fechactual.getDate()).padStart(2,'0');
 
-        var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
+        
+        var fechactual = Date.now();
+        const contrasena = document.querySelector("#contraseña");
+
+        // var añoactual =fechactual.getFullYear();
+        // var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
+        // var diaActual =String(fechactual.getDate()).padStart(2,'0');
+
+        // var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
 
         const Btguardar = document.querySelector("#btguardar");
         const fecharegistar =document.querySelector("#fechanacimiento");
 
-        function fecha(){
-            if(fecharegistar <= fechaActualFormateada){
-                registrarEstudiante();
-            }else{
-                alert("Error en la fecha de nacimiento");
-            }
-        }
-
-        function registrarEstudiante(){
+        // function validarFecha(){
+        //     if(fecharegistar < fechactual){
+        //     RegistrarEstudiante();
+        //     }else{
+        //         alert("Error en la fecha de nacimiento");
+        //     }
+        // }
+        
+        function RegistrarEstudiante(){
             if(confirm("esta seguro de guardar")){
+
+                const Clave = URL.createObjectURL(contrasena.value);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "registrarEstudiante");
                 parametros.append("apellidos", document.querySelector("#apellidos").value);
@@ -110,8 +116,7 @@
                 parametros.append("telefono", document.querySelector("#telefono").value);
                 parametros.append("email", document.querySelector("#correo").value);
                 parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                parametros.append("claveacceso", document.querySelector("#contraseña").value);
-
+                parametros.append("claveacceso", Clave);
                 fetch("../controller/estudiantes.php" ,{
                     method: 'POST',
                     body: parametros
@@ -124,6 +129,5 @@
                 })
             }
         }
-
-        Btguardar.addEventListener("click",fecha);
+        Btguardar.addEventListener("click",RegistrarEstudiante);
     </script>

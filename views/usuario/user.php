@@ -40,15 +40,15 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </nav>
     <!-- fondo de portada-->
     <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 1">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 1">
     </div>
     <div class="carousel-item">
-      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 2">
+        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 2">
     </div>
     <div class="carousel-item">
-      <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 3">
+        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 3">
     </div>
   </div>
   
@@ -69,13 +69,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <div class="row mb-4">
             <div class="col-md-4">
                 <label for="categoria" class="form-label form-label text-center">CATEGORÍA</label>
-                <select class="form-select form-select-lg" name="categoria" id="categoria">
+                <select class="form-select" name="categoria" id="categoria">
                     
                 </select>
             </div>
             <div class="col-md-4">
                 <label for="selectsubcategoria" class="form-label form-label text-center">SUBCATEGORÍA</label>
-                <select class="form-select form-select-lg" name="selectsubcategoria" id="selectsubcategoria">
+                <select class="form-select" name="selectsubcategoria" id="selectsubcategoria">
                     
                 </select>
             </div>
