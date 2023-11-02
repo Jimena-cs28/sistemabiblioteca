@@ -32,7 +32,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <nav>
         <img class="img" src="../../img/logo2.png" alt="logo">
         <h6>"Una santanina, una señorita de éxito"</h6>
-        <a class="btn btn-outline-dark" href=" ">Historial</a>
+        <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
 			</p>

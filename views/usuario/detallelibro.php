@@ -32,8 +32,9 @@
       <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
         
         <h6>"Una santanina, una señorita de éxito"</h6>
-        <a class="btn btn-outline-dark" href="">Historial</a>
-        <a class="btn btn-outline-dark" href="./index.php">Cerrar sesión</a>
+        <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
+        <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
+        
 
     </nav>
 
@@ -43,45 +44,65 @@
         </div>
         <div>
         <form>
-  <div class="form-row mt-4">
+        <div class="form-row mt-4">
+          <h4>Solicitud de préstamo</h4>
     <div class="form-group col-md-6">
       <label for="apellidos" class="form-label bold">Apellidos:</label>
-      <input type="text" class="form-control form-control-sm" id="apellidos">
+      <input type="text" class="form-control" id="apellidos">
     </div>
+    
     <div class="form-group col-md-6 mt-2">
       <label for="nombres" class="form-label bold">Nombres:</label>
-      <input type="text" class="form-control form-control-sm" id="nombres">
+      <input type="text" class="form-control" id="nombres">
     </div>
+  
+
+  <div class="form-group col-md-3 mt-2">
+    <label for="fechaprestamo" >Fecha préstamo</label>
+    <input type="date" class="form-control" id="fechaprestamo">
   </div>
+
+  <div class="form-group col-md-3 mt-2">
+      <label for="">Cantidad</label>
+      <input type="number" class="form-control form-control-sm" id="cantidad">
+    </div>
+
+  <div class="form-group col-md-3 mt-2">
+   <label for="" style="color:#574E4E;">En Biblioteca</label>
+   <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+    <option value="">Seleccione</option>
+    <option value="SI">Sí</option>
+    <option value="NO">No</option>
+  </select>
+  </div>
+
   <div class="form-group col-md-6 mt-2">
-    <label for="nrodocumento" class="form-label color-dark">N° Documento: </label>
-    <input type="text" class="form-control form-control-sm" id="nrodocumento" maxlength="8">
+      <label for="descripcion" class="form-label bold">Descripción</label>
+      <input type="text" class="form-control" id="descripcion">
   </div>
-  <div class="form-row">
-    <div class="form-group col-md-6 mt-2">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity">
+
+  <div class="form-group col-md-6 mt-2">
+      <label for="nombrelibro" class="form-label bold">Nombre de libro</label>
+      <input type="text" class="form-control" id="nombrelibro">
     </div>
-    <div class="form-group col-md-6 mt-4">
-      <label for="inputState">Tipo de documento</label>
-      <select id="inputState" class="form-control">
-        <option selected>DNI</option>
-      </select>
+
+    <div class="form-group col-md-3 mt-2">
+      <label for="">Stock</label>
+      <input type="number" class="form-control form-control-sm" id="stock">
     </div>
+
+    <div class="form-group col-md-3 mt-2">
+    <label for="fechadevolucion" >Fecha devolución</label>
+    <input type="date" class="form-control" id="fechadevolucion">
   </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <div class="mt-2 mb-4">
+                      
+
+  <div class="mt-4 mb-4">
   <button type="submit" class="btn btn-primary">Solicitar</button>
   </div>
 </form>
     </div>
+  </div>
     </section>
     
     <footer id="foot">
