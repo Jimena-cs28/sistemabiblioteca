@@ -23,7 +23,7 @@
                         <div class="col-md-4">
                             <label for="">CATEGORIA</label>
                             <select class="form-control form-control-sm" id="selectcategoria">
-                                    
+                                
                             </select>    
                         </div>
                         <div class="col-md-4">
@@ -68,7 +68,6 @@
         </div>
     </div>
 </div>
-
 <script>
     const cuerpo = document.querySelector("tbody");
     const selectcategoria = document.querySelector("#selectcategoria");

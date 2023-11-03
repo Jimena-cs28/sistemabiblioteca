@@ -86,7 +86,16 @@
         let idprestamos = ''; //variable que almacena el id del prestamo
         let idlibroentregado = '';
 
-        const diahoy = new Date();
+        function validardevolucion(){
+            var Hoy =  new Date();
+            const fila = cuerpo.rows
+            for (let i = 0; i < fila.length; i++) {
+                const devolucion = String(fila[i].cells[6].innerText);
+                if(fila == Hoy){
+                    alert("Este usuario no ah entregado a tiemopo su libro");
+                }
+            }
+        }
 
         function listarDevoluciones(){
             const parametros = new URLSearchParams();
@@ -118,9 +127,6 @@
                     </tr>
                     `;
                     cuerpo.innerHTML += recibir;
-                    if(element.fechadevolucion == diahoy){
-                        alert("Alerta");
-                    }
                 });
             })
         }
@@ -166,7 +172,7 @@
                 }) 
             }
         })
-
+        validardevolucion();
         listarDevoluciones();
     
     </script>

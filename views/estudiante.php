@@ -80,31 +80,26 @@
 
     <script>
 
-        
-        var fechactual = Date.now();
-        const contrasena = document.querySelector("#contraseña");
+        Btguardar = document.querySelector("#btguardar");
+        function fecha(){        
+            const fecharegistar =document.querySelector("#fechanacimiento").value;
+            var fechactual =  new Date();
+            var añoactual =fechactual.getFullYear();
+            var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
+            var diaActual =String(fechactual.getDate()).padStart(2,'0');
 
-        // var añoactual =fechactual.getFullYear();
-        // var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
-        // var diaActual =String(fechactual.getDate()).padStart(2,'0');
+            var fechaRegistro = new Date(fecharegistar);
+            var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
+            
+            if(fechaRegistro < fechactual){
+                RegistrarEstudiante();
+            }else{
+                alert("Error en la fecha de nacimiento");
+            }
+        }
 
-        // var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
-
-        const Btguardar = document.querySelector("#btguardar");
-        const fecharegistar =document.querySelector("#fechanacimiento");
-
-        // function validarFecha(){
-        //     if(fecharegistar < fechactual){
-        //     RegistrarEstudiante();
-        //     }else{
-        //         alert("Error en la fecha de nacimiento");
-        //     }
-        // }
-        
         function RegistrarEstudiante(){
             if(confirm("esta seguro de guardar")){
-
-                const Clave = URL.createObjectURL(contrasena.value);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "registrarEstudiante");
                 parametros.append("apellidos", document.querySelector("#apellidos").value);
@@ -116,7 +111,7 @@
                 parametros.append("telefono", document.querySelector("#telefono").value);
                 parametros.append("email", document.querySelector("#correo").value);
                 parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                parametros.append("claveacceso", Clave);
+                parametros.append("claveacceso", document.querySelector("#contraseña").value);
                 fetch("../controller/estudiantes.php" ,{
                     method: 'POST',
                     body: parametros
@@ -129,5 +124,6 @@
                 })
             }
         }
-        Btguardar.addEventListener("click",RegistrarEstudiante);
+
+        Btguardar.addEventListener("click", fecha);
     </script>

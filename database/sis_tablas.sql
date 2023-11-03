@@ -30,7 +30,7 @@ CREATE TABLE roles
 	CONSTRAINT ck_nombrerol_roles CHECK(nombrerol IN ("Administrador","Profesor","Estudiante"))
 )ENGINE=INNODB;
 
-
+SELECT * FROM libros WHERE estado = 'E'
 CREATE TABLE usuarios
 (
 	idusuario	INT AUTO_INCREMENT PRIMARY KEY,

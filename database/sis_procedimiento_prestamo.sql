@@ -18,8 +18,8 @@ INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,descripcion
 END $$
 -- libro1 = 2 y atlas del cielo = 12/23
 SELECT * FROM libros
-CALL spu_registrar_prestamo(15,11,'2023-11-03','4B','NO','salon8');
-SELECT * FROM personas
+CALL spu_registrar_prestamo(10,11,'2023-11-04','4D','NO','salon8');
+SELECT * FROM usuarios
 
 -- LISTAR LOS PRESTAMOS, SIN LIBROS PASO1
 DELIMITER $$
@@ -160,13 +160,14 @@ DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
 BEGIN
 	SELECT idlibroentregado, prestamos.idprestamo, libros.nombre, libros.imagenportada, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', 
-fechadevolucion
+	DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'R';
+	WHERE prestamos.estado = 'R'
+	ORDER BY idlibroentregado DESC;
 END $$
 
 -- PASO 4 ACTUALIZAR  FECHAENTREGADELIMITER $$

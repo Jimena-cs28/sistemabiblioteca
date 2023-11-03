@@ -32,14 +32,13 @@ if (isset($_POST['operacion'])){
       "nombres"       => $_POST['nombres'],
       "nrodocumento"      => $_POST['nrodocumento'],
       "tipodocumento"    => $_POST['tipodocumento'],
-      "fechanac"    => $_POST['fechanac'],
-      "direccion"    => $_POST['direccion'],
-      "telefono"    => $_POST['telefono'],
-      "email"    => $_POST['email'],
+      "fechanac"      => $_POST['fechanac'],
+      "direccion"     => $_POST['direccion'],
+      "telefono"      => $_POST['telefono'],
+      "email"         => $_POST['email'],
       "nombreusuario"    => $_POST['nombreusuario'],
-      "claveacceso"    => $_POST['claveacceso']
+      "claveacceso"     => password_hash($_POST['claveacceso'], PASSWORD_BCRYPT)
     ];
-
     $respuesta = $estudiantes->registrarEstudiante($datosGuardar);
     echo json_encode($respuesta);
   }
@@ -55,7 +54,7 @@ if (isset($_POST['operacion'])){
       "telefono"    => $_POST['telefono'],
       "email"    => $_POST['email'],
       "nombreusuario"    => $_POST['nombreusuario'],
-      "claveacceso"    => $_POST['claveacceso']
+      "claveacceso"    => password_hash($_POST['claveacceso'], PASSWORD_BCRYPT)
     ];
 
     $respuesta = $estudiantes->registrarDocente($datosGuardar);
