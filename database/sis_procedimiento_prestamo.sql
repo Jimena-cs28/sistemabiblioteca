@@ -105,9 +105,9 @@ END $$
 CALL spu_registrar_libroentregado_reservar(7,16,1,'Nuevo','');
 
 SELECT fechaprestamo FROM prestamo WHERE
-SELECT * FROM prestamos WHERE estado = 'E' AND idprestamo = 15
+SELECT * FROM librosentregados WHERE estado = 'E' AND idprestamo = 15
 
-SELECT * FROM libros
+SELECT * FROM prestamos
 -- devolucion('D')
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libroentregado_ahora

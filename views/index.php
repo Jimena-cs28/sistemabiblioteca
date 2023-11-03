@@ -300,6 +300,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- <script src="./libs/datatables/dataTables.bootstrap4.js"></script>
     <scrip src="./libs/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="./libs/datatables/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../js/prestamos.js"></script> -->
 
     <script>
         
