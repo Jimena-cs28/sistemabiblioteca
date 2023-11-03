@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
+    header("Location:../");
+ }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -46,14 +52,10 @@
         <form>
         <div class="form-row mt-4">
           <h4>Solicitud de préstamo</h4>
-    <div class="form-group col-md-6">
-      <label for="apellidos" class="form-label bold">Apellidos:</label>
-      <input type="text" class="form-control" id="apellidos">
-    </div>
-    
+   
     <div class="form-group col-md-6 mt-2">
-      <label for="nombres" class="form-label bold">Nombres:</label>
-      <input type="text" class="form-control" id="nombres">
+      <label for="nombres" class="form-label bold">Nombres y Apellidos</label>
+      <input type="text" class="form-control" id="nombres" value="<?php echo $_SESSION["login"]["nombres"]?>">
     </div>
   
 
@@ -133,6 +135,8 @@
             const idlibro = urlParams.get("idlibro");
             const fordata = new FormData()
             const containerLibro = document.querySelector("#infoLibro")
+            const stock = document.querySelector("#stock")
+            const nombrelibro = document.querySelector("#nombrelibro")
             
             fordata.append("operacion", "buscarlibro")
             fordata.append("idlibro", idlibro)
@@ -141,7 +145,8 @@
                 body: fordata
             }).then(res=>res.json())
             .then(datos=>{
-                console.log(datos)
+                stock.value = datos.cantidad
+                nombrelibro.value = datos.nombre
                 containerLibro.innerHTML = `
                 <ul>
                 <div class="titulo">Descripción:</div>
