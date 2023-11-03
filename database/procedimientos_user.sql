@@ -64,7 +64,7 @@ CREATE PROCEDURE spu_buscar_libro
 )
 BEGIN
 	SELECT libros.idlibro, libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	autores.nombres AS "autor", editoriales.nombres AS "editorial", libros.descripcion
+	autores.nombres AS "autor", editoriales.nombres AS "editorial", libros.descripcion, libros.cantidad
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
@@ -75,5 +75,6 @@ BEGIN
 END$$
 
 CALL spu_buscar_libro(2);
+SELECT * FROM librosentregados
 
 
