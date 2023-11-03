@@ -23,13 +23,13 @@
                         <div class="col-md-3">
                             <label for="">CATEGORIA</label>
                             <select class="form-control form-control-sm" id="selectcategoria">
-                                            
+                                
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="">SUBCATEGORIA</label>
                             <select class="form-control form-control-sm" id="selectsubcategoria">
-                                        
+                                
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -201,6 +201,7 @@
             });
         })
     }
+
     function register(){
         if(confirm("¿Esta seguro de guardar?")){
             //Para binarios
@@ -249,6 +250,4 @@
     listarEditorial();
     SelectActor();
     btGuardar.addEventListener("click", register);
-
-
 </script>

@@ -7,103 +7,13 @@ if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
 
 $datoID = json_encode($_SESSION['login']);
 ?>
-<div class="container-fluid" style="margin: 50px 0;">
-    <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-3">
-            <!-- <img src="../views/img/undraw_profile.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;"> -->
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran las reservaciones de libros hechas por los docentes y estudiantes, las cuales están pendientes para ser aprobadas por ti
-        </div>
-    </div>
-</div>
-<div class="container-fluid border-0">
-    <div class="card border-0">
-        <div class="card-body border-0">
-            <!-- fila del titulo -->
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO PRESTAMO</h3>
-                </div>
-            </div>  
-        </div>
-        <div class="card border-0">
-            <div class="card-body">            
-                <form id="form-prestamos">
-                    <div class="ml-5 row">
-                        <div class="col-md-3">
-                            <label style="color:#574E4E;">NOMBRES Y APELLIDOS :</label>
-                        </div>
-                        <div class="col-md-8">
-                            <select class="form-control" id="filtronombres">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">FECHA PRESTAMO</label>
-                            <input type="date" class="form-control" required=""id="fprestamo">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">EN BIBLIOTECA</label>
-                            <select class="form-control" id="">
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                                <option value=''>Seleccione</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">DESCRIPCION</label>
-                            <input type="text" class="form-control" placeholder="Grado o Curso" id="descripcion">
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">DESTINO</label>
-                            <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino">
-                        </div>
-                    </div>
-                    <p class="text-center mt-4">
-                        <button type="button" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
-                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
-                    </p>  
-                </form>
-            </div>
-        </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="fw-semibold text-center m-0 font-weight-bolder" style="color:#0B5993 ;">LISTADO DE PRESTAMOS</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th style="color:#574E4E;">#</th>
-                                <th style="color:#574E4E;">Nombres</th>
-                                <th style="color:#574E4E;">Apellidos</th>
-                                <th style="color:#574E4E;">Usuario</th>
-                                <th style="color:#574E4E;">F. Solicitud</th>
-                                <th style="color:#574E4E;">F. Prestamo</th>
-                                <th style="color:#574E4E;">Rol</th>
-                                <th style="color:#574E4E;">Ahora</th>
-                                <th style="color:#574E4E;">Reservar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+<select name="" id="" class="form-control">
+    <option value="">1</option>
+    <option value="">1</option>
+    <option value="">1</option>
+</select>
 
     <!-- modal Rnuevo -->
 <div class="modal fade" id="modal-nuevo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -367,7 +277,6 @@ $datoID = json_encode($_SESSION['login']);
             fechadevolucion2.value = "";
             condicionEntrega2.value = "";
         }
-
         libroAgregados.add(idlibro2);
     }
 

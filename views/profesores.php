@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DNI</label>
-                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="7">
+                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="8">
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">FECHA NACIMIENTO</label>
@@ -77,54 +77,54 @@
         </div>
     </div>
 </div>
-    <script>            
-        const btGuadar = document.querySelector("#btguardar");
+
+<script>            
+    const btGuadar = document.querySelector("#btguardar");
+    
+    function fecha(){        
+        const fecharegistar =document.querySelector("#fechanacimiento").value;
         var fechactual =  new Date();
-        var añoactual =fechactual.getFullYear();
-        var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
-        var diaActual =String(fechactual.getDate()).padStart(2,'0');
+        // var añoactual =fechactual.getFullYear();
+        // var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
+        // var diaActual =String(fechactual.getDate()).padStart(2,'0');
 
-        var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
-
-        const fecharegistar =document.querySelector("#fechanacimiento");
-
+        var fechaRegistro = new Date(fecharegistar);
+        // var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
         
-        function fecha(){
-            if(fecharegistar < fechaActualFormateada){
-                registrarProfesor();
-            }else{
-                alert("Error en la fecha de nacimiento");
-            }
+        if(fechaRegistro < fechactual){
+            registrarProfesor();
+        }else{
+            alert("Error en la fecha de nacimiento");
         }
+    }
 
-        
+    function registrarProfesor(){
+        if(confirm("esta seguro de guardar")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "registrarDocente");
+            parametros.append("apellidos", document.querySelector("#apellidos").value);
+            parametros.append("nombres", document.querySelector("#nombres").value);
+            parametros.append("nrodocumento", document.querySelector("#dni").value);
+            parametros.append("tipodocumento", document.querySelector("#documento").value);
+            parametros.append("fechanac", fecharegistar.value);
+            parametros.append("direccion", document.querySelector("#direccion").value);
+            parametros.append("telefono", document.querySelector("#telefono").value);
+            parametros.append("email", document.querySelector("#correo").value);
+            parametros.append("nombreusuario", document.querySelector("#usuario").value);
+            parametros.append("claveacceso", document.querySelector("#contraseña").value);
 
-        function registrarProfesor(){
-            if(confirm("esta seguro de guardar")){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion", "registrarDocente");
-                parametros.append("apellidos", document.querySelector("#apellidos").value);
-                parametros.append("nombres", document.querySelector("#nombres").value);
-                parametros.append("nrodocumento", document.querySelector("#dni").value);
-                parametros.append("tipodocumento", document.querySelector("#documento").value);
-                parametros.append("fechanac", fecharegistar.value);
-                parametros.append("direccion", document.querySelector("#direccion").value);
-                parametros.append("telefono", document.querySelector("#telefono").value);
-                parametros.append("email", document.querySelector("#correo").value);
-                parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                parametros.append("claveacceso", document.querySelector("#contraseña").value);
-
-                fetch("../controller/estudiantes.php" ,{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    if(datos.status){
-                        document.querySelector("#form-docente").reset();
-                    }
-                })
-            }
+            fetch("../controller/estudiantes.php" ,{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    document.querySelector("#form-docente").reset();
+                }
+            })
         }
-        btGuadar.addEventListener("click", fecha);
-    </script>
+    }
+
+    btGuadar.addEventListener("click", fecha);
+</script>
