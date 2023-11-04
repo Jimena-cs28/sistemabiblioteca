@@ -67,5 +67,17 @@ class LibroEntregado extends conexion{
       die($e->getMessage());
     }
   }
+  public function aceptarSolicitud($idprestamo){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_aceptar_solicitud(?)");
+      $consulta->execute(array($idprestamo));
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 
 }

@@ -28,11 +28,11 @@
                         </div>
                         <div class="col-md-4">
                             <label for="">SUBCATEGORIA</label>
-                            <input type="text" class="form-control form-control-sm" required id="subcategoria">
+                            <input type="text" class="form-control" required id="subcategoria">
                         </div>
                         <div class="col-md-4">
                             <label for="">CODIGO</label>
-                            <input type="text" class="form-control form-control-sm" required="" id="codigo">
+                            <input type="text" class="form-control" required="" id="codigo">
                         </div>
                     </div>
                     <p class="text-center mt-4">
@@ -105,6 +105,11 @@
     }
 
     function listarCategoria(){
+        const choiselistarCategoria = new Choices(selectcategoria, {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML:true
+        });
         const parametros = new URLSearchParams();
         parametros.append("operacion","selectcategoria");
 
@@ -121,11 +126,13 @@
                 `;
                 selectcategoria.innerHTML += select;
             });
+
+            choiselistarCategoria.setChoices([], 'value','label',true);
+            choiselistarCategoria.setChoices(datos, 'idcategoria','categoria', true);
         })
     }
+
     listarCategoria();
 
     listarsubcategorias();
 </script>
-        
-        

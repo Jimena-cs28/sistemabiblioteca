@@ -65,10 +65,10 @@
                     <td>${element.fechaprestamo}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Aceptar</a>
+                        <a href='#' class='Aceptar' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Aceptar</a>
                     </td>
                     <td>
-                        <a href='#'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
+                        <a href='#'  class='' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
                     </td>
                 </tr>
                 `;
@@ -77,5 +77,22 @@
         })
     }
 
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'Aceptar'){
+            idprestamo = parseInt(event.target.dataset.idprestamo);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","aceptarSolicitud");
+            parametros.append("idprestamo", idprestamo);
+            fetch("../controller/librosentregados.php",{
+                method: 'POST',
+                body: parametros
+            })
+            // console.log(idprestamo)
+            .then(response => response.json())
+            .then(datos => {
+                listarSolicitud();
+            })
+        }
+    });
     listarSolicitud();
 </script>

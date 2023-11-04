@@ -20,7 +20,7 @@
 </div>
 
 <!-- tablas -->
-<!-- <div class="card shadow mb-4">
+<!--<div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ENTREGAS PENDIENTES</h6>
         </div>
@@ -109,7 +109,7 @@
     const fechadevolucion = document.querySelector("#fechadevolucion");
     const fechaprestamo = document.querySelector("#fechaprestamo");
     const btguardar = document.querySelector("#guardar");
-    
+
     function listarEntregas(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarEpendientes")
@@ -247,5 +247,5 @@
         }
     };
     listarEntregas();
-    
+
 </script>

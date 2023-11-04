@@ -77,7 +77,7 @@ SELECT * FROM roles WHERE idrol = 3
 DELIMITER $$
 CREATE PROCEDURE spu_filtro_student()
 BEGIN
-	SELECT usuarios.idusuario, personas.nombres, personas.apellidos
+	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos) AS 'nombres'
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
