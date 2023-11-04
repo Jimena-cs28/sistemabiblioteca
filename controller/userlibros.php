@@ -58,4 +58,20 @@ if (isset($_POST['operacion'])){
     }
   }
 
+  if($_POST['operacion'] == 'prestamousuario'){
+    $datos= [
+      "idlibro"   => $_POST['idlibro'],
+      "idbeneficiario" => $_POST['idbeneficiario'],
+      "cantidad"  =>  $_POST['cantidad'],
+      "descripcion" =>  $_POST['descripcion'],
+      "enbiblioteca"  => $_POST['enbiblioteca'],
+      "lugardestino"  =>  $_POST['lugardestino'],
+      "fechaprestamo" =>  $_POST['fechaprestamo'],
+      "fechadevolucion" =>  $_POST['fechadevolucion']
+    ];
+    $datos = $userlibro->prestamousuario($datos);
+    echo json_encode($datos);
+
+  }
+
 }

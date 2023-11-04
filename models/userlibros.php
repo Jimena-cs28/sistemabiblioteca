@@ -94,4 +94,31 @@ class userlibro extends conexion{
     }
   }
 
+  public function prestamousuario($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_prestamo_usuario(?,?,?,?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibro"],
+          $datos["idbeneficiario"],
+          $datos["cantidad"],
+          $datos["descripcion"],
+          $datos["enbiblioteca"],
+          $datos["lugardestino"],
+          $datos["fechaprestamo"],
+          $datos["fechadevolucion"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getCode();
+    }
+    return $respuesta;
+  }
+
 }
