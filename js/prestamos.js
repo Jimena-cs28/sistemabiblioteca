@@ -4,7 +4,7 @@ const selectcategoria = document.querySelector("#filtrocategoria");
 const filtrosubcategoria = document.querySelector("#filtrosubcategoria"); 
 const AgregarLibro = document.querySelector("#gudarlibro");     
 const tablalibro = document.querySelector("#tablalibros");
-const cantidad = document.querySelector("#cantidad");
+// const cantidad = document.querySelector("#cantidad");
 const cuerpo = document.querySelector("tbody");
 
 
@@ -16,8 +16,8 @@ const filtrosub2 = document.querySelector("#Rfiltrosubcategoria");
 const cantidad2 = document.querySelector("#Rcantidad");
 const fechadevolucion2 =  document.querySelector("#Rfechadevolucion");
 const condicionEntrega2 = document.querySelector("#Rcondicionentrega");
-const fecharegistar = document.querySelector("#fprestamo");
-const fechadevolucion =  new Date(document.querySelector("#fechadevolucion"));
+// const fecharegistar = document.querySelector("#fprestamo");
+// const fechadevolucion =  new Date(document.querySelector("#fechadevolucion"));
 
 function validarFdevolucion(){
     const file = tablalibro.rows;
@@ -190,7 +190,6 @@ function registrarlibroentregadoReserva(){
         })
     }
 }
-
 
 libro.addEventListener("change" , () => {
     const libroSeleccionado = libro.options[libro.selectedIndex];

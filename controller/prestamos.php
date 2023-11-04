@@ -34,10 +34,14 @@
       $datosGuardar = [
         "idbeneficiario"     => $_POST['idbeneficiario'],
         "idbibliotecario"    => $_POST['idbibliotecario'],
-        "fechaprestamo"    => $_POST['fechaprestamo'],
-        "descripcion"    => $_POST['descripcion'],
-        "enbiblioteca"    => $_POST['enbiblioteca'],
-        "lugardestino"    => $_POST['lugardestino']
+        "fechaprestamo"      => $_POST['fechaprestamo'],
+        "descripcion"       => $_POST['descripcion'],
+        "enbiblioteca"       => $_POST['enbiblioteca'],
+        "lugardestino"       => $_POST['lugardestino'],
+        "idlibro"            => $_POST['idlibro'],
+        "cantidad"          => $_POST['cantidad'],
+        "condicionentrega"   => $_POST['condicionentrega'],
+        "fechadevolucion"    => $_POST['fechadevolucion']
       ];
   
       $respuesta = $prestamo->registrarPrestamo($datosGuardar);

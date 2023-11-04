@@ -25,10 +25,14 @@ $datoID = json_encode($_SESSION['login']);
                         <div class="col-md-3">
                             <label style="color:#574E4E;">NOMBRES Y APELLIDOS :</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select class="form-control" id="filtronombres">
                             
                             </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-check-input" type="radio">Ahora
+                            <input class="form-check-input" type="radio"> Reservar
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -53,90 +57,42 @@ $datoID = json_encode($_SESSION['login']);
                             <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino">
                         </div>
                     </div>
-                    <p class="text-center mt-4">
-                        <button type="button" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
-                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
-                    </p>  
-                </form>
-            </div>
-        </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="fw-semibold text-center m-0 font-weight-bolder" style="color:#0B5993 ;">LISTADO DE PRESTAMOS</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th style="color:#574E4E;">#</th>
-                                <th style="color:#574E4E;">Nombres</th>
-                                <th style="color:#574E4E;">Apellidos</th>
-                                <th style="color:#574E4E;">Usuario</th>
-                                <th style="color:#574E4E;">F. Solicitud</th>
-                                <th style="color:#574E4E;">F. Prestamo</th>
-                                <th style="color:#574E4E;">Rol</th>
-                                <th style="color:#574E4E;">Ahora</th>
-                                <th style="color:#574E4E;">Reservar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- modal reserva -->
-<div class="modal fade" id="LReservar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="modal-registrarlibroreserva">
-                    <div class="row">
+                    <div class="row ml-5 mt-4">
                         <div class="col-md-4">
                             <label for="Libro">Libro</label>
-                            <select name="" id="libro2" class="form-control">
+                            <select name="" id="libro" class="form-control">
 
                             </select>
                         </div>
                         <div class="col-md-4">
                             <label for="Categoria">Categoria</label>
-                            <input type="text" class="form-control mb-3" id="Rfiltrocategoria" disabled>
+                            <input type="text" class="form-control mb-3" id="filtrocategoria" disabled>
                         </div>
                         <div class="col-md-4">
                             <label for="">Sub Categoria</label>
-                            <input type="text" class="form-control" id="Rfiltrosubcategoria" disabled>
+                            <input type="text" class="form-control" id="filtrosubcategoria" disabled>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ml-5 mt-4">
                         <div class="col-md-4">
                             <label>Cantidad</label>
-                            <input type="number" class="form-control mb-3" placeholder="00" id="Rcantidad">
+                            <input type="number" class="form-control mb-3" placeholder="00" id="cantidad">
                         </div>
                         <div class="col-md-4">
                             <label>Condicion Entrega</label>
-                            <input type="text" class="form-control mb-3" id="Rcondicionentrega">
+                            <input type="text" class="form-control mb-3" id="condicionentrega">
                         </div>
                         <div class="col-md-4">
                             <label>Fecha devolucion</label>
                             <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="Rfechadevolucion">
+                                <input type="date" class="form-control" id="fechadevolucion">
                                 <div class="input-group-append" id="a">
                                     <button class="btn btn-outline-warning" type="button" id="Rguardarlibro">Apuntar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ml-5 mt-4">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
@@ -153,85 +109,11 @@ $datoID = json_encode($_SESSION['login']);
                             </tbody>
                         </table>
                     </div>
+                    <p class="text-center mt-4">
+                        <button type="button" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
+                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
+                    </p>  
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="Rguardar">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- modal nuevo -->
-<div class="modal fade" id="modal-nuevo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="modal-registrarlibro">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="Libro">Libro</label>
-                            <select class="form-control" id="libro">
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="Categoria">Categoria</label>
-                            <input type="text" class="form-control mb-3" id="filtrocategoria" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Sub Categoria</label>
-                            <input type="text" class="form-control" id="filtrosubcategoria" disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Cantidad</label>
-                            <input type="number" class="form-control mb-3" placeholder="00" id="cantidad">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Condicion Entrega</label>
-                            <input type="text" class="form-control mb-3" id="condicionentrega">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Fecha devolucion</label>
-                            <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="fechadevolucion">
-                                <div class="input-group-append" id="fdevolucion">
-                                    <button class="btn btn-outline-warning" type="button" id="gudarlibro">Agregar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row p-5">
-                        <table class="table table-bordered mt-4" id="tablalibros" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>SubCategoria</th>
-                                    <th>Libro</th>
-                                    <th>Cantidad</th>
-                                    <th>F.Devolucion</th>
-                                    <th>Condicion</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
             </div>
         </div>
     </div>
@@ -240,21 +122,28 @@ $datoID = json_encode($_SESSION['login']);
     let idprestamo = '';
     const filtroStudent = document.querySelector("#filtronombres");
     const libro = document.querySelector("#libro");
-    const cuerpo = document.querySelector("tbody");
+    const Agregar = document.querySelector("#Rguardarlibro");
+    // const cuerpo = document.querySelector("tbody");
+    const cantidad = document.querySelector("#cantidad");
+    const tablalibro = document.querySelector("#tabla2")
     const Guardar = document.querySelector("#btguardar");
-
+    const fecharegistar = new Date(document.querySelector("#fprestamo"));
+    const fechadevolucion = document.querySelector("#fechadevolucion");
+    const Condicionentrega = document.querySelector("#condicionentrega");
+    const Filtrosubcategoria = document.querySelector("#filtrosubcategoria");
+    const selectcategoria = document.querySelector("#filtrocategoria");
     // const segund modal
     const GuardarR = document.querySelector("#Rguardar");
     // const Libro2 = document.querySelector("#libro2");
-
+    const libroAgregados =  new Set();
+    
     function fecha(){        
-        const fecharegistar = document.querySelector("#fprestamo").value;
         var fechactual =  new Date();
 
         var fechaRegistro = new Date(fecharegistar);
 
-        if(fechaRegistro > fechactual){
-            registrarPrestamo();
+        if(fechaRegistro >= fechactual){
+            agregarLibros();
         }else{
             alert("No pueder realizar un prestamos antes del dia de hoy");
         }
@@ -263,32 +152,51 @@ $datoID = json_encode($_SESSION['login']);
     function registrarPrestamo(){
         const respuesta = <?php echo $datoID;?>;
         const idusuario = respuesta.idbibliotecario;
+        const filas = tablalibro.rows;
         if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion","registrarPrestamo");
             parametros.append("idbeneficiario", filtroStudent.value);
             parametros.append("idbibliotecario", idUsuario);
-            parametros.append("fechaprestamo", fecharegistar.value);
+            parametros.append("fechaprestamo", fecharegistar);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
             parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
             parametros.append("lugardestino", document.querySelector("#lugardestino").value);
+            for (let i = 1; i < filas.length; i++) {
+                const idlibros = parseInt(filas[i].cells[0].innerText);
+                const cantidadd = parseInt(filas[i].cells[3].innerText);
+                const fechas    = String(filas[i].cells[4].innerText);
+                const condicionEntre = String(filas[i].cells[5].innerText);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","registrarLibroentregado");
+                parametros.append("idlibro", idlibros);
+                parametros.append("cantidad", cantidadd);
+                parametros.append("condicionentrega", condicionEntre);
+                parametros.append("fechadevolucion", fechas);
 
-            fetch("../controller/prestamos.php" ,{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                console.log(datos);
-                if(datos.status){
-                    alert("Datos guardados correctamente")
-                    // document.querySelector("#form-prestamos").reset();
-                }
-            })
+                fetch("../controller/prestamos.php",{
+                    method:'POST',
+                    body: parametros
+                })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    // console.log(datos);
+                    if(datos.status){
+                        alert("Prestamo guardados correctamente")
+                        document.querySelector("#modal-registrarlibro").reset();
+                        tablalibro.reset();
+                    }
+                })
+            }
         }
     }
 
     function listarUsuario(){
+        const choiselistarStudent = new Choices(filtroStudent, {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML:true
+        });
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtrobeneficiario");
 
@@ -302,48 +210,21 @@ $datoID = json_encode($_SESSION['login']);
             filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let select = `
-                    <option value='${element.idusuario}'>${element.nombres} ${element.apellidos}</option> 
+                    <option value='${element.idusuario}'>${element.nombres}</option> 
                 `;
                 filtroStudent.innerHTML +=select;
             });
-        })
-    }
-    function listarprestamo(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","listarprestamo")
-
-        fetch("../controller/prestamos.php", {
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                // console.log(datos);
-                const pres = `
-                <tr>
-                    <td>${element.idprestamo}</td>
-                    <td>${element.nombres}</td>
-                    <td>${element.apellidos}</td>
-                    <td>${element.nombreusuario}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>${element.nombrerol}</td>
-                    <td>
-                        <a href='#modal-nuevo' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>libros</a>
-                    </td>
-                    <td>
-                        <a href='#LReservar'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += pres;
-            });
+            choiselistarStudent.setChoices([], 'value','label',true);
+            choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
         })
     }
 
     function conseguirlibro(){
+        const choiselistarlibro= new Choices(libro, {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML:true
+        });
         const parametros = new URLSearchParams();
         parametros.append("operacion","conseguirlibro");
 
@@ -362,74 +243,55 @@ $datoID = json_encode($_SESSION['login']);
                 optionTag.dataset.categoria = element.categoria;
 
                 libro.appendChild(optionTag);
-        });
+            });
+            choiselistarlibro.setChoices([], 'value','label',true);
+            choiselistarlibro.setChoices(datos, 'idlibro','nombre', true);
         });
     }
 
-    // function conseguirlibro2(){
-    // const parametros = new URLSearchParams();
-    // parametros.append("operacion","conseguirlibro");
-    // // parametros.append("nombre", libro2.value);
-
-    // fetch("../controller/prestamos.php",{
-    //     method: 'POST',
-    //     body: parametros
-    // })
-    // .then(response => response.json())
-    // .then(datos => {
-    //     Libro2.innerHTML = "<option value=''>Seleccione</option>";
-    //     datos.forEach(element => {
-    //         const optionstag =document.querySelector("option");
-    //         optionstag.value = element.idlibro;
-    //         optionstag.text =element.nombre;
-    //         optionstag.dataset.subcategoria = element.subcategoria;
-    //         optionstag.dataset.categoria = element.categoria;
-    //         Libro2.appendChild(optionstag);
-    //     });
-    // });
-    // }
-
-    cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'Rnuevo'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerprestamo");
-            parametros.append("idprestamo", idprestamo);
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            // console.log(idprestamo)
-            .then(response => response.json())
-            .then(datos => {
-                
-                listarprestamo();
-                btguardar.addEventListener("click", registrarLibroentregados);
-            })
-        }
+    libro.addEventListener("change" , () => {
+        const libroSeleccionado = libro.options[libro.selectedIndex];
+        Filtrosubcategoria.value = libroSeleccionado.dataset.subcategoria;
+        selectcategoria.value = libroSeleccionado.dataset.categoria;
     });
 
-cuerpo.addEventListener("click", (event) => {
-    if(event.target.classList[0] === 'Rreservar'){
-        idprestamo = parseInt(event.target.dataset.idprestamo);
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","obtenerprestamo");
-        parametros.append("idprestamo", idprestamo);
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        // console.log(idprestamo)
-        .then(response => response.json())
-        .then(datos => {
-            listarprestamo();
-            GuardarR.addEventListener("click", registrarlibroentregadoReserva);
-        })  
+    function agregarLibros(){
+        const idlibroSeleccionado = libro.options[libro.selectedIndex];
+        const idlibro = idlibroSeleccionado.value;
+        const nombreLibro = idlibroSeleccionado.text;
+        const fechaPrestamo = fecharegistar.value;
+        const fechaDevolucion = fechadevolucion.value;
+        const condicion = Condicionentrega.value;
+        const subcate = filtrosubcategoria.value
+        //no agregar el libro si las fehas no son validas
+        if(libroAgregados.has(idlibro)){
+            alert("este libro ya se ah sido agregado");
+            return;
+        }else{
+            let nuevaFila = `
+            <tr>
+                <td>${idlibro}</td>
+                <td>${subcate}</td>
+                <td>${nombreLibro}</td>
+                <td>${cantidad.value}</td>
+                <td>${fechaDevolucion}</td>
+                <td>${condicion}</td>
+                <td>Eliminar</td>
+            </tr>`;
+            tablalibro.innerHTML += nuevaFila;
+            libro.value="";
+            filtrosubcategoria.value = "";
+            selectcategoria.value = "";
+            cantidad.value = "";
+            Condicionentrega.value = "";
+            fechadevolucion.value = "";
+        }
+        libroAgregados.add(idlibro);
     }
-});
+    Agregar.addEventListener("click", fecha);
 
     conseguirlibro();
     listarUsuario();
-    listarprestamo();
-    Guardar.addEventListener("click", fecha);
+    // listarprestamo();
+    Guardar.addEventListener("click", registrarPrestamo);
 </script>

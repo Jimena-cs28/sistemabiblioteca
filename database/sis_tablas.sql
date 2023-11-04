@@ -152,7 +152,7 @@ CREATE TABLE prestamos
 	CONSTRAINT ck_enbiblio_presta  CHECK(enbiblioteca IN ("SI","NO")),
 	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N")), 
 	-- e=Espera, R=reserva, S=solicitud, D=devolucionp, T=todo, N=rechazado
-	CONSTRAINT ck_fechas CHECK(fechaprestamo>fechasolicitud)
+	CONSTRAINT ck_fechas CHECK(fechaprestamo>=fechasolicitud) -- falta agregar =
 )ENGINE=INNODB;
 
 SELECT * FROM librosentregados
