@@ -55,7 +55,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
    
     <div class="form-group col-md-6 mt-2">
       <label for="nombres" class="form-label bold">Nombres y Apellidos</label>
-      <input type="text" class="form-control" id="nombres" value="<?php echo $_SESSION["login"]["nombres"]?>">
+      <input type="text" readonly class="form-control" id="nombres" value="<?php echo $_SESSION["login"]["nombres"]?>">
     </div>
   
 
@@ -76,6 +76,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <option value="SI">Sí</option>
     <option value="NO">No</option>
   </select>
+  </div>
+
+  <div id="contenedor-lugar" class="form-group col-md-6 mt-2 d-none">
+      <label for="lugar" class="form-label bold">Lugar</label>
+      <input type="text" class="form-control" id="lugar">
   </div>
 
   <div class="form-group col-md-6 mt-2">
@@ -137,6 +142,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const containerLibro = document.querySelector("#infoLibro")
             const stock = document.querySelector("#stock")
             const nombrelibro = document.querySelector("#nombrelibro")
+            const enbiblioteca = document.querySelector("#enbiblioteca")
+            const contenedorlugar = document.querySelector("#contenedor-lugar")
             
             fordata.append("operacion", "buscarlibro")
             fordata.append("idlibro", idlibro)
@@ -159,7 +166,16 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 </ul>
                 `
             })
-            
+            enbiblioteca.addEventListener("change", function(e){
+              const value = e.target.value
+              
+              if(value == 'NO'){
+                console.log(contenedorlugar)
+                contenedorlugar.classList.remove("d-none")
+              }else {
+                contenedorlugar.classList.add("d-none")
+              }
+            })
         })
     </script>
 
