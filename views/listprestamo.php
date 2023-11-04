@@ -423,69 +423,6 @@ $datoID = json_encode($_SESSION['login']);
         }
     });
 
-    function conseguirlibro(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","conseguirlibro");
-
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            libro.innerHTML = "<option value=''>Seleccione</option>";
-            datos.forEach(element => {
-                const optionTag = document.createElement("option");
-                optionTag.value = element.idlibro;
-                optionTag.text = element.nombre;
-                optionTag.dataset.subcategoria = element.subcategoria;
-                optionTag.dataset.categoria = element.categoria;
-
-                libro.appendChild(optionTag);
-            });
-        });
-    }
-
-    conseguirlibro();
-    libro.addEventListener("change" , () => {
-        const libroSeleccionado = libro.options[libro.selectedIndex];
-        filtrosubcategoria.value = libroSeleccionado.dataset.subcategoria;
-        selectcategoria.value = libroSeleccionado.dataset.categoria;
-    });
-
-    function conseguirlibro2(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","conseguirlibro");
-        // parametros.append("nombre", libro2.value);
-
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            libro2.innerHTML = "<option value=''>Seleccione</option>";
-            datos.forEach(element => {
-                const optionstag =document.querySelector("option");
-                optionstag.value = element.idlibro;
-                optionstag.text =element.nombre;
-                optionstag.dataset.subcategoria = element.subcategoria;
-                optionstag.dataset.categoria =element.categoria;
-
-                Libro2.appendChild(optionstag);
-                
-            });
-        });
-    }
-
-    conseguirlibro2();
-    Libro2.addEventListener("change", () => {
-        // console.log(libro.dataset.idlibro);
-        const libroselect = Libro2.options[Libro2.selectedIndex];
-        document.querySelector("#Rfiltrocategoria").value = libroselect.dataset.categoria;
-        filtrosub2.value = libroselect.dataset.subcategoria;
-    })
-
     function listarUsuario(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtrobeneficiario");
@@ -548,6 +485,7 @@ $datoID = json_encode($_SESSION['login']);
             })
         }
     }
+
 
     listarprestamo();
     // listarLibros();

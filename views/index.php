@@ -108,7 +108,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php?view=reservas.php">
+                <a class="nav-link" href="index.php?view=listprestamo.php">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Reservacion</span></a>
             </li>

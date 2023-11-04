@@ -236,11 +236,16 @@ $datoID = json_encode($_SESSION['login']);
         </div>
     </div>
 </div>
-<script src="../js/prestamos.js">
-        
+<script>
+    let idprestamo = '';
     const filtroStudent = document.querySelector("#filtronombres");
+    const libro = document.querySelector("#libro");
     const cuerpo = document.querySelector("tbody");
     const Guardar = document.querySelector("#btguardar");
+
+    // const segund modal
+    const GuardarR = document.querySelector("#Rguardar");
+    // const Libro2 = document.querySelector("#libro2");
 
     function fecha(){        
         const fecharegistar = document.querySelector("#fprestamo").value;
@@ -338,6 +343,92 @@ $datoID = json_encode($_SESSION['login']);
         })
     }
 
+    function conseguirlibro(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","conseguirlibro");
+
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            libro.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                const optionTag = document.createElement("option");
+                optionTag.value = element.idlibro;
+                optionTag.text = element.nombre;
+                optionTag.dataset.subcategoria = element.subcategoria;
+                optionTag.dataset.categoria = element.categoria;
+
+                libro.appendChild(optionTag);
+        });
+        });
+    }
+
+    // function conseguirlibro2(){
+    // const parametros = new URLSearchParams();
+    // parametros.append("operacion","conseguirlibro");
+    // // parametros.append("nombre", libro2.value);
+
+    // fetch("../controller/prestamos.php",{
+    //     method: 'POST',
+    //     body: parametros
+    // })
+    // .then(response => response.json())
+    // .then(datos => {
+    //     Libro2.innerHTML = "<option value=''>Seleccione</option>";
+    //     datos.forEach(element => {
+    //         const optionstag =document.querySelector("option");
+    //         optionstag.value = element.idlibro;
+    //         optionstag.text =element.nombre;
+    //         optionstag.dataset.subcategoria = element.subcategoria;
+    //         optionstag.dataset.categoria = element.categoria;
+    //         Libro2.appendChild(optionstag);
+    //     });
+    // });
+    // }
+
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'Rnuevo'){
+            idprestamo = parseInt(event.target.dataset.idprestamo);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","obtenerprestamo");
+            parametros.append("idprestamo", idprestamo);
+            fetch("../controller/prestamos.php",{
+                method: 'POST',
+                body: parametros
+            })
+            // console.log(idprestamo)
+            .then(response => response.json())
+            .then(datos => {
+                
+                listarprestamo();
+                btguardar.addEventListener("click", registrarLibroentregados);
+            })
+        }
+    });
+
+cuerpo.addEventListener("click", (event) => {
+    if(event.target.classList[0] === 'Rreservar'){
+        idprestamo = parseInt(event.target.dataset.idprestamo);
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","obtenerprestamo");
+        parametros.append("idprestamo", idprestamo);
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        // console.log(idprestamo)
+        .then(response => response.json())
+        .then(datos => {
+            listarprestamo();
+            GuardarR.addEventListener("click", registrarlibroentregadoReserva);
+        })  
+    }
+});
+
+    conseguirlibro();
     listarUsuario();
     listarprestamo();
     Guardar.addEventListener("click", fecha);

@@ -81,18 +81,16 @@
     <script>
 
         Btguardar = document.querySelector("#btguardar");
+        
         function fecha(){        
             const fecharegistar =document.querySelector("#fechanacimiento").value;
             var fechactual =  new Date();
-            // var añoactual =fechactual.getFullYear();
-            // var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
-            // var diaActual =String(fechactual.getDate()).padStart(2,'0');
-
-            var fechaRegistro = new Date(fecharegistar);
-            // var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
             
-            if(fechaRegistro < fechactual){
-                if(confirm("esta seguro de guardar")){
+            var Fecharegistro = new Date(fecharegistar);
+
+            if(Fecharegistro < fechactual){
+                if(confirm("esta seguro de guardar?")){
+                    const Clave = URL.createObjectURL(contrasena.value);
                     const parametros = new URLSearchParams();
                     parametros.append("operacion", "registrarEstudiante");
                     parametros.append("apellidos", document.querySelector("#apellidos").value);
@@ -104,7 +102,7 @@
                     parametros.append("telefono", document.querySelector("#telefono").value);
                     parametros.append("email", document.querySelector("#correo").value);
                     parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                    parametros.append("claveacceso", document.querySelector("#contraseña").value);
+                    parametros.append("claveacceso", Clave);
                     fetch("../controller/estudiantes.php" ,{
                         method: 'POST',
                         body: parametros

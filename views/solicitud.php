@@ -20,12 +20,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Libro</th>
                         <th>Nombre</th>
+                        <th>Libro</th>
                         <th>Descripcion</th>
-                        <th>Tipo</th>
                         <th>F. Solicitud</th>
-                        <th>F. Entrega</th>
+                        <th>F. Prestamo</th>
                         <th>F. Devolucion</th>
                         <th>Aceptar</th>
                         <th>Rechazar</th>
@@ -40,4 +39,43 @@
 </div>
 </div>
 <script>
+    let idprestamo = '';
+    cuerpo = document.querySelector("tbody");
+
+    function listarSolicitud(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarSolicitud")
+
+        fetch("../controller/librosentregados.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                // console.log(datos);
+                const pres = `
+                <tr>
+                    <td>${element.idlibroentregado}</td>
+                    <td>${element.Nombres}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.descripcion}</td>
+                    <td>${element.fechasolicitud}</td>
+                    <td>${element.fechaprestamo}</td>
+                    <td>${element.fechadevolucion}</td>
+                    <td>
+                        <a href='#' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Aceptar</a>
+                    </td>
+                    <td>
+                        <a href='#'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += pres;
+            });
+        })
+    }
+
+    listarSolicitud();
 </script>

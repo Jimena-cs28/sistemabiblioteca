@@ -31,4 +31,11 @@
         echo json_encode($datos);
       }
     }
+    if($_POST['operacion'] == 'listarSolicitud'){
+
+      $datos = $libroentregado->listarSolicitud();
+      if($datos){
+        echo json_encode($datos);
+      }
+    }
   }
