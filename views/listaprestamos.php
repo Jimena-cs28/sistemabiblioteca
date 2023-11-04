@@ -97,9 +97,9 @@ $datoID = json_encode($_SESSION['login']);
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>SubCategoria</th>
                                     <th>Libro</th>
                                     <th>Cantidad</th>
+                                    <th>F.Prestamo</th>
                                     <th>F.Devolucion</th>
                                     <th>Condicion</th>
                                 </tr>
@@ -152,23 +152,22 @@ $datoID = json_encode($_SESSION['login']);
     function registrarPrestamo(){
         const respuesta = <?php echo $datoID;?>;
         const idusuario = respuesta.idbibliotecario;
-        const filas = tablalibro.rows;
         if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion","registrarPrestamo");
             parametros.append("idbeneficiario", filtroStudent.value);
             parametros.append("idbibliotecario", idUsuario);
-            parametros.append("fechaprestamo", fecharegistar);
+            parametros.append("fechaprestamo", fecharegistar.value);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
             parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
             parametros.append("lugardestino", document.querySelector("#lugardestino").value);
-            for (let i = 1; i < filas.length; i++) {
+            
+            const filas = tablalibro.rows;
+            for (let i = 0; i < filas.length; i++) {
                 const idlibros = parseInt(filas[i].cells[0].innerText);
                 const cantidadd = parseInt(filas[i].cells[3].innerText);
-                const fechas    = String(filas[i].cells[4].innerText);
+                const fechas    = new Date(filas[i].cells[4].innerText);
                 const condicionEntre = String(filas[i].cells[5].innerText);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","registrarLibroentregado");
                 parametros.append("idlibro", idlibros);
                 parametros.append("cantidad", cantidadd);
                 parametros.append("condicionentrega", condicionEntre);
@@ -288,7 +287,7 @@ $datoID = json_encode($_SESSION['login']);
         }
         libroAgregados.add(idlibro);
     }
-    Agregar.addEventListener("click", fecha);
+    Agregar.addEventListener("click", agregarLibros);
 
     conseguirlibro();
     listarUsuario();

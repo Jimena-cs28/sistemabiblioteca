@@ -28,7 +28,7 @@ INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,descripcion
     FROM libros
     
     WHERE idlibro = _idlibro;
-
+	
     -- Verifica si hay suficientes libros disponibles para restar
     IF cantidad_actual >= _cantidad THEN
         -- Registra el libro entregado
@@ -77,7 +77,7 @@ BEGIN
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
 END $$
 
-CALL spu_conseguir_libro ('ad');
+CALL spu_conseguir_libro ();
 SELECT * FROM libros
 
 -- listarlibros

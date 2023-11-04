@@ -91,8 +91,8 @@
             const fila = cuerpo.rows
             for (let i = 0; i < fila.length; i++) {
                 const devolucion = String(fila[i].cells[6].innerText);
-                if(fila == Hoy){
-                    alert("Este usuario no ah entregado a tiemopo su libro");
+                if(devolucion == Hoy){
+                    alert("Este usuario no ah entregado a tiempo su libro");
                 }
             }
         }

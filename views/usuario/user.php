@@ -227,7 +227,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../../img/book.png" class="card-img-top rounded-0" alt="...">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">

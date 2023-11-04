@@ -90,12 +90,12 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
   <div class="form-group col-md-6 mt-2">
       <label for="nombrelibro" class="form-label bold">Nombre de libro</label>
-      <input type="text" class="form-control" id="nombrelibro">
+      <input type="text" class="form-control" id="nombrelibro" disabled>
     </div>
 
     <div class="form-group col-md-3 mt-2">
       <label for="">Stock</label>
-      <input type="number" class="form-control form-control-sm" id="stock">
+      <input type="number" class="form-control form-control-sm" id="stock" disabled>
     </div>
 
     <div class="form-group col-md-3 mt-2">
@@ -105,13 +105,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                       
 
   <div class="mt-4 mb-4">
-  <button type="submit" class="btn btn-primary">Solicitar</button>
+  <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
   </div>
 </form>
-    </div>
   </div>
-    </section>
-    
+  </div>
     <footer id="foot">
         <div class="contenedor-footer">
             <div class="content-footer">
@@ -134,51 +132,78 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const idlibro = urlParams.get("idlibro");
-            const fordata = new FormData()
-            const containerLibro = document.querySelector("#infoLibro")
-            const stock = document.querySelector("#stock")
-            const nombrelibro = document.querySelector("#nombrelibro")
-            const enbiblioteca = document.querySelector("#enbiblioteca")
-            const contenedorlugar = document.querySelector("#contenedor-lugar")
+      document.addEventListener("DOMContentLoaded", () => {
+          const queryString = window.location.search;
+          const Solicitar =document.querySelector("#solicitar");
+          const urlParams = new URLSearchParams(queryString);
+          const idlibro = urlParams.get("idlibro");
+          const fordata = new FormData()
+          const containerLibro = document.querySelector("#infoLibro")
+          const stock = document.querySelector("#stock")
+          const nombrelibro = document.querySelector("#nombrelibro")
+          const enbiblioteca = document.querySelector("#enbiblioteca")
+          const contenedorlugar = document.querySelector("#contenedor-lugar")
+          
+          fordata.append("operacion", "buscarlibro")
+          fordata.append("idlibro", idlibro)
+          fetch("../../controller/userlibros.php", {
+              method: "POST",
+              body: fordata
+          }).then(res=>res.json())
+          .then(datos=>{
+              stock.value = datos.cantidad
+              nombrelibro.value = datos.nombre
+              containerLibro.innerHTML = `
+              <ul>
+              <div class="titulo">Descripción:</div>
+              <li class="descripcion"">Nombre de libro: ${datos.nombre}</li>
+              <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
+              <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
+              <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
+              <li style="margin-left: 60px;">Subcategoría: ${datos.subcategoria}</li>
+              <li style="margin-left: 60px;">N° de páginas: ${datos.numeropaginas}</li>
+              </ul>
+              `
+          })
+          enbiblioteca.addEventListener("change", function(e){
+            const value = e.target.value
             
-            fordata.append("operacion", "buscarlibro")
-            fordata.append("idlibro", idlibro)
-            fetch("../../controller/userlibros.php", {
-                method: "POST",
-                body: fordata
-            }).then(res=>res.json())
-            .then(datos=>{
-                stock.value = datos.cantidad
-                nombrelibro.value = datos.nombre
-                containerLibro.innerHTML = `
-                <ul>
-                <div class="titulo">Descripción:</div>
-                <li class="descripcion"">Nombre de libro: ${datos.nombre}</li>
-                <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
-                <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
-                <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
-                <li style="margin-left: 60px;">Subcategoría: ${datos.subcategoria}</li>
-                <li style="margin-left: 60px;">N° de páginas: ${datos.numeropaginas}</li>
-                </ul>
-                `
-            })
-            enbiblioteca.addEventListener("change", function(e){
-              const value = e.target.value
-              
-              if(value == 'NO'){
-                console.log(contenedorlugar)
-                contenedorlugar.classList.remove("d-none")
-              }else {
-                contenedorlugar.classList.add("d-none")
-              }
-            })
-        })
-    </script>
+            if(value == 'NO'){
+              console.log(contenedorlugar)
+              contenedorlugar.classList.remove("d-none")
+            }else {
+              contenedorlugar.classList.add("d-none")
+            }
+          })
 
+          function RegistrarPrestamo(){
+            if(confirm("esta seguro de guardar")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "prestamousuario");
+            parametros.append("idlibro", idlibro.value);
+            parametros.append("idbeneficiario",documento.querySelector("#nombres").value);
+            parametros.append("cantidad", document.querySelector("#dni").value);
+            parametros.append("descripcion", document.querySelector("#descripcion").value);
+            parametros.append("enbiblioteca", enbiblioteca);
+            parametros.append("lugardestino", document.querySelector("#lugar").value);
+            parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value);
+            parametros.append("fechadevolucion", document.querySelector("#fechadevolucion").value)
+            fetch("../../controller/userlibros.php" ,{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    document.querySelector("#form-docente").reset();
+                }
+            })
+            }
+          }
+
+          Solicitar.addEventListener("")
+      })
+    </script>
 </body>
 
 </html>
