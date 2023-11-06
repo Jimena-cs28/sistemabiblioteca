@@ -12,21 +12,32 @@
             <!-- fila del titulo -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO DOCENTE</h3>
+                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO DOCENTE O ESTUDIANTE</h3>
                 </div>
-            </div>  
+            </div> 
         </div>
         <div class="card border-0">
             <div class="card-body">            
                 <form id="form-docente">
                     <div class="ml-5 row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label style="color:#574E4E;">NOMBRES</label>
                             <input class="form-control" maxlength="70"  required id="nombres">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label style="color:#574E4E;">APELLIDOS</label>
                             <input class="form-control" maxlength="70"  required id="apellidos">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Elegir</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="c-profesor" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">Profesor</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="c-estudiante">
+                                <label class="form-check-label" for="flexRadioDefault2">Estudiante</label>
+                            </div>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -80,8 +91,17 @@
 
 <script>            
     const btGuadar = document.querySelector("#btguardar");
-    
-    function fecha(){        
+    const Cprofesor = document.querySelector("#c-profesor");
+
+
+    function ValidarRegistrar(){
+        if(Cprofesor.checked){
+            ValidacionProfesor();
+        }else{
+            ValidarEstudiante();
+        }
+    }
+    function ValidacionProfesor(){        
         const fecharegistar =document.querySelector("#fechanacimiento").value;
         var fechactual =  new Date();
 
@@ -121,7 +141,41 @@
         }
     }
 
+    function ValidarEstudiante(){        
+            const fecharegista =document.querySelector("#fechanacimiento").value;
+            var Fechactual =  new Date();
+            
+            var Fecharegistro = new Date(fecharegista);
 
+            if(Fecharegistro < Fechactual){
+                if(confirm("esta seguro de guardar?")){
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion", "registrarEstudiante");
+                    parametros.append("apellidos", document.querySelector("#apellidos").value);
+                    parametros.append("nombres", document.querySelector("#nombres").value);
+                    parametros.append("nrodocumento", document.querySelector("#dni").value);
+                    parametros.append("tipodocumento", document.querySelector("#documento").value);
+                    parametros.append("fechanac", fecharegista.value);
+                    parametros.append("direccion", document.querySelector("#direccion").value);
+                    parametros.append("telefono", document.querySelector("#telefono").value);
+                    parametros.append("email", document.querySelector("#correo").value);
+                    parametros.append("nombreusuario", document.querySelector("#usuario").value);
+                    parametros.append("claveacceso", document.querySelector("#contraseña").value);
+                    fetch("../controller/estudiantes.php" ,{
+                        method: 'POST',
+                        body: parametros
+                    })
+                    .then(response => response.json())
+                    .then(datos => {
+                        if(datos.status){
+                            document.querySelector("#form-docente").reset();
+                        }
+                    })
+                }
+            }else{
+                alert("Error en la fecha de nacimiento");
+            }
+        }
 
-    btGuadar.addEventListener("click", fecha);
+    btGuadar.addEventListener("click", ValidarRegistrar);
 </script>

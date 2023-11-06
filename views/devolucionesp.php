@@ -15,13 +15,13 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="tablaD" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th style="color:#574E4E;">#</th>
                         <th style="color:#574E4E;">Libro</th>
-                        <th style="color:#574E4E;">Nombre</th>
-                        <th style="color:#574E4E;">Tipo</th>
+                        <th style="color:#574E4E;">Usuario</th>
+                        <th style="color:#574E4E;">Cantidad</th>
                         <th style="color:#574E4E;">F. Solicitud</th>
                         <th style="color:#574E4E;">F. Entrega</th>
                         <th style="color:#574E4E;">F. Devolucion</th>
@@ -66,6 +66,20 @@
                                 <input type="text" class="form-control form-control-sm"  id="observacion">
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="libro" value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">Retirar Libro</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="user" value="option2">
+                                    <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -76,70 +90,89 @@
         </div>
     </div>
 </div>
-    <script>
-        const cuerpo = document.querySelector("tbody");
-        //const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
-        //const modal = $('#modal-id').modal();
-        const condicion = document.querySelector("#condicion");
-        const btGuadar = document.querySelector("#guadarlibro");
-        const observaciones = document.querySelector("#observacion");
-        let idprestamos = ''; //variable que almacena el id del prestamo
-        let idlibroentregado = '';
 
-        function validardevolucion(){
-            var Hoy =  new Date();
-            const fila = cuerpo.rows
-            for (let i = 0; i < fila.length; i++) {
-                const devolucion = String(fila[i].cells[6].innerText);
-                if(devolucion == Hoy){
-                    alert("Este usuario no ah entregado a tiempo su libro");
-                }
+<script>
+    let idlibro = '';
+    const cuerpo = document.querySelector("tbody");
+    //const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
+    //const modal = $('#modal-id').modal();
+    const tabla = document.querySelector("#tablaD");
+    const condicion = document.querySelector("#condicion");
+    const btGuadar = document.querySelector("#guadarlibro");
+    const observaciones = document.querySelector("#observacion");
+    let idprestamos = ''; //variable que almacena el id del prestamo
+    let idlibroentregado = '';
+    // const bt = document.querySelector("#cerrar");
+    const CheckLibro = document.querySelector("#libro");
+
+    function ValidarRegistrar(){
+        if(CheckLibro.checked){
+            // alert("jijiji")
+        }else{
+            // alert("noooo")
+        }
+    }
+    // bt.addEventListener("click", ValidarRegistrar);
+    function validardevolucion(){
+        var Hoy =  new Date();
+        const fila = cuerpo.rows
+        for (let i = 0; i < fila.length; i++) {
+            const devolucion = String(fila[i].cells[6].innerText);
+            if(devolucion == Hoy){
+                alert("Este usuario no ah entregado a tiempo su libro");
             }
         }
+    }
 
-        function listarDevoluciones(){
+    function listarDevoluciones(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarDpendientes")
+        fetch("../controller/prestamos.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                idprestamos = element.idprestamo; 
+                idlibro = element.idlibro;
+                const recibir = `
+                <tr>
+                    <td>${element.idlibroentregado}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.nombres}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.fechasolicitud}</td>
+                    <td>${element.fechaentrega}</td>
+                    <td>${element.fechadevolucion}</td>
+                    <td>
+                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
+                    </td>
+                    <td>
+                        <button class='btn btn-danger'><i class='zmdi zmdi-delete'></i></button>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += recibir;
+            });
+        })
+    }
+
+    function updatedevoluciones(){
+        if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
-            parametros.append("operacion","listarDpendientes")
-            fetch("../controller/prestamos.php", {
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                cuerpo.innerHTML = ``;
-                datos.forEach(element => {
-                    idprestamos = element.idprestamo; 
-                    const recibir = `
-                    <tr>
-                        <td>${element.idlibroentregado}</td>
-                        <td>${element.nombre}</td>
-                        <td>${element.nombres}</td>
-                        <td>${element.tipo}</td>
-                        <td>${element.fechasolicitud}</td>
-                        <td>${element.fechaentrega}</td>
-                        <td>${element.fechadevolucion}</td>
-                        <td>
-                            <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
-                        </td>
-                        <td>
-                            <button class='btn btn-danger'><i class='zmdi zmdi-delete'></i></button>
-                        </td>
-                    </tr>
-                    `;
-                    cuerpo.innerHTML += recibir;
-                });
-            })
-        }
-
-        function updatedevoluciones(){
-            if(confirm("estas seguro de guardar?")){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","updatedevoluciones");
-                parametros.append("idlibroentregado", idlibroentregado);
-                parametros.append("idprestamo", idprestamos);
-                parametros.append("condiciondevolucion",condicion.value);
-                parametros.append("observaciones", observaciones.value);
-                fetch("../controller/prestamos.php",{
+            parametros.append("operacion","updatedevoluciones");
+            parametros.append("idlibroentregado", idlibroentregado);
+            parametros.append("idprestamo", idprestamos);
+            parametros.append("condiciondevolucion",condicion.value);
+            parametros.append("observaciones", observaciones.value);
+            parametros.append("idlibro", idlibro);
+            const fila = tabla.rows;
+            for (let i = 1; i < fila.length; i++) {
+                const cantidad = parseInt(fila[i].cells[3].innerText);
+                parametros.append("cantidad", cantidad);
+                fetch("../controller/librosentregados.php",{
                     method:'POST',
                     body: parametros
                 })
@@ -151,28 +184,32 @@
                     }
                 })
             }
-        };
+        }
+    };
 
-        cuerpo.addEventListener("click", (event) => {
-            if(event.target.classList[0] === 'recibir'){
-                idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","obtenerlibroentregado");
-                parametros.append("idlibroentregado", idlibroentregado);
-                fetch("../controller/librosentregados.php",{
-                    method: 'POST',
-                    body: parametros
-                })
-                //console.log(idlibroentregado)
-                .then(response => response.json())
-                .then(datos => {
-                    // console.log(idlibroentregado);
-                    btGuadar.addEventListener("click", updatedevoluciones);
-                    listarDevoluciones();
-                }) 
-            }
-        })
-        validardevolucion();
-        listarDevoluciones();
-    
-    </script>
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'recibir'){
+            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","traerlibroentregado");
+            parametros.append("idlibroentregado", idlibroentregado);
+            fetch("../controller/librosentregados.php",{
+                method: 'POST',
+                body: parametros
+            }) // console.log(idlibroentregado)
+            .then(response => response.json())
+            .then(datos => {
+                // datos.forEach(element => {
+                //     condicion.value = element.cantidad;
+                // });
+                // console.log(idlibroentregado);
+                btGuadar.addEventListener("click", updatedevoluciones);
+                listarDevoluciones();
+            });
+        }
+    });
+
+    validardevolucion();
+    listarDevoluciones();
+
+</script>

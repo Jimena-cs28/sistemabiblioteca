@@ -26,7 +26,7 @@ CREATE PROCEDURE spu_listar_libro
 	IN _idsubcategoria INT
 )
 BEGIN
-	SELECT idlibro, libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo
+	SELECT idlibro, libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
@@ -48,19 +48,21 @@ END $$
 DELIMITER $$
 CREATE PROCEDURE spu_listar_estudiantes()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario, claveacceso
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE usuarios.idrol = 3;
 END$$
 
+SELECT * FROM usuarios
+
 CALL spu_listar_estudiantes();
 
 DELIMITER $$
 CREATE PROCEDURE spu_listar_profesor()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario, claveacceso
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
@@ -101,7 +103,7 @@ CREATE PROCEDURE spu_listar_fichaprestamo
 )
 BEGIN
 	SELECT librosentregados.idlibroentregado, roles.nombrerol, personas.nombres, personas.apellidos, prestamos.descripcion,
-	categorias.categoria, subcategorias.subcategoria, libros.nombre, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, fechadevolucion
+	categorias.categoria, subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, fechadevolucion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
@@ -204,32 +206,41 @@ CREATE PROCEDURE spu_obtener_libroentregado
 )
 BEGIN
 	SELECT librosentregados.idlibroentregado, personas.nombres, personas.apellidos, librosentregados.cantidad, prestamos.descripcion,
-	libros.nombre, prestamos.fechasolicitud, prestamos.fechaprestamo, fechadevolucion
+	libros.libro, prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE estado = 'R' AND idlibroentregado = _idlibroentregado;
+	WHERE prestamos.estado = 'R' AND idlibroentregado = _idlibroentregado;
 END $$
 
-CALL spu_obtener_libroentregado(9);
+CALL spu_obtener_libroentregado(2);
 
-SELECT * FROM librosentregados WHERE estado = 'D' AND idlibroentregado = 8 SET ;
+DELIMITER $$
+CREATE PROCEDURE spu_traer_datosD
+(
+	IN _idlibroentregado INT
+)
+BEGIN
+	SELECT * FROM librosentregados WHERE idlibroentregado = _idlibroentregado;
+END $$
 
-UPDATE librosentregados SET fechadevolucion = '2023-11-06'
-WHERE idlibroentregado = 27;
+CALL spu_traer_datosD(2)
+
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN
-	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.nombre, libros.tipo, libros.cantidad, libros.numeropaginas,
-	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.nombres,' ',autores.apellidos) AS 'autor'
+	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
+	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor'
 	FROM detalleautores
 	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE estado = 1
 	ORDER BY iddetalleautor DESC;
 END $$
 
@@ -245,7 +256,7 @@ SELECT * FROM subcategorias
 WHERE idcategoria = _idcat;
 END$$
 
- SELECT * FROM prestamos WHERE estado = 'T'
+SELECT * FROM prestamos WHERE estado = 'T'
  
 -- Category
 DELIMITER $$
@@ -286,8 +297,8 @@ CREATE PROCEDURE spu_obtener_detalleautores
 )
 BEGIN
 	SELECT detalleautores.iddetalleautor, categorias.categoria, subcategorias.subcategoria, CONCAT(editoriales.nombres,' ', editoriales.paisorigen) AS 'Editorial',
-	libros.nombre, libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
-	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, CONCAT(autores.nombres,' ',autores.apellidos) AS 'Autor'
+	libros.libro, libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
+	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, CONCAT(autores.autor,' ',autores.apellidos) AS 'Autor'
 	FROM detalleautores
 	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor 
@@ -297,16 +308,9 @@ BEGIN
 	WHERE detalleautores.iddetalleautor = _iddetalleautor;
 END $$
 
-CALL spu_obtener_detalleautores(4);
+CALL spu_obtener_detalleautores(2);
  
- 
- -- actualizar libro
-SELECT * FROM libros 
- 
-DELETE FILE  TABLE libros WHERE idlibro = 10
- 
- 
- 
- 
- 
+
+SELECT * FROM libros WHERE estado = 0
+
  

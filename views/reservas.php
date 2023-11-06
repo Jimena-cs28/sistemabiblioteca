@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <!-- <img src="../assets/img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;"> -->
+            <img src="../img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros registrados por el estudiante, se podra editar y eliminar los libros que usted desee
@@ -13,7 +13,6 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE ENTREGAS PENDIENTES</h6>
     </div>
-    
 </div>
 <div class="row p-5" id="cardreserva">
     
@@ -62,21 +61,21 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="Libro">Libro</label>
-                            <input type="text" class="form-control" id="libro">
+                            <input type="text" class="form-control" id="libro" disabled>
                         </div>
                         <div class="col-md-4">
                             <label for="Categoria">Cantidad</label>
-                            <input type="number" class="form-control mb-3" id="cantidad">
+                            <input type="number" class="form-control mb-3" id="cantidad" disabled>
                         </div>
                         <div class="col-md-4">
                             <label for="">Nombre</label>
-                            <input type="text" class="form-control" id="persona">
+                            <input type="text" class="form-control" id="persona" disabled>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <label>Descripcion</label>
-                            <input type="text" class="form-control mb-3" id="descripcion">
+                            <input type="text" class="form-control mb-3" id="descripcion" disabled>
                         </div>
                         <div class="col-md-4">
                             <label>Fecha Prestamo</label>
@@ -90,7 +89,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-success" id="guardar">Guardar</button>
             </div>
         </div>
@@ -132,8 +131,9 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title text-center">${element.nombre}</h5>
-                                    <p class="card-text" style="color:#635555;">Beneficiario: ${element.nombres} - ${element.descripcion} - ${element.cantidad}</p>
+                                    <h5 class="card-title text-center">${element.libro}</h5>
+                                    <p class="card-text" style="color:#635555;">Nombres: ${element.nombres} - ${element.descripcion}</p>
+                                    <p class="card-text" style="color:#635555;">Cantidad: ${element.cantidad}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>

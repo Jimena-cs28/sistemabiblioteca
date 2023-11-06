@@ -1,31 +1,30 @@
 USE sistemabiblioteca 
 
 INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
-	(15, 3,'73194180', '1234'),
-	(1, 1, '75123489', '1234567'),-- administrador
-	(2, 3, '75140236', '223344');
-	(3, 3, '73129045', 'sofi12'),
-	(4, 3, '78674219', '121223'),
-	(5, 3, '76401538', 'SalaLu23'),
-	(6, 3, '74102589', 'Nyla19'),
-	(7, 3, '76410258', 'Ari');
+	(1, 1, '75123489', '1234567');-- administrador
+--	(2, 3, '75140236', '223344'),
+--	(3, 3, '73129045', 'sofi12'),
+--	(4, 3, '78674219', '121223'),
+--	(5, 3, '76401538', 'SalaLu23'),
+--	(6, 3, '74102589', 'Nyla19'),
+--	(7, 3, '76410258', 'Ari'),
+--	(15, 3,'73194180', '1234'),
 
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
-WHERE idusuario = 11;
+WHERE idusuario = 1;
 
 -- 1234
 -- 73129045
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
 WHERE idusuario = 6;
 
-
-SELECT * FROM personas
+SELECT * FROM usuarios
 SELECT * FROM roles
 
 INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac, direccion, telefono, email) VALUES
+	('Berrocal paima', 'Luis Fernando', 'DNI', '76543001', '', 'Sunampe', '964513274', ''),
 	('Cartagena Salazar','Jimena Adriana','DNI','73194180','','El carmen','','95107563'),
 	('Palma Navarro','Sylvie','DNI','74150120','','Grocio Prado','951207403',''),
-	('Berrocal paima', 'Luis Fernando', 'DNI', '76543001', '', 'Sunampe', '964513274', ''),
 	('Cartagena Salas','Maira','DNI','83215278','','Chincha','956432176',''),
 	('Lopez Salas','Sofia','DNI','73129045','','Chincha','956432176',''),
 	('Duren Buenamarca','Layla','DNI','78674219','','Chincha','956432176',''),
@@ -40,7 +39,7 @@ SELECT * FROM categorias
 
 INSERT INTO roles (nombrerol, cantidadmax) VALUES
 ('Administrador',5),
-('Profesor',50),
+('Profesor',40),
 ('Estudiante',3);
 
 INSERT INTO editoriales (nombres, telefono, website, email, paisorigen) VALUES
@@ -78,31 +77,31 @@ INSERT INTO subcategorias (idcategoria, subcategoria, codigo) VALUES
 (10,'Geografía y viajes', '910'),
 (10,'Historia de américa del sur', '980');
 
-
-INSERT INTO autores (apellidos, nombres, pseudonimio, nacionalidad) VALUES
+INSERT INTO autores (apellidos, autor, pseudonimio, nacionalidad) VALUES
 ('Crary', 'Jonathan', '', 'Vermont'),
 ('Verdy', 'Luis', '', 'Frances'),
 ('Cortes', 'Jeremy', '', 'Estadunidence');
 
-INSERT INTO libros (idsubcategoria, ideditorial,nombre, tipo,cantidad, numeropaginas, codigo, edicion, formato, anio, idioma, descripcion, imagenportada) VALUES
-	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '',''),
-	(3, 2, 'El mentor de matematicas', 'texto', 11,'102', '513', '','', '2010', 'castellano', '',''),
-	(4, 2, 'Atlas del cielo', 'texto', 12 ,'100', '525', '','', '2020', 'castellano', '',''),
-	(6, 2, 'Atlas del cuerpo humano', 'texto', 9,'12', '574', '','', '2001', 'castellano', '',''),
-	(7, 1, 'el guardian entre el enteno', 'texto', 12,'232', '813.005', '','', '2000', 'castellano', '',''),
-	(10, 2, 'La vuelta al mundo entero en 80 dias', 'texto', 23,'22', '843.008', '','', '2011', 'castellano', '','');
+INSERT INTO libros (idsubcategoria, ideditorial,libro, tipo,cantidad, numeropaginas, codigo, edicion, formato, anio, idioma, descripcion, imagenportada) VALUES
+	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '','');
+--	(3, 2, 'El mentor de matematicas', 'texto', 11,'102', '513', '','', '2010', 'castellano', '',''),
+--	(4, 2, 'Atlas del cielo', 'texto', 12 ,'100', '525', '','', '2020', 'castellano', '',''),
+--	(6, 2, 'Atlas del cuerpo humano', 'texto', 9,'12', '574', '','', '2001', 'castellano', '',''),
+--	(7, 1, 'el guardian entre el enteno', 'texto', 12,'232', '813.005', '','', '2000', 'castellano', '',''),
+--	(10, 2, 'La vuelta al mundo entero en 80 dias', 'texto', 23,'22', '843.008', '','', '2011', 'castellano', '','');
 
-SELECT * FROM libros
+SELECT * FROM editoriales
 
 INSERT INTO detalleautores (idlibro, idautor) VALUES
-(1, 2),
-(2, 2),
-(3, 2),
-(4, 2),
-(5, 2);
+(2, 2);
+-- (2, 2),
+-- (3, 2),
+-- (4, 2),
+-- (5, 2);
 
 SELECT * FROM libros
 
+-- NO EJECUTADO
 INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo, fecharespuesta, fechaentrega, descripcion, enbiblioteca, lugardestino) VALUES
 			(6,11,'2023-10-28', '', '', '2F', 'SI', '');
 

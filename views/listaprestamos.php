@@ -31,8 +31,14 @@ $datoID = json_encode($_SESSION['login']);
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <input class="form-check-input" type="radio">Ahora
-                            <input class="form-check-input" type="radio"> Reservar
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">AHORA</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="reservar">
+                                <label class="form-check-label" for="flexRadioDefault2">RESERVAR</label>
+                            </div>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -120,6 +126,9 @@ $datoID = json_encode($_SESSION['login']);
 </div>
 <script>
     let idprestamo = '';
+    const Ahora = document.querySelector("#ahora");
+    // const bt = document.querySelector("#kk");
+    
     const filtroStudent = document.querySelector("#filtronombres");
     const libro = document.querySelector("#libro");
     const Agregar = document.querySelector("#Rguardarlibro");
@@ -127,25 +136,33 @@ $datoID = json_encode($_SESSION['login']);
     const cantidad = document.querySelector("#cantidad");
     const tablalibro = document.querySelector("#tabla2")
     const Guardar = document.querySelector("#btguardar");
-    const fecharegistar = new Date(document.querySelector("#fprestamo"));
+    const fecharegistar = document.querySelector("#fprestamo");
     const fechadevolucion = document.querySelector("#fechadevolucion");
     const Condicionentrega = document.querySelector("#condicionentrega");
     const Filtrosubcategoria = document.querySelector("#filtrosubcategoria");
     const selectcategoria = document.querySelector("#filtrocategoria");
     // const segund modal
     const GuardarR = document.querySelector("#Rguardar");
-    // const Libro2 = document.querySelector("#libro2");
     const libroAgregados =  new Set();
-    
+    const Reservar = document.querySelector("#reservar");
+
+    function ValidarRegistrar(){
+        if(Reservar.checked){
+            registrarPrestamoReservar();
+        }else{
+            registrarPrestamo();
+        }
+    }
+
     function fecha(){        
         var fechactual =  new Date();
-
-        var fechaRegistro = new Date(fecharegistar);
-
-        if(fechaRegistro >= fechactual){
+        var Fprestamo = document.querySelector("#fprestamo").value
+        var Fdevolucion = document.querySelector("#fechadevolucion").value;
+        var Pregistrar = new Date(Fprestamo);
+        if(Pregistrar >= fechactual && Fprestamo <= Fdevolucion){
             agregarLibros();
         }else{
-            alert("No pueder realizar un prestamos antes del dia de hoy");
+            alert("No pueder realizar un prestamos antes del dia de hoy"); 
         }
     }
 
@@ -163,7 +180,48 @@ $datoID = json_encode($_SESSION['login']);
             parametros.append("lugardestino", document.querySelector("#lugardestino").value);
             
             const filas = tablalibro.rows;
-            for (let i = 0; i < filas.length; i++) {
+            for (let i = 1; i < filas.length; i++) {
+                const idlibros = parseInt(filas[i].cells[0].innerText);
+                const cantidadd = parseInt(filas[i].cells[3].innerText);
+                const fechas    = String(filas[i].cells[4].innerText);
+                const condicionEntre = String(filas[i].cells[5].innerText);
+                parametros.append("idlibro", idlibros);
+                parametros.append("cantidad", cantidadd);
+                parametros.append("condicionentrega", condicionEntre);
+                parametros.append("fechadevolucion", fechas);
+
+                fetch("../controller/prestamos.php",{
+                    method:'POST',
+                    body: parametros
+                })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    // console.log(datos);
+                    if(datos.status){
+                        alert("Prestamo guardados correctamente")
+                        document.querySelector("#modal-registrarlibro").reset();
+                        tablalibro.reset();
+                    }
+                })
+            }
+        }
+    }
+
+    function registrarPrestamoReservar(){
+        const respuesta = <?php echo $datoID;?>;
+        const idusuario = respuesta.idbibliotecario;
+        if(confirm("estas seguro de guardar?")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","RegistrarPrestamoReservar");
+            parametros.append("idbeneficiario", filtroStudent.value);
+            parametros.append("idbibliotecario", idUsuario);
+            parametros.append("fechaprestamo", fecharegistar.value);
+            parametros.append("descripcion", document.querySelector("#descripcion").value);
+            parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
+            parametros.append("lugardestino", document.querySelector("#lugardestino").value);
+
+            const filas = tablalibro.rows;
+            for (let i = 1; i < filas.length; i++) {
                 const idlibros = parseInt(filas[i].cells[0].innerText);
                 const cantidadd = parseInt(filas[i].cells[3].innerText);
                 const fechas    = new Date(filas[i].cells[4].innerText);
@@ -237,14 +295,14 @@ $datoID = json_encode($_SESSION['login']);
             datos.forEach(element => {
                 const optionTag = document.createElement("option");
                 optionTag.value = element.idlibro;
-                optionTag.text = element.nombre;
+                optionTag.text = element.libro;
                 optionTag.dataset.subcategoria = element.subcategoria;
                 optionTag.dataset.categoria = element.categoria;
 
                 libro.appendChild(optionTag);
             });
             choiselistarlibro.setChoices([], 'value','label',true);
-            choiselistarlibro.setChoices(datos, 'idlibro','nombre', true);
+            choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
         });
     }
 
@@ -275,7 +333,9 @@ $datoID = json_encode($_SESSION['login']);
                 <td>${cantidad.value}</td>
                 <td>${fechaDevolucion}</td>
                 <td>${condicion}</td>
-                <td>Eliminar</td>
+                <td>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </td>
             </tr>`;
             tablalibro.innerHTML += nuevaFila;
             libro.value="";
@@ -284,13 +344,16 @@ $datoID = json_encode($_SESSION['login']);
             cantidad.value = "";
             Condicionentrega.value = "";
             fechadevolucion.value = "";
+            document.querySelector("#descripcion").value = "";
+            filtroStudent.value = "";
+            document.querySelector("#lugardestino").value ="";
         }
         libroAgregados.add(idlibro);
     }
-    Agregar.addEventListener("click", agregarLibros);
+    Agregar.addEventListener("click", fecha);
 
     conseguirlibro();
     listarUsuario();
     // listarprestamo();
-    Guardar.addEventListener("click", registrarPrestamo);
+    Guardar.addEventListener("click", ValidarRegistrar);
 </script>

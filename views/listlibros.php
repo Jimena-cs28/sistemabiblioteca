@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <img src="../views/img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 129px;">
+            <img src="../img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 129px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros registrados por el estudiante, se podra editar y eliminar los libros que usted desee
@@ -14,6 +14,8 @@
         <h6 class="m-0 font-weight-bold text-primary">LISTADO DE LIBROS</h6>
     </div>
     <div class="card-body">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#libroI">Docentes</button>
+
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -130,6 +132,46 @@
         </div>
     </div>
 </div>
+<!-- modal Inactivo -->
+<div class="modal fade" id="libroI">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Estudiantes Inactivos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Categoria</th>
+                                <th>SubCategoria</th>
+                                <th>Libro</th>
+                                <th>apellidos</th>
+                                <th>Cantidad</th>
+                                <th>Paginas</th>
+                                <th>Codigo</th>
+                                <th>idioma</th>
+                                <th>Operacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-success" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
 <script>
     const cuerpo = document.querySelector("tbody");
     let iddetalleautor = ''
@@ -151,7 +193,7 @@
                     <td>${element.iddetalleautor}</td>
                     <td>${element.categoria}</td>
                     <td>${element.subcategoria}</td>
-                    <td>${element.nombre}</td>
+                    <td>${element.libro}</td>
                     <td>${element.autor}</td>
                     <td>${element.cantidad}</td>
                     <td>${element.numeropaginas}</td>
@@ -186,7 +228,7 @@
         .then(datos => {
             
             datos.forEach(element => {
-                const sdf = './img/'
+                // const sdf = './img/'
                 document.querySelector("#categoria").value = element.categoria;
                 document.querySelector("#subcategoria").value = element.subcategoria;
                 document.querySelector("#editorial").value = element.Editorial;

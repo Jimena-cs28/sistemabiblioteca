@@ -9,7 +9,7 @@ CREATE TABLE personas
 	nrodocumento	CHAR(8)		NULL,
 	tipodocumento	VARCHAR(50)	NOT NULL,
 	fechanac	DATE 		NULL,
-	direccion	VARCHAR(100)	NOT NULL,
+	direccion	VARCHAR(100)	NULL,
 	telefono	CHAR(9)		NULL,
 	email		VARCHAR(100)	NULL,
 	create_at	DATETIME 	NOT NULL DEFAULT NOW(),
@@ -30,6 +30,7 @@ CREATE TABLE roles
 	CONSTRAINT ck_nombrerol_roles CHECK(nombrerol IN ("Administrador","Profesor","Estudiante"))
 )ENGINE=INNODB;
 
+
 SELECT * FROM libros WHERE estado = 'E'
 CREATE TABLE usuarios
 (
@@ -40,10 +41,13 @@ CREATE TABLE usuarios
 	claveacceso	VARCHAR(200)	NOT NULL,
 	create_at	DATETIME 	NOT NULL DEFAULT NOW(),
 	update_at	DATETIME 	NULL,
-	inactive_at	DATETIME 	NULL,
+	inactive_at	DATETIME 	NULL, -- agregar 
+	estado 		CHAR(1)		NOT NULL DEFAULT '1',
 	CONSTRAINT fk_idpersona FOREIGN KEY (idpersona) REFERENCES personas(idpersona),
-	CONSTRAINT fk_idrol FOREIGN KEY (idrol) REFERENCES roles (idrol)
+	CONSTRAINT fk_idrol FOREIGN KEY (idrol) REFERENCES roles (idrol),
+	CONSTRAINT uk_usu UNIQUE(nombreusuario)
 )ENGINE=INNODB;
+
 SELECT * FROM prestamos
 
 CREATE TABLE editoriales
@@ -89,12 +93,13 @@ CREATE TABLE autores
 (
 	idautor		INT AUTO_INCREMENT PRIMARY KEY,
 	apellidos	VARCHAR(50)	NOT NULL,
-	nombres		VARCHAR(30)	NOT NULL,
+	autor		VARCHAR(30)	NOT NULL,
 	pseudonimio	VARCHAR(50)	NULL,
 	nacionalidad	VARCHAR(50)	NOT NULL,
 	create_at	DATETIME 	NOT NULL DEFAULT NOW(),
 	update_at	DATETIME 	NULL,
-	inactive_at	DATETIME 	NULL
+	inactive_at	DATETIME 	NULL,
+	CONSTRAINT uk_autor UNIQUE(autor)
 )ENGINE=INNODB;
 
 CREATE TABLE libros
@@ -102,7 +107,7 @@ CREATE TABLE libros
 	idlibro		INT AUTO_INCREMENT PRIMARY KEY,
 	idsubcategoria	INT		NOT NULL,
 	ideditorial	INT		NOT NULL,
-	nombre		VARCHAR(70)	NOT NULL,
+	libro		VARCHAR(70)	NOT NULL,
 	tipo		VARCHAR(50)	NULL,
 	cantidad	SMALLINT	NOT NULL,
 	numeropaginas	SMALLINT	NOT NULL,
@@ -111,13 +116,15 @@ CREATE TABLE libros
 	formato		VARCHAR(50)	NULL,
 	anio		DATE		NULL,
 	idioma		VARCHAR(30)	NULL,
-	descripcion	TEXT		NULL,
+	descripcion	VARCHAR(200)	NULL,
 	imagenportada	VARCHAR(200)	NULL,
 	create_at	DATETIME 	NOT NULL DEFAULT NOW(),
 	update_at	DATETIME 	NULL,
 	inactive_at	DATETIME 	NULL,
+	estado		CHAR(1)		NOT NULL DEFAULT '1',
 	CONSTRAINT fk_idsubcategoria FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
-	CONSTRAINT fk_ideditorial FOREIGN KEY (ideditorial) REFERENCES editoriales (ideditorial)
+	CONSTRAINT fk_ideditorial FOREIGN KEY (ideditorial) REFERENCES editoriales (ideditorial),
+	CONSTRAINT uk_libro UNIQUE (libro)
 )ENGINE=INNODB;
 
 CREATE TABLE detalleautores
@@ -167,8 +174,12 @@ CREATE TABLE librosentregados
 	cantidad 		SMALLINT 	NOT NULL,
 	condicionentrega	VARCHAR(50)	NULL,
 	condiciondevolucion	VARCHAR(50)	NULL,
-	observaciones		VARCHAR(40)	NULL, -- modificar a varchar
+	observaciones		VARCHAR(40)	NULL,
 	fechadevolucion		DATETIME 	NULL,
 	CONSTRAINT fk_libro_prestamo FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
 	CONSTRAINT fk_prestamo_libentre FOREIGN KEY (idprestamo) REFERENCES prestamos (idprestamo)
 )ENGINE=INNODB;
+
+
+
+

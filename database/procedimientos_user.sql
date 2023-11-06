@@ -45,8 +45,8 @@ CREATE PROCEDURE spu_list_libro
 (	
 )
 BEGIN
-	SELECT libros.idlibro, libros.nombre, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	autores.nombres AS "autor", editoriales.nombres AS "editorial"
+	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	autores.autor AS "autor", editoriales.nombres AS "editorial"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
@@ -54,7 +54,7 @@ BEGIN
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial; 
 END$$
-
+CALL spu_list_libro();
 
 -- BUSCADOR DE LIBRO
 DELIMITER $$
@@ -63,8 +63,8 @@ CREATE PROCEDURE spu_buscar_libro
 	IN _idlibro INT
 )
 BEGIN
-	SELECT libros.idlibro, libros.nombre,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	autores.nombres AS "autor", editoriales.nombres AS "editorial", libros.descripcion, libros.cantidad
+	SELECT libros.idlibro, libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	autores.autor AS "autor", editoriales.nombres AS "editorial", libros.descripcion, libros.cantidad
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
@@ -76,7 +76,7 @@ END$$
 
 CALL spu_buscar_libro(2);
 SELECT * FROM librosentregados
-SELECT * FROM prestamos
+SELECT * FROM libros
 
 DELIMITER $$
 CREATE PROCEDURE spu_prestamo_usuario

@@ -3,7 +3,7 @@
         <div class="card-body border-0">
             <div class="row mt-4 mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <img src="../views/img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
+                    <img src="../img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     Bienvenido a la sección para agregar nuevos libros a la biblioteca, deberas de llenar todos los campos para poder registrar el libro
@@ -18,7 +18,7 @@
         </div>
         <div class="card border-0">
             <div class="card-body">            
-                <form id="">
+                <form id="form-libro">
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">CATEGORIA</label>
@@ -229,9 +229,10 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    console.log("se guardoooooo")
+                    document.querySelector("#form-libro").resert();
+                    alert("Se guardo el Libro correctamente")
                 }else{
-                    console.log("no se pudo :c");
+                    alert("no se guardo");
                 }
             })
         }
