@@ -190,7 +190,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">
-                                        <h4 class="fw-semibold fs-4 text-center">${element.nombre}</h4>             
+                                        <h4 class="fw-semibold fs-4 text-center">${element.libro}</h4>             
                                     </div>
                                     <hr> 
                                 <div class="d-flex align-items-center justify-content-between">
@@ -227,11 +227,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="../../img/book.png" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">
-                                        <h4 class="fw-semibold fs-4 text-center">${element.nombre}</h4>             
+                                        <h4 class="fw-semibold fs-4 text-center">${element.libro}</h4>             
                                     </div>
                                     <hr> 
                                 <div class="d-flex align-items-center justify-content-between">

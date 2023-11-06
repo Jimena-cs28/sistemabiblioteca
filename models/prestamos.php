@@ -36,14 +36,14 @@ class Prestamos extends conexion{
     }
   }
 
-  public function registrarPrestamo($datos = []){
+  public function RegistrarPrestamoReservar($datos = []){
     $respuesta = [
       "status" => false,
       "message" =>""
     ];
     
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo(?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_reservar(?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idbeneficiario"],
@@ -77,7 +77,7 @@ class Prestamos extends conexion{
       die($e->getMessage());
     }
   } 
-  
+
   public function listarEpendientes(){
     try {
       $consulta = $this->acesso->prepare("CALL spu_listar_entregaspendiente()");
@@ -123,17 +123,22 @@ class Prestamos extends conexion{
     return $respuesta;
   } 
 
-  public function registrarlibroentregado($datos = []){
+  public function registrarPrestamo($datos = []){
     $respuesta = [
       "status" => false,
       "message" =>""
     ];
     
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_libroentregado_ahora(?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo(?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
-          $datos["idprestamo"],
+          $datos["idbeneficiario"],
+          $datos["idbibliotecario"],
+          $datos["fechaprestamo"],
+          $datos["descripcion"],
+          $datos["enbiblioteca"],
+          $datos["lugardestino"],
           $datos["idlibro"],
           $datos["cantidad"],
           $datos["condicionentrega"],
@@ -146,54 +151,6 @@ class Prestamos extends conexion{
     }
     return $respuesta;
   }
-
-  public function registrarlibroentregadoReserva($datos = []){
-    $respuesta = [
-      "status" => false,
-      "message" =>""
-    ];
-    
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_libroentregado_reservar(?,?,?,?,?)");
-      $respuesta["status"] = $consulta->execute(
-        array(
-          $datos["idprestamo"],
-          $datos["idlibro"],
-          $datos["cantidad"],
-          $datos["condicionentrega"],
-          $datos["fechadevolucion"]
-        )
-      );
-    }
-    catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getCode();
-    }
-    return $respuesta;
-  }
-
-  public function updatedevoluciones($datos = []){
-    $respuesta = [
-      "status" => false,
-      "message" => ""
-    ];
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_update_devoluciones(?,?,?,?)");
-      $respuesta["status"] = $consulta->execute(
-        array(
-          $datos["idlibroentregado"],
-          $datos["idprestamo"],
-          $datos["condiciondevolucion"],
-          $datos["observaciones"]
-          
-        )
-      );
-    }
-    catch(Exception $e){
-      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
-    }
-
-    return $respuesta;
-  } 
 
   public function selectcategoria(){
     try {
@@ -220,18 +177,6 @@ class Prestamos extends conexion{
     }
   }
 
-  public function mostrarlibro($idsubcat){
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_mostrar_libro(?)");
-      $consulta->execute(array($idsubcat));
-
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-  }
-  
   public function fichaprestamo($idlibroentregado){
     try{
       $consulta = $this->acesso->prepare("CALL spu_listar_fichaprestamo(?)");
@@ -267,16 +212,4 @@ class Prestamos extends conexion{
       die($e->getMessage());
     }
   }
-
-  // public function guardarLibro($idprestamo){
-  //   try{
-  //     $consulta = $this->acesso->prepare("CALL spu_libro(?)");
-  //     $consulta->execute(array($idprestamo));
-
-  //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-  //   }
-  //   catch(Exception $e){
-  //     die($e->getMessage());
-  //   }
-  // }
 }

@@ -90,7 +90,6 @@
 
             if(Fecharegistro < fechactual){
                 if(confirm("esta seguro de guardar?")){
-                    const Clave = URL.createObjectURL(contrasena.value);
                     const parametros = new URLSearchParams();
                     parametros.append("operacion", "registrarEstudiante");
                     parametros.append("apellidos", document.querySelector("#apellidos").value);
@@ -102,7 +101,7 @@
                     parametros.append("telefono", document.querySelector("#telefono").value);
                     parametros.append("email", document.querySelector("#correo").value);
                     parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                    parametros.append("claveacceso", Clave);
+                    parametros.append("claveacceso", document.querySelector("#contraseña"));
                     fetch("../controller/estudiantes.php" ,{
                         method: 'POST',
                         body: parametros

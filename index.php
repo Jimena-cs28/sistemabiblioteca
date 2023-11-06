@@ -29,7 +29,7 @@
                             </div>
                             <form class="user">
                                 <div class="form-group">
-                                  <input type="email" class="form-control form-control-user" id="nombreusuario" aria-describedby="emailHelp" placeholder="Escriba su user">
+                                  <input type="email" class="form-control form-control-user" id="nombreusuario" placeholder="Escriba su user">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña">

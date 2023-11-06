@@ -9,20 +9,7 @@ class Libro extends conexion{
   {
     $this->acesso = parent::getConexion();
   }
-
-  public function listarlibro(){
-    try {
-      $consulta = $this->acesso->prepare("CALL spu_listarlibro()");
-      $consulta->execute();
-
-      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
-      return $datosObtenidos; 
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
   
-  }
   public function selectcategoria(){
     try {
       $consulta = $this->acesso->prepare("SELECT idcategoria, categoria FROM categorias");
@@ -124,7 +111,7 @@ class Libro extends conexion{
     }
   
   }
-  
+
   public function listarSubcategorias(){
     try {
       $consulta = $this->acesso->prepare("CALL spu_listar_subcategorias()");

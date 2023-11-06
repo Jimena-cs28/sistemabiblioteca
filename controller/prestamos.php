@@ -73,42 +73,21 @@
       echo json_encode($respuesta);
     }
   
-    if($_POST['operacion'] == 'registrarLibroentregado'){
+    if($_POST['operacion'] == 'RegistrarPrestamoReservar'){
       $datosGuardar = [
-        "idprestamo"     => $_POST['idprestamo'],
-        "idlibro"       => $_POST['idlibro'],
-        "cantidad"      => $_POST['cantidad'],
-        "condicionentrega" => $_POST['condicionentrega'],
-        "fechadevolucion" => $_POST['fechadevolucion']
+        "idbeneficiario"     => $_POST['idbeneficiario'],
+        "idbibliotecario"    => $_POST['idbibliotecario'],
+        "fechaprestamo"      => $_POST['fechaprestamo'],
+        "descripcion"       => $_POST['descripcion'],
+        "enbiblioteca"       => $_POST['enbiblioteca'],
+        "lugardestino"       => $_POST['lugardestino'],
+        "idlibro"            => $_POST['idlibro'],
+        "cantidad"          => $_POST['cantidad'],
+        "condicionentrega"   => $_POST['condicionentrega'],
+        "fechadevolucion"    => $_POST['fechadevolucion']
       ];
 
-      $respuesta = $prestamo->registrarlibroentregado($datosGuardar);
-      echo json_encode($respuesta);
-    }
-
-    if($_POST['operacion'] == 'registrarlibroentregadoReserva'){
-      $datosGuardar = [
-        "idprestamo"     => $_POST['idprestamo'],
-        "idlibro"       => $_POST['idlibro'],
-        "cantidad"      => $_POST['cantidad'],
-        "condicionentrega" => $_POST['condicionentrega'],
-        "fechadevolucion" => $_POST['fechadevolucion']
-      ];
-
-      $respuesta = $prestamo->registrarlibroentregadoReserva($datosGuardar);
-      echo json_encode($respuesta);
-    }
-
-    if($_POST['operacion'] == 'updatedevoluciones'){
-      $datosActulizar = [
-        "idlibroentregado"    => $_POST['idlibroentregado'],
-        "idprestamo"          => $_POST['idprestamo'],
-        "condiciondevolucion" => $_POST['condiciondevolucion'],
-        "observaciones"       => $_POST['observaciones']
-        
-      ];
-  
-      $respuesta = $prestamo->updatedevoluciones($datosActulizar);
+      $respuesta = $prestamo->RegistrarPrestamoReservar($datosGuardar);
       echo json_encode($respuesta);
     }
 
@@ -127,13 +106,6 @@
       }
     }
 
-    if($_POST['operacion'] == 'mostrarlibro'){
-      $datos = $prestamo->mostrarlibro($_POST['idsubcat']);
-      if($datos){
-        echo json_encode($datos);
-      }
-    }
-    
     if($_POST['operacion'] == 'fichaprestamo'){
       $datos = $prestamo->fichaprestamo($_POST['idlibroentregado']);
       if($datos){
@@ -154,10 +126,4 @@
         echo json_encode($datos);
       }
     }
-    // if($_POST['operacion'] == 'guardarLibro'){
-    //   $datos = $prestamo->guardarLibro($_POST['idprestamo']);
-    //   if($datos){
-    //     echo json_encode($datos);
-    //   }
-    // }
   }

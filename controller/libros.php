@@ -6,14 +6,6 @@ if (isset($_POST['operacion'])){
   
   $libro = new Libro();
 
-  if($_POST['operacion'] == 'listarlibro'){
-
-    $datos = $libro->listarlibro();
-    if($datos){
-      echo json_encode($datos);
-    }
-  }
-
   if($_POST['operacion'] == 'selectcategoria'){
 
     $datos = $libro->selectcategoria();

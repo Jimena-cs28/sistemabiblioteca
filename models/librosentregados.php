@@ -22,6 +22,18 @@ class LibroEntregado extends conexion{
     }
   }
 
+  public function traerlibroentregado($idlibroentregado){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_datosD(?)");
+      $consulta->execute(array($idlibroentregado));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }  
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
   public function EditarEpendiente($datos = []){
     $respuesta = [
       "status" => false,
@@ -67,6 +79,7 @@ class LibroEntregado extends conexion{
       die($e->getMessage());
     }
   }
+
   public function aceptarSolicitud($idprestamo){
     try {
       $consulta = $this->acesso->prepare("CALL spu_aceptar_solicitud(?)");
@@ -79,5 +92,32 @@ class LibroEntregado extends conexion{
       die($e->getMessage());
     }
   }
+
+  public function updatedevoluciones($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" => ""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_update_devoluciones(?,?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibroentregado"],
+          $datos["idprestamo"],
+          $datos["condiciondevolucion"],
+          $datos["observaciones"],
+          $datos["idlibro"],
+          $datos["cantidad"]
+          
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
+    }
+
+    return $respuesta;
+  } 
+
 
 }

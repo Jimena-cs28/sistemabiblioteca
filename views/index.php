@@ -64,10 +64,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Profesores:</h6>
-                        <a class="collapse-item" href="index.php?view=profesores.php">Nuevo profesor</a>
+                        <a class="collapse-item" href="index.php?view=profesores.php">Nuevo Usuario</a>
                         <a class="collapse-item" href="index.php?view=listteacher.php">Todo los profesores</a>
-                        <h6 class="collapse-header">Estudiantes:</h6>
-                        <a class="collapse-item" href="index.php?view=estudiante.php">Nuevo estudiante</a>
                         <a class="collapse-item" href="index.php?view=liststudent.php">Todo los estudiantes</a>
                     </div>
                 </div>
@@ -217,18 +215,18 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="index.php?view=listprestamo.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
-                                </a>
+                                </a> 
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a>-->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../controller/usuario.controller.php?operacion=destroy">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
