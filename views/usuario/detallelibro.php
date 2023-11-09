@@ -11,12 +11,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle</title>
-    <link rel="stylesheet" href="">
     
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/detalle.libro.css">
+    <link rel="icon" href="../../img/logo2.png">
 </head>
 
 <body>
@@ -40,8 +39,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
+        <?php echo $_SESSION["login"]["nombres"]?>
         
-
     </nav>
 
     <section class="grid mt-4">
@@ -57,8 +56,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
       <label for="nombres" class="form-label bold">Nombres y Apellidos</label>
       <input type="text" readonly class="form-control" id="nombres" value="<?php echo $_SESSION["login"]["nombres"]?>">
     </div>
-  
-
+    
   <div class="form-group col-md-3 mt-2">
     <label for="fechaprestamo" >Fecha préstamo</label>
     <input type="date" class="form-control" id="fechaprestamo">
@@ -110,6 +108,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 </form>
   </div>
   </div>
+  </section>
+  
     <footer id="foot">
         <div class="contenedor-footer">
             <div class="content-footer">
@@ -130,6 +130,10 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -201,8 +205,10 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             }
           }
 
-          Solicitar.addEventListener("")
-      })
+          Solicitar.addEventListener("click", RegistrarPrestamo);
+
+          renderData();
+      });
     </script>
 </body>
 
