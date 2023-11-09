@@ -156,11 +156,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
           }).then(res=>res.json())
           .then(datos=>{
               stock.value = datos.cantidad
-              nombrelibro.value = datos.nombre
+              nombrelibro.value = datos.libro
               containerLibro.innerHTML = `
               <ul>
               <div class="titulo">Descripción:</div>
-              <li class="descripcion"">Nombre de libro: ${datos.nombre}</li>
+              <li class="descripcion"">Nombre de libro: ${datos.libro}</li>
               <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
               <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
               <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
