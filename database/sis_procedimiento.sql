@@ -1,4 +1,4 @@
-USE sisbiblioteca
+USE sistemabiblioteca
 
 DELIMITER$$
 CREATE PROCEDURE spu_login 

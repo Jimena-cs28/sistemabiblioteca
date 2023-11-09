@@ -1,7 +1,8 @@
 USE sistemabiblioteca 
 
 INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
-	(1, 1, '75123489', '1234567');-- administrador
+	(1, 1, '75123489', '1234567'),-- administrador
+	(2, 3, '78674219', '1234567'); -- usuario
 --	(2, 3, '75140236', '223344'),
 --	(3, 3, '73129045', 'sofi12'),
 --	(4, 3, '78674219', '121223'),
@@ -16,7 +17,7 @@ WHERE idusuario = 1;
 -- 1234
 -- 73129045
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
-WHERE idusuario = 6;
+WHERE idusuario = 2;
 
 SELECT * FROM usuarios
 SELECT * FROM roles
