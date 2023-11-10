@@ -242,7 +242,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     </ul>
                                     
                                 </div>
-                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}">Ver más</a>
+                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary">Ver más</a>
                             </div>
                         </div>
                         `;

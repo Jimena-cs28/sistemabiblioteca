@@ -116,9 +116,29 @@ class userlibro extends conexion{
       );
     }
     catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getCode();
+      $respuesta["message"] = "No se pudo completar". $e;
     }
     return $respuesta;
   }
+
+  public function validarprestado($idusuario){
+    $consulta = $this ->acesso->prepare("CALL spu_validar_libroprestado(?)");
+    $consulta->execute(array(
+      $idusuario 
+    ));
+    return $consulta->fetch(PDO::FETCH_ASSOC);
+  }
+
+  public function historialusuario($idusuario){
+    $consulta = $this ->acesso->prepare("CALL spu_historial(?)");
+    $consulta->execute(array(
+      $idusuario 
+    ));
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  
+
+  
 
 }

@@ -1,4 +1,6 @@
 <?php
+//Iniciamos/heredamos la sesión
+session_start();
 
 require_once '../models/userlibros.php';
 
@@ -13,10 +15,9 @@ if (isset($_POST['operacion'])){
       "nombres" => $_POST['nombres']
     ];
 
-    $datos = $userlibro->listarLibroUser($parametros);
-    if($datos){
+    $datos = $userlibro->listarLibroUser($parametros); 
       echo json_encode($datos);
-    }
+    
   }
 
   if($_POST['operacion'] == 'buscarlibro'){
@@ -59,19 +60,44 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'prestamousuario'){
-    $datos= [
-      "idlibro"   => $_POST['idlibro'],
-      "idbeneficiario" => $_POST['idbeneficiario'],
-      "cantidad"  =>  $_POST['cantidad'],
-      "descripcion" =>  $_POST['descripcion'],
-      "enbiblioteca"  => $_POST['enbiblioteca'],
-      "lugardestino"  =>  $_POST['lugardestino'],
-      "fechaprestamo" =>  $_POST['fechaprestamo'],
-      "fechadevolucion" =>  $_POST['fechadevolucion']
+    //Validar si tiene libro prestado
+    $cantidaddelibro = $userlibro->validarprestado($_SESSION['login']['idusuario']);
+    $rol = $_SESSION['login']['nombrerol'];
+    
+    $cantidadmax = $rol == 'Estudiante'?1:2;
+    
+    if($cantidaddelibro['cantidad']<$cantidadmax){
+      $datos= [
+        "idlibro"   => $_POST['idlibro'],
+        "idbeneficiario" => $_SESSION['login']['idusuario'],
+        "cantidad"  =>  $_POST['cantidad'],
+        "descripcion" =>  $_POST['descripcion'],
+        "enbiblioteca"  => $_POST['enbiblioteca'],
+        "lugardestino"  =>  $_POST['lugardestino'],
+        "fechaprestamo" =>  $_POST['fechaprestamo'],
+        "fechadevolucion" =>  $_POST['fechadevolucion']
+      ];
+      $datos = $userlibro->prestamousuario($datos);
+      echo json_encode($datos);
+
+    }else{
+      $respuesta = [
+      "status" => false,
+      "message" =>"No puede solicitar más libros"
     ];
-    $datos = $userlibro->prestamousuario($datos);
-    echo json_encode($datos);
+    echo json_encode($respuesta);
+  }
+    
 
   }
+
+  if($_POST['operacion'] == 'historialusuario'){
+
+    $datos = $userlibro->historialusuario($_SESSION['login']['idusuario']);
+      echo json_encode($datos);
+    
+  }
+
+
 
 }

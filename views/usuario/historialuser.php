@@ -43,6 +43,46 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
     </nav>
 
+    <div id="contenedor">
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const formData= new FormData()
+            const contenedor = document.querySelector("#contenedor")
+            const estados = {
+                S:"Solicitados",
+                R: "Reservado",
+                D:"Devuelto"
+            }
+            formData.append("operacion", "historialusuario")
+            fetch("../../controller/userlibros.php", {
+                method:"POST",
+                body: formData
+            }).then(res=>res.json())
+            .then(data=>{
+                data.forEach(el=>{
+                    contenedor.innerHTML += `<div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">${el.libro}</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
+                                <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
+                                <li class="list-group-item">Fecha devolución: ${el.fechadevolucion}</li>
+                                <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                            </ul>
+                            
+                        </div>
+                        </div>`
+
+                })
+            })
+        })
+    </script>
+
+
     
 
 
