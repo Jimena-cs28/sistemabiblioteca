@@ -51,11 +51,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <form>
         <div class="form-row mt-4">
           <h4>Solicitud de préstamo</h4>
-   
-    <div class="form-group col-md-6 mt-2">
-      <label for="nombres" class="form-label bold">Nombres y Apellidos</label>
-      <input type="text" readonly class="form-control" id="nombres" value="<?php echo $_SESSION["login"]["nombres"]?>">
-    </div>
     
   <div class="form-group col-md-3 mt-2">
     <label for="fechaprestamo" >Fecha préstamo</label>
@@ -85,16 +80,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
       <label for="descripcion" class="form-label bold">Descripción</label>
       <input type="text" class="form-control" id="descripcion">
   </div>
-
-  <div class="form-group col-md-6 mt-2">
-      <label for="nombrelibro" class="form-label bold">Nombre de libro</label>
-      <input type="text" class="form-control" id="nombrelibro" disabled>
-    </div>
-
-    <div class="form-group col-md-3 mt-2">
-      <label for="">Stock</label>
-      <input type="number" class="form-control form-control-sm" id="stock" disabled>
-    </div>
 
     <div class="form-group col-md-3 mt-2">
     <label for="fechadevolucion" >Fecha devolución</label>
@@ -143,8 +128,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
           const idlibro = urlParams.get("idlibro");
           const fordata = new FormData()
           const containerLibro = document.querySelector("#infoLibro")
-          const stock = document.querySelector("#stock")
-          const nombrelibro = document.querySelector("#nombrelibro")
           const enbiblioteca = document.querySelector("#enbiblioteca")
           const contenedorlugar = document.querySelector("#contenedor-lugar")
           
@@ -154,9 +137,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
               method: "POST",
               body: fordata
           }).then(res=>res.json())
-          .then(datos=>{
-              stock.value = datos.cantidad
-              nombrelibro.value = datos.libro
+          .then(datos=>{         
+              
               containerLibro.innerHTML = `
               <ul>
               <div class="titulo">Descripción:</div>
@@ -181,14 +163,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
           })
 
           function RegistrarPrestamo(){
-            if(confirm("esta seguro de guardar")){
+            if(confirm("¿Está seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion", "prestamousuario");
-            parametros.append("idlibro", idlibro.value);
-            parametros.append("idbeneficiario",documento.querySelector("#nombres").value);
-            parametros.append("cantidad", document.querySelector("#dni").value);
+            parametros.append("idlibro", idlibro);           
+            parametros.append("cantidad", document.querySelector("#cantidad").value);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
-            parametros.append("enbiblioteca", enbiblioteca);
+            parametros.append("enbiblioteca", enbiblioteca.value);
             parametros.append("lugardestino", document.querySelector("#lugar").value);
             parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value);
             parametros.append("fechadevolucion", document.querySelector("#fechadevolucion").value)
@@ -199,7 +180,14 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    document.querySelector("#form-docente").reset();
+                    document.querySelector("#fechaprestamo").value = ''
+                    document.querySelector("#cantidad").value = ''
+                    document.querySelector("#descripcion").value = ''
+                    document.querySelector("#lugar").value = ''
+                    document.querySelector("#fechadevolucion").value = ''
+                    enbiblioteca.value =''
+                }else{
+                  alert('No se puede registrar')
                 }
             })
             }
