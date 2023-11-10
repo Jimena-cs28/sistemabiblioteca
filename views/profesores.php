@@ -29,7 +29,7 @@
                             <input class="form-control" maxlength="70"  required id="apellidos">
                         </div>
                         <div class="col-md-4">
-                            <label for="">Elegir</label>
+                            <label for="" style="color:#574E4E;">Elegir</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="c-profesor" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">Profesor</label>

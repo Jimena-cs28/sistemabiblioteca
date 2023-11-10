@@ -18,7 +18,6 @@ CALL spu_login ('75123489');
 
 SELECT * FROM usuarios
 
-
 -- SECCION LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro
@@ -52,7 +51,7 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3;
+	WHERE usuarios.idrol = 3 AND estado = 1;
 END$$
 
 SELECT * FROM usuarios
@@ -66,34 +65,35 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 2;
+	WHERE usuarios.idrol = 2 AND estado = 1;
 END$$
 
-CALL spu_listar_profesor();
+CALL spu_listar_estudiantes();
 SELECT * FROM libros
 
-SELECT * FROM roles WHERE idrol = 3
+UPDATE libros SET estado = 1 WHERE idlibro = 2
 
 -- ---------------------------------------------------------------------------------------------------------------------------
 
 DELIMITER $$
 CREATE PROCEDURE spu_filtro_student()
 BEGIN
-	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos) AS 'nombres'
+	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos) AS 'nombres', usuarios.estado
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = 3 AND 2;
+	WHERE usuarios.idrol = 3 AND 2 AND estado = 1;
 END $$
 
 CALL spu_filtro_student();
 
 SELECT * FROM roles;
-SELECT * FROM personas;
-SELECT * FROM librosentregados;
+SELECT * FROM prestamos;
+UPDATE prestamos SET estado = 'D' WHERE
+UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = 1;
 
-SELECT * FROM libros
-SELECT * FROM subcategorias
+SELECT * FROM usuarios
+SELECT * FROM librosentregados
 
 -- LISTAR TODO
 DELIMITER $$
@@ -102,8 +102,10 @@ CREATE PROCEDURE spu_listar_fichaprestamo
 	IN _idlibrosentregados INT
 )
 BEGIN
-	SELECT librosentregados.idlibroentregado, roles.nombrerol, personas.nombres, personas.apellidos, prestamos.descripcion,
-	categorias.categoria, subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, fechadevolucion
+	SELECT librosentregados.idlibroentregado, libros.imagenportada, roles.nombrerol, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres', 
+	prestamos.descripcion,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, categorias.categoria, 
+	subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, fechadevolucion,
+	prestamos.fecharespuesta
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
@@ -115,9 +117,8 @@ BEGIN
 	WHERE idlibroentregado = _idlibrosentregados;
 END $$
 
-CALL spu_listar_fichaprestamo(2);
-SELECT * FROM prestamos
-
+CALL spu_listar_fichaprestamo(1);
+UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
 
 -- REGISTRO ESTUDIANTE Y PROFESOR
 DELIMITER $$
@@ -152,7 +153,7 @@ CALL spu_registrar_estudiante('Lopez García', 'Elizabeth', '78290181','DNI','',
 
 CALL spu_listar_estudiantes();
 
-SELECT * FROM prestamos;
+SELECT * FROM librosentregados;
 
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_profesor
@@ -229,20 +230,6 @@ END $$
 CALL spu_traer_datosD(2)
 
 SELECT * FROM prestamos
-
-DELIMITER $$
-CREATE PROCEDURE spu_listado_libros()
-BEGIN
-	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
-	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor'
-	FROM detalleautores
-	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
-	INNER JOIN autores ON autores.idautor = detalleautores.idautor
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE estado = 1
-	ORDER BY iddetalleautor DESC;
-END $$
 
 SELECT * FROM libros
  -- para subcategoria

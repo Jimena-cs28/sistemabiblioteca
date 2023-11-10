@@ -35,9 +35,7 @@ END$$
 CALL spu_listar_libro_user(NULL, 6, 'funciona');
 SELECT * FROM categorias
 
-
 SELECT * FROM libros
-
 
 -- LISTAR LIBRO
 DELIMITER $$

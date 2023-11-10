@@ -114,14 +114,14 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=devolucionesp.php">
-                    <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-fw fa-table"></i>
                     <span>Devolucion</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=prestamos.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-fw fa-chart-area"></i>
                     <span>Todo</span></a>
             </li>
 
@@ -299,6 +299,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <script src="./libs/datatables/jquery.dataTables.min.js"></script> -->
     <!-- <script src="../js/prestamos.js"></script> -->
     <!-- choices -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
         

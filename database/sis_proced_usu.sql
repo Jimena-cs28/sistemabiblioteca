@@ -53,23 +53,36 @@ CALL spu_obtener_libroentregado(1);
 
 CALL spu_update_devoluciones()
 SELECT * FROM libros -- 9 for default
--- FALTA EJECUTAR
+-- FALTA EJECUTAR-se ejecuto
 DELIMITER $$
 CREATE PROCEDURE spu_inabilitar_libro
 (
-	IN _idlibro	INT,
+	IN _idlibro	INT
 )
 BEGIN
 	UPDATE libros SET
 	estado = '0',
 	inactive_at = NOW()
-	WHERE idlibro = _idlibro
+	WHERE idlibro = _idlibro;
 END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_abilitar_libro
+(
+	IN _idlibro	INT
+)
+BEGIN
+	UPDATE libros SET
+	estado = '1'
+	WHERE idlibro = _idlibro;
+END $$
+
+UPDATE libros SET estado = 1 WHERE idlibro = 3
 
 DELIMITER $$
 CREATE PROCEDURE spu_inabilitar_usuario
 (
-	IN _idusuario	INT,
+	IN _idusuario	INT
 )
 BEGIN
 	UPDATE usuarios SET
@@ -77,6 +90,22 @@ BEGIN
 	inactive_at = NOW()
 	WHERE idusuario = _idusuario;
 END $$
+
+CALL spu_inabilitar_usuario(6);
+
+DELIMITER $$
+CREATE PROCEDURE spu_abilitar_usuario
+(
+	IN _idusuario	INT
+)
+BEGIN
+	UPDATE usuarios SET
+	estado = '1'
+	WHERE idusuario = _idusuario;
+END $$
+
+CALL spu_abilitar_usuario(2);
+
 -- FIN
 SELECT * FROM usuarios
 
@@ -103,4 +132,178 @@ END $$
 
 CALL spu_registrar_subcategory(10,'Historia de America del Sur', 980);
 SELECT * FROM subcategorias
+
+-- LISTAR LIBROS Y ESTUDIANTES INACTIVOS
+DELIMITER $$
+CREATE PROCEDURE spu_inactivo_estudiantes()
+BEGIN
+	SELECT idusuario, roles.nombrerol, CONCAT(personas.nombres, ' ', personas.apellidos) AS 'Nombres', personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario,usuarios.inactive_at
+	FROM usuarios
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE usuarios.idrol = 3 AND estado = 0;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_inactivo_profesores()
+BEGIN
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	FROM usuarios
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE usuarios.idrol = 2 AND estado = 0;
+END $$
+
+CALL spu_inactivo_estudiantes();
+CALL spu_listar_estudiantes();
+
+SELECT * FROM usuarios
+
+DELIMITER $$
+CREATE PROCEDURE spu_listado_libros()
+BEGIN
+	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
+	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor'
+	FROM detalleautores
+	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	INNER JOIN autores ON autores.idautor = detalleautores.idautor
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE estado = 1
+	ORDER BY iddetalleautor DESC;
+END $$
+CALL spu_inactivo_libros();
+
+DELIMITER $$
+CREATE PROCEDURE spu_inactivo_libros()
+BEGIN
+	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
+	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor', libros.inactive_at
+	FROM detalleautores
+	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	INNER JOIN autores ON autores.idautor = detalleautores.idautor
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE estado = 0
+	ORDER BY iddetalleautor DESC;
+END $$
+
+
+DELIMITER $$ 
+CREATE  PROCEDURE GRAFICO_INDEX()
+BEGIN
+	SELECT  COUNT(librosentregados.idlibro) AS 'totales', libros.libro
+	FROM librosentregados
+	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	WHERE prestamos.estado = 'T'
+	GROUP BY librosentregados.idlibro DESC;
+END $$
+
+SELECT * FROM prestamos
+
+
+SELECT  COUNT(librosentregados.idlibroentregado)AS 'todo', libros.libro, prestamos.descripcion
+FROM librosentregados
+INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+WHERE prestamos.descripcion = '1L' AND prestamos.estado = 'T'
+GROUP BY librosentregados.idlibro DESC;
+
+SELECT * FROM libros
+
+UPDATE prestamos SET descripcion = '1L' WHERE idprestamo = 11
+
+DELIMITER $$
+CREATE PROCEDURE spu_grafico_rol ( IN _idrol INT)
+BEGIN
+	SELECT  COUNT(librosentregados.idlibro) AS 'totales', libros.libro
+	FROM librosentregados
+	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idrol = _idrol AND prestamos.estado = 'T'
+	GROUP BY librosentregados.idlibro DESC;
+END $$
+
+CALL spu_grafico_rol(3);
+
+SELECT * FROM prestamos
+	
+SELECT idrol, nombrerol 
+FROM roles 
+WHERE nombrerol = 'estudiante' AND nombrerol = 'profesores'
+
+-- REPORTES 1
+
+DELIMITER $$
+SELECT idlibroentregado, libros.libro, librosentregados.cantidad, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'Nombres', prestamos.descripcion
+FROM librosentregados
+INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+WHERE prestamos.descripcion = '1l'
+
+-- LISTAR SELECT REPORTE
+SELECT * FROM libros -- 10
+
+DELIMITER $$
+CREATE PROCEDURE spu_select_descripcion()
+BEGIN
+	SELECT prestamos.descripcion
+	FROM librosentregados 
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	WHERE prestamos.estado = 'T'
+	GROUP BY prestamos.descripcion
+	ORDER BY prestamos.descripcion;
+END $$
+CALL spu_select_descripcion();
+
+DELIMITER $$
+CREATE PROCEDURE spu_reporte_descripcion
+(
+	IN _descripcion VARCHAR(10)
+)
+BEGIN
+	SELECT idlibroentregado, categorias.categoria, subcategorias.subcategoria, libros.libro, librosentregados.cantidad, 
+	CONCAT(personas.nombres, ' ' ,personas.apellidos) AS 'nombres',	prestamos.descripcion
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'T' AND prestamos.descripcion = _descripcion
+	GROUP BY personas.nombres;
+END $$
+
+CALL spu_reporte_descripcion('1l');
+
+
+
+-- REPORTE 2 
+-- ejemplo
+SELECT idlibro, COUNT(idlibro) AS totalPedidos
+FROM librosentregados
+GROUP BY idlibro
+ORDER BY totalPedidos DESC
+LIMIT 10;
+	
+	
+	
+DELIMITER $$
+CREATE PROCEDURE spu_solicitud_listar()
+BEGIN
+	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
+	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'S';
+END $$
 

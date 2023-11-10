@@ -35,7 +35,7 @@ INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac,
 -- UPDATE personas SET direccion = 'Calle Grau #3'
 -- WHERE idpersona = 2;
 
-SELECT * FROM categorias
+SELECT * FROM roles
 
 INSERT INTO roles (nombrerol, cantidadmax) VALUES
 ('Administrador',5),
