@@ -3,7 +3,7 @@
 require_once '../models/estudiantes.php';
 
 if (isset($_POST['operacion'])){
-   
+
   $estudiantes = new Estudiantes();
 
   if($_POST['operacion'] == 'listarestudiantes'){
@@ -59,5 +59,32 @@ if (isset($_POST['operacion'])){
 
     $respuesta = $estudiantes->registrarDocente($datosGuardar);
     echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'EstudianteInactivo'){
+    $datos = $estudiantes->EstudianteInactivo();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'ProfesorInactivo'){
+    $datos = $estudiantes->ProfesorInactivo();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+  if($_POST['operacion'] == 'SentenciarUser'){
+    $datos = $estudiantes->SentenciarUser($_POST['idusuario']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'HabilitarUser'){
+    $datos = $estudiantes->HabilitarUser($_POST['idusuario']);
+    if($datos){
+      echo json_encode($datos);
+    }
   }
 }

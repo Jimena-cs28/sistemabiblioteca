@@ -41,7 +41,7 @@
 
 <!-- modal -->
 <div class="modal fade" id="modal-id">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Todos los Datos</h5>
@@ -55,53 +55,76 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label>Rol</label>                                
-                            <input type="text" class="form-control form-control-sm" id="rol" disabled>
+                            <input type="text" class="form-control" id="rol" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>Nombres</label>
-                            <input type="text" class="form-control form-control-sm" id="nombres" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label>Apellidos</label>
-                            <input type="text" class="form-control form-control-sm" id="apellidos" disabled>
+                            <input type="text" class="form-control" id="nombres" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>Descripcion</label>
-                            <input type="text" class="form-control form-control-sm" id="descripcion" disabled>
+                            <input type="text" class="form-control" id="descripcion" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Condicion de entrega</label>
+                            <input type="text" class="form-control" id="entrega" disabled>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label>Categoria</label>
-                            <input type="text" class="form-control form-control-sm" id="categoria" disabled>
+                            <input type="text" class="form-control" id="categoria" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>Sub Categoria</label>
-                            <input type="text" class="form-control form-control-sm" id="subcategoria" disabled>
+                            <input type="text" class="form-control" id="subcategoria" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>Libro</label>
-                            <input type="text" class="form-control form-control-sm" id="libro" disabled>
+                            <input type="text" class="form-control" id="libro" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>F.Solicitud</label>
-                            <input type="text" class="form-control form-control-sm" id="Fsolicitud" disabled>
+                            <input type="text" class="form-control" id="Fsolicitud" disabled>
                         </div>   
                     </div>
                     
                     <div class="row mt-3">
                         <div class="col-md-3">
                             <label>F.Prestamo</label>
-                            <input type="text" class="form-control form-control-sm" id="Fprestamo" disabled>
+                            <input type="text" class="form-control" id="Fprestamo" disabled>
                             
                         </div>
                         <div class="col-md-3">
                             <label>F.Entrega</label>
-                            <input type="text" class="form-control form-control-sm" id="Fentrega" disabled>
+                            <input type="text" class="form-control" id="Fentrega" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>F.Devolucion</label>
-                            <input type="text" class="form-control form-control-sm" id="Fdevolucion" disabled>
+                            <input type="text" class="form-control" id="Fdevolucion" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label>F.Aceptacion</label>
+                            <input type="text" class="form-control" id="Frespuesta" disabled>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label>Condicion de devolucion</label>
+                            <input type="text" class="form-control" id="cdevolucion" disabled>
+                            
+                        </div>
+                        <div class="col-md-3">
+                            <label>Observacion</label>
+                            <input type="text" class="form-control" id="observacion" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <label for="">Imagen</label>                                
+                            </div>
+                            <div class="row">
+                                <img class="visor" alt="" id="img" width="200px">
+                            </div>
                         </div>
                     </div>
                     
@@ -128,7 +151,7 @@
     const fprestamo = document.querySelector("#Fprestamo");
     const fentrega = document.querySelector("#Fentrega");
     const fdevolucion = document.querySelector("#Fdevolucion");
-    
+
     function listarprestamo(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarcasiprestamo")
@@ -177,15 +200,20 @@
                 datos.forEach(element => {
                     rol.value = element.nombrerol;
                     nombres.value = element.nombres;
-                    apellidos.value = element.apellidos;
                     descripcion.value = element.descripcion;
                     categoria.value = element.categoria;
+                    document.querySelector("#entrega").value = element.condicionentrega;
                     subcategoria.value = element.subcategoria;
                     libro.value = element.libro;
                     fsolicitud.value = element.fechasolicitud;
                     fprestamo.value = element.fechaprestamo;
                     fentrega.value = element.fechaentrega;
                     fdevolucion.value = element.fechadevolucion;
+                    document.querySelector("#Frespuesta").value = element.fecharespuesta;
+                    document.querySelector("#img").src = `./img/${element.imagenportada}`;
+                    document.querySelector("#cdevolucion").value = element.condiciondevolucion;
+                    document.querySelector("#observacion").value = element.observaciones;
+
                 });
             });
         }

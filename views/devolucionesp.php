@@ -69,13 +69,13 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="libro" value="option1">
+                                    <input class="form-check-input" type="checkbox" id="checklibro" value="option1">
                                     <label class="form-check-label" for="inlineCheckbox1">Retirar Libro</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class=" form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="user" value="option2">
+                                    <input class="form-check-input" type="checkbox" id="checkuser" value="option2">
                                     <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
                 </div>
             </div>
@@ -93,6 +93,7 @@
 
 <script>
     let idlibro = '';
+    let idusuario = '';
     const cuerpo = document.querySelector("tbody");
     //const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
@@ -103,16 +104,6 @@
     let idprestamos = ''; //variable que almacena el id del prestamo
     let idlibroentregado = '';
     // const bt = document.querySelector("#cerrar");
-    const CheckLibro = document.querySelector("#libro");
-
-    function ValidarRegistrar(){
-        if(CheckLibro.checked){
-            // alert("jijiji")
-        }else{
-            // alert("noooo")
-        }
-    }
-    // bt.addEventListener("click", ValidarRegistrar);
     function validardevolucion(){
         var Hoy =  new Date();
         const fila = cuerpo.rows
@@ -136,7 +127,7 @@
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
                 idprestamos = element.idprestamo; 
-                idlibro = element.idlibro;
+                //idlibro = element.idlibro;
                 const recibir = `
                 <tr>
                     <td>${element.idlibroentregado}</td>
@@ -147,7 +138,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibro='${element.idlibro}' data-idusuario='${element.idusuario}'  data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
                     </td>
                     <td>
                         <button class='btn btn-danger'><i class='zmdi zmdi-delete'></i></button>
@@ -157,6 +148,36 @@
                 cuerpo.innerHTML += recibir;
             });
         })
+    }
+
+    function Inavilitarlibro(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","SentenciaLibro");
+        parametros.append("idlibro", idlibro);
+        fetch("../controller/librosentregados.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            // btGuadar.addEventListener("click", updatedevoluciones);
+            listarDevoluciones();
+        });
+    }
+
+    function InavilitarUser(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","SentenciarUser");
+        parametros.append("idusuario", idusuario);
+        fetch("../controller/estudiantes.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            // btGuadar.addEventListener("click", updatedevoluciones);
+            listarDevoluciones();
+        });
     }
 
     function updatedevoluciones(){
@@ -178,7 +199,6 @@
                 })
                 .then(respuesta => respuesta.json())
                 .then(datos => {
-                    // console.log(datos);
                     if(datos.status){
                         document.querySelector("#form-devolucion").reset();
                     }
@@ -188,6 +208,9 @@
     };
 
     cuerpo.addEventListener("click", (event) => {
+        idlibro = parseInt(event.target.dataset.idlibro);
+        idusuario = parseInt(event.target.dataset.idusuario);
+        console.log(idlibro);
         if(event.target.classList[0] === 'recibir'){
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             const parametros = new URLSearchParams();
@@ -199,17 +222,32 @@
             }) // console.log(idlibroentregado)
             .then(response => response.json())
             .then(datos => {
-                // datos.forEach(element => {
-                //     condicion.value = element.cantidad;
-                // });
-                // console.log(idlibroentregado);
-                btGuadar.addEventListener("click", updatedevoluciones);
                 listarDevoluciones();
             });
         }
     });
 
+    function validarRecibirlibro(){
+        const CheckLibro = document.querySelector("#checklibro");
+        const CheckEstu = document.querySelector("#checkuser");
+        if(CheckEstu.checked && CheckLibro.checked){
+            InavilitarUser();
+            Inavilitarlibro();
+        }else{
+            if(CheckLibro.checked){
+                Inavilitarlibro();
+            }else if (CheckEstu.checked){
+                InavilitarUser();
+            }
+        }
+    }
+
+    btGuadar.addEventListener("click", () => {
+        updatedevoluciones();
+        validarRecibirlibro();
+    });
+
     validardevolucion();
     listarDevoluciones();
-
+    // bt.addEventListener("click", ValidarRegistrar);
 </script>
