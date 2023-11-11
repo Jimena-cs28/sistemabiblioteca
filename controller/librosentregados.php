@@ -54,7 +54,6 @@ if (isset($_POST['operacion'])){
       echo json_encode($datos);
     }
   }
-  
 
   if($_POST['operacion'] == 'updatedevoluciones'){
     $datosActulizar = [
@@ -69,5 +68,42 @@ if (isset($_POST['operacion'])){
 
     $respuesta = $libroentregado->updatedevoluciones($datosActulizar);
     echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'SentenciaLibro'){
+
+    $datos = $libroentregado->SentenciaLibro($_POST['idlibro']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+  if($_POST['operacion'] == 'GraficoIndex1'){
+
+    $datos = $libroentregado->GraficoIndex1();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'Grafico2'){
+    $datos = $libroentregado->Grafico2($_POST['idrol']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'selectGrado'){
+
+    $datos = $libroentregado->selectGrado();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'tablareporte'){
+    $datos = $libroentregado->tablareporte($_POST['descripcion']);
+    if($datos){
+      echo json_encode($datos);
+    }
   }
 }

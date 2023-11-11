@@ -83,4 +83,21 @@ if (isset($_POST['operacion'])){
       echo json_encode($datos);
     }
   }
+
+  if($_POST['operacion'] == 'librosInactivo'){
+
+    $datos = $libro->librosInactivo();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'ActivarLibro'){
+
+    $datos = $libro->ActivarLibro($_POST['idlibro']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
 }

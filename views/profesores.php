@@ -29,7 +29,7 @@
                             <input class="form-control" maxlength="70"  required id="apellidos">
                         </div>
                         <div class="col-md-4">
-                            <label for="">Elegir</label>
+                            <label for="" style="color:#574E4E;">Elegir</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="c-profesor" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">Profesor</label>
@@ -79,9 +79,10 @@
                         </div>
                     </div>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
+                        <button type="reset" class="btn btn-secondary" style="margin-right: 20px;">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                         <a href="index.php?view=listteacher.php" class="btn btn-success ml-2">Ver Profesores</a>
+                        <a href="index.php?view=liststudent.php" class="btn btn-info ml-2">Ver Estudiantes</a>
                     </p>  
                 </form>
             </div>

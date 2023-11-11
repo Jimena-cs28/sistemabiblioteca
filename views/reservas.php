@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin: 50px 0;">
+<div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
             <img src="../img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
@@ -7,17 +7,23 @@
             Bienvenido a esta sección, aquí se muestran los libros registrados por el estudiante, se podra editar y eliminar los libros que usted desee
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header ">
+                    <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE ENTREGAS PENDIENTES</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="cardreserva">
+            
+                    </div>
+    
+                </div>
+            </div>
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE ENTREGAS PENDIENTES</h6>
+        </div>
     </div>
 </div>
-<div class="row p-5" id="cardreserva">
-    
-</div>
-
 <!-- tablas -->
 <!--<div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -46,6 +52,7 @@
             </div>
         </div>
     </div> -->
+
 
 <div class="modal fade" id="Meditar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -124,21 +131,19 @@
                 //idprestamo = element.idprestamo; 
                 const reserva = `
                 <div class="col-md-4 card-deck">
-                    <div class="card  mb-3" style="max-width: 540px;">
+                    <div class="card  mb-3" style="max-width: 500px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img class="card-img-top" src="./img/${element.imagenportada}" alt="imagenLibro">
+                                <img class="img-fluid rounded-start" src="./img/${element.imagenportada}" alt="imagenLibro" width="600px">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title text-center">${element.libro}</h5>
-                                    <p class="card-text" style="color:#635555;">Nombres: ${element.nombres} - ${element.descripcion}</p>
-                                    <p class="card-text" style="color:#635555;">Cantidad: ${element.cantidad}</p>
+                                    <h5 class="card-title text-center">${element.libro} + ${element.cantidad}</h5>
+                                    <p class="card-text" style="color:#635555;">Usuario: ${element.nombres} -  ${element.descripcion}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
                                     <li class="list-group-item" style="color:#635555;">F.Prestamo: ${element.fechaprestamo}</li>
-                                    <li class="list-group-item" style="color:#635555;">F.Devolucion: ${element.fechadevolucion}</li>
                                     <div class="row">
                                         <div class="col-md-6"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
                                         <div class="col-md-6"><a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>

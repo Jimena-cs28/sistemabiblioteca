@@ -119,5 +119,63 @@ class LibroEntregado extends conexion{
     return $respuesta;
   } 
 
+  public function SentenciaLibro($idlibro){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_inabilitar_libro(?)");
+      $consulta->execute(array($idlibro));
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 
+  public function GraficoIndex1(){
+    try {
+      $consulta = $this->acesso->prepare("CALL GRAFICO_INDEX()");
+      $consulta->execute();
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function Grafico2($idrol){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_grafico_rol(?)");
+      $consulta->execute(array($idrol));
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function selectGrado(){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_select_descripcion()");
+      $consulta->execute();
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function tablareporte($descripcion){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_reporte_descripcion(?)");
+      $consulta->execute(array($descripcion));
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 }

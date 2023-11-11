@@ -56,17 +56,16 @@
             </div>
             <div class="modal-body">
                 <form action="">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="tablaInactivo" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Nombres</th>
-                                <th>Apellidos</th>
                                 <th>DNI</th>
                                 <th>Telefono</th>
-                                <th>Email</th>
                                 <th>Direccion</th>
                                 <th>nombreusuario</th>
+                                <th>Inactivo</th>
                                 <th>operacion</th>
                             </tr>
                         </thead>
@@ -84,9 +83,12 @@
 </div>  
 
 <script> 
+        let idusuario = '';
         const cuerpo = document.querySelector("tbody");
+        const Tabla = document.querySelector("#tablaInactivo");
+        const cuerpo2 = Tabla.querySelector("tbody");
         
-        function listarEsetudiante(){
+        function listarEstudiante(){
             const parametros = new URLSearchParams();
             parametros.append("operacion","listarestudiantes")
 
@@ -98,6 +100,7 @@
             .then(datos => {
                 cuerpo.innerHTML = ``;
                 datos.forEach(element => {
+                    // idusuario = element.idusuario;
                     const estu = `
                     <tr>
                         <td>${element.idusuario}</td>
@@ -108,12 +111,83 @@
                         <td>${element.email}</td>
                         <td>${element.direccion}</td>
                         <td>${element.nombreusuario}</td>
-                        <td>Actualizar</td>
+                        <td>
+                            <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        </td>
                     </tr>
                     `;
                     cuerpo.innerHTML += estu;
                 });
             })
         }
-        listarEsetudiante();
+
+        function EstudianteInactivo(){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","EstudianteInactivo");
+
+            fetch("../controller/estudiantes.php", {
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                cuerpo2.innerHTML = ``;
+                datos.forEach(element => {
+                    const estudiante = `
+                    <tr>
+                        <td>${element.idusuario}</td>
+                        <td>${element.Nombres}</td>
+                        <td>${element.nrodocumento}</td>
+                        <td>${element.telefono}</td>
+                        <td>${element.direccion}</td>
+                        <td>${element.nombreusuario}</td>
+                        <td>${element.inactive_at}</td>
+                        <td>
+                            <a href='#' type='button' class='inabilitar' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        </td>
+                    </tr>
+                    `;
+                    cuerpo2.innerHTML += estudiante;
+                });
+            })
+        }
+
+        cuerpo.addEventListener("click", (event) => {
+            if(event.target.classList[0] === 'inactivo'){
+                idusuarios = parseInt(event.target.dataset.idusuario);
+                console.log(idusuarios);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","SentenciarUser");
+                parametros.append("idusuario", idusuarios);
+                fetch("../controller/estudiantes.php",{
+                    method: 'POST',
+                    body: parametros
+                }) 
+                .then(response => response.json())
+                .then(datos => {
+                    listarEstudiante();
+                });
+            }
+        });
+
+        cuerpo2.addEventListener("click", (event) => {
+            if(event.target.classList[0] === 'inabilitar'){
+                idusuarios = parseInt(event.target.dataset.idusuario);
+                // console.log(idusuarios);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","HabilitarUser");
+                parametros.append("idusuario", idusuarios);
+                fetch("../controller/estudiantes.php",{
+                    method: 'POST',
+                    body: parametros
+                }) 
+                .then(response => response.json())
+                .then(datos => {
+                    listarEstudiante();
+                });
+            }
+        });
+
+        listarEstudiante();
+        EstudianteInactivo();
 </script>
