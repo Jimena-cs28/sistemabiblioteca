@@ -179,7 +179,3 @@ CREATE TABLE librosentregados
 	CONSTRAINT fk_libro_prestamo FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
 	CONSTRAINT fk_prestamo_libentre FOREIGN KEY (idprestamo) REFERENCES prestamos (idprestamo)
 )ENGINE=INNODB;
-
-
-
-

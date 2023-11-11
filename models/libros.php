@@ -125,4 +125,30 @@ class Libro extends conexion{
     }
   
   }
+
+  public function librosInactivo(){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_inactivo_libros()");
+      $consulta->execute();
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function ActivarLibro($idcat){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_abilitar_libro(?)");
+      $consulta->execute(array($idcat));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
 }

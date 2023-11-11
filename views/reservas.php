@@ -145,8 +145,9 @@
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
                                     <li class="list-group-item" style="color:#635555;">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
-                                        <div class="col-md-6"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-6"><a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
+                                        <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
+                                        <div class="col-md-4"><a href='#' class='borrar' data-idprestamo='${element.idprestamo}' data-idlibro='${element.idlibro}'>Borrar</a></div>
+                                        <div class="col-md-4"><a href='#Meditar' class='editar' data-toggle='modal' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
                                     </div>
                                 </ul>
                             </div>
@@ -156,26 +157,6 @@
                 `
                 ;
                 card.innerHTML +=reserva;
-
-                // const pres = `
-                // <tr>
-                //     <td>${element.idlibroentregado}</td>
-                //     <td>${element.nombre}</td>
-                //     <td>${element.cantidad}</td>
-                //     <td>${element.nombres}</td>
-                //     <td>${element.descripcion}</td>
-                //     <td>${element.fechasolicitud}</td>
-                //     <td>${element.fechaprestamo}</td>
-                //     <td>${element.fechadevolucion}</td>
-                //     <td>
-                //         <a href='#'  class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a>
-                //     </td>
-                //     <td>                            
-                //         <a href='#Meditar' class='editar' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}'>Editar</a>
-                //     </td>
-                // </tr>
-                // `;
-                // cuerpo.innerHTML += pres;
             });
         })
     }
@@ -201,6 +182,7 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'editar'){
+            idprestamo = parseInt(event.target.dataset.idprestamo)
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             // console.log(idlibroentregado);
             const parametros = new URLSearchParams();
@@ -225,6 +207,36 @@
                 btguardar.addEventListener("click", EditarEpendiente);
         
             })
+        }
+    });
+
+    card.addEventListener("click", (event) => {
+        idlibro = parseInt(event.target.dataset.idlibro)
+        if(event.target.classList[0] === 'borrar'){
+            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            // console.log(idlibroentregado);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","CancelarReserva");
+            parametros.append("idprestamo", idprestamo);
+            parametros.append("idlibro" , idlibro)
+            const filaReserva = card.rows;
+            for (let i = 1; i < filaReserva.length; i++){
+                const stock = parseInt(filaReserva[i].cells[1].innerHTML);  // Ajusta el índice según tu estructura HTML
+                parametros.append("cantidad")
+                fetch("../controller/librosentregados.php",{
+                    method: 'POST',
+                    body: parametros
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    listarEntregas();
+                    datos.forEach(element => {
+                    });
+                    btguardar.addEventListener("click", EditarEpendiente);
+            
+                })
+            }
+            
         }
     });
 
