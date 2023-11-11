@@ -49,7 +49,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         </div>
         <div>
         <form>
-        <div class="form-row mt-4">
+        <div class="form-row mt-2">
           <h4>Solicitud de préstamo</h4>
     
   <div class="form-group col-md-3 mt-2">
@@ -115,6 +115,52 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
         </div>
     </footer>
+
+    <style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    form {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px; /*Pie de página*/
+    }
+    
+    form label {
+        color: #574E4E;
+    }
+
+    form select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    #contenedor-lugar {
+        margin-top: 20px;
+    }
+
+    button#solicitar {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
@@ -187,7 +233,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     document.querySelector("#fechadevolucion").value = ''
                     enbiblioteca.value =''
                 }else{
-                  alert('No se puede registrar')
+                  alert('No puede solicitar más libros')
                 }
             })
             }
