@@ -138,18 +138,18 @@ CALL spu_prestamo_usuario(1, 2, 1, '5A', 'no', 'salon2', '2023-11-10', '2023-11-
 SELECT* FROM prestamos
 UPDATE prestamos SET estado = 'D'
 
-DELIMITER $$
-CREATE PROCEDURE spu_solicitud_listar()
-BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
-	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'S';
-END $$
+-- DELIMITER $$
+-- CREATE PROCEDURE spu_solicitud_listar()
+-- BEGIN
+	-- SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	-- DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
+	-- FROM librosentregados
+	-- INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
+	-- INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	-- INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
+	-- INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	-- WHERE prestamos.estado = 'S';
+-- END $$
 
 DELIMITER $$
 CREATE PROCEDURE spu_historial(
