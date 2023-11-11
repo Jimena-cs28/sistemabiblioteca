@@ -54,24 +54,7 @@
       $respuesta = $prestamo->updateEpendiente($datosActulizar);
       echo json_encode($respuesta);
     }
-  
-    if($_POST['operacion'] == 'RegistrarPrestamoReservar'){
-      $datosGuardar = [
-        "idbeneficiario"     => $_POST['idbeneficiario'],
-        "idbibliotecario"    => $_POST['idbibliotecario'],
-        "fechaprestamo"      => $_POST['fechaprestamo'],
-        "descripcion"       => $_POST['descripcion'],
-        "enbiblioteca"       => $_POST['enbiblioteca'],
-        "lugardestino"       => $_POST['lugardestino'],
-        "idlibro"            => $_POST['idlibro'],
-        "cantidad"          => $_POST['cantidad'],
-        "condicionentrega"   => $_POST['condicionentrega'],
-        "fechadevolucion"    => $_POST['fechadevolucion']
-      ];
 
-      $respuesta = $prestamo->RegistrarPrestamoReservar($datosGuardar);
-      echo json_encode($respuesta);
-    }
 
     if($_POST['operacion'] == 'selectcategoria'){
 
@@ -117,6 +100,13 @@
     }
   }
 
+  if($_POST['operacion'] == 'traerprestamoAhora'){
+    $datos = $prestamo->traerprestamo($_POST['idbeneficiario']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
   if($_POST['operacion'] == 'registrarSoloPrestamo'){
     $datosGuardar = [
       "idbeneficiario"     => $_POST['idbeneficiario'],
@@ -144,12 +134,24 @@
 
   if($_POST['operacion'] == 'registrarAhora'){
     $datosGuardar = [
-      "idprestamo"      => $_POST['idprestamo'],
-      "idlibro"         => $_POST['idlibro'],
-      "cantidad"      => $_POST['cantidad'],
+      "idbeneficiario"      => $_POST['idbeneficiario'],
+      "idbibliotecario"     => $_POST['idbibliotecario'],
+      "descripcion"       => $_POST['descripcion'],
+      "enbiblioteca"      => $_POST['enbiblioteca'],
+      "lugardestino"       => $_POST['lugardestino']
+    ];
+    $respuesta = $prestamo->registrarAhora($datosGuardar);
+    echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'AddLibroentregadonow'){
+    $datosGuardar = [
+      "idprestamo"        => $_POST['idprestamo'],
+      "idlibro"           => $_POST['idlibro'],
+      "cantidad"          => $_POST['cantidad'],
       "condicionentrega"  => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];
-    $respuesta = $prestamo->registrarAhora($datosGuardar);
+    $respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
     echo json_encode($respuesta);
   }

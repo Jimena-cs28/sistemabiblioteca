@@ -36,35 +36,6 @@ class Prestamos extends conexion{
     }
   }
 
-  public function RegistrarPrestamoReservar($datos = []){
-    $respuesta = [
-      "status" => false,
-      "message" =>""
-    ];
-    
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_reservar(?,?,?,?,?,?,?,?,?,?)");
-      $respuesta["status"] = $consulta->execute(
-        array(
-          $datos["idbeneficiario"],
-          $datos["idbibliotecario"],
-          $datos["fechaprestamo"],
-          $datos["descripcion"],
-          $datos["enbiblioteca"],
-          $datos["lugardestino"],
-          $datos["idlibro"],
-          $datos["cantidad"],
-          $datos["condicionentrega"],
-          $datos["fechadevolucion"]
-        )
-      );
-    }
-    catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getCode();
-    }
-    return $respuesta;
-  }
-
   public function filtrobeneficiario(){
     try {
       $consulta = $this->acesso->prepare("CALL spu_filtro_student()");
@@ -250,17 +221,38 @@ class Prestamos extends conexion{
       "status" => false,
       "message" =>""
     ];
-    
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_ahora(?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_ahora(?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idbeneficiario"],
           $datos["idbibliotecario"],
-          $datos["fechaprestamo"],
           $datos["descripcion"],
           $datos["enbiblioteca"],
           $datos["lugardestino"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
+
+  public function AddLibroentregadonow($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_libroentregado_AddAhora(?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idprestamo"],
+          $datos["idlibro"],
+          $datos["cantidad"],
+          $datos["condicionentrega"],
+          $datos["fechadevolucion"]
         )
       );
     }

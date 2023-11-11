@@ -127,6 +127,7 @@
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
                 idprestamos = element.idprestamo; 
+                idlibroentregado = element.idlibroentregado;
                 //idlibro = element.idlibro;
                 const recibir = `
                 <tr>
@@ -222,6 +223,7 @@
             }) // console.log(idlibroentregado)
             .then(response => response.json())
             .then(datos => {
+                console.log(idlibroentregado)
                 listarDevoluciones();
             });
         }

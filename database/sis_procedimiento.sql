@@ -16,7 +16,12 @@ END$$
 
 CALL spu_login ('75123489');
 
-SELECT * FROM usuarios
+SELECT * FROM prestamos
+SELECT * FROM librosentregados
+
+INSERT INTO detalleautores (idlibro, idautor) VALUES
+(1, 2),
+(2, 2);
 
 -- SECCION LIBROS
 DELIMITER $$
@@ -82,11 +87,11 @@ BEGIN
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = 3 AND 2 AND estado = 1;
+	WHERE usuarios.idrol IN(2,3) AND usuarios.estado = 1;
 END $$
 
 CALL spu_filtro_student();
-
+SELECT * FROM roles
 SELECT * FROM roles;
 SELECT * FROM prestamos;
 UPDATE prestamos SET estado = 'D' WHERE

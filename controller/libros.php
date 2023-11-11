@@ -15,7 +15,6 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'selectEditorial'){
-
     $datos = $libro->selectEditorial();
     if($datos){
       echo json_encode($datos);

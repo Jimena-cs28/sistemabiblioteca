@@ -13,7 +13,7 @@ BEGIN
 	WHERE prestamos.estado = 'D'
 	ORDER BY idlibroentregado DESC;
 END $$
-
+SELECT * FROM prestamos
 -- PASO 6 ACTUALIZAR FECHADEVOLUCION
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
@@ -77,7 +77,6 @@ BEGIN
 	WHERE idlibro = _idlibro;
 END $$
 
-UPDATE libros SET estado = 1 WHERE idlibro = 3
 
 DELIMITER $$
 CREATE PROCEDURE spu_inabilitar_usuario
@@ -157,7 +156,7 @@ END $$
 CALL spu_inactivo_estudiantes();
 CALL spu_listar_estudiantes();
 
-SELECT * FROM usuarios
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
@@ -259,6 +258,7 @@ BEGIN
 	GROUP BY prestamos.descripcion
 	ORDER BY prestamos.descripcion;
 END $$
+
 CALL spu_select_descripcion();
 
 DELIMITER $$
@@ -283,7 +283,6 @@ END $$
 CALL spu_reporte_descripcion('1l');
 
 
-
 -- REPORTE 2 
 -- ejemplo
 SELECT idlibro, COUNT(idlibro) AS totalPedidos
@@ -292,12 +291,12 @@ GROUP BY idlibro
 ORDER BY totalPedidos DESC
 LIMIT 10;
 	
-	
+SELECT * FROM LIBROS
 	
 DELIMITER $$
 CREATE PROCEDURE spu_solicitud_listar()
 BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, ' ' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
 	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
@@ -305,5 +304,5 @@ BEGIN
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'S';
-END $$
+END$$
 
