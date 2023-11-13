@@ -1,5 +1,6 @@
 USE sistemabiblioteca
 
+-- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_prestamo_reservar
 (
@@ -17,39 +18,62 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,_fechaprestamo,_descripcion,_enbiblioteca,_lugardestino, 'E');
 END $$
 
-CALL spu_registrar_prestamo_reservar(3,1,"2023-11-11","2B","SI","");
-SELECT * FROM prestamos;
-
+CALL spu_registrar_prestamo_reservar(3,1,'2023-11-12',"2A","SI","");
+SELECT * FROM usuarios;
+-- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_register
 (
 	IN _idprestamo INT,
-	IN _idlibro INT,
-	IN _cantidad SMALLINT,
+	IN _idejemplar INT,
 	IN _condicionEntrega VARCHAR(40),
 	IN _fechadevolución DATETIME
 )
 BEGIN
 	DECLARE cantidad_actual INT;
+	DECLARE _idlibro INT;
+	DECLARE _idbene INT;
+	
 	IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
+	SELECT idlibro INTO _idlibro
+	FROM ejemplares
+	WHERE idejemplar = _idejemplar;	
 			
 	SELECT cantidad INTO cantidad_actual
 	FROM libros
-	WHERE idlibro = _idlibro;	
+	WHERE idlibro = _idlibro;
+	
+	SELECT idbeneficiario INTO _idbene
+	FROM prestamos
+	WHERE idprestamo = _idprestamo;
+	-- select * from prestamos
+		
 	    -- Verifica si hay suficientes libros disponibles para restar
-    IF cantidad_actual >= _cantidad THEN
+    IF cantidad_actual >= 1 THEN
+	START TRANSACTION;
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idlibro, cantidad, condicionentrega,fechadevolucion) VALUES
-			(_idprestamo,_idlibro,_cantidad, _condicionEntrega,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega,fechadevolucion) VALUES
+			(_idprestamo,_idejemplar, _condicionEntrega,_fechadevolución);
         
         -- SE actualiza la cantidad del libro
         UPDATE libros
-        SET cantidad = cantidad_actual - _cantidad
+        SET cantidad = cantidad_actual - 1
         WHERE idlibro = _idlibro;
         
         UPDATE prestamos SET
         estado = 'R'
         WHERE idprestamo = _idprestamo;
+        
+        UPDATE ejemplares SET
+        ocupado = 'SI'
+        WHERE idejemplar = _idejemplar;
+        
+        UPDATE usuarios SET
+        estado = '0',
+        inactive_at = NOW()
+        WHERE idusuario = _idbene;
+        -- select * from usuarios
+        COMMIT;
 
         -- SELECT 'Libro entregado y cantidad actualizada correctamente.' AS mensaje;
     ELSE
@@ -57,11 +81,12 @@ BEGIN
     END IF;
 END $$
 
-CALL spu_libroentregado_register(7,1,1,'Nuevo','2023-11-12')
+CALL spu_libroentregado_register(2,2,'Nuevo','2023-11-12');
 SELECT * FROM prestamos
 SELECT * FROM librosentregados -- 9 9
+SELECT * FROM ejemplares
 
--- PARA REGISTRAR AHORA
+-- PARA REGISTRAR AHORA - ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_prestamo_ahora
 (
@@ -78,39 +103,62 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
-CALL spu_registrar_prestamo_ahora(3,4, '3B','SI','')
+CALL spu_registrar_prestamo_ahora(11,1, '5B','SI','')
 
 SELECT * FROM prestamos
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_AddAhora
 (
 	IN _idprestamo INT,
-	IN _idlibro INT,
-	IN _cantidad SMALLINT,
+	IN _idejemplar INT,
 	IN _condicionEntrega VARCHAR(40),
 	IN _fechadevolución DATETIME
 )
 BEGIN
 	DECLARE cantidad_actual INT;
+	DECLARE _idlibro INT;
+	DECLARE _idbene INT;
+	
 	IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
+	SELECT idlibro INTO _idlibro
+	FROM ejemplares
+	WHERE idejemplar = _idejemplar;	
 			
 	SELECT cantidad INTO cantidad_actual
 	FROM libros
-	WHERE idlibro = _idlibro;	
+	WHERE idlibro = _idlibro;
+	
+	SELECT idbeneficiario INTO _idbene
+	FROM prestamos
+	WHERE idprestamo = _idprestamo;
+	-- select * from prestamos
+		
 	    -- Verifica si hay suficientes libros disponibles para restar
-    IF cantidad_actual >= _cantidad THEN
+    IF cantidad_actual >= 1 THEN
+	START TRANSACTION;
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idlibro, cantidad, condicionentrega,fechadevolucion) VALUES
-			(_idprestamo,_idlibro,_cantidad, _condicionEntrega,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega,fechadevolucion) VALUES
+			(_idprestamo,_idejemplar, _condicionEntrega,_fechadevolución);
         
         -- SE actualiza la cantidad del libro
         UPDATE libros
-        SET cantidad = cantidad_actual - _cantidad
+        SET cantidad = cantidad_actual - 1
         WHERE idlibro = _idlibro;
         
         UPDATE prestamos SET
         estado = 'D'
         WHERE idprestamo = _idprestamo;
+        
+        UPDATE ejemplares SET
+        ocupado = 'SI'
+        WHERE idejemplar = _idejemplar;
+        
+        UPDATE usuarios SET
+        estado = '0',
+        inactive_at = NOW()
+        WHERE idusuario = _idbene;
+        -- select * from usuarios
+        COMMIT;
 
         -- SELECT 'Libro entregado y cantidad actualizada correctamente.' AS mensaje;
     ELSE
@@ -118,9 +166,9 @@ BEGIN
     END IF;
 END $$
 
-CALL spu_libroentregado_AddAhora(9,2,1,'Nuevo','2023-11-19');
-
-
+CALL spu_libroentregado_AddAhora(4,3,'Nuevo','2023-11-14');
+-- falta ejecutar
+SELECT * FROM ejemplares
 SELECT * FROM librosentregados
 CALL spu_libroentregado_register(2,2,1,'Bien','2023-11-16');
 
@@ -142,6 +190,9 @@ BEGIN
 END $$
 CALL spu_conseguir_libro();
 
+
+SELECT * FROM ejemplares
+
 SELECT * FROM prestamos
 -- listarlibros
 DELIMITER $$
@@ -156,28 +207,30 @@ BEGIN
 	WHERE librosentregados.idprestamo = _idprestamo;
 END $$
 
-SELECT * FROM libros
+SELECT * FROM prestamos
 SELECT * FROM librosentregados
 
--- PASO 3 LISTAR ENTREGAS PENDIENTES
+-- PASO 3 LISTAR ENTREGAS PENDIENTES ejecuitado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
 BEGIN
-	SELECT idlibroentregado, prestamos.idprestamo, libros.libro, libros.idlibro, libros.imagenportada, librosentregados.cantidad, personas.nombres, prestamos.descripcion, prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', 
+	SELECT idlibroentregado, prestamos.idprestamo, libros.libro, ejemplares.codigo_libro, libros.idlibro, libros.imagenportada, personas.nombres, prestamos.descripcion, 
+	prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', 
 	DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'R'
 	ORDER BY idlibroentregado DESC;
 END $$
 
-CALL spu_obtener_libroentregado(1);
+CALL spu_listar_entregaspendiente();
 -- PASO 4 ACTUALIZAR  FECHAENTREGADELIMITER $$
 CALL spu_listar_entregaspendiente()
-DELIMITER $$
+DELIMITER $$ -- ejecutado
 CREATE PROCEDURE spu_update_pentregasp
 (
 	IN _idprestamo  INT
@@ -216,12 +269,6 @@ SELECT * FROM librosentregados
 
 CALL spu_update_pentregasp(2);
 
-SELECT * FROM usuarios
-SELECT * FROM libros
-
-SELECT * FROM libros
-
-
 -- --------------------------------------------------------------
 SELECT * FROM librosentregados
 SELECT * FROM prestamos
@@ -246,7 +293,7 @@ SELECT * FROM librosentregados
 SELECT * FROM prestamos
 CALL spu_listar_prestamos();
 
--- Contadores
+-- Contadores 
 DELIMITER $$
 CREATE PROCEDURE spu_cantidad_Administrador()
 BEGIN
@@ -312,35 +359,6 @@ CREATE PROCEDURE spu_cantidad_prestamos()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'prestamo'
 	FROM prestamos;
-END$$
-
--- registrar libro
-DELIMITER $$
-CREATE PROCEDURE spu_registrar_libro
-(
-    IN _idsubcategoria INT,
-    IN _ideditorial INT,
-    IN _libro VARCHAR(70),
-    IN _tipo VARCHAR(50),
-    IN _cantidad SMALLINT,
-    IN _numeropaginas VARCHAR(100),
-    IN _codigo DECIMAL(6,3),
-    IN _edicion VARCHAR(50),
-    IN _formato VARCHAR(50),
-    IN _anio DATE,
-    IN _idioma VARCHAR(30),
-    IN _descripcion TEXT,
-    IN _imagenportada VARCHAR(200),
-    IN _idautor  INT
-)
-BEGIN
-    INSERT INTO libros (idsubcategoria, ideditorial, libro, tipo, cantidad, numeropaginas, codigo, edicion,formato,anio,idioma,descripcion,imagenportada)
-	VALUES (_idsubcategoria, _ideditorial, _libro, _tipo, _cantidad, _numeropaginas, _codigo, _edicion,_formato,_anio,_idioma,_descripcion,_imagenportada);
-	
-     SET @idlibro = LAST_INSERT_ID();
-     
-     INSERT INTO detalleautores(idlibro,idautor)VALUES
-				(@idlibro, _idautor);
 END$$
 
 SELECT * FROM prestamos

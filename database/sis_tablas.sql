@@ -31,7 +31,6 @@ CREATE TABLE roles
 )ENGINE=INNODB;
 
 
-SELECT * FROM libros WHERE estado = 'E'
 CREATE TABLE usuarios
 (
 	idusuario	INT AUTO_INCREMENT PRIMARY KEY,
@@ -123,8 +122,7 @@ CREATE TABLE libros
 	inactive_at	DATETIME 	NULL,
 	estado		CHAR(1)		NOT NULL DEFAULT '1',
 	CONSTRAINT fk_idsubcategoria FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
-	CONSTRAINT fk_ideditorial FOREIGN KEY (ideditorial) REFERENCES editoriales (ideditorial),
-	CONSTRAINT uk_libro UNIQUE (libro)
+	CONSTRAINT fk_ideditorial FOREIGN KEY (ideditorial) REFERENCES editoriales (ideditorial)
 )ENGINE=INNODB;
 
 CREATE TABLE detalleautores
@@ -157,25 +155,40 @@ CREATE TABLE prestamos
 	CONSTRAINT fk_idbene_prestamo FOREIGN KEY (idbeneficiario) REFERENCES usuarios (idusuario),
 	CONSTRAINT fk_idbiblio_prestamo FOREIGN KEY (idbibliotecario) REFERENCES usuarios (idusuario),
 	CONSTRAINT ck_enbiblio_presta  CHECK(enbiblioteca IN ("SI","NO")),
-	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N")), 
+	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N"))
 	-- e=Espera, R=reserva, S=solicitud, D=devolucionp, T=todo, N=rechazado
-	CONSTRAINT ck_fechas CHECK(fechaprestamo>=fechasolicitud) -- falta agregar =
+	-- CONSTRAINT ck_fechas CHECK(fechaprestamo>=fechasolicitud) -- falta agregar =
 )ENGINE=INNODB;
 
 SELECT * FROM librosentregados
 
 -- alter table prestamos alter constraint ck_estado_ore CHECK(estado IN ("E","S","A","T","R","D","U")); 
 
+CREATE TABLE ejemplares
+(
+	idejemplar	INT AUTO_INCREMENT PRIMARY KEY,
+	idlibro		INT 	NOT NULL,
+	codigo_libro	INT 	NOT NULL,
+	ocupado 	CHAR(2) NOT NULL DEFAULT 'NO', -- por defecto el libro no estara ocupado
+	estado 		CHAR(1) NOT NULL DEFAULT '1',
+	CONSTRAINT fk_idlibro_ejemplar FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
+	CONSTRAINT uk_codigo_ejemplar UNIQUE(codigo_libro,idlibro)
+)ENGINE=INNODB;
+
+SELECT * FROM ejemplares
+
 CREATE TABLE librosentregados
 (
 	idlibroentregado	INT AUTO_INCREMENT PRIMARY KEY,
 	idprestamo		INT 		NOT NULL,
-	idlibro			INT 		NOT NULL,
-	cantidad 		SMALLINT 	NOT NULL,
+	idejemplar		INT 		NOT NULL,
 	condicionentrega	VARCHAR(50)	NULL,
 	condiciondevolucion	VARCHAR(50)	NULL,
 	observaciones		VARCHAR(40)	NULL,
 	fechadevolucion		DATETIME 	NULL,
-	CONSTRAINT fk_libro_prestamo FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
+	CONSTRAINT fk_idejemplar_libroentre FOREIGN KEY (idejemplar) REFERENCES ejemplares (idejemplar),
 	CONSTRAINT fk_prestamo_libentre FOREIGN KEY (idprestamo) REFERENCES prestamos (idprestamo)
 )ENGINE=INNODB;
+
+
+

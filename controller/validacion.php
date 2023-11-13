@@ -15,4 +15,11 @@ if (isset($_POST['operacion'])){
         $respuesta = $prestamo->CancelarReserva($datosGuardar);
         echo json_encode($respuesta);
     }
+    
+    if($_POST['operacion'] == 'filtroEjemplar'){
+        $datos = $validacion->filtroEjemplar($_POST['idlibro']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
 }

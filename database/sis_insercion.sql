@@ -100,17 +100,11 @@ INSERT INTO detalleautores (idlibro, idautor) VALUES
 (4, 2),
 (5, 2);
 
-SELECT * FROM libros
+SELECT * FROM ejemplares
+INSERT INTO ejemplares (idlibro,codigo_libro) VALUES
+(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9);
 
 -- NO EJECUTADO
 INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo, fecharespuesta, fechaentrega, descripcion, enbiblioteca, lugardestino) VALUES
 			(6,11,'2023-10-28', '', '', '2F', 'SI', '');
 
-SELECT * FROM usuarios
--- luego 
--- cuando se registra pasa a A(administrador)
-INSERT INTO librosentregados (idprestamo, idlibro, cantidad, condicionentrega, condiciondevolucion, observaciones, fechadevolucion) VALUES
-(1, 1, 2, 'En buen estado', '', '','');
-
-UPDATE librosentregados SET fechadevolucion = '2023-09-25'
-WHERE idlibroentregado = 1;
