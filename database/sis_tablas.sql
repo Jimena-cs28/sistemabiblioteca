@@ -14,7 +14,8 @@ CREATE TABLE personas
 	email		VARCHAR(100)	NULL,
 	create_at	DATETIME 	NOT NULL DEFAULT NOW(),
 	update_at	DATETIME 	NULL,
-	inactive_at	DATETIME 	NULL
+	inactive_at	DATETIME 	NULL,
+	CONSTRAINT ukDNI UNIQUE(nrodocumento)
 )ENGINE=INNODB;
 
 
@@ -132,7 +133,7 @@ CREATE TABLE detalleautores
 	idautor 	INT 	NOT NULL,
 	creat_at  	DATETIME NOT NULL DEFAULT NOW(),
 	update_at 	DATETIME NULL,
-	INACTIVE 	DATETIME NULL,
+	inactive_at	DATETIME NULL,
 	CONSTRAINT fk_idlibro FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
 	CONSTRAINT fk_idautor_text FOREIGN KEY (idautor) REFERENCES autores (idautor)
 )ENGINE=INNODB;
@@ -171,6 +172,9 @@ CREATE TABLE ejemplares
 	codigo_libro	INT 	NOT NULL,
 	ocupado 	CHAR(2) NOT NULL DEFAULT 'NO', -- por defecto el libro no estara ocupado
 	estado 		CHAR(1) NOT NULL DEFAULT '1',
+	creat_at  	DATETIME NOT NULL DEFAULT NOW(),	
+	update_at 	DATETIME NULL,
+	inactive_at	DATETIME NULL,
 	CONSTRAINT fk_idlibro_ejemplar FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
 	CONSTRAINT uk_codigo_ejemplar UNIQUE(codigo_libro,idlibro)
 )ENGINE=INNODB;
@@ -189,6 +193,4 @@ CREATE TABLE librosentregados
 	CONSTRAINT fk_idejemplar_libroentre FOREIGN KEY (idejemplar) REFERENCES ejemplares (idejemplar),
 	CONSTRAINT fk_prestamo_libentre FOREIGN KEY (idprestamo) REFERENCES prestamos (idprestamo)
 )ENGINE=INNODB;
-
-
 

@@ -51,7 +51,7 @@ class LibroEntregado extends conexion{
       );
     }
     catch(Exception $e){
-      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
+      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
     }
     return $respuesta;
   } 
