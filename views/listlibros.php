@@ -26,9 +26,7 @@
                         <th>Libro</th>
                         <th>Autor</th>
                         <th>Cantidad</th>
-                        <th>Paginas</th>
                         <th>Codigo</th>
-                        <th>idioma</th>
                         <th>Ver Todo</th>
                         <th>Editar</th>
                         <th>Sancionar</th>
@@ -198,9 +196,7 @@
                     <td>${element.libro}</td>
                     <td>${element.autor}</td>
                     <td>${element.cantidad}</td>
-                    <td>${element.numeropaginas}</td>
                     <td>${element.codigo}</td>
-                    <td>${element.idioma}</td>
                     <td>
                         <a href='#mdl-libro' class='registrar' data-toggle='modal' type='button' data-iddetalleautor='${element.iddetalleautor}'>Libros</a>
                     </td>

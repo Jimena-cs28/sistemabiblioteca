@@ -138,7 +138,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title text-center">${element.libro} + ${element.cantidad}</h5>
+                                    <h5 class="card-title text-center">${element.libro} - ${element.codigo_libro}</h5>
                                     <p class="card-text" style="color:#635555;">Usuario: ${element.nombres} -  ${element.descripcion}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">

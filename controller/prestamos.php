@@ -123,8 +123,7 @@
   if($_POST['operacion'] == 'registrarLibroentregado'){
     $datosGuardar = [
       "idprestamo"      => $_POST['idprestamo'],
-      "idlibro"         => $_POST['idlibro'],
-      "cantidad"      => $_POST['cantidad'],
+      "idejemplar"         => $_POST['idejemplar'],
       "condicionentrega"  => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];
@@ -147,8 +146,7 @@
   if($_POST['operacion'] == 'AddLibroentregadonow'){
     $datosGuardar = [
       "idprestamo"        => $_POST['idprestamo'],
-      "idlibro"           => $_POST['idlibro'],
-      "cantidad"          => $_POST['cantidad'],
+      "idejemplar"           => $_POST['idejemplar'],
       "condicionentrega"  => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];

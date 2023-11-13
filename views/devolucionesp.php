@@ -21,7 +21,7 @@
                         <th style="color:#574E4E;">#</th>
                         <th style="color:#574E4E;">Libro</th>
                         <th style="color:#574E4E;">Usuario</th>
-                        <th style="color:#574E4E;">Cantidad</th>
+                        <th style="color:#574E4E;">Codigo</th>
                         <th style="color:#574E4E;">F. Solicitud</th>
                         <th style="color:#574E4E;">F. Entrega</th>
                         <th style="color:#574E4E;">F. Devolucion</th>
@@ -134,7 +134,7 @@
                     <td>${element.idlibroentregado}</td>
                     <td>${element.libro}</td>
                     <td>${element.nombres}</td>
-                    <td>${element.cantidad}</td>
+                    <td>${element.codigo_libro}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechadevolucion}</td>

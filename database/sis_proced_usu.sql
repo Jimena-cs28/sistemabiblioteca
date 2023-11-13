@@ -3,17 +3,18 @@ USE sistemabiblioteca
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, libros.libro, librosentregados.cantidad, usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
 	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'D'
 	ORDER BY idlibroentregado DESC;
 END $$
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 -- PASO 6 ACTUALIZAR FECHADEVOLUCION
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
@@ -45,7 +46,7 @@ BEGIN
 	
         -- SE actualiza la cantidad del libro
         UPDATE libros
-        SET cantidad = cantidad_actual + _cantidad
+        SET cantidad = cantidad_actual + 1
         WHERE idlibro = _idlibro;
 END $$
 
@@ -157,7 +158,8 @@ CALL spu_inactivo_estudiantes();
 CALL spu_listar_estudiantes();
 
 SELECT * FROM prestamos
-
+DROP TABLE productos
+-- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN

@@ -199,19 +199,18 @@ class Prestamos extends conexion{
     ];
     
     try{
-      $consulta = $this->acesso->prepare("CALL spu_libroentregado_register(?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_libroentregado_register(?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idprestamo"],
-          $datos["idlibro"],
-          $datos["cantidad"],
+          $datos["idejemplar"],
           $datos["condicionentrega"],
           $datos["fechadevolucion"]
         )
       );
     }
     catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getCode();
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
     return $respuesta;
   }
@@ -245,12 +244,11 @@ class Prestamos extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_libroentregado_AddAhora(?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_libroentregado_AddAhora(?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idprestamo"],
-          $datos["idlibro"],
-          $datos["cantidad"],
+          $datos["idejemplar"],
           $datos["condicionentrega"],
           $datos["fechadevolucion"]
         )

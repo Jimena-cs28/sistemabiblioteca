@@ -16,7 +16,7 @@ END$$
 
 CALL spu_login ('75123489');
 
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 SELECT * FROM librosentregados
 
 INSERT INTO detalleautores (idlibro, idautor) VALUES
@@ -48,7 +48,7 @@ BEGIN
 END $$
 
 -- SECCION ESTUDIANTE Y PROFESOR
-
+-- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_estudiantes()
 BEGIN
@@ -62,7 +62,7 @@ END$$
 SELECT * FROM usuarios
 
 CALL spu_listar_estudiantes();
-
+-- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_profesor()
 BEGIN
@@ -91,7 +91,7 @@ BEGIN
 END $$
 
 CALL spu_filtro_student();
-SELECT * FROM roles
+SELECT * FROM libros
 SELECT * FROM roles;
 SELECT * FROM prestamos;
 UPDATE prestamos SET estado = 'D' WHERE
@@ -211,17 +211,17 @@ CREATE PROCEDURE spu_obtener_libroentregado
 	IN _idlibroentregado INT
 )
 BEGIN
-	SELECT librosentregados.idlibroentregado, personas.nombres, personas.apellidos, librosentregados.cantidad, prestamos.descripcion,
+	SELECT librosentregados.idlibroentregado, personas.nombres, personas.apellidos, prestamos.descripcion,
 	libros.libro, prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplare.idejemplar = librosentregados.idejemplar
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
 	WHERE prestamos.estado = 'R' AND idlibroentregado = _idlibroentregado;
 END $$
 
-CALL spu_obtener_libroentregado(2);
+CALL spu_obtener_libroentregado(1);
 
 DELIMITER $$
 CREATE PROCEDURE spu_traer_datosD
