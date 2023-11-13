@@ -1,5 +1,5 @@
 USE sistemabiblioteca
-
+-- PRESTAMOS
 -- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_prestamo_reservar
@@ -81,10 +81,22 @@ BEGIN
     END IF;
 END $$
 
-CALL spu_libroentregado_register(2,2,'Nuevo','2023-11-12');
-SELECT * FROM prestamos
-SELECT * FROM librosentregados -- 9 9
-SELECT * FROM ejemplares
+CALL spu_libroentregado_register(1,2,'Nuevo','2023-11-14');
+-- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
+DELIMITER $$
+CREATE PROCEDURE spu_traer_prestamo
+(
+	IN _idbeneficiario INT
+)
+BEGIN
+	SELECT prestamos.idprestamo, prestamos.idbeneficiario
+	FROM prestamos
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	WHERE prestamos.idbeneficiario = _idbeneficiario AND DATE(prestamos.fechasolicitud) = CURDATE()
+	ORDER BY prestamos.idprestamo DESC LIMIT 1;
+END $$
+
+CALL spu_traer_prestamo(2)
 
 -- PARA REGISTRAR AHORA - ejecutado
 DELIMITER $$
@@ -103,7 +115,7 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
-CALL spu_registrar_prestamo_ahora(11,1, '5B','SI','')
+CALL spu_registrar_prestamo_ahora(2,1, '5B','SI','')
 
 SELECT * FROM prestamos
 DELIMITER $$
@@ -166,19 +178,10 @@ BEGIN
     END IF;
 END $$
 
-CALL spu_libroentregado_AddAhora(4,3,'Nuevo','2023-11-14');
--- falta ejecutar
+CALL spu_libroentregado_AddAhora(2,1,'Bien','2023-11-14')
+
+-- LISTAR LIBROS EN PRESTAMO
 SELECT * FROM ejemplares
-SELECT * FROM librosentregados
-CALL spu_libroentregado_register(2,2,1,'Bien','2023-11-16');
-
-SELECT * FROM libros -- 10 12/14
-SELECT * FROM usuarios
-DELIMITER $$
-
--- REGISTRAR LIBROENTREGADO PASO 2  /cuando pide un libro altoke es s/cuando hace una reserva es A
--- OBtener libro
-SELECT * FROM prestamos
 DELIMITER $$
 CREATE PROCEDURE spu_conseguir_libro()
 BEGIN 
@@ -188,28 +191,28 @@ BEGIN
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	WHERE estado = 1;
 END $$
+
 CALL spu_conseguir_libro();
 
+DELIMITER $$
+CREATE PROCEDURE spu_filtrar_ejemplares
+(
+	IN _idlibro INT
+)
+BEGIN
+	SELECT ejemplares.idejemplar, CONCAT(libros.libro, ' ',codigo_libro) AS 'Ejemplares'
+	FROM ejemplares
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	WHERE libros.idlibro = _idlibro AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1;
+END $$
 
-SELECT * FROM ejemplares
+CALL spu_filtrar_ejemplares(1)
 
 SELECT * FROM prestamos
--- listarlibros
-DELIMITER $$
-CREATE PROCEDURE spu_libro(IN _idprestamo INT)
-BEGIN
-	SELECT idlibroentregado, subcategorias.subcategoria, libros.libro, librosentregados.cantidad, 
-	librosentregados.fechadevolucion, librosentregados.condicionentrega
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idlibroentregado
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	WHERE librosentregados.idprestamo = _idprestamo;
-END $$
 
 SELECT * FROM prestamos
 SELECT * FROM librosentregados
-
+-- RESERVAAAAAAAAAAAAAS
 -- PASO 3 LISTAR ENTREGAS PENDIENTES ejecuitado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
@@ -228,8 +231,6 @@ BEGIN
 END $$
 
 CALL spu_listar_entregaspendiente();
--- PASO 4 ACTUALIZAR  FECHAENTREGADELIMITER $$
-CALL spu_listar_entregaspendiente()
 DELIMITER $$ -- ejecutado
 CREATE PROCEDURE spu_update_pentregasp
 (
@@ -264,16 +265,99 @@ BEGIN
 END $$
 
 CALL spu_editar_Ependientes(9,3,'2023-10-24','2023-10-22');
-SELECT * FROM prestamos
+
+DELIMITER $$
+CREATE PROCEDURE spu_cancelar_reserva
+(
+	IN _idprestamo INT,
+	IN _idlibro INT, -- estado N
+	IN _cantidad INT
+)
+BEGIN
+	 DECLARE cantidad_actual INT;
+	 
+	 UPDATE prestamos SET
+	 estado = 'N'
+	 WHERE idprestamo = _idprestamo;
+	 
+	-- Obtiene la cantidad actual del libro
+	SELECT cantidad INTO cantidad_actual
+	FROM libros
+	WHERE idlibro = _idlibro;
+	
+        -- SE actualiza la cantidad del libro
+        UPDATE libros
+        SET cantidad = cantidad_actual + _cantidad
+        WHERE idlibro = _idlibro;
+END $$
+-- DEVOLUCIOOOOOOOOOOOOOOOOOOOOOOOON
+DELIMITER $$
+CREATE PROCEDURE spu_listar_devolucionpendientes()
+BEGIN
+	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'D'
+	ORDER BY idlibroentregado DESC;
+END $$
+
+-- FALTA EJECUTARM PARA ABAJOOO
+DELIMITER $$
+CREATE PROCEDURE spu_update_devoluciones
+(
+	IN _idlibroentregado INT,
+	IN _idprestamos INT,
+	IN _idejemplar INT,
+	IN _condiciondevolucion VARCHAR(50),
+	IN _observaciones   VARCHAR(50)	
+)
+BEGIN
+	 DECLARE cantidad_actual INT;
+	 DECLARE _idbene INT;
+	 DECLARE _idlibro INT;
+	 
+	 UPDATE librosentregados SET
+	 condiciondevolucion = _condiciondevolucion,
+	 observaciones = _observaciones,
+	 fechadevolucion = NOW()
+	 WHERE idlibroentregado = _idlibroentregado;
+	
+	 SELECT idlibro INTO _idlibro
+	 FROM ejemplares WHERE idejemplar = _idejemplar;
+	 
+	 SELECT idbeneficiario INTO _idbene
+	 FROM prestamos WHERE idprestamo = _idprestamos;
+	 
+	 UPDATE usuarios SET estado = 1
+	 WHERE idusuario = _idbene;
+	 
+	 UPDATE prestamos SET
+	 estado = 'T'
+	 WHERE idprestamo = _idprestamos;
+	 
+	 UPDATE ejemplares SET ocupado = 'NO'
+	 WHERE idejemplar = _idejemplar;
+	
+	SELECT cantidad INTO cantidad_actual
+	FROM libros
+	WHERE idlibro = _idlibro;
+	
+        -- SE actualiza la cantidad del libro
+        UPDATE libros
+        SET cantidad = cantidad_actual + 1
+        WHERE idlibro = _idlibro;
+END $$
+
+CALL spu_update_devoluciones(1,1,2,'bien','bien');
+
+SELECT * FROM ejemplares 
 SELECT * FROM librosentregados
-
-CALL spu_update_pentregasp(2);
-
--- --------------------------------------------------------------
-SELECT * FROM librosentregados
-SELECT * FROM prestamos
-
--- PASO 7 LISTAR TODOS LOS PRESTAMOS
+-- LISTAR TODOS LOS PRESTAMOS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_todoprestamos()
 BEGIN
@@ -290,7 +374,7 @@ BEGIN
 END $$
 
 SELECT * FROM librosentregados
-SELECT * FROM prestamos
+SELECT * FROM libros
 CALL spu_listar_prestamos();
 
 -- Contadores 
@@ -400,3 +484,4 @@ END $$
 SELECT * FROM prestamos
 
 
+-- procedimiento 
