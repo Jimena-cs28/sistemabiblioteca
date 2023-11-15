@@ -30,6 +30,7 @@
                         <th>Ver Todo</th>
                         <th>Editar</th>
                         <th>Sancionar</th>
+                        <th>Ver Eje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,6 +171,99 @@
     </div>
 </div>  
 
+<!-- modal ejemplar-->
+<div class="modal fade" id="ejemplar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form id="">
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">CATEGORIA</label>
+                            <input type="text" class="form-control" disabled id="categoria">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">SUBCATEGORIA</label>
+                            <input type="text" class="form-control" disabled id="subcategoria">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">EDITORIAL</label>
+                            <input type="text" class="form-control" disabled id="editorial">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">NOMBRE</label>
+                            <input type="text" class="form-control" disabled maxlength="70" id="libro">
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">CANTIDAD</label>
+                            <input type="number" class="form-control"  disabled id="cantidad">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">NUMERO DE PAGINA</label>
+                            <input type="number" class="form-control" disabled id="paginas">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">CODIGO</label>  
+                            <input type="text" class="form-control" disabled id="codigo">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">FORMATO</label>
+                            <input type="text" class="form-control" maxlength="50"id="formato" disabled>
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3">
+                            <label for="">Descripcion</label>
+                            <input type="text" id="descripcion" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">IDIOMA</label>
+                            <input type="text" class="form-control" id="idioma" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">AÑO</label>
+                            <input type="date" id="anio" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">TIPO</label>
+                            <input type="text" id="tipo" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <label for="">Imagen</label>                                
+                            </div>
+                            <div class="row">
+                                <img class="visor" alt="" id="img" width="200px">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">EDICION</label>
+                            <input type="text" id="edicion" class="form-control" disabled id="edicion">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Autor</label>
+                            <input type="text" class="form-control" disabled id="autor">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
@@ -205,6 +299,9 @@
                     </td>
                     <td>
                         <a href='' class='inabilitar' data-idlibro='${element.idlibro}'>Sancionar</a>
+                    </td>
+                    <td>
+                        <a href='#ejemplar' class='rrru'>Ejemplar</a>
                     </td>
                 </tr>
                 `;

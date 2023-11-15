@@ -84,14 +84,14 @@ INSERT INTO autores (apellidos, autor, pseudonimio, nacionalidad) VALUES
 ('Cortes', 'Jeremy', '', 'Estadunidence');
 
 INSERT INTO libros (idsubcategoria, ideditorial,libro, tipo,cantidad, numeropaginas, codigo, edicion, formato, anio, idioma, descripcion, imagenportada) VALUES
-	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '',''),
+	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '','');
 	(3, 2, 'El mentor de matematicas', 'texto', 11,'102', '513', '','', '2010', 'castellano', '',''),
 	(4, 2, 'Atlas del cielo', 'texto', 12 ,'100', '525', '','', '2020', 'castellano', '',''),
 	(6, 2, 'Atlas del cuerpo humano', 'texto', 9,'12', '574', '','', '2001', 'castellano', '',''),
 	(7, 1, 'El guardián entre el enteno', 'texto', 12,'232', '813.005', '','', '2000', 'castellano', '',''),
 	(10, 2, 'La vuelta al mundo entero en 80 días', 'texto', 23,'22', '843.008', '','', '2011', 'castellano', '','');
 
-SELECT * FROM editoriales
+SELECT * FROM libros
 
 INSERT INTO detalleautores (idlibro, idautor) VALUES
 (2, 2),
@@ -110,15 +110,15 @@ INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo, fecharespu
 
 SELECT * FROM ejemplares
 INSERT INTO ejemplares(idlibro,codigo_libro) VALUES
-(1,1),
-(1,2),
-(1,3),
-(1,4),
-(1,5),
-(1,6),
-(1,7),
-(1,8),
-(1,9);
+(2,1),
+(2,2),
+(2,3),
+(2,4),
+(2,5),
+(2,6),
+(2,7),
+(2,8),
+(2,9);
 
 
 

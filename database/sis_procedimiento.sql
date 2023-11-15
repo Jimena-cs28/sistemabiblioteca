@@ -32,7 +32,7 @@ END$$
 
 -- ---------------------------------------------------------------------------------------------------------------------------
 
-DELIMITER $$
+DELIMITER $$ -- ejecutado
 CREATE PROCEDURE spu_filtro_student()
 BEGIN
 	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos) AS 'nombres', usuarios.estado
