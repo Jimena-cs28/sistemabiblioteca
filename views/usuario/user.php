@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     header("Location:../");
- }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,16 +50,16 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <div class="carousel-item">
         <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 3">
     </div>
-  </div>
-  
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
-  </button>
+    </button>
 </div>
     
     <!--Section Libros-->
@@ -197,7 +197,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group">Autor: ${element.autor}</li>
                                         <li class="list-group">Editorial: ${element.editorial}</li>
-                                        <li class="mt-2 list-group">N° de paginas: ${element.numeropaginas}</li>
+                                        <li class="mt-2 list-group">Cantidad: ${element.cantidad}</li>
                                     </ul>
                                     
                                 </div>
@@ -238,7 +238,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group">Autor: ${element.autor}</li>
                                         <li class="list-group">Editorial: ${element.editorial}</li>
-                                        <li class="mt-2 list-group">N° de paginas: ${element.numeropaginas}</li>
+                                        <li class="mt-2 list-group">Cantidad: ${element.cantidad}</li>
                                     </ul>
                                     
                                 </div>

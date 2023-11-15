@@ -106,7 +106,7 @@ figure {
     color: #ce1919;
     padding: 1rem 0;
 }
-  
+
 
 
 
@@ -115,6 +115,7 @@ footer {
     padding: 60px 0 30px 0;
     margin: auto;
     overflow: hidden;
+    margin-top: auto; /* Agregado recientemente*/
 }
 
 .contenedor-footer{

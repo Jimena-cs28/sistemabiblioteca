@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     header("Location:../");
- }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,7 +34,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </style>
 
     <nav>
-      <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
+        <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
         
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
@@ -50,51 +50,50 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <div>
         <form>
         <div class="form-row mt-2">
-          <h4>Solicitud de préstamo</h4>
+            <h4>Solicitud de préstamo</h4>
     
-  <div class="form-group col-md-3 mt-2">
-    <label for="fechaprestamo" >Fecha préstamo</label>
-    <input type="date" class="form-control" id="fechaprestamo">
-  </div>
-
-  <div class="form-group col-md-3 mt-2">
-      <label for="">Cantidad</label>
-      <input type="number" class="form-control form-control-sm" id="cantidad">
+    <div class="form-group col-md-3 mt-2">
+        <label for="fechaprestamo" >Fecha préstamo</label>
+        <input type="date" class="form-control" id="fechaprestamo">
     </div>
 
-  <div class="form-group col-md-3 mt-2">
-   <label for="" style="color:#574E4E;">En Biblioteca</label>
-   <select class="form-control" required="" data-placement="top" id="enbiblioteca">
-    <option value="">Seleccione</option>
-    <option value="SI">Sí</option>
-    <option value="NO">No</option>
-  </select>
-  </div>
+    <div class="form-group col-md-3 mt-2">
+        <label for="cantidad">Cantidad</label>
+        <input type="number" class="form-control form-control-sm" id="cantidad">
+        </div>
 
-  <div id="contenedor-lugar" class="form-group col-md-6 mt-2 d-none">
-      <label for="lugar" class="form-label bold">Lugar</label>
-      <input type="text" class="form-control" id="lugar">
-  </div>
+    <div class="form-group col-md-3 mt-2">
+    <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
+    <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+        <option value="">Seleccione</option>
+        <option value="SI">Sí</option>
+        <option value="NO">No</option>
+    </select>
+    </div>
 
-  <div class="form-group col-md-6 mt-2">
-      <label for="descripcion" class="form-label bold">Descripción</label>
-      <input type="text" class="form-control" id="descripcion">
-  </div>
+    <div id="contenedor-lugar" class="form-group col-md-6 mt-2 d-none">
+        <label for="lugar" class="form-label bold">Lugar</label>
+        <input type="text" class="form-control" id="lugar">
+    </div>
+
+    <div class="form-group col-md-6 mt-2">
+        <label for="descripcion" class="form-label bold">Descripción</label>
+        <input type="text" class="form-control" id="descripcion">
+    </div>
 
     <div class="form-group col-md-3 mt-2">
     <label for="fechadevolucion" >Fecha devolución</label>
     <input type="date" class="form-control" id="fechadevolucion">
-  </div>
-                      
+    </div>
 
-  <div class="mt-4 mb-4">
-  <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
-  </div>
+    <div class="mt-4 mb-4">
+    <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
+    </div>
 </form>
-  </div>
-  </div>
-  </section>
-  
+    </div>
+    </div>
+    </section>
+    
     <footer id="foot">
         <div class="contenedor-footer">
             <div class="content-footer">
@@ -167,48 +166,48 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-          const queryString = window.location.search;
-          const Solicitar =document.querySelector("#solicitar");
-          const urlParams = new URLSearchParams(queryString);
-          const idlibro = urlParams.get("idlibro");
-          const fordata = new FormData()
-          const containerLibro = document.querySelector("#infoLibro")
-          const enbiblioteca = document.querySelector("#enbiblioteca")
-          const contenedorlugar = document.querySelector("#contenedor-lugar")
-          
-          fordata.append("operacion", "buscarlibro")
-          fordata.append("idlibro", idlibro)
-          fetch("../../controller/userlibros.php", {
-              method: "POST",
-              body: fordata
-          }).then(res=>res.json())
-          .then(datos=>{         
-              
-              containerLibro.innerHTML = `
-              <ul>
-              <div class="titulo">Descripción:</div>
-              <li class="descripcion"">Nombre de libro: ${datos.libro}</li>
-              <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
-              <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
-              <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
-              <li style="margin-left: 60px;">Subcategoría: ${datos.subcategoria}</li>
-              <li style="margin-left: 60px;">N° de páginas: ${datos.numeropaginas}</li>
-              </ul>
-              `
-          })
-          enbiblioteca.addEventListener("change", function(e){
+        document.addEventListener("DOMContentLoaded", () => {
+            const queryString = window.location.search;
+            const Solicitar =document.querySelector("#solicitar");
+            const urlParams = new URLSearchParams(queryString);
+            const idlibro = urlParams.get("idlibro");
+            const fordata = new FormData()
+            const containerLibro = document.querySelector("#infoLibro")
+            const enbiblioteca = document.querySelector("#enbiblioteca")
+            const contenedorlugar = document.querySelector("#contenedor-lugar")
+
+            fordata.append("operacion", "buscarlibro")
+            fordata.append("idlibro", idlibro)
+            fetch("../../controller/userlibros.php", {
+                method: "POST",
+                body: fordata
+            }).then(res=>res.json())
+            .then(datos=>{         
+                
+                containerLibro.innerHTML = `
+                <ul>
+                <div class="titulo">Descripción:</div>
+                <li class="descripcion"">Nombre de libro: ${datos.libro}</li>
+                <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
+                <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
+                <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
+                <li style="margin-left: 60px;">Subcategoría: ${datos.subcategoria}</li>
+                <li style="margin-left: 60px;">Cantidad: ${datos.cantidad}</li>
+                </ul>
+                `
+            })
+            enbiblioteca.addEventListener("change", function(e){
             const value = e.target.value
             
-            if(value == 'NO'){
-              console.log(contenedorlugar)
-              contenedorlugar.classList.remove("d-none")
-            }else {
-              contenedorlugar.classList.add("d-none")
-            }
-          })
+                if(value == 'NO'){
+                console.log(contenedorlugar)
+                contenedorlugar.classList.remove("d-none")
+                }else {
+                contenedorlugar.classList.add("d-none")
+                }
+            })
 
-          function RegistrarPrestamo(){
+            function RegistrarPrestamo(){
             if(confirm("¿Está seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion", "prestamousuario");
@@ -233,16 +232,16 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     document.querySelector("#fechadevolucion").value = ''
                     enbiblioteca.value =''
                 }else{
-                  alert('No puede solicitar más libros')
+                    alert('No puede solicitar más libros')
                 }
             })
             }
-          }
+            }
 
-          Solicitar.addEventListener("click", RegistrarPrestamo);
+            Solicitar.addEventListener("click", RegistrarPrestamo);
 
-          renderData();
-      });
+            renderData();
+    });
     </script>
 </body>
 
