@@ -23,7 +23,7 @@
                         <th>#</th>
                         <th>Libro</th>
                         <th>Nombre</th>
-                        <th>Tipo</th>
+                        <th>Codigo</th>
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
                         <th>F. Devolucion</th>
@@ -169,7 +169,7 @@
                     <td>${element.idlibroentregado}</td>
                     <td>${element.libro}</td>
                     <td>${element.nombres}</td>
-                    <td>${element.tipo}</td>
+                    <td>${element.codigo_libro}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechadevolucion}</td>

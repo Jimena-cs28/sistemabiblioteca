@@ -16,13 +16,6 @@ END$$
 
 CALL spu_login ('75123489');
 
-SELECT * FROM usuarios
-SELECT * FROM librosentregados
-
-INSERT INTO detalleautores (idlibro, idautor) VALUES
-(1, 2),
-(2, 2);
-
 -- SECCION LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro
@@ -37,50 +30,9 @@ BEGIN
 	WHERE libros.idsubcategoria = _idsubcategoria;
 END$$
 
-CALL spu_listar_libro(4);
-
-DELIMITER $$
-CREATE PROCEDURE spu_filtro_categoria(IN _idcategoria INT)
-BEGIN 
-	SELECT *
-	FROM subcategorias
-	WHERE idcategoria =  _idcategoria;
-END $$
-
--- SECCION ESTUDIANTE Y PROFESOR
--- ejecutado
-DELIMITER $$
-CREATE PROCEDURE spu_listar_estudiantes()
-BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
-	FROM usuarios
-	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3 AND estado = 1;
-END$$
-
-SELECT * FROM usuarios
-
-CALL spu_listar_estudiantes();
--- ejecutado
-DELIMITER $$
-CREATE PROCEDURE spu_listar_profesor()
-BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
-	FROM usuarios
-	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 2 AND estado = 1;
-END$$
-
-CALL spu_listar_estudiantes();
-SELECT * FROM libros
-
-UPDATE libros SET estado = 1 WHERE idlibro = 2
-
 -- ---------------------------------------------------------------------------------------------------------------------------
 
-DELIMITER $$
+DELIMITER $$ -- ejecutado
 CREATE PROCEDURE spu_filtro_student()
 BEGIN
 	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos) AS 'nombres', usuarios.estado
@@ -91,7 +43,7 @@ BEGIN
 END $$
 
 CALL spu_filtro_student();
-SELECT * FROM libros
+SELECT * FROM prestamos
 SELECT * FROM roles;
 SELECT * FROM prestamos;
 UPDATE prestamos SET estado = 'D' WHERE
@@ -124,71 +76,6 @@ END $$
 
 CALL spu_listar_fichaprestamo(1);
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
-
--- REGISTRO ESTUDIANTE Y PROFESOR
-DELIMITER $$
-CREATE PROCEDURE spu_registrar_estudiante
-(
-    IN _apellidos VARCHAR(50),
-    IN _nombres VARCHAR(30),
-    IN _nrodocumento CHAR(8),
-    IN _tipodocumento VARCHAR(50),
-    IN _fechanac DATE,
-    IN _direccion VARCHAR(100),
-    IN _telefono CHAR(9),
-    IN _email VARCHAR(100),
-    IN _nombreusuario VARCHAR(50),
-    IN _claveacceso VARCHAR(200)
-)
-BEGIN
-    -- Insertar el registro en la tabla "personas"
-    INSERT INTO personas (apellidos, nombres, nrodocumento, tipodocumento, fechanac, direccion, telefono, email)
-    VALUES (_apellidos, _nombres, _nrodocumento, _tipodocumento, _fechanac, _direccion, _telefono, _email);
-
-    -- Obtiene el ID de persona recién insertada
-    SET @idpersona = LAST_INSERT_ID();
-
-    -- Insertar el registro en la tabla "usuarios" con el rol de Estudiante (idrol = 3)
-    INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso)
-    VALUES (@idpersona, 3, _nombreusuario, _claveacceso);
-END$$
-
-CALL spu_registrar_estudiante('Lopez García', 'Elizabeth', '78290181','DNI','',
-'Chincha Baja','928782981','','78290181','654321');
-
-CALL spu_listar_estudiantes();
-
-SELECT * FROM librosentregados;
-
-DELIMITER $$
-CREATE PROCEDURE spu_registrar_profesor
-(
-    IN _apellidos VARCHAR(50),
-    IN _nombres VARCHAR(30),
-    IN _nrodocumento CHAR(8),
-    IN _tipodocumento VARCHAR(50),
-    IN _fechanac DATE,
-    IN _direccion VARCHAR(100),
-    IN _telefono CHAR(9),
-    IN _email VARCHAR(100),
-    IN _nombreusuario VARCHAR(50),
-    IN _claveacceso VARCHAR(200)
-)
-BEGIN
-    -- Inserta el registro en la tabla "personas"
-    INSERT INTO personas (apellidos, nombres, nrodocumento, tipodocumento, fechanac, direccion, telefono, email)
-    VALUES (_apellidos, _nombres, _nrodocumento, _tipodocumento, _fechanac, _direccion, _telefono, _email);
-
-    -- Obtiene el ID de persona recién insertada
-    SET @idpersona = LAST_INSERT_ID();
-
-    -- Inserta el registro en la tabla "usuarios" con el rol de Profesor (idrol = 2)
-    INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso)
-    VALUES (@idpersona, 2, _nombreusuario, _claveacceso);
-END$$
-
-CALL spu_registrar_profesor('Tasayco Gomez', 'Raúl','72890192','DNI','1990-10-10','Chincha Alta',
-'938789282','','72890192','4321');
 
 CALL spu_listar_profesor();
 SELECT * FROM librosentregados;
@@ -239,25 +126,6 @@ SELECT * FROM prestamos
 SELECT * FROM libros
  -- para subcategoria
  SELECT * FROM autores
- 
-DELIMITER $$
-CREATE PROCEDURE spu_listar_subcategoria
-( IN _idcat INT)
-BEGIN 
-SELECT * FROM subcategorias 
-WHERE idcategoria = _idcat;
-END$$
-
-SELECT * FROM prestamos WHERE estado = 'T'
- 
--- Category
-DELIMITER $$
-CREATE PROCEDURE spu_listar_subcategorias()
-BEGIN
-	SELECT idsubcategoria, categorias.categoria, subcategorias.subcategoria, subcategorias.codigo
-	FROM subcategorias
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria;
-END$$
 
  -- REPORTES
  SELECT libros.nombre
