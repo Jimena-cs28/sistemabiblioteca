@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     header("Location:../");
- }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,10 +89,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             })
         })
     </script>
-
-
-    
-
 
 </body>
 

@@ -57,7 +57,7 @@ CREATE PROCEDURE spu_list_libro
 (	
 )
 BEGIN
-	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.cantidad,libros.codigo,
 	autores.autor AS "autor", editoriales.nombres AS "editorial"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
