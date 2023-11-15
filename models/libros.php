@@ -9,7 +9,7 @@ class Libro extends conexion{
   {
     $this->acesso = parent::getConexion();
   }
-
+  
   public function selectcategoria(){
     try {
       $consulta = $this->acesso->prepare("SELECT idcategoria, categoria FROM categorias");
@@ -109,6 +109,7 @@ class Libro extends conexion{
     catch(Exception $e){
       die($e->getMessage());
     }
+  
   }
 
   public function listarSubcategorias(){

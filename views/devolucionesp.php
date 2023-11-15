@@ -8,6 +8,9 @@
         </div>
     </div>
 </div>
+<!-- <tr id="fechaEnTabla">2023-11-18</tr> -->
+
+<div id="customAlert" class="custom-alert"></div>
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -91,6 +94,17 @@
     </div>
 </div>
 
+<style>
+        .fechaEnTabla {
+            /* Estilo predeterminado para las fechas */
+            color: black;
+        }
+        .fechaPasada {
+            /* Estilo para las fechas que son mayores que la fecha actual */
+            color: red;
+        }
+</style>
+
 <script>
     let idlibro = '';
     let idusuario = '';
@@ -103,16 +117,42 @@
     const observaciones = document.querySelector("#observacion");
     let idprestamos = ''; //variable que almacena el id del prestamo
     let idlibroentregado = '';
-    // const bt = document.querySelector("#cerrar");
-    function validardevolucion(){
-        var Hoy =  new Date();
-        const fila = cuerpo.rows
-        for (let i = 0; i < fila.length; i++) {
-            const devolucion = String(fila[i].cells[6].innerText);
-            if(devolucion == Hoy){
-                alert("Este usuario no ah entregado a tiempo su libro");
-            }
+    // Obtén la fecha actual
+    const fechaActual = new Date();
+    // Supongamos que obtienes la fecha de la tabla del elemento con id "fechaEnTabla"
+    const fechaEnTabla = document.querySelectorAll('#tablaD tbody td.fechaEnTabla');
+
+    // Convierte la cadena de fecha en un objeto Date
+    //var fechaTabla = new Date(fechaEnTablaString);
+
+    fechaEnTabla.forEach(function (fechaElement) {
+        var fechaEnTablaString = fechaElement.innerText;
+        var fechaTabla = new Date(fechaEnTablaString);
+
+        // Compara las fechas
+        if (fechaActual < fechaTabla) {
+            fechaElement.classList.add('fechaPasada');
+            // Muestra la alerta personalizada
+            //showCustomAlert('La fecha en la tabla es mayor que la fecha actual.');
+
+            // Establece un temporizador para ocultar la alerta después de 3 segundos
+            //setTimeout(function() {
+              //  hideCustomAlert();
+            //}, 3000);
+        } else {
+            // showCustomAlert('La fecha en la tabla no es mayor que la fecha actual.');
         }
+    })
+
+    function showCustomAlert(message) {
+        var customAlert = document.getElementById('customAlert');
+        customAlert.innerText = message;
+        customAlert.style.display = 'block';
+    }
+
+    function hideCustomAlert() {
+        var customAlert = document.getElementById('customAlert');
+        customAlert.style.display = 'none';
     }
 
     function listarDevoluciones(){
@@ -137,7 +177,7 @@
                     <td>${element.codigo_libro}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
-                    <td>${element.fechadevolucion}</td>
+                    <td class='fechaEnTabla'>${element.fechadevolucion}</td>
                     <td>
                         <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibro='${element.idlibro}' data-idusuario='${element.idusuario}'  data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
                     </td>
@@ -249,7 +289,6 @@
         validarRecibirlibro();
     });
 
-    validardevolucion();
     listarDevoluciones();
     // bt.addEventListener("click", ValidarRegistrar);
 </script>

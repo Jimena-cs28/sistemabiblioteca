@@ -14,7 +14,16 @@
       }
     }
 
+    if($_POST['operacion'] == 'listarprestamo'){
+
+      $datos = $prestamo->listarprestamo();
+      if($datos){
+        echo json_encode($datos);
+      }
+    }
+
     if($_POST['operacion'] == 'filtrobeneficiario'){
+
       $datos = $prestamo->filtrobeneficiario();
       if($datos){
         echo json_encode($datos);
