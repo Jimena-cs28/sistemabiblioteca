@@ -294,22 +294,19 @@ BEGIN
         SET cantidad = cantidad_actual + _cantidad
         WHERE idlibro = _idlibro;
 END $$
+
 -- DEVOLUCIOOOOOOOOOOOOOOOOOOOOOOOON
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
-	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
-	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	SELECT prestamos.idprestamo, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
+	FROM prestamos
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'D'
-	ORDER BY idlibroentregado DESC;
+	ORDER BY idprestamo DESC;
 END $$
-
+SELECT * FROM prestamos
 -- FALTA EJECUTARM PARA ABAJOOO
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
@@ -360,8 +357,10 @@ BEGIN
         SET cantidad = cantidad_actual + 1
         WHERE idlibro = _idlibro;
 END $$
+
 -- ejecurtae
 CALL spu_update_devoluciones(1,1,'bien','bien');
+SELECT * FROM ejemplares
 
 DELIMITER $$
 CREATE PROCEDURE spu_update_ejemplar
@@ -428,8 +427,8 @@ BEGIN
 	ORDER BY idlibroentregado ASC;
 END $$
 
-SELECT * FROM prestamos
-SELECT * FROM libros
+SELECT * FROM usuarios
+SELECT * FROM librosentregados
 CALL spu_listar_prestamos();
 
 -- Contadores 

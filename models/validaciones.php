@@ -43,4 +43,52 @@ class Validacion extends conexion{
         }
     }
 
+    public function updatedevolucionesUno($datos = []){
+        $respuesta = [
+            "status" => false,
+            "message" => ""
+        ];
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_update_ejemplar(?,?,?,?)");
+            $respuesta["status"] = $consulta->execute(
+                array(
+                    $datos["idejemplar"],
+                    $datos["condiciondevolucion"],
+                    $datos["observaciones"],
+                    $datos["idlibroentregado"]
+                    
+                )
+            );
+        }
+        catch(Exception $e){
+            $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
+        }
+    
+        return $respuesta;
+    } 
+
+    public function updatedevolucionesTodos($datos = []){
+        $respuesta = [
+            "status" => false,
+            "message" => ""
+        ];
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_updateD_todo_prestamo(?,?,?,?)");
+            $respuesta["status"] = $consulta->execute(
+                array(
+                    $datos["idprestamo"],
+                    $datos["idlibroentregado"],
+                    $datos["condiciondevolucion"],
+                    $datos["observaciones"]
+                    
+                )
+            );
+        }
+        catch(Exception $e){
+            $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
+        }
+    
+        return $respuesta;
+    } 
+
 }

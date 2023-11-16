@@ -432,7 +432,7 @@ $datoID = json_encode($_SESSION['login']);
     function registrarLibroentregado2(idprestamo){
         if(confirm("estas seguro de guardar?")){
             const filaAhora = tablalibro.rows;
-            for (let i = 1; i < filaAhora.length; i++) {
+            for (let i = 0; i < filaAhora.length; i++) {
                 const idejemplo = parseInt(filaAhora[i].cells[0].innerText);
                 const fecha     = String(filaAhora[i].cells[3].innerText);
                 const condicionEntre = String(filaAhora[i].cells[4].innerText);

@@ -22,12 +22,11 @@
                 <thead>
                     <tr>
                         <th style="color:#574E4E;">#</th>
-                        <th style="color:#574E4E;">Libro</th>
                         <th style="color:#574E4E;">Usuario</th>
-                        <th style="color:#574E4E;">Codigo</th>
-                        <th style="color:#574E4E;">F. Solicitud</th>
-                        <th style="color:#574E4E;">F. Entrega</th>
-                        <th style="color:#574E4E;">F. Devolucion</th>
+                        <th style="color:#574E4E;">Datos</th>
+                        <th style="color:#574E4E;">F.Solicitud</th>
+                        <th style="color:#574E4E;">F.Entrega</th>
+                        <th style="color:#574E4E;">F.Prestamo</th>
                         <th style="color:#574E4E;">Recibir</th>
                         <th style="color:#574E4E;">Eliminar</th>
                     </tr>
@@ -40,9 +39,10 @@
     </div>
 </div>
 
+<!-- modalejemplar -->
 <div> 
     <div class="modal fade" id="modal-id">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
@@ -51,23 +51,40 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form autocomplete="off" id="form-devolucion">
+                    <form autocomplete="off" id="form-devolucion" class="p-3">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>Condicion: </label>
                             </div>
                             <!-- DESCRIPCION -->
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control form-control-sm" id="condicion">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Observaciones</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-sm"  id="observacion">
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-md-3">
-                                <label>Observaciones</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control form-control-sm"  id="observacion">
-                            </div>
+                            <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="color:#574E4E;">#</th>
+                                        <th style="color:#574E4E;">Libro</th>
+                                        <th style="color:#574E4E;">Codigo</th>
+                                        <th style="color:#574E4E;">C. Entrega</th>
+                                        <th style="color:#574E4E;">Ocupado</th> 
+                                        <th style="color:#574E4E;">F. Devolucion</th>
+                                        <th style="color:#574E4E;">Recibir</th>
+                                        <th style="color:#574E4E;">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
@@ -93,6 +110,60 @@
         </div>
     </div>
 </div>
+<!-- detallado -->
+<div> 
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form autocomplete="off" id="form-detallito" class="p-3">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Condicion:</label>
+                            </div>
+                            <!-- DESCRIPCION -->
+                            <div class="col-md-8">
+                                <input type="text" class="form-control form-control-sm" id="condicionD">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label>Observaciones:</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control form-control-sm"  id="observacionD">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="checklibro" value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">Retirar Libro</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="checkuser" value="option2">
+                                    <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guadarlibroD">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
         .fechaEnTabla {
@@ -108,13 +179,16 @@
 <script>
     let idlibro = '';
     let idusuario = '';
+    let idejemplar = '';
     const cuerpo = document.querySelector("tbody");
     //const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
-    const tabla = document.querySelector("#tablaD");
-    const condicion = document.querySelector("#condicion");
+    const tabla = document.querySelector("#tabla");
+    const CuerpoP = tabla.querySelector("tbody");
+    const condicion = document.querySelector("#condicionD");
     const btGuadar = document.querySelector("#guadarlibro");
-    const observaciones = document.querySelector("#observacion");
+    const observaciones = document.querySelector("#observacionD");
+    const GuadarD = document.querySelector("#guadarlibroD");
     let idprestamos = ''; //variable que almacena el id del prestamo
     let idlibroentregado = '';
     // Obtén la fecha actual
@@ -166,29 +240,63 @@
         .then(datos => {
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
-                idprestamos = element.idprestamo; 
+                //idprestamos = element.idprestamo; 
                 idlibroentregado = element.idlibroentregado;
                 //idlibro = element.idlibro;
                 const recibir = `
                 <tr>
-                    <td>${element.idlibroentregado}</td>
-                    <td>${element.libro}</td>
+                    <td>${element.idprestamo}</td>
                     <td>${element.nombres}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.descripcion}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
-                    <td class='fechaEnTabla'>${element.fechadevolucion}</td>
+                    <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idlibro='${element.idlibro}' data-idusuario='${element.idusuario}'  data-idlibroentregado='${element.idlibroentregado}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idprestamo='${element.idprestamo}'>recibir</a>
                     </td>
                     <td>
-                        <button class='btn btn-danger'><i class='zmdi zmdi-delete'></i></button>
+                        <button class='uno'>Devolucion</button>
                     </td>
                 </tr>
                 `;
                 cuerpo.innerHTML += recibir;
             });
         })
+    }
+
+    function listarEjemplare(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerEjemplar");
+        parametros.append("idprestamo", idprestamo);
+        fetch("../controller/librosentregados.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            CuerpoP.innerHTML = ``;
+            if(datos){
+                datos.forEach(element => {
+                idejemplar = element.idejemplar;
+                const Vopcion1 = `
+                <tr>
+                    <td>${element.idlibroentregado}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.codigo_libro}</td>
+                    <td>${element.condicionentrega}</td>
+                    <td>${element.ocupado}</td>
+                    <td>${element.fechadevolucion}</td>
+                    <td>
+                        <a href='#modal' type='button' class='detallitos' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                    </td>
+                </tr>`
+                ;
+                CuerpoP.innerHTML +=Vopcion1;
+                });
+            }else{
+                table.reset();
+            }
+        });
     }
 
     function Inavilitarlibro(){
@@ -221,51 +329,73 @@
         });
     }
 
-    function updatedevoluciones(){
+    function updatedevolucionesTodo(){
         if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
-            parametros.append("operacion","updatedevoluciones");
+            parametros.append("operacion","updatedevolucionesTodos");
+            parametros.append("idprestamo", idprestamo);
             parametros.append("idlibroentregado", idlibroentregado);
-            parametros.append("idprestamo", idprestamos);
-            parametros.append("condiciondevolucion",condicion.value);
-            parametros.append("observaciones", observaciones.value);
-            parametros.append("idlibro", idlibro);
-            const fila = tabla.rows;
-            for (let i = 1; i < fila.length; i++) {
-                const cantidad = parseInt(fila[i].cells[3].innerText);
-                parametros.append("cantidad", cantidad);
-                fetch("../controller/librosentregados.php",{
-                    method:'POST',
-                    body: parametros
-                })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    if(datos.status){
-                        document.querySelector("#form-devolucion").reset();
-                    }
-                })
-            }
+            parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
+            parametros.append("observaciones", document.querySelector("#observacion").value);
+            fetch("../controller/validacion.php",{
+                method:'POST',
+                body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                if(datos.status){
+                    document.querySelector("#form-devolucion").reset();
+                }
+            })
+            
         }
     };
 
     cuerpo.addEventListener("click", (event) => {
-        idlibro = parseInt(event.target.dataset.idlibro);
-        idusuario = parseInt(event.target.dataset.idusuario);
-        console.log(idlibro);
         if(event.target.classList[0] === 'recibir'){
-            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            idprestamo = parseInt(event.target.dataset.idprestamo);
             const parametros = new URLSearchParams();
-            parametros.append("operacion","traerlibroentregado");
-            parametros.append("idlibroentregado", idlibroentregado);
-            fetch("../controller/librosentregados.php",{
+            parametros.append("operacion","obtenerprestamo");
+            parametros.append("idprestamo", idprestamo);
+            fetch("../controller/prestamos.php",{
                 method: 'POST',
                 body: parametros
             }) // console.log(idlibroentregado)
             .then(response => response.json())
             .then(datos => {
-                console.log(idlibroentregado)
-                listarDevoluciones();
+                //console.log(idlibroentregado)
+                listarEjemplare();
+                btGuadar.addEventListener("click", updatedevolucionesTodo);
             });
+        }
+    });
+
+    CuerpoP.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'detallitos'){
+            idejemplar = parseInt(event.target.dataset.idejemplar);
+            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            function updatedevolucionesUno(){
+                if(confirm("estas seguro de guardar?")){
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion","updatedevolucionesUno");
+                    parametros.append("idejemplar", idejemplar);
+                    parametros.append("condiciondevolucion",condicion.value);
+                    parametros.append("observaciones", observaciones.value);
+                    parametros.append("idlibroentregado", idlibroentregado);
+                    fetch("../controller/validacion.php",{
+                        method:'POST',
+                        body: parametros
+                    })
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        if(datos.status){
+                            document.querySelector("#form-detallito").reset();
+                        }
+                    })
+                    
+                }
+            };
+            GuadarD.addEventListener("click", updatedevolucionesUno);
         }
     });
 
@@ -284,10 +414,10 @@
         }
     }
 
-    btGuadar.addEventListener("click", () => {
-        updatedevoluciones();
-        validarRecibirlibro();
-    });
+    // btGuadar.addEventListener("click", () => {
+    //     updatedevoluciones();
+    //     validarRecibirlibro();
+    // });
 
     listarDevoluciones();
     // bt.addEventListener("click", ValidarRegistrar);
