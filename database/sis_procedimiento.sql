@@ -81,14 +81,6 @@ CALL spu_listar_profesor();
 SELECT * FROM librosentregados;
 
 -- libros
-DELIMITER $$
-CREATE PROCEDURE spu_obtener_prestamo
-(
-	IN _idprestamo INT
-)
-BEGIN 
-	SELECT * FROM prestamos WHERE idprestamo = _idprestamo;
-END$$
 
 SELECT * FROM subcategorias
 

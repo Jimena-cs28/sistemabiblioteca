@@ -189,20 +189,19 @@ BEGIN
 	ORDER BY iddetalleautor DESC;
 END $$
 
-
 DELIMITER $$ 
 CREATE  PROCEDURE GRAFICO_INDEX()
 BEGIN
-	SELECT  COUNT(librosentregados.idlibro) AS 'totales', libros.libro
+	SELECT  COUNT(ejemplares.idlibro) AS 'totales', libros.libro
 	FROM librosentregados
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	WHERE prestamos.estado = 'T'
-	GROUP BY librosentregados.idlibro DESC;
+	GROUP BY librosentregados.idejemplar DESC;
 END $$
 
-SELECT * FROM prestamos
-
+SELECT * FROM libros
 
 SELECT  COUNT(librosentregados.idlibroentregado)AS 'todo', libros.libro, prestamos.descripcion
 FROM librosentregados
@@ -284,7 +283,7 @@ END $$
 
 CALL spu_reporte_descripcion('1l');
 
-
+SELECT * FROM PRESTAMOS
 -- REPORTE 2 
 -- ejemplo
 SELECT idlibro, COUNT(idlibro) AS totalPedidos

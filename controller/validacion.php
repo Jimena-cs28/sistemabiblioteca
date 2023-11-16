@@ -22,4 +22,29 @@ if (isset($_POST['operacion'])){
             echo json_encode($datos);
         }
     }
+    
+    if($_POST['operacion'] == 'updatedevolucionesUno'){
+        $datosActulizar = [
+            "idejemplar"            => $_POST['idejemplar'],
+            "condiciondevolucion"   => $_POST['condiciondevolucion'],
+            "observaciones"         => $_POST['observaciones'],
+            "idlibroentregado"      => $_POST["idlibroentregado"]
+        ];
+    
+        $respuesta = $validacion->updatedevolucionesUno($datosActulizar);
+        echo json_encode($respuesta);
+    }
+
+    if($_POST['operacion'] == 'updatedevolucionesTodos'){
+        $datosActulizar = [
+            "idprestamo"            => $_POST['idprestamo'],
+            "idlibroentregado"      => $_POST['idlibroentregado'],
+            "condiciondevolucion"   => $_POST['condiciondevolucion'],
+            "observaciones"         => $_POST['observaciones']
+        ];
+    
+        $respuesta = $validacion->updatedevolucionesTodos($datosActulizar);
+        echo json_encode($respuesta);
+    }
+    
 }

@@ -93,32 +93,6 @@ class LibroEntregado extends conexion{
     }
   }
 
-  public function updatedevoluciones($datos = []){
-    $respuesta = [
-      "status" => false,
-      "message" => ""
-    ];
-    try{
-      $consulta = $this->acesso->prepare("CALL spu_update_devoluciones(?,?,?,?,?,?)");
-      $respuesta["status"] = $consulta->execute(
-        array(
-          $datos["idlibroentregado"],
-          $datos["idprestamo"],
-          $datos["condiciondevolucion"],
-          $datos["observaciones"],
-          $datos["idlibro"],
-          $datos["cantidad"]
-          
-        )
-      );
-    }
-    catch(Exception $e){
-      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
-    }
-
-    return $respuesta;
-  } 
-
   public function SentenciaLibro($idlibro){
     try {
       $consulta = $this->acesso->prepare("CALL spu_inabilitar_libro(?)");
@@ -171,6 +145,19 @@ class LibroEntregado extends conexion{
     try {
       $consulta = $this->acesso->prepare("CALL spu_reporte_descripcion(?)");
       $consulta->execute(array($descripcion));
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function traerEjemplar($idprestamo){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_traerEjemplar_libroentregado(?)");
+      $consulta->execute(array($idprestamo));
+
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
       return $datosObtenidos; 
     }
