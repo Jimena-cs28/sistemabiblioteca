@@ -30,12 +30,11 @@ class Validacion extends conexion{
         }
         return $respuesta;
     }
-    
-    public function filtroEjemplar($idlibro){
+
+    public function filtroEjemplar($idejemplar){
         try{
             $consulta = $this->acesso->prepare("CALL spu_filtrar_ejemplares(?)");
-            $consulta->execute(array($idlibro));
-    
+            $consulta->execute(array($idejemplar));
             return $consulta->fetchAll(PDO::FETCH_ASSOC);
         }  
         catch(Exception $e){

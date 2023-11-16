@@ -109,7 +109,7 @@ class Prestamos extends conexion{
 
   public function selectsubcategoria($idcat){
     try{
-      $consulta = $this->acesso->prepare("CALL spu_listar_subcategoria(?)");
+      $consulta = $this->acesso->prepare("CALL spu_filtro_categoria(?)");
       $consulta->execute(array($idcat));
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
