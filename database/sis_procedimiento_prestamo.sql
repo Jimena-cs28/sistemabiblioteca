@@ -299,14 +299,14 @@ END $$
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT prestamos.idprestamo, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
+	SELECT prestamos.idprestamo, usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
 	FROM prestamos
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'D'
 	ORDER BY idprestamo DESC;
 END $$
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 -- FALTA EJECUTARM PARA ABAJOOO
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones

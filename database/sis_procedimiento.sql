@@ -1,4 +1,4 @@
-USE sisbiblioteca
+USE sistemabiblioteca
 
 DELIMITER$$
 CREATE PROCEDURE spu_login 
@@ -16,6 +16,9 @@ END$$
 
 CALL spu_login ('75123489');
 
+
+-- delimiter $$
+-- create procedure spu_listar_subcategoria( in )
 -- SECCION LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro

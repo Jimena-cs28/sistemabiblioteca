@@ -2,7 +2,7 @@ USE sistemabiblioteca;
 -- VALIDACIONEEEEEES
 
 SELECT * FROM prestamos
-SELECT * FROM ejemplares
+SELECT * FROM usuarios
 SELECT * FROM librosentregados
 
 UPDATE librosentregados SET 

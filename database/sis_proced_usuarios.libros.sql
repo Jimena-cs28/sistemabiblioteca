@@ -55,7 +55,7 @@ BEGIN
         SET nuevo_codigo = nuevo_codigo + 1;
     END WHILE;
 END $$
-
+SELECT * FROM categorias
 -- ejecutado LIBROS ACTIVOS
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
@@ -159,18 +159,6 @@ BEGIN
 END $$
 
 CALL spu_inactivo_estudiantes();
-
-DELIMITER $$
-CREATE PROCEDURE spu_inabilitar_usuario
-(
-	IN _idusuario	INT
-)
-BEGIN
-	UPDATE usuarios SET
-	estado = '0',
-	inactive_at = NOW()
-	WHERE idusuario = _idusuario;
-END $$
 
 CALL spu_inabilitar_usuario(6);
 
@@ -297,7 +285,8 @@ BEGIN
 END$$
 
 CALL spu_listar_libro(4);
-
+SELECT * FROM libros
+SELECT * FROM ejemplares
 DELIMITER $$
 CREATE PROCEDURE spu_filtro_categoria(IN _idcategoria INT)
 BEGIN 
@@ -305,3 +294,5 @@ BEGIN
 	FROM subcategorias
 	WHERE idcategoria =  _idcategoria;
 END $$
+
+SELECT * FROM ejemplares

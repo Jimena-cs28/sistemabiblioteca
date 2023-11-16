@@ -130,7 +130,7 @@
             datos.forEach(element => {
                 //idprestamo = element.idprestamo; 
                 const reserva = `
-                <div class="col-md-4 card-deck">
+                <div class="col-md-6 card-deck">
                     <div class="card  mb-3" style="max-width: 500px;">
                         <div class="row g-0">
                             <div class="col-md-4">

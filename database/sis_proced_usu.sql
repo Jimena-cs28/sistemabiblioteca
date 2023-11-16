@@ -1,9 +1,9 @@
 USE sistemabiblioteca
 -- PASO 5 LISTAR DEVOLUCIONES.PENDIENTES
 DELIMITER $$
-CREATE PROCEDURE spu_listar_devolucionpendientes()
+DROP PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	SELECT idlibroentregado,prestamos.idprestamo, usuarios.idusuario, prestamos.descripcion, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
 	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
@@ -14,7 +14,8 @@ BEGIN
 	WHERE prestamos.estado = 'D'
 	ORDER BY idlibroentregado DESC;
 END $$
-SELECT * FROM usuarios
+
+SELECT * FROM usuarios	
 -- PASO 6 ACTUALIZAR FECHADEVOLUCION
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
