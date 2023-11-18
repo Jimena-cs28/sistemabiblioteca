@@ -46,5 +46,11 @@ if (isset($_POST['operacion'])){
         $respuesta = $validacion->updatedevolucionesTodos($datosActulizar);
         echo json_encode($respuesta);
     }
-    
+
+    if($_POST['operacion'] == 'DesactivarEjem'){
+        $datos = $validacion->DesacEjemplar($_POST['idejemplar']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
 }

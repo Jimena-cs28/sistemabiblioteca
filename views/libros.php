@@ -86,10 +86,10 @@
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">Imagen</label>
-                            <input type="file" id="fotografia" accept=".jpg" class="form-control form-control-sm" placeholder="imagen del libro">
+                            <input type="file" id="fotografia" class="form-control form-control-sm" placeholder="imagen del libro">
                         </div>
                         <div class="col-md-3">
-                            <img class="visor" alt="" id="img">
+                            <img class="visor" alt="" id="img" width="200px">
                         </div>
                         <div class="col-md-3">
                             <label for="">EDICION</label>
@@ -195,7 +195,7 @@
             selectAutores.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let selectAutor = `
-                    <option value='${element.idautor}'>${element.nombres}-${element.apellidos}-${element.nacionalidad} </option> 
+                    <option value='${element.idautor}'>${element.autor}-${element.apellidos}-${element.nacionalidad} </option> 
                 `;
                 selectAutores.innerHTML += selectAutor;
             });

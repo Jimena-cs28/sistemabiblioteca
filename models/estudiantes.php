@@ -130,7 +130,7 @@ class Estudiantes extends conexion{
 
   public function SentenciarUser($idusuario){
     try {
-      $consulta = $this->acesso->prepare("CALL spu_desactivar_usuario(?)");
+      $consulta = $this->acesso->prepare("CALL spu_inabilitar_usuario(?)");
       $consulta->execute(array($idusuario));
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
