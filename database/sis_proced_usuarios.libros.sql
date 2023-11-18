@@ -19,7 +19,6 @@ CREATE PROCEDURE spu_registrar_libro
     IN _descripcion TEXT,
     IN _imagenportada VARCHAR(200),
     IN _idautor  INT
-    -- IN p_idlibro INT
 )
 BEGIN
     DECLARE cantidad_libros INT;
@@ -30,6 +29,9 @@ BEGIN
      VALUES (_idsubcategoria, _ideditorial, _libro, _tipo, _cantidad, _numeropaginas, _codigo, _edicion,_formato,_anio,_idioma,_descripcion,_imagenportada);
 	
      SET @idlibro = LAST_INSERT_ID();
+     
+     INSERT INTO detalleautores(idlibro, idautor) VALUES
+				(@idlibro, _idautor);
 
     -- Obtener la cantidad de libros para el ID 
     SELECT cantidad INTO cantidad_libros FROM libros WHERE idlibro = @idlibro;
@@ -56,7 +58,12 @@ BEGIN
     END WHILE;
 END $$
 
+CALL spu_registrar_libro(4,2,'prueba','texto',4,23,23.2,'','mediano','','','','',2);
 -- ejecutado LIBROS ACTIVOS
+INSERT INTO detalleautores(idlibro, idautor) VALUES (3,3);
+SELECT * FROM libros
+SELECT * FROM detalleautores
+SELECT * FROM ejemplares
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN
@@ -115,18 +122,6 @@ CALL spu_registrar_subcategory(10,'Historia de America del Sur', 980);
 SELECT * FROM subcategorias
 
 DELIMITER $$
-CREATE PROCEDURE spu_inabilitar_libro
-(
-	IN _idlibro	INT
-)
-BEGIN
-	UPDATE libros SET
-	estado = '0',
-	inactive_at = NOW()
-	WHERE idlibro = _idlibro;
-END $$
-
-DELIMITER $$
 CREATE PROCEDURE spu_abilitar_libro
 (
 	IN _idlibro	INT
@@ -160,20 +155,20 @@ END $$
 
 CALL spu_inactivo_estudiantes();
 
-DELIMITER $$
+DELIMITER $$ -- EJECUTADO
 CREATE PROCEDURE spu_inabilitar_usuario
 (
 	IN _idusuario	INT
 )
 BEGIN
 	UPDATE usuarios SET
-	estado = '0',
+	estado = 0,
 	inactive_at = NOW()
 	WHERE idusuario = _idusuario;
 END $$
 
-CALL spu_inabilitar_usuario(6);
-
+CALL spu_inabilitar_usuario(2);
+SELECT * FROM usuarios
 DELIMITER $$
 CREATE PROCEDURE spu_abilitar_usuario
 (
@@ -185,7 +180,8 @@ BEGIN
 	WHERE idusuario = _idusuario;
 END $$
 
-CALL spu_abilitar_usuario(2);
+SELECT * FROM usuarios
+CALL spu_abilitar_usuario(6);
 
 -- SECCION ESTUDIANTE Y PROFESOR
 DELIMITER $$

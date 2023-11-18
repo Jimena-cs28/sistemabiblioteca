@@ -119,10 +119,10 @@ class Prestamos extends conexion{
     }
   }
 
-  public function fichaprestamo($idlibroentregado){
+  public function fichaprestamo($idprestamo){
     try{
       $consulta = $this->acesso->prepare("CALL spu_listar_fichaprestamo(?)");
-      $consulta->execute(array($idlibroentregado));
+      $consulta->execute(array($idprestamo));
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

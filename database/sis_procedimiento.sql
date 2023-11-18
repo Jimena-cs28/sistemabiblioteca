@@ -1,4 +1,4 @@
-USE sisbiblioteca
+USE sistemabiblioteca
 
 DELIMITER$$
 CREATE PROCEDURE spu_login 
@@ -16,6 +16,9 @@ END$$
 
 CALL spu_login ('75123489');
 
+
+-- delimiter $$
+-- create procedure spu_listar_subcategoria( in )
 -- SECCION LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro
@@ -56,25 +59,28 @@ SELECT * FROM librosentregados
 DELIMITER $$
 CREATE PROCEDURE spu_listar_fichaprestamo
 (
-	IN _idlibrosentregados INT
+	IN _prestamo INT
 )
 BEGIN
-	SELECT librosentregados.idlibroentregado, libros.imagenportada, roles.nombrerol, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres', 
+	SELECT librosentregados.idlibroentregado, ejemplares.idejemplar, ejemplares.codigo_libro, libros.imagenportada, roles.nombrerol, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres', 
 	prestamos.descripcion,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, categorias.categoria, 
 	subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, fechadevolucion,
 	prestamos.fecharespuesta
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usu1.idrol
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE idlibroentregado = _idlibrosentregados;
+	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado = 'T';
 END $$
 
-CALL spu_listar_fichaprestamo(1);
+SELECT * FROM libros
+CALL spu_listar_fichaprestamo(6);
+
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
 
 CALL spu_listar_profesor();
@@ -142,23 +148,7 @@ SELECT * FROM libros
  SELECT * FROM detalleautores
   SELECT * FROM libros
  
-DELIMITER $$
-CREATE PROCEDURE spu_obtener_detalleautores
-(
-	IN _iddetalleautor INT
-)
-BEGIN
-	SELECT detalleautores.iddetalleautor, categorias.categoria, subcategorias.subcategoria, CONCAT(editoriales.nombres,' ', editoriales.paisorigen) AS 'Editorial',
-	libros.libro, libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
-	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, CONCAT(autores.autor,' ',autores.apellidos) AS 'Autor'
-	FROM detalleautores
-	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
-	INNER JOIN autores ON autores.idautor = detalleautores.idautor 
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE detalleautores.iddetalleautor = _iddetalleautor;
-END $$
+
 
 CALL spu_obtener_detalleautores(2);
  

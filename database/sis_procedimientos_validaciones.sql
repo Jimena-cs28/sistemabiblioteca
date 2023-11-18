@@ -123,11 +123,12 @@ BEGIN
     END IF;
 END$$
 
-CALL spu_updateD_todo_prestamo(9,26,'LALA','CACA');
-
+CALL spu_updateD_todo_prestamo(13,36,'LALA','CACA');
+SELECT * FROM libros
 SELECT * FROM librosentregados
 SELECT * FROM usuarios
 SELECT * FROM ejemplares
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 6
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 7
 
+UPDATE libros SET estado = 1 WHERE idlibro = 2

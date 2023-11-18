@@ -56,10 +56,10 @@ class LibroEntregado extends conexion{
     return $respuesta;
   } 
   
-  public function obtenerDetalleautores($iddetalleautor){
+  public function obtenerDetalleautores($idlibro){
     try{
       $consulta = $this->acesso->prepare("CALL spu_obtener_detalleautores(?)");
-      $consulta->execute(array($iddetalleautor));
+      $consulta->execute(array($idlibro));
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }  

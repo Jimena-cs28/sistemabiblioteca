@@ -105,9 +105,10 @@ BEGIN
 END $$
 
 CALL spu_abilitar_usuario(2);
-
+SELECT * FROM autores
+SELECT * FROM detalleautores
 -- FIN
-SELECT * FROM usuarios
+SELECT * FROM libros
 
 SELECT *FROM prestamos
 -- ACTUALIZAR contraseña.user
@@ -210,21 +211,22 @@ INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
 WHERE prestamos.descripcion = '1L' AND prestamos.estado = 'T'
 GROUP BY librosentregados.idlibro DESC;
 
-SELECT * FROM libros
+SELECT * FROM librosentregados
 
-UPDATE prestamos SET descripcion = '1L' WHERE idprestamo = 11
+UPDATE librosentregados SET fechadevolucion = '2023-11-18' WHERE idlibroentregado = 61
 
 DELIMITER $$
 CREATE PROCEDURE spu_grafico_rol ( IN _idrol INT)
 BEGIN
-	SELECT  COUNT(librosentregados.idlibro) AS 'totales', libros.libro
+	SELECT  COUNT(ejemplares.idlibro) AS 'totales', libros.libro
 	FROM librosentregados
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	WHERE usuarios.idrol = _idrol AND prestamos.estado = 'T'
-	GROUP BY librosentregados.idlibro DESC;
+	GROUP BY librosentregados.idejemplar DESC;
 END $$
 
 CALL spu_grafico_rol(3);
@@ -272,7 +274,8 @@ BEGIN
 	CONCAT(personas.nombres, ' ' ,personas.apellidos) AS 'nombres',	prestamos.descripcion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
@@ -282,8 +285,8 @@ BEGIN
 END $$
 
 CALL spu_reporte_descripcion('1l');
-
-SELECT * FROM PRESTAMOS
+SELECT * FROM personas
+SELECT * FROM usuarios
 -- REPORTE 2 
 -- ejemplo
 SELECT idlibro, COUNT(idlibro) AS totalPedidos

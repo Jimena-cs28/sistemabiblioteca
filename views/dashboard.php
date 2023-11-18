@@ -156,7 +156,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xl-3">
+    <!-- <div class="col-xl-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
@@ -169,13 +169,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="col-xl-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold font-weight-bold text-primary"> Libro por rol:</h5>
+                    <h5 class="card-title fw-semibold font-weight-bold text-primary">Libro por rol:</h5>
                 </div>
                 <div>
                     <select id="idrol" class="form-control">
@@ -195,7 +195,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between mb-9">
             <div class="mb-3 mb-sm-0">
-                <h5 class="card-title fw-semibold font-weight-bold text-primary"> Libros:</h5>
+                <h5 class="card-title fw-semibold font-weight-bold text-primary">Libros:</h5>
             </div>
             </div>
             <div class="card-body">

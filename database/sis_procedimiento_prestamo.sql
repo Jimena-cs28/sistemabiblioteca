@@ -18,9 +18,9 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,_fechaprestamo,_descripcion,_enbiblioteca,_lugardestino, 'E');
 END $$
 
-CALL spu_registrar_prestamo_reservar(3,1,'2023-11-12',"2A","SI","");
-SELECT * FROM usuarios;
--- ejecutado
+CALL spu_registrar_prestamo_reservar(2,1,'2023-11-12',"2A","SI","");
+SELECT * FROM prestamos;
+-- ejecutado RESERVAR
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_register
 (
@@ -81,8 +81,9 @@ BEGIN
     END IF;
 END $$
 
-CALL spu_libroentregado_register(1,2,'Nuevo','2023-11-14');
+CALL spu_libroentregado_register(13,6,'Nuevo','2023-11-14');
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
+SELECT * FROM libros -- 9
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo
 (
@@ -115,8 +116,8 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
-CALL spu_registrar_prestamo_ahora(2,1, '5B','SI','')
-
+CALL spu_registrar_prestamo_ahora(3,1, '5B','SI','')
+SELECT * FROM ejemplares
 SELECT * FROM prestamos
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_AddAhora
@@ -131,7 +132,7 @@ BEGIN
 	DECLARE _idlibro INT;
 	DECLARE _idbene INT;
 	
-	IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
+	-- IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
 	SELECT idlibro INTO _idlibro
 	FROM ejemplares
 	WHERE idejemplar = _idejemplar;	
@@ -171,17 +172,16 @@ BEGIN
         WHERE idusuario = _idbene;
         -- select * from usuarios
         COMMIT;
-
         -- SELECT 'Libro entregado y cantidad actualizada correctamente.' AS mensaje;
     ELSE
         SELECT 'No hay suficientes libros disponibles para realizar la entrega.' AS mensaje;
     END IF;
 END $$
 
-CALL spu_libroentregado_AddAhora(2,1,'Bien','2023-11-14')
-
+CALL spu_libroentregado_AddAhora(15,6,'Bien','2023-11-14')
+SELECT * FROM libros -- 8
 -- LISTAR LIBROS EN PRESTAMO
-SELECT * FROM ejemplares
+SELECT * FROM librosentregados
 DELIMITER $$
 CREATE PROCEDURE spu_conseguir_libro()
 BEGIN 
@@ -299,14 +299,14 @@ END $$
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT prestamos.idprestamo, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
+	SELECT prestamos.idprestamo, usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
 	FROM prestamos
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'D'
 	ORDER BY idprestamo DESC;
 END $$
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 -- FALTA EJECUTARM PARA ABAJOOO
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
@@ -358,6 +358,7 @@ BEGIN
         WHERE idlibro = _idlibro;
 END $$
 
+-- select * from usuarios
 -- ejecurtae
 CALL spu_update_devoluciones(1,1,'bien','bien');
 SELECT * FROM ejemplares
@@ -410,22 +411,31 @@ BEGIN
         WHERE idlibro = _idlibro;
 END $$
 
+SELECT * FROM prestamos
 -- LISTAR TODOS LOS PRESTAMOS
-DELIMITER $$ -- ejecutado
+DELIMITER $$ -- ejecutado 
 CREATE PROCEDURE spu_listar_todoprestamos()
 BEGIN
-	SELECT librosentregados.idlibroentregado, libros.libro, ejemplares.codigo_libro, libros.tipo, prestamos.`fechasolicitud`, 
-	prestamos.fechaentrega, librosentregados.fechadevolucion, personas.nombres
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
-	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
-	INNER JOIN usuarios usu2 ON usu2.idusuario = prestamos.idbeneficiario
-	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.`idbibliotecario`
-	INNER JOIN personas ON personas.`idpersona` = usu2.`idpersona`
+	SELECT idprestamo,prestamos.`fechasolicitud`, prestamos.descripcion, prestamos.enbiblioteca,
+	fechaprestamo, prestamos.fechaentrega, CONCAT(personas.nombres, ' ', personas.apellidos) AS 'Nombres'
+	FROM prestamos
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.`idpersona` = usuarios.`idpersona`
 	WHERE prestamos.estado = 'T'
-	ORDER BY idlibroentregado ASC;
+	ORDER BY idprestamo ASC;
 END $$
+
+SELECT librosentregados.idlibroentregado, libros.libro, ejemplares.codigo_libro, libros.tipo, prestamos.`fechasolicitud`, 
+prestamos.fechaentrega, librosentregados.fechadevolucion, personas.nombres
+FROM librosentregados
+INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+INNER JOIN usuarios usu2 ON usu2.idusuario = prestamos.idbeneficiario
+INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.`idbibliotecario`
+INNER JOIN personas ON personas.`idpersona` = usu2.`idpersona`
+WHERE prestamos.estado = 'T'
+ORDER BY idlibroentregado ASC;
 
 SELECT * FROM usuarios
 SELECT * FROM librosentregados

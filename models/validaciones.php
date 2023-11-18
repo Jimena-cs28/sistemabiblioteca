@@ -63,7 +63,6 @@ class Validacion extends conexion{
         catch(Exception $e){
             $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
         }
-    
         return $respuesta;
     } 
 
@@ -87,8 +86,17 @@ class Validacion extends conexion{
         catch(Exception $e){
             $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
         }
-    
         return $respuesta;
-    } 
+    }
 
+    public function DesacEjemplar($idejemplar){
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_desactivar_ejemplar(?)");
+            $consulta->execute(array($idejemplar));
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        }  
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }
