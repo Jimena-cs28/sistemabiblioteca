@@ -68,7 +68,7 @@ if (isset($_POST['operacion'])){
     
     if($cantidaddelibro['cantidad']<$cantidadmax){
       $datos= [
-        "idlibro"   => $_POST['idlibro'],
+        "idejemplar"   => $_POST['idejemplar'],
         "idbeneficiario" => $_SESSION['login']['idusuario'],
         "cantidad"  =>  $_POST['cantidad'],
         "descripcion" =>  $_POST['descripcion'],
@@ -98,6 +98,11 @@ if (isset($_POST['operacion'])){
     
   }
 
+  if($_POST['operacion'] == 'listarejemplar'){
+    $datos = $userlibro->listarejemplar($_POST['idlibro']);
+    echo json_encode($datos);
+
+  }
 
 
 }

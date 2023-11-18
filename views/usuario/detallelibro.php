@@ -51,6 +51,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <form>
         <div class="form-row mt-2">
             <h4>Solicitud de préstamo</h4>
+
+    <div class="form-group col-md-3 mt-2">
+        <label for="ejemplares" style="color:#574E4E;">Ejemplares</label>
+        <select class="form-control" required="" data-placement="top" id="ejemplares">
+            <option value="">Seleccione</option>
+        </select>    
+    </div>
     
     <div class="form-group col-md-3 mt-2">
         <label for="fechaprestamo" >Fecha préstamo</label>
@@ -60,7 +67,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <div class="form-group col-md-3 mt-2">
         <label for="cantidad">Cantidad</label>
         <input type="number" class="form-control form-control-sm" id="cantidad">
-        </div>
+    </div>
 
     <div class="form-group col-md-3 mt-2">
     <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
@@ -175,6 +182,29 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const containerLibro = document.querySelector("#infoLibro")
             const enbiblioteca = document.querySelector("#enbiblioteca")
             const contenedorlugar = document.querySelector("#contenedor-lugar")
+            const ejemplares = document.querySelector("#ejemplares")
+        
+
+            
+            function listarejemplares(){
+                console.log("datos")
+                const ejemplaresdata = new FormData()
+                ejemplaresdata.append("operacion", "listarejemplar")
+                ejemplaresdata.append("idlibro", idlibro)
+                fetch("../../controller/userlibros.php", {
+                    method: "POST",
+                    body: ejemplaresdata
+                }).then(res=>res.json())
+                .then(datos=>{
+                    datos.forEach(dato =>{
+                        ejemplares.innerHTML+= `
+                        <option value="${dato.idejemplar}">
+                        ${dato.idejemplar}
+                        </option>
+                        `
+                    })
+                })
+            }
 
             fordata.append("operacion", "buscarlibro")
             fordata.append("idlibro", idlibro)
@@ -211,7 +241,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             if(confirm("¿Está seguro de guardar?")){
             const parametros = new URLSearchParams();
             parametros.append("operacion", "prestamousuario");
-            parametros.append("idlibro", idlibro);           
+            parametros.append("idejemplar", ejemplares.value);      
             parametros.append("cantidad", document.querySelector("#cantidad").value);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
             parametros.append("enbiblioteca", enbiblioteca.value);
@@ -240,7 +270,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             Solicitar.addEventListener("click", RegistrarPrestamo);
 
-            renderData();
+            
+            listarejemplares();
     });
     </script>
 </body>

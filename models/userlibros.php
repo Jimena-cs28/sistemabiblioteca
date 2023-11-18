@@ -104,7 +104,7 @@ class userlibro extends conexion{
       $consulta = $this->acesso->prepare("CALL spu_prestamo_usuario(?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
-          $datos["idlibro"],
+          $datos["idejemplar"],
           $datos["idbeneficiario"],
           $datos["cantidad"],
           $datos["descripcion"],
@@ -137,8 +137,13 @@ class userlibro extends conexion{
     return $consulta->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  
-
+  public function listarejemplar($idlibro){
+    $consulta = $this ->acesso->prepare("CALL spu_ejemplarlibro(?)");
+    $consulta->execute(array(
+      $idlibro 
+    ));
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+  }
   
 
 }
