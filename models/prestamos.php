@@ -109,7 +109,7 @@ class Prestamos extends conexion{
 
   public function selectsubcategoria($idcat){
     try{
-      $consulta = $this->acesso->prepare("CALL spu_filtro_categoria(?)");
+      $consulta = $this->acesso->prepare("CALL spu_listar_subcategoria(?)");
       $consulta->execute(array($idcat));
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -119,10 +119,10 @@ class Prestamos extends conexion{
     }
   }
 
-  public function fichaprestamo($idlibroentregado){
+  public function fichaprestamo($idprestamo){
     try{
       $consulta = $this->acesso->prepare("CALL spu_listar_fichaprestamo(?)");
-      $consulta->execute(array($idlibroentregado));
+      $consulta->execute(array($idprestamo));
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

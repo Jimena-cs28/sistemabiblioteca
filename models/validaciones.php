@@ -30,11 +30,12 @@ class Validacion extends conexion{
         }
         return $respuesta;
     }
-
-    public function filtroEjemplar($idejemplar){
+    
+    public function filtroEjemplar($idlibro){
         try{
             $consulta = $this->acesso->prepare("CALL spu_filtrar_ejemplares(?)");
-            $consulta->execute(array($idejemplar));
+            $consulta->execute(array($idlibro));
+    
             return $consulta->fetchAll(PDO::FETCH_ASSOC);
         }  
         catch(Exception $e){
@@ -62,7 +63,6 @@ class Validacion extends conexion{
         catch(Exception $e){
             $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
         }
-    
         return $respuesta;
     } 
 
@@ -86,8 +86,17 @@ class Validacion extends conexion{
         catch(Exception $e){
             $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
         }
-    
         return $respuesta;
-    } 
+    }
 
+    public function DesacEjemplar($idejemplar){
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_desactivar_ejemplar(?)");
+            $consulta->execute(array($idejemplar));
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        }  
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }

@@ -99,4 +99,10 @@ if (isset($_POST['operacion'])){
     }
   }
 
+  if($_POST['operacion'] == 'TraerEjemplar'){
+    $datos = $libro->TraerEjemplar($_POST['idlibro']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
 }

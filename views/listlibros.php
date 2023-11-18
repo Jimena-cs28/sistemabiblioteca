@@ -14,7 +14,7 @@
         <h6 class="m-0 font-weight-bold text-primary">LISTADO DE LIBROS</h6>
     </div>
     <div class="card-body">
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#libroI">Docentes</button>
+    <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
 
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -27,21 +27,18 @@
                         <th>Autor</th>
                         <th>Cantidad</th>
                         <th>Codigo</th>
-                        <th>Ver Todo</th>
-                        <th>Editar</th>
-                        <th>Sancionar</th>
-                        <th>Ver Eje</th>
+                        <th>Codigo</th>
+                        <th>Desactivar</th>
                     </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <!-- modal libro -->
-<div class="modal fade" id="mdl-libro" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="mdl-libro" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl ">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,7 +49,7 @@
             </div>
             <div class="modal-body">
             <form id="">
-                    <div class="row ml-5 mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-3">
                             <label for="">CATEGORIA</label>
                             <input type="text" class="form-control" disabled id="categoria">
@@ -70,7 +67,7 @@
                             <input type="text" class="form-control" disabled maxlength="70" id="libro">
                         </div>
                     </div>
-                    <div class="row ml-5 mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-3">
                             <label for="">CANTIDAD</label>
                             <input type="number" class="form-control"  disabled id="cantidad">
@@ -88,7 +85,7 @@
                             <input type="text" class="form-control" maxlength="50"id="formato" disabled>
                         </div>
                     </div>
-                    <div class="row ml-5 mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-3">
                             <label for="">Descripcion</label>
                             <input type="text" id="descripcion" class="form-control" disabled>
@@ -106,7 +103,7 @@
                             <input type="text" id="tipo" class="form-control" disabled>
                         </div>
                     </div>
-                    <div class="row ml-5 mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-6">
                             <div class="row">
                                 <label for="">Imagen</label>                                
@@ -131,7 +128,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- modal Inactivo -->
 <div class="modal fade" id="libroI">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -176,83 +173,99 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #2e4edf;">LIBROS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-            <form id="">
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">CATEGORIA</label>
-                            <input type="text" class="form-control" disabled id="categoria">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">SUBCATEGORIA</label>
-                            <input type="text" class="form-control" disabled id="subcategoria">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">EDITORIAL</label>
-                            <input type="text" class="form-control" disabled id="editorial">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">NOMBRE</label>
-                            <input type="text" class="form-control" disabled maxlength="70" id="libro">
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">CANTIDAD</label>
-                            <input type="number" class="form-control"  disabled id="cantidad">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">NUMERO DE PAGINA</label>
-                            <input type="number" class="form-control" disabled id="paginas">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">CODIGO</label>  
-                            <input type="text" class="form-control" disabled id="codigo">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">FORMATO</label>
-                            <input type="text" class="form-control" maxlength="50"id="formato" disabled>
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">Descripcion</label>
-                            <input type="text" id="descripcion" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">IDIOMA</label>
-                            <input type="text" class="form-control" id="idioma" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">AÑO</label>
-                            <input type="date" id="anio" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">TIPO</label>
-                            <input type="text" id="tipo" class="form-control" disabled>
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-6">
+            <form id="form-ejemplar">
+                    <div class="row">
+                        <div class="col-sm-8">
                             <div class="row">
-                                <label for="">Imagen</label>                                
+                                <div class="col-sm-6">
+                                    <label for="">CATEGORIA</label>
+                                    <input type="text" class="form-control"  disabled id="categoria">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="">SUB CATEGORIA</label>
+                                    <input type="text" class="form-control"  disabled id="subcategoria">
+                                </div>
                             </div>
-                            <div class="row">
-                                <img class="visor" alt="" id="img" width="200px">
+                            <div class="row mt-3">
+                                <div class="col-sm-3">
+                                    <label for="">CANTIDAD</label>
+                                    <input type="number" class="form-control"  disabled id="cantidad">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">CODIGO</label>
+                                    <input type="number" class="form-control"  disabled id="codigo">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">AUTOR</label>
+                                    <input type="text" class="form-control"  disabled id="autor">
+                                </div>
+                                
+                                <div class="col-sm-3">
+                                    <label for="">Nº PAGINAS</label>
+                                    <input type="number" class="form-control"  disabled id="paginas">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4">
+                                    <label for="">EDICION</label>
+                                    <input type="text" class="form-control"  disabled id="edicion">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">FORMATO</label>
+                                    <input type="text" class="form-control"  disabled id="formato">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">AÑO</label>
+                                    <input type="text" class="form-control"  disabled id="anio">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4">
+                                    <label for="">EDITORIAL</label>
+                                    <input type="text" class="form-control"  disabled id="editorial">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">IDIOMA</label>
+                                    <input type="text" class="form-control"  disabled id="idioma">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">TIPO</label>
+                                    <input type="text" class="form-control"  disabled id="tipo">
+                                </div>
+                            </div>
+                            <div class="content mt-3">
+                                <label for="">DESCRIPCION</label>
+                                <textarea name="" id="descripcion" class="form-control" cols="0" rows="0" disabled></textarea>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="">EDICION</label>
-                            <input type="text" id="edicion" class="form-control" disabled id="edicion">
+                        <div class="col-sm-4">
+                            <div class="content ml-3 mt-3">
+                                <img class="visor" alt="" id="img" width="300px" src="">
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="">Autor</label>
-                            <input type="text" class="form-control" disabled id="autor">
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="ejemplarE" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Libro</th>
+                                        <th>Codigo</th>
+                                        <th>Ocupado</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </form>
@@ -268,7 +281,11 @@
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
     const cuerpoL = tabla.querySelector("tbody");
-    let iddetalleautor = ''
+    const tablaE = document.querySelector("#ejemplarE");
+    const cuerpoE = tablaE.querySelector("tbody");
+
+    let iddetalleautor = '';
+    let idlibro = '';
 
     function listadoLibro(){
         const parametros = new URLSearchParams();
@@ -292,16 +309,10 @@
                     <td>${element.cantidad}</td>
                     <td>${element.codigo}</td>
                     <td>
-                        <a href='#mdl-libro' class='registrar' data-toggle='modal' type='button' data-iddetalleautor='${element.iddetalleautor}'>Libros</a>
+                        <a href='#ejemplar' class='registrar' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
                     </td>
                     <td>
-                        <a href='' class='btn btn-info registrar' data-toggle='modal' type='button' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
-                    </td>
-                    <td>
-                        <a href='' class='inabilitar' data-idlibro='${element.idlibro}'>Sancionar</a>
-                    </td>
-                    <td>
-                        <a href='#ejemplar' class='rrru'>Ejemplar</a>
+                        <a href='' class='inabilitar' data-idlibro='${element.idlibro}'>Desactivar</a>
                     </td>
                 </tr>
                 `;
@@ -310,59 +321,84 @@
         })
     }
 
-    function LibrosInactivo(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","librosInactivo")
+    // function LibrosInactivo(){
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion","librosInactivo")
 
-        fetch("../controller/libros.php", {
-            method: 'POST',
-            body: parametros
+    //     fetch("../controller/libros.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         cuerpoL.innerHTML = ``;
+    //         datos.forEach(element => {
+    //             const libro = `
+    //             <tr>
+    //                 <td>${element.iddetalleautor}</td>
+    //                 <td>${element.categoria}</td>
+    //                 <td>${element.libro}</td>
+    //                 <td>${element.autor}</td>
+    //                 <td>${element.cantidad}</td>
+    //                 <td>${element.numeropaginas}</td>
+    //                 <td>${element.codigo}</td>
+    //                 <td>${element.inactive_at}</td>
+    //                 <td>
+    //                     <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Activar</a>
+    //                 </td>
+    //             </tr>
+    //             `;
+    //             cuerpoL.innerHTML += libro;
+    //         });
+    //     })
+    // }
+
+    function traerEjemplar(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "TraerEjemplar");
+        parametros.append("idlibro", idlibro);
+        fetch("../controller/libros.php",{
+            method : 'POST',
+            body:parametros
         })
         .then(response => response.json())
         .then(datos => {
-            cuerpoL.innerHTML = ``;
+            cuerpoE.innerHTML = ``;
             datos.forEach(element => {
-                const libro = `
+                const ejemplar = `
                 <tr>
-                    <td>${element.iddetalleautor}</td>
-                    <td>${element.categoria}</td>
+                    <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
-                    <td>${element.autor}</td>
-                    <td>${element.cantidad}</td>
-                    <td>${element.numeropaginas}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.inactive_at}</td>
-                    <td>
-                        <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Activar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpoL.innerHTML += libro;
+                    <td>${element.codigo_libro}</td>
+                    <td>${element.ocupado}</td>
+                    <td>${element.estado}</td>
+                </tr>`
+                ;
+                cuerpoE.innerHTML +=ejemplar;
             });
-        })
+        });
     }
 
     cuerpo.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'registrar'){
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
-            console.log(iddetalleautor);
+            idlibro = parseInt(event.target.dataset.idlibro);
+            //console.log(iddetalleautor);
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerDetalleautores");
-            parametros.append("iddetalleautor", iddetalleautor);
-
+            parametros.append("idlibro", idlibro);
             fetch("../controller/librosentregados.php",{
                 method: 'POST',
                 body: parametros
             })
             .then(response => response.json())
             .then(datos => {
-                
+                //console.log(idlibro)
                 datos.forEach(element => {
-                    // const sdf = './img/'
                     document.querySelector("#categoria").value = element.categoria;
                     document.querySelector("#subcategoria").value = element.subcategoria;
                     document.querySelector("#editorial").value = element.Editorial;
-                    document.querySelector("#libro").value = element.libro;
+                    //document.querySelector("#libro").value = element.libro;
                     document.querySelector("#cantidad").value = element.cantidad;
                     document.querySelector("#paginas").value = element.numeropaginas;
                     document.querySelector("#codigo").value = element.codigo;
@@ -374,7 +410,9 @@
                     document.querySelector("#img").src = `./img/${element.imagenportada}`;
                     document.querySelector("#edicion").value = element.edicion;
                     document.querySelector("#autor").value = element.Autor;
+                    traerEjemplar();
                 });
+                traerEjemplar();
             })  
         }
     });
@@ -393,7 +431,7 @@
             })
             .then(response => response.json())
             .then(datos => {
-                LibrosInactivo();
+                //LibrosInactivo();
                 listadoLibro();
             })  
         }
@@ -418,6 +456,6 @@
         }
     });
 
-    LibrosInactivo();
+    // LibrosInactivo();
     listadoLibro();
 </script>

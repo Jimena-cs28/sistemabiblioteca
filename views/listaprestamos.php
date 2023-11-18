@@ -7,7 +7,12 @@ if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
 
 $datoID = json_encode($_SESSION['login']);
 ?>
-
+<style>
+    /* Estilo para ocultar el div inicialmente */
+    #divPrestamo {
+        display: none;
+    }
+</style>
 <div class="container-fluid border-0">
     <div class="card border-0">
         <div class="card-body border-0">
@@ -32,7 +37,7 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">AHORA</label>
                             </div>
                             <div class="form-check">
@@ -96,7 +101,6 @@ $datoID = json_encode($_SESSION['login']);
                                 <tr>
                                     <th>#</th>
                                     <th>Libro</th>
-                                    <th>F.Prestamo</th>
                                     <th>F.Devolucion</th>
                                     <th>Condicion</th>
                                     <th>Eliminar</th>
@@ -140,6 +144,16 @@ $datoID = json_encode($_SESSION['login']);
     // const segund modal
     const GuardarR = document.querySelector("#Rguardar");
     const libroAgregados =  new Set();
+    const ahora = document.querySelector("#ahora");
+    const Reservar = document.querySelector("#reservar");
+
+    Reservar.addEventListener("change", function (){
+        if (Reservar.checked) {
+            divPrestamo.style.display = 'block';
+        }else{
+            divPrestamo.style.display = 'none';
+        }
+    });
     
     function ValidarRegistrar(){
         const Reservar = document.querySelector("#reservar");
@@ -319,7 +333,6 @@ $datoID = json_encode($_SESSION['login']);
         const idlejemplarSeleccionado = filtroEjempla.options[filtroEjempla.selectedIndex];
         const idejemplar = idlejemplarSeleccionado.value;
         const nombreLibro = idlejemplarSeleccionado.label;
-        const fechaPrestamo = fecharegistar.value;
         const fechaDevolucion = fechadevolucion.value;
         const condicion = Condicionentrega.value;
         // const subcate = filtrosubcategoria.value
@@ -332,7 +345,6 @@ $datoID = json_encode($_SESSION['login']);
             <tr>
                 <td>${idejemplar}</td>
                 <td>${nombreLibro}</td>
-                <td>${fechaPrestamo}</td>
                 <td>${fechaDevolucion}</td>
                 <td>${condicion}</td>
                 <td>
@@ -400,10 +412,10 @@ $datoID = json_encode($_SESSION['login']);
     function registrarLibroentregado(idprestamo){
         if(confirm("estas seguro de guardar?")){
             const row = tablalibro.rows;
-            for (let i = 1; i < row.length; i++) {
+            for (let i = 0; i < row.length; i++) {
                 const idejemplar = parseInt(row[i].cells[0].innerText);
-                const condicionEntre   = String(row[i].cells[4].innerText);
-                const fechaD = String(row[i].cells[3].innerText);
+                const condicionEntre   = String(row[i].cells[3].innerText);
+                const fechaD = String(row[i].cells[2].innerText);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "registrarLibroentregado");
                 parametros.append("idprestamo", idprestamo);
@@ -419,9 +431,8 @@ $datoID = json_encode($_SESSION['login']);
                 .then(datos => {
                     // console.log(datos);
                     if(datos.status){
-                        alert("Prestamo guardados correctamente");
-                    }
-                    else{
+                        document.querySelector("#form-prestamos").reset();
+                    }else{
                         datos.message();
                     }
                 })
@@ -434,8 +445,8 @@ $datoID = json_encode($_SESSION['login']);
             const filaAhora = tablalibro.rows;
             for (let i = 0; i < filaAhora.length; i++) {
                 const idejemplo = parseInt(filaAhora[i].cells[0].innerText);
-                const fecha     = String(filaAhora[i].cells[3].innerText);
-                const condicionEntre = String(filaAhora[i].cells[4].innerText);
+                const fecha     = String(filaAhora[i].cells[2].innerText);
+                const condicionEntre = String(filaAhora[i].cells[3].innerText);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "AddLibroentregadonow");
                 parametros.append("idprestamo", idprestamo);
@@ -451,7 +462,7 @@ $datoID = json_encode($_SESSION['login']);
                 .then(datos => {
                     // console.log(datos);
                     if(datos.status){
-                        alert("Prestamo guardados correctamente");
+                        document.querySelector("#form-prestamos").reset();
                     }
                     else{
                         datos.message();

@@ -33,7 +33,7 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'obtenerDetalleautores'){
-    $datos = $libroentregado->obtenerDetalleautores($_POST['iddetalleautor']);
+    $datos = $libroentregado->obtenerDetalleautores($_POST['idlibro']);
     if($datos){                        
       echo json_encode($datos);
     }

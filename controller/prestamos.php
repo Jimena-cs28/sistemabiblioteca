@@ -72,7 +72,7 @@
     }
 
     if($_POST['operacion'] == 'fichaprestamo'){
-      $datos = $prestamo->fichaprestamo($_POST['idlibroentregado']);
+      $datos = $prestamo->fichaprestamo($_POST['idprestamo']);
       if($datos){
         echo json_encode($datos);
       }

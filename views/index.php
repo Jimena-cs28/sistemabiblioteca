@@ -122,7 +122,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=prestamos.php">
                 <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Todo</span></a>
+                    <span>Prestamos</span></a>
             </li>
 
             <!-- Nav Item - Tables -->

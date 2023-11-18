@@ -151,4 +151,15 @@ class Libro extends conexion{
     }
   }
 
+  public function TraerEjemplar($idlibro){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_ejemplar_idlibro(?)");
+      $consulta->execute(array($idlibro));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 }

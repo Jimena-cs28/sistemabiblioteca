@@ -21,12 +21,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Libro</th>
                         <th>Nombre</th>
-                        <th>Codigo</th>
+                        <th>Datos</th>
+                        <th>Biblioteca</th>
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
-                        <th>F. Devolucion</th>
+                        <th>F. Prestamo</th>
                         <th>Eliminar</th>
                         <th>Ver ficha</th>
                     </tr>
@@ -53,55 +53,46 @@
                 <form action="">
                     <!-- libro -->
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Rol</label>                                
                             <input type="text" class="form-control" id="rol" disabled>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Nombres</label>
                             <input type="text" class="form-control" id="nombres" disabled>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Descripcion</label>
                             <input type="text" class="form-control" id="descripcion" disabled>
                         </div>
-                        <div class="col-md-3">
-                            <label>Condicion de entrega</label>
-                            <input type="text" class="form-control" id="entrega" disabled>
-                        </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Categoria</label>
                             <input type="text" class="form-control" id="categoria" disabled>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Sub Categoria</label>
                             <input type="text" class="form-control" id="subcategoria" disabled>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Libro</label>
                             <input type="text" class="form-control" id="libro" disabled>
                         </div>
-                        <div class="col-md-3">
-                            <label>F.Solicitud</label>
-                            <input type="text" class="form-control" id="Fsolicitud" disabled>
-                        </div>   
                     </div>
                     
                     <div class="row mt-3">
                         <div class="col-md-3">
+                            <label>F.Solicitud</label>
+                            <input type="text" class="form-control" id="Fsolicitud" disabled>
+                        </div>   
+                        <div class="col-md-3">
                             <label>F.Prestamo</label>
                             <input type="text" class="form-control" id="Fprestamo" disabled>
-                            
                         </div>
                         <div class="col-md-3">
                             <label>F.Entrega</label>
                             <input type="text" class="form-control" id="Fentrega" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label>F.Devolucion</label>
-                            <input type="text" class="form-control" id="Fdevolucion" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>F.Aceptacion</label>
@@ -109,15 +100,6 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-3">
-                            <label>Condicion de devolucion</label>
-                            <input type="text" class="form-control" id="cdevolucion" disabled>
-                            
-                        </div>
-                        <div class="col-md-3">
-                            <label>Observacion</label>
-                            <input type="text" class="form-control" id="observacion" disabled>
-                        </div>
                         <div class="col-md-6">
                             <div class="row">
                                 <label for="">Imagen</label>                                
@@ -125,6 +107,26 @@
                             <div class="row">
                                 <img class="visor" alt="" id="img" width="200px">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Libro</th>
+                                        <th>C. Entrega</th>
+                                        <th>Codigo</th>
+                                        <th>Observacion</th>
+                                        <th>F. Devolucion</th>
+                                        <th>C. Devolucion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     
@@ -140,6 +142,8 @@
 <script>
     let idlibroentregado = '';
     const cuerpo = document.querySelector("tbody");
+    const tabla = document.querySelector("#tabla");
+    const CuerpoT = tabla.querySelector("tbody");
     const rol = document.querySelector("#rol");
     const nombres = document.querySelector("#nombres");
     const apellidos = document.querySelector("#apellidos");
@@ -166,15 +170,15 @@
             datos.forEach(element => {
                 const pres = `
                 <tr>
-                    <td>${element.idlibroentregado}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.nombres}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.idprestamo}</td>
+                    <td>${element.Nombres}</td>
+                    <td>${element.descripcion}</td>
+                    <td>${element.enbiblioteca}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
-                    <td>${element.fechadevolucion}</td>
+                    <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' class='todo' data-toggle='modal' data-idlibroentregado='${element.idlibroentregado}' >Ver ficha</a>
+                        <a href='#modal-id' class='todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ver ficha</a>
                     <td>
                     <button class="btn btn-danger"><i class='zmdi zmdi-delete'></i></button>                  
                 </tr>
@@ -184,13 +188,42 @@
         })
     }
 
+    function listarEjemplare(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "fichaprestamo");
+        parametros.append("idprestamo", idprestamo);
+        fetch("../controller/prestamos.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            CuerpoT.innerHTML = ``;
+            datos.forEach(element => {
+                const Vopcion1 = `
+                <tr>
+                    <td>${element.idejemplar}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.condicionentrega}</td>
+                    <td>${element.codigo_libro}</td>
+                    <td>${element.observaciones}</td>
+                    <td>${element.fechadevolucion}</td>
+                    <td>${element.condiciondevolucion}</td>
+                </tr>`
+                ;
+                CuerpoT.innerHTML +=Vopcion1;
+            });
+        });
+    }
+
     cuerpo.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'todo'){
-            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-            console.log(idlibroentregado);
+            idprestamo = parseInt(event.target.dataset.idprestamo);
+            console.log(idprestamo);
+
             const parametros = new URLSearchParams();
             parametros.append("operacion","fichaprestamo");
-            parametros.append("idlibroentregado", idlibroentregado);
+            parametros.append("idprestamo", idprestamo);
             fetch("../controller/prestamos.php",{
                 method: 'POST',
                 body: parametros
@@ -202,19 +235,19 @@
                     nombres.value = element.nombres;
                     descripcion.value = element.descripcion;
                     categoria.value = element.categoria;
-                    document.querySelector("#entrega").value = element.condicionentrega;
+                    //document.querySelector("#entrega").value = element.condicionentrega;
                     subcategoria.value = element.subcategoria;
                     libro.value = element.libro;
                     fsolicitud.value = element.fechasolicitud;
                     fprestamo.value = element.fechaprestamo;
                     fentrega.value = element.fechaentrega;
-                    fdevolucion.value = element.fechadevolucion;
+                    //fdevolucion.value = element.fechadevolucion;
                     document.querySelector("#Frespuesta").value = element.fecharespuesta;
                     document.querySelector("#img").src = `./img/${element.imagenportada}`;
-                    document.querySelector("#cdevolucion").value = element.condiciondevolucion;
-                    document.querySelector("#observacion").value = element.observaciones;
-
+                    //document.querySelector("#cdevolucion").value = element.condiciondevolucion;
+                    //document.querySelector("#observacion").value = element.observaciones;
                 });
+                listarEjemplare();
             });
         }
     });
