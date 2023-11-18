@@ -93,7 +93,7 @@ SELECT * FROM libros
 DELIMITER $$
 CREATE PROCEDURE spu_prestamo_usuario
 (
-	IN _idlibro INT,
+	IN _idejemplar INT,
 	IN _idbeneficiario INT,
 	IN _cantidad INT,
 	IN _descripcion VARCHAR(20),
@@ -119,8 +119,8 @@ BEGIN
     -- Verifica si hay suficientes libros disponibles para restar
     IF cantidad_actual >= _cantidad THEN
         -- Registra el libro entregado
-        INSERT INTO librosentregados (idprestamo, idlibro, cantidad, fechadevolucion)
-	VALUES (@idprestamo, _idlibro, _cantidad, _fechadevolucion);
+        INSERT INTO librosentregados (idprestamo, idejemplar, cantidad, fechadevolucion)
+	VALUES (@idprestamo, _idejemplar, _cantidad, _fechadevolucion);
         
         -- SE actualiza la cantidad del libro
         UPDATE libros
@@ -132,6 +132,8 @@ BEGIN
         SELECT 'No hay suficientes libros disponibles para realizar la entrega.' AS mensaje;
     END IF;
 END $$
+
+SELECT * FROM librosentregados
 	
 CALL spu_prestamo_usuario(1, 2, 1, '5A', 'no', 'salon2', '2023-11-10', '2023-11-11');
 
@@ -170,3 +172,19 @@ CALL spu_historial(2)
 
 DELETE FROM librosentregados
 DELETE FROM prestamos
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_ejemplarlibro (
+	IN _idlibro INT
+)
+BEGIN 
+	SELECT* FROM ejemplares WHERE estado = 1 AND ocupado = "NO" AND idlibro = _idlibro;
+END $$
+
+CALL spu_ejemplarlibro(2)
+
+
+	
+
+	
