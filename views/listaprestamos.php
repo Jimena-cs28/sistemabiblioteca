@@ -296,11 +296,11 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function listarEjemplares(){
-        const choiselistarlibroE= new Choices(filtroEjempla, {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML:true
-        });
+        // const choiselistarlibroE= new Choices(filtroEjempla, {
+        //     searchEnabled: true,
+        //     itemSelectText: '',
+        //     allowHTML:true
+        // });
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtroEjemplar");
         parametros.append("idlibro", libro.value);
@@ -318,17 +318,11 @@ $datoID = json_encode($_SESSION['login']);
                 `
                 filtroEjempla.innerHTML +=Select;
             });
-            choiselistarlibroE.setChoices([], 'value','label',true);
-            choiselistarlibroE.setChoices(datos, 'idejemplar','Ejemplares', true);
+            // choiselistarlibroE.setChoices([], 'value','label',true);
+            // choiselistarlibroE.setChoices(datos, 'idejemplar','Ejemplares', true);
         });
     }
-
-    // libro.addEventListener("change" , () => {
-    //     const libroSeleccionado = libro.options[libro.selectedIndex];
-    //     Filtrosubcategoria.value = libroSeleccionado.dataset.subcategoria;
-    //     selectcategoria.value = libroSeleccionado.dataset.categoria;
-    // });
-
+    
     function agregarLibros(){
         const idlejemplarSeleccionado = filtroEjempla.options[filtroEjempla.selectedIndex];
         const idejemplar = idlejemplarSeleccionado.value;

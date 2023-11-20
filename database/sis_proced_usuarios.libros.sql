@@ -55,6 +55,52 @@ BEGIN
         SET nuevo_codigo = nuevo_codigo + 1;
     END WHILE;
 END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_ejemplares
+(
+    IN p_idlibro INT,
+    IN p_nueva_cantidad INT
+)
+BEGIN
+    DECLARE cantidad_actual INT;
+    DECLARE diferencia INT;
+    DECLARE i INT DEFAULT 1;
+    DECLARE nuevo_codigo_libro INT;
+
+    -- Obtener la cantidad actual de ejemplares para el libro
+    SELECT COUNT(*) INTO cantidad_actual FROM ejemplares WHERE idlibro = p_idlibro;
+
+    -- Calcular la diferencia entre la cantidad actual y la nueva cantidad
+    SET diferencia = p_nueva_cantidad - cantidad_actual;
+
+    -- Obtener el último código_libro global
+    SELECT COALESCE(MAX(codigo_libro), 0) INTO nuevo_codigo_libro FROM ejemplares;
+
+    -- Ajustar el nuevo código_libro según la diferencia
+    SET nuevo_codigo_libro = nuevo_codigo_libro + diferencia;
+
+    IF diferencia > 0 THEN
+        -- Aumentar la cantidad de ejemplares
+        WHILE i <= diferencia DO
+            INSERT INTO ejemplares (idlibro, codigo_libro)
+            VALUES (p_idlibro, nuevo_codigo_libro + i);
+
+            SET i = i + 1;
+        END WHILE;
+    ELSEIF diferencia < 0 THEN
+        -- Disminuir la cantidad de ejemplares
+        DELETE FROM ejemplares
+        WHERE idlibro = p_idlibro
+        AND codigo_libro > nuevo_codigo_libro;
+    END IF;
+END $$
+-- Después de insertar un nuevo libro, llamar a spu_actualizar_ejemplares
+CALL spu_actualizar_ejemplares(4,2);
+
+SELECT * FROM libros -- 4 ,3
+SELECT * FROM ejemplares -- 58
+
 SELECT * FROM categorias
 -- ejecutado LIBROS ACTIVOS
 DELIMITER $$

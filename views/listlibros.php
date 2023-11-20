@@ -277,6 +277,13 @@
     </div>
 </div>
 
+<style>
+    .estado-rojo {
+    background-color: rgb(242, 201, 201);
+    color: rgb(0, 0, 0); /* Cambia el color del texto si es necesario para mejorar la legibilidad */
+}
+
+</style>
 <script>
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
@@ -365,11 +372,12 @@
         .then(datos => {
             cuerpoE.innerHTML = ``;
             datos.forEach(element => {
+                const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
                 const ejemplar = `
-                <tr>
+                <tr  class='${estadoClase}'>
                     <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.ocupado}</td>
                     <td>${element.estado}</td>
                 </tr>`

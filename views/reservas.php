@@ -24,35 +24,20 @@
         </div>
     </div>
 </div>
-<!-- tablas -->
-<!--<div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ENTREGAS PENDIENTES</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th style="color:#574E4E;">#</th>
-                            <th style="color:#574E4E;">Libro</th>
-                            <th style="color:#574E4E;">Cantidad</th>
-                            <th style="color:#574E4E;">Nombre</th>
-                            <th style="color:#574E4E;">Descripcion</th>
-                            <th style="color:#574E4E;">F. Solicitud</th>
-                            <th style="color:#574E4E;">F. Prestamo</th>
-                            <th style="color:#574E4E;">F. Devolucion</th>
-                            <th style="color:#574E4E;">Entregar</th>
-                            <th style="color:#574E4E;">Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> -->
 
+<style>
+    .aviso-flotante {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgb(86, 1, 17); /* Color de fondo rojo, ajusta según tus preferencias */
+        color: #fdfdfd; /* Color del texto blanco, ajusta según tus preferencias */
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+</style>
 
 <div class="modal fade" id="Meditar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -116,6 +101,21 @@
     const fechaprestamo = document.querySelector("#fechaprestamo");
     const btguardar = document.querySelector("#guardar");
 
+    function mostrarAvisoFlotante(mensaje) {
+        // Crear un elemento div para el aviso flotante
+        const avisoFlotante = document.createElement('div');
+        avisoFlotante.className = 'aviso-flotante';
+        avisoFlotante.textContent = mensaje;
+
+        // Agregar el aviso flotante al cuerpo del documento
+        document.body.appendChild(avisoFlotante);
+
+        // Después de un tiempo, eliminar el aviso flotante
+        setTimeout(() => {
+            avisoFlotante.remove();
+        }, 5000); // 5000 milisegundos (5 segundos)
+    }
+
     function listarEntregas(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarEpendientes")
@@ -126,24 +126,30 @@
         })
         .then(response => response.json())
         .then(datos => {
+            const actual = new Date();
             card.innerHTML = ``;
             datos.forEach(element => {
-                //idprestamo = element.idprestamo; 
+                const FechaPrestamo = new Date(element.fechaprestamo);
+                const fechapasada = FechaPrestamo > actual;
+                if(fechapasada){
+                    mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
+                }
+                const style = fechapasada ? 'color: red;' : '';
                 const reserva = `
                 <div class="col-md-4 card-deck">
-                    <div class="card  mb-3" style="max-width: 500px;">
+                    <div class="card mb-3" style="max-width: 500px;">
                         <div class="row g-0">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <img class="img-fluid rounded-start" src="./img/${element.imagenportada}" alt="imagenLibro" width="600px">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7" >
                                 <div class="card-body">
-                                    <h5 class="card-title text-center">${element.libro} - ${element.codigo_libro}</h5>
+                                    <h5 class="card-title text-center" style="${style}">${element.libro} - ${element.codigo_libro}</h5>
                                     <p class="card-text" style="color:#635555;">Usuario: ${element.nombres} -  ${element.descripcion}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
-                                    <li class="list-group-item" style="color:#635555;">F.Prestamo: ${element.fechaprestamo}</li>
+                                    <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
                                         <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
                                         <div class="col-md-4"><a href='#' class='borrar' data-idprestamo='${element.idprestamo}' data-idlibro='${element.idlibro}'>Borrar</a></div>
