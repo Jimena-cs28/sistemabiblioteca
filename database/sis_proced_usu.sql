@@ -1,9 +1,9 @@
 USE sistemabiblioteca
 -- PASO 5 LISTAR DEVOLUCIONES.PENDIENTES
 DELIMITER $$
-DROP PROCEDURE spu_listar_devolucionpendientes()
+CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, usuarios.idusuario, prestamos.descripcion, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
 	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
@@ -14,8 +14,7 @@ BEGIN
 	WHERE prestamos.estado = 'D'
 	ORDER BY idlibroentregado DESC;
 END $$
-
-SELECT * FROM usuarios	
+SELECT * FROM usuarios
 -- PASO 6 ACTUALIZAR FECHADEVOLUCION
 DELIMITER $$
 CREATE PROCEDURE spu_update_devoluciones
@@ -106,9 +105,10 @@ BEGIN
 END $$
 
 CALL spu_abilitar_usuario(2);
-
+SELECT * FROM autores
+SELECT * FROM detalleautores
 -- FIN
-SELECT * FROM usuarios
+SELECT * FROM libros
 
 SELECT *FROM prestamos
 -- ACTUALIZAR contraseña.user
@@ -199,7 +199,9 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	WHERE prestamos.estado = 'T'
-	GROUP BY librosentregados.idejemplar DESC;
+	GROUP BY librosentregados.idejemplar
+	ORDER BY totales DESC
+	LIMIT 5;
 END $$
 
 SELECT * FROM libros
@@ -211,21 +213,24 @@ INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
 WHERE prestamos.descripcion = '1L' AND prestamos.estado = 'T'
 GROUP BY librosentregados.idlibro DESC;
 
-SELECT * FROM libros
+SELECT * FROM librosentregados
 
-UPDATE prestamos SET descripcion = '1L' WHERE idprestamo = 11
+UPDATE librosentregados SET fechadevolucion = '2023-11-18' WHERE idlibroentregado = 61
 
 DELIMITER $$
 CREATE PROCEDURE spu_grafico_rol ( IN _idrol INT)
 BEGIN
-	SELECT  COUNT(librosentregados.idlibro) AS 'totales', libros.libro
+	SELECT  COUNT(ejemplares.idlibro) AS 'totales', libros.libro
 	FROM librosentregados
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	WHERE usuarios.idrol = _idrol AND prestamos.estado = 'T'
-	GROUP BY librosentregados.idlibro DESC;
+	GROUP BY librosentregados.idejemplar
+	ORDER BY totales DESC
+	LIMIT 5;
 END $$
 
 CALL spu_grafico_rol(3);
@@ -273,7 +278,8 @@ BEGIN
 	CONCAT(personas.nombres, ' ' ,personas.apellidos) AS 'nombres',	prestamos.descripcion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
@@ -283,8 +289,8 @@ BEGIN
 END $$
 
 CALL spu_reporte_descripcion('1l');
-
-SELECT * FROM PRESTAMOS
+SELECT * FROM personas
+SELECT * FROM usuarios
 -- REPORTE 2 
 -- ejemplo
 SELECT idlibro, COUNT(idlibro) AS totalPedidos

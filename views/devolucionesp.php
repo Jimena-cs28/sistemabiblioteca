@@ -89,7 +89,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class=" form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="checkuser" value="option2">
+                                    <input class="form-check-input" type="checkbox" id="checkuser">
                                     <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
                                 </div>
                             </div>
@@ -230,19 +230,19 @@
     })
 
     function mostrarAvisoFlotante(mensaje) {
-    // Crear un elemento div para el aviso flotante
-    const avisoFlotante = document.createElement('div');
-    avisoFlotante.className = 'aviso-flotante';
-    avisoFlotante.textContent = mensaje;
+        // Crear un elemento div para el aviso flotante
+        const avisoFlotante = document.createElement('div');
+        avisoFlotante.className = 'aviso-flotante';
+        avisoFlotante.textContent = mensaje;
 
-    // Agregar el aviso flotante al cuerpo del documento
-    document.body.appendChild(avisoFlotante);
+        // Agregar el aviso flotante al cuerpo del documento
+        document.body.appendChild(avisoFlotante);
 
-    // Después de un tiempo, eliminar el aviso flotante
-    setTimeout(() => {
-        avisoFlotante.remove();
-    }, 5000); // 5000 milisegundos (5 segundos)
-}
+        // Después de un tiempo, eliminar el aviso flotante
+        setTimeout(() => {
+            avisoFlotante.remove();
+        }, 5000); // 5000 milisegundos (5 segundos)
+    }
 
 
     function listarDevoluciones(){
@@ -256,7 +256,6 @@
         .then(datos => {
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
-
                 const recibir = `
                 <tr>
                     <td>${element.idprestamo}</td>
@@ -266,7 +265,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
                     </td>
                     <td>
                         <button class='btn btn-info'>Devolucion</button>
@@ -293,13 +292,11 @@
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion < actual;
+                const fechaPasada = fechadevolucion <= actual;
                 if(fechaPasada){
                     mostrarAvisoFlotante(`No ah devuelto a tiempo el libro`);
                 }
-
                 const style = fechaPasada ? 'color: red;' : '';
-
                 idejemplar = element.idejemplar;
                 const Vopcion1 = `
                 <tr style='${style}'>
@@ -370,7 +367,6 @@
                     document.querySelector("#form-devolucion").reset();
                 }
             })
-            
         }
     };
 
@@ -378,6 +374,7 @@
         if(event.target.classList[0] === 'recibir'){
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            idusuario = parseInt(event.target.dataset.idbeneficiario);
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -421,12 +418,12 @@
                             // modal.close();
                         }
                     })
-                    
+                    GuadarD.addEventListener("click", () => {
+                        validarRecibirlibro(); updatedevolucionesUno();
+                    });
                 }
             };
-            GuadarD.addEventListener("click", () =>{
-                validarRecibirlibro(); updatedevolucionesUno();
-            });
+            
         }
     });
 
