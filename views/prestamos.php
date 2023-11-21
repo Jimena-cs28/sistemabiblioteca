@@ -10,6 +10,13 @@
     </div>
 </div>
 
+<style>
+    body {
+        font-size: 12pt;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+</style>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -17,7 +24,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered"  data-replace="jtable" id="dataTable"  aria-label="JS Datatable" data-locale="en" data-search="true">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -205,7 +212,7 @@
                     <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
                     <td>${element.condicionentrega}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.observaciones}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>${element.condiciondevolucion}</td>

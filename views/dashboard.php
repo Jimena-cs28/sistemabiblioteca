@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="zmdi zmdi-face"></i>                    
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>                   
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="bi bi-book-half"></i>                    
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>                
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="bi bi-1-circle-fill"></i>                    
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>                 
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@
             </div>
             <div class="card-body">
                 <div class="chart-area">
-                    <canvas id="grafico2"></canvas>
+                    <canvas class="center" id="grafico2"></canvas>
                 </div>
             </div>
         </div>
@@ -250,14 +250,14 @@
     }
 
     const graficoChart = new Chart(grafico2, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels:[],
             datasets: [
                 {        
                     label: '',
                     data: [],
-                    backgroundColor: ['#6C5BDD','#DD5B88']
+                    backgroundColor: ['#6C5BDD','#DD5B88','#83EE8B','#79CFF7','#F5A641']
                 }
             ]
         }
@@ -285,9 +285,9 @@
             etiqueta.push(element.libro);
             datos.push(element.totales);
         });
-        graficoBarras.data.labels = etiqueta;
-        graficoBarras.data.datasets[0].data = datos;
-        graficoBarras.update();
+        // graficoBarras.data.labels = etiqueta;
+        // graficoBarras.data.datasets[0].data = datos;
+        // graficoBarras.update();
         graficoChar.data.labels = etiqueta;
         graficoChar.data.datasets[0].data = datos;
         graficoChar.update();

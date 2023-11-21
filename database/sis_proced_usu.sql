@@ -201,9 +201,10 @@ BEGIN
 	WHERE prestamos.estado = 'T'
 	GROUP BY librosentregados.idejemplar
 	ORDER BY totales DESC
-	LIMIT 5;
+	LIMIT 7;
 END $$
 
+CALL GRAFICO_INDEX();
 SELECT * FROM libros
 
 SELECT  COUNT(librosentregados.idlibroentregado)AS 'todo', libros.libro, prestamos.descripcion
@@ -227,7 +228,7 @@ BEGIN
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = _idrol AND prestamos.estado = 'T'
+	WHERE usuarios.idrol = 3 AND prestamos.estado = 'T'
 	GROUP BY librosentregados.idejemplar
 	ORDER BY totales DESC
 	LIMIT 5;
@@ -294,6 +295,13 @@ SELECT * FROM usuarios
 -- REPORTE 2 
 -- ejemplo
 SELECT idlibro, COUNT(idlibro) AS totalPedidos
+
+SELECT * FROM librosentregados  
+INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+WHERE prestamos.fechaprestamo BETWEEN '2023-11-11' AND '2023-11-18' AND estado = 'T';
+
+
+SELECT * FROM prestamos
 FROM librosentregados
 GROUP BY idlibro
 ORDER BY totalPedidos DESC
@@ -313,4 +321,21 @@ BEGIN
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'S';
 END$$
+-- REPORTES
+
+DELIMITER $$
+CREATE PROCEDURE Reporte()
+BEGIN
+    SELECT c.categoria, COUNT(p.idprestamo) AS 'CantidadPrestada'
+    FROM categorias c
+    LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
+    LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
+    LEFT JOIN ejemplares e ON l.idlibro = e.idlibro
+    LEFT JOIN librosentregados le ON e.idejemplar = le.idejemplar
+    LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
+    WHERE p.estado = 'T' -- Cambiar según el estado de préstamo deseado
+    GROUP BY c.idcategoria;
+END $$
+
+CALL ReporteLibrosPrestadosPorCategoria();
 
