@@ -19,7 +19,6 @@ CREATE PROCEDURE spu_registrar_libro
     IN _descripcion TEXT,
     IN _imagenportada VARCHAR(200),
     IN _idautor  INT
-    -- IN p_idlibro INT
 )
 BEGIN
     DECLARE cantidad_libros INT;
@@ -30,6 +29,9 @@ BEGIN
      VALUES (_idsubcategoria, _ideditorial, _libro, _tipo, _cantidad, _numeropaginas, _codigo, _edicion,_formato,_anio,_idioma,_descripcion,_imagenportada);
 	
      SET @idlibro = LAST_INSERT_ID();
+     
+     INSERT INTO detalleautores(idlibro, idautor) VALUES
+				(@idlibro, _idautor);
 
     -- Obtener la cantidad de libros para el ID 
     SELECT cantidad INTO cantidad_libros FROM libros WHERE idlibro = @idlibro;
@@ -57,52 +59,95 @@ BEGIN
 END $$
 
 DELIMITER $$
-CREATE PROCEDURE spu_actualizar_ejemplares
+CREATE PROCEDURE spu_actualizar_libro
 (
-    IN p_idlibro INT,
-    IN p_nueva_cantidad INT
+    IN p_idlibro INT, 
+    IN p_nueva_cantidad INT,
+    IN _idsubcategoria INT,
+    IN _ideditorial INT,
+    IN _libro VARCHAR(70),
+    IN _tipo VARCHAR(50),
+    IN _numeropaginas VARCHAR(100),
+    IN _codigo DECIMAL(6,3),
+    IN _edicion VARCHAR(50),
+    IN _formato VARCHAR(50),
+    IN _anio DATE,
+    IN _idioma VARCHAR(30),
+    IN _descripcion TEXT,
+    IN _imagenportada VARCHAR(200),
+    IN _idautor  INT,
+    IN _iddetalleautor INT
 )
 BEGIN
-    DECLARE cantidad_actual INT;
-    DECLARE diferencia INT;
-    DECLARE i INT DEFAULT 1;
-    DECLARE nuevo_codigo_libro INT;
+      DECLARE v_ultimo_codigo_libro INT;
+      DECLARE v_nuevo_codigo_libro INT;
+      DECLARE contador INT DEFAULT 1;
+    -- Obtener el último número de código_libro
+     SELECT COALESCE(MAX(codigo_libro), 0) INTO v_ultimo_codigo_libro FROM ejemplares;
+     
+    -- SELECT MAX(codigo_libro) INTO v_ultimo_codigo_libro
+    -- FROM ejemplares
+    -- WHERE idlibro = p_idlibro;
 
-    -- Obtener la cantidad actual de ejemplares para el libro
-    SELECT COUNT(*) INTO cantidad_actual FROM ejemplares WHERE idlibro = p_idlibro;
+    -- Verificar si hay ejemplares existentes
+    IF v_ultimo_codigo_libro IS NOT NULL THEN
+        -- Calcular el nuevo número de código_libro
+        SET v_nuevo_codigo_libro = v_ultimo_codigo_libro + 1;
 
-    -- Calcular la diferencia entre la cantidad actual y la nueva cantidad
-    SET diferencia = p_nueva_cantidad - cantidad_actual;
-
-    -- Obtener el último código_libro global
-    SELECT COALESCE(MAX(codigo_libro), 0) INTO nuevo_codigo_libro FROM ejemplares;
-
-    -- Ajustar el nuevo código_libro según la diferencia
-    SET nuevo_codigo_libro = nuevo_codigo_libro + diferencia;
-
-    IF diferencia > 0 THEN
-        -- Aumentar la cantidad de ejemplares
-        WHILE i <= diferencia DO
+        -- Insertar ejemplares para la nueva cantidad
+        
+        WHILE contador <= p_nueva_cantidad DO
             INSERT INTO ejemplares (idlibro, codigo_libro)
-            VALUES (p_idlibro, nuevo_codigo_libro + i);
+            VALUES (p_idlibro, v_nuevo_codigo_libro);
 
-            SET i = i + 1;
+            SET contador = contador + 1;
+            SET v_nuevo_codigo_libro = v_nuevo_codigo_libro + 1;
         END WHILE;
-    ELSEIF diferencia < 0 THEN
-        -- Disminuir la cantidad de ejemplares
-        DELETE FROM ejemplares
-        WHERE idlibro = p_idlibro
-        AND codigo_libro > nuevo_codigo_libro;
+
+        -- Actualizar la cantidad del libro          
+        UPDATE libros SET 
+        cantidad = cantidad + p_nueva_cantidad,      -- select * from detalleautores
+        idsubcategoria = _idsubcategoria,
+        ideditorial = _ideditorial,
+        libro = _libro,
+        tipo = _tipo,
+        numeropaginas = _numeropaginas,
+        codigo = _codigo,
+        edicion = _edicion,
+        formato = _formato,
+        anio = _anio,
+        idioma = _idioma,
+        descripcion = _descripcion,
+        imagenportada = _imagenportada
+        WHERE idlibro = p_idlibro;
+        
+        UPDATE detalleautores SET
+        idautor = _idautor,
+        idlibro = p_idlibro
+        WHERE iddetalleautor = _iddetalleautor;
+
+        -- Imprimir mensaje o devolver resultado si es necesario
+        SELECT 'Cantidad y código_libro actualizados correctamente' AS 'Mensaje';
+    ELSE
+        -- Si no hay ejemplares existentes, mostrar mensaje de error
+        SELECT 'No hay ejemplares existentes para el libro especificado' AS 'Error';
     END IF;
+
 END $$
+
+
+CALL spu_actualizar_libro(4,3,4,2,'Prueba','texto',23,23.2,'','Mediano','2010-11-12','español','solo es una prueba','',2,2) -- 6
+SELECT * FROM detalleautores
+SELECT * FROM libros
 -- Después de insertar un nuevo libro, llamar a spu_actualizar_ejemplares
 CALL spu_actualizar_ejemplares(4,2);
 
-SELECT * FROM libros -- 4 ,3
-SELECT * FROM ejemplares -- 58
-
-SELECT * FROM categorias
+CALL spu_registrar_libro(4,2,'prueba','texto',4,23,23.2,'','mediano','','','','',2);
 -- ejecutado LIBROS ACTIVOS
+INSERT INTO detalleautores(idlibro, idautor) VALUES (3,3);
+SELECT * FROM libros
+SELECT * FROM detalleautores
+SELECT * FROM ejemplares
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN
@@ -161,18 +206,6 @@ CALL spu_registrar_subcategory(10,'Historia de America del Sur', 980);
 SELECT * FROM subcategorias
 
 DELIMITER $$
-CREATE PROCEDURE spu_inabilitar_libro
-(
-	IN _idlibro	INT
-)
-BEGIN
-	UPDATE libros SET
-	estado = '0',
-	inactive_at = NOW()
-	WHERE idlibro = _idlibro;
-END $$
-
-DELIMITER $$
 CREATE PROCEDURE spu_abilitar_libro
 (
 	IN _idlibro	INT
@@ -206,8 +239,20 @@ END $$
 
 CALL spu_inactivo_estudiantes();
 
-CALL spu_inabilitar_usuario(6);
+DELIMITER $$ -- EJECUTADO
+CREATE PROCEDURE spu_inabilitar_usuario
+(
+	IN _idusuario	INT
+)
+BEGIN
+	UPDATE usuarios SET
+	estado = 0,
+	inactive_at = NOW()
+	WHERE idusuario = _idusuario;
+END $$
 
+CALL spu_inabilitar_usuario(2);
+SELECT * FROM usuarios
 DELIMITER $$
 CREATE PROCEDURE spu_abilitar_usuario
 (
@@ -219,7 +264,8 @@ BEGIN
 	WHERE idusuario = _idusuario;
 END $$
 
-CALL spu_abilitar_usuario(2);
+SELECT * FROM usuarios
+CALL spu_abilitar_usuario(6);
 
 -- SECCION ESTUDIANTE Y PROFESOR
 DELIMITER $$
@@ -331,8 +377,7 @@ BEGIN
 END$$
 
 CALL spu_listar_libro(4);
-SELECT * FROM libros
-SELECT * FROM ejemplares
+
 DELIMITER $$
 CREATE PROCEDURE spu_filtro_categoria(IN _idcategoria INT)
 BEGIN 
@@ -340,5 +385,3 @@ BEGIN
 	FROM subcategorias
 	WHERE idcategoria =  _idcategoria;
 END $$
-
-SELECT * FROM ejemplares

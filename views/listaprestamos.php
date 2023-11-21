@@ -76,16 +76,20 @@ $datoID = json_encode($_SESSION['login']);
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label>Cantidad</label>
+                            <label>Ejemplar</label>
                             <select name="" id="filtroEjemplar" class="form-control mb-3">
                                 <!-- <option value="">Hola</option> -->
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <label>Cantidad</label>
+                            <input type="number" class="form-control" id="cantidad" value="1">
+                        </div>
+                        <div class="col-md-2">
                             <label>Condicion Entrega</label>
                             <input type="text" class="form-control mb-3" id="condicionentrega">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label>Fecha devolucion</label>
                             <div class="input-group mb-4">
                                 <input type="date" class="form-control" id="fechadevolucion">
@@ -132,7 +136,7 @@ $datoID = json_encode($_SESSION['login']);
     const libro = document.querySelector("#libro");
     const Agregar = document.querySelector("#Rguardarlibro");
     // const cuerpo = document.querySelector("tbody");
-    const cantidad = document.querySelector("#cantidad");
+    //const cantidad = document.querySelector("#cantidad");
     const tablalibro = document.querySelector("#tabla2")
     const Guardar = document.querySelector("#btguardar");
     const fecharegistar = document.querySelector("#fprestamo");
@@ -167,18 +171,6 @@ $datoID = json_encode($_SESSION['login']);
             
         }
     }
-
-    // function fecha(){        
-    //     var fechactual =  new Date();
-    //     var Fprestamo = document.querySelector("#fprestamo").value
-    //     var Fdevolucion = document.querySelector("#fechadevolucion").value;
-    //     var Pregistrar = new Date(Fprestamo);
-    //     if(Pregistrar >= fechactual && Fprestamo <= Fdevolucion){
-    //         agregarLibros();
-    //     }else{
-    //         alert("No pueder realizar un prestamos antes del dia de hoy"); 
-    //     }
-    // }
 
     function traerPrestamo(){
         const para = new URLSearchParams();
@@ -296,11 +288,6 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function listarEjemplares(){
-        // const choiselistarlibroE= new Choices(filtroEjempla, {
-        //     searchEnabled: true,
-        //     itemSelectText: '',
-        //     allowHTML:true
-        // });
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtroEjemplar");
         parametros.append("idlibro", libro.value);
@@ -311,46 +298,76 @@ $datoID = json_encode($_SESSION['login']);
         })
         .then(response => response.json())
         .then(datos => {
-            filtroEjempla.innerHTML = "<option value=''>Seleccione</option>";
+            filtroEjempla.innerHTML++;
             datos.forEach(element => {
                 let Select = `
                     <option value='${element.idejemplar}'>${element.Ejemplares}</option> 
                 `
                 filtroEjempla.innerHTML +=Select;
             });
-            // choiselistarlibroE.setChoices([], 'value','label',true);
-            // choiselistarlibroE.setChoices(datos, 'idejemplar','Ejemplares', true);
         });
     }
-    
-    function agregarLibros(){
-        const idlejemplarSeleccionado = filtroEjempla.options[filtroEjempla.selectedIndex];
-        const idejemplar = idlejemplarSeleccionado.value;
-        const nombreLibro = idlejemplarSeleccionado.label;
-        const fechaDevolucion = fechadevolucion.value;
-        const condicion = Condicionentrega.value;
-        // const subcate = filtrosubcategoria.value
-        //no agregar el libro si las fehas no son validas
-        if(libroAgregados.has(idejemplar)){
-            alert("este libro ya se ah sido agregado");
-            return;
-        }else{
-            let nuevaFila = `
-            <tr>
-                <td>${idejemplar}</td>
-                <td>${nombreLibro}</td>
-                <td>${fechaDevolucion}</td>
-                <td>${condicion}</td>
-                <td>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </td>
-            </tr>`;
-            tablalibro.innerHTML += nuevaFila;
+
+    function agregarLibros() {
+        const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
+        // if (isNaN(cantidadLibros) || cantidadLibros <= 0) {
+        //     alert("Por favor, ingrese un número válido mayor que cero en el campo de cantidad.");
+        //     return;
+        // }
+        // Obtener todos los elementos del select
+        const elementosSelect = filtroEjempla.options;
+
+        // Iterar sobre la cantidad especificada de libros
+        for (let i = 0; i < cantidadLibros; i++) {
+            // Obtener el índice actual
+            const indiceActual = i % elementosSelect.length;
+
+            // Obtener el elemento del select en el índice actual
+            const idlejemplarSeleccionado = elementosSelect[indiceActual];
+            const idejemplar = idlejemplarSeleccionado.value;
+            const nombreLibro = idlejemplarSeleccionado.label;
+            const fechaDevolucion = fechadevolucion.value;
+            const condicion = Condicionentrega.value;
+
+            // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
+            if (libroAgregados.has(idejemplar)) {
+                alert("Este libro ya ha sido agregado");
+            } else {
+                let nuevaFila = `
+                    <tr>
+                        <td>${idejemplar}</td>
+                        <td>${nombreLibro}</td>
+                        <td>${fechaDevolucion}</td>
+                        <td>${condicion}</td>
+                        <td>
+                            <a href='#' class='eliminar'>Eliminar</a>
+                        </td>
+                    </tr>`;
+                tablalibro.innerHTML += nuevaFila;
+
+                libroAgregados.add(idejemplar);
+            }
         }
-        libroAgregados.add(idejemplar);
     }
 
     Agregar.addEventListener("click", agregarLibros);
+
+    tablalibro.addEventListener("click", function(event) {
+        // Verificar si el clic fue en un botón de clase "btn-danger"
+        if (event.target.classList.contains("eliminar")) {
+            // Obtener la fila a la que pertenece el botón
+            const filaAEliminar = event.target.closest("tr");
+
+            // Obtener el idejemplar de la fila
+            const idejemplarAEliminar = filaAEliminar.querySelector("td:first-child").textContent;
+
+            // Eliminar la fila de la tabla
+            filaAEliminar.remove();
+
+            // Eliminar el idejemplar del conjunto libroAgregados
+            libroAgregados.delete(idejemplarAEliminar);
+        }
+    });
 
     function AddPrestamoReservar(){
         const respuesta = <?php echo $datoID;?>;

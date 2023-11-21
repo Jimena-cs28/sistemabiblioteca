@@ -67,10 +67,7 @@ class Libro extends conexion{
       "status" => false,
       "message" =>""
     ];
-    
     try{
-      
-
       $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
@@ -95,7 +92,40 @@ class Libro extends conexion{
       $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
     return $respuesta;
-  
+  }
+
+  public function EditarLibro($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibro"],
+          $datos["cantidad"],
+          $datos["idsubcategoria"],
+          $datos["ideditorial"],
+          $datos["libro"],
+          $datos["tipo"],
+          $datos["numeropaginas"],
+          $datos["codigo"],
+          $datos["edicion"],
+          $datos["formato"],
+          $datos["anio"],
+          $datos["idioma"],
+          $datos["descripcion"],
+          $datos["imagenportada"],
+          $datos["idautor"],
+          $datos["iddetalleautor"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
   }
 
   public function listadolibro(){
