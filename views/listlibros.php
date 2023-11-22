@@ -307,24 +307,29 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label for="">CANTIDAD</label>
                                     <input type="number" class="form-control"  id="Ecantidad">
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label for="">CODIGO</label>
                                     <input type="number" class="form-control"  id="Ecodigo">
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
+                                    <label for="">Nº PAGINAS</label>
+                                    <input type="number" class="form-control"  id="Epaginas">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
                                     <label for="">AUTOR</label>
                                     <select name="" class="form-control"  id="Eautor">
 
                                     </select>
                                 </div>
-                                
-                                <div class="col-sm-3">
-                                    <label for="">Nº PAGINAS</label>
-                                    <input type="number" class="form-control"  id="Epaginas">
+                                <div class="col-sm-6">
+                                    <label for="">Libro</label>
+                                    <input type="text" class="form-control"  id="Elibro">
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -413,6 +418,7 @@
     const selectcategoria = document.querySelector("#Ecategoria");
     const selectsubcategoria = document.querySelector("#Esubcategoria");
     const selectAutores = document.querySelector("#Eautor");
+    const GuardarEditar = document.querySelector("#GuadarE");
 
     let iddetalleautor = '';
     let idlibro = '';
@@ -481,7 +487,7 @@
                     <td>${element.cantidad}</td>
                     <td>${element.codigo}</td>
                     <td>
-                        <a href='#ejemplar' class='registrar' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
+                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
                     </td>
                     <td>
                         <a href='' class='inabilitar' data-idlibro='${element.idlibro}'>Desactivar</a>
@@ -563,6 +569,43 @@
     //     })
     // }
 
+    function UpdateBook(){
+        if(confirm("¿Esta seguro de guardar?")){
+            //Para binarios
+            const fd = new URLSearchParams();
+            fd.append("operacion","ActualizarLibro");
+            fd.append("idlibro", idlibro);
+            fd.append("idsubcategoria",selectsubcategoria.value);
+            fd.append("iddetalleautor", iddetalleautor);
+            fd.append("ideditorial",document.querySelector("#Eeditorial").value);
+            fd.append("libro",document.querySelector("#Elibro").value);
+            fd.append("tipo",document.querySelector("#Etipo").value);
+            fd.append("cantidad",document.querySelector("#Ecantidad").value);
+            fd.append("numeropaginas",document.querySelector("#Epaginas").value);
+            fd.append("codigo",document.querySelector("#Ecodigo").value);
+            fd.append("edicion",document.querySelector("#Eedicion").value);
+            fd.append("formato",document.querySelector("#Eformato").value);
+            fd.append("anio",document.querySelector("#Eanio").value);
+            fd.append("idioma",document.querySelector("#Eidioma").value);
+            fd.append("descripcion",document.querySelector("#Edescripcion").value);
+            fd.append("idautor",selectAutores.value);
+            
+            fetch("../controller/libros.php",{
+                method: "POST",
+                body: fd
+            })
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    document.querySelector("#form-editar").resert();
+                    alert("Se guardo el Libro correctamente")
+                }else{
+                    alert("no se guardo");
+                }
+            })
+        }
+    }
+
     function traerEjemplar(){
         const parametros = new URLSearchParams();
         parametros.append("operacion", "TraerEjemplar");
@@ -642,7 +685,7 @@
     SelectActor();
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'registrar'){
+        if(event.target.classList[0] === 'codigo'){
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
             idlibro = parseInt(event.target.dataset.idlibro);
             //console.log(iddetalleautor);
@@ -695,9 +738,9 @@
                 //console.log(idlibro)
                 datos.forEach(element => {
                     selectcategoria.value = element.categoria;
-                    document.querySelector("#Esubcategoria").value = element.subcategoria;
+                    selectsubcategoria.value = element.subcategoria;
                     document.querySelector("#Eeditorial").value = element.Editorial;
-                    //document.querySelector("#libro").value = element.libro;
+                    document.querySelector("#Elibro").value = element.libro;
                     document.querySelector("#Ecantidad").value = element.cantidad;
                     document.querySelector("#Epaginas").value = element.numeropaginas;
                     document.querySelector("#Ecodigo").value = element.codigo;
@@ -708,10 +751,11 @@
                     document.querySelector("#Etipo").value = element.tipo;
                     document.querySelector("#Eimg").src = `./img/${element.imagenportada}`;
                     document.querySelector("#Eedicion").value = element.edicion;
-                    document.querySelector("#Eautor").value = element.Autor;
+                    selectAutores.value = element.Autor;
                     traerEjemplar1();
                 });
                 traerEjemplar1();
+                GuardarEditar.addEventListener("click", UpdateBook);
             })  
         }
     });

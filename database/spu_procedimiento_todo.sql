@@ -71,7 +71,7 @@ CREATE PROCEDURE spu_obtener_detalleautores
 	IN _idlibro INT
 )
 BEGIN
-	SELECT detalleautores.iddetalleautor, libros.idlibro, categorias.categoria, subcategorias.subcategoria, CONCAT(editoriales.nombres,' ', editoriales.paisorigen) AS 'Editorial',
+	SELECT detalleautores.iddetalleautor, libros.idlibro, libros.libro, categorias.categoria, subcategorias.subcategoria, CONCAT(editoriales.nombres,' ', editoriales.paisorigen) AS 'Editorial',
 	libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
 	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, CONCAT(autores.autor,' ',autores.apellidos) AS 'Autor'
 	FROM detalleautores

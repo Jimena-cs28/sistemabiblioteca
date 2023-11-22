@@ -106,7 +106,7 @@ if (isset($_POST['operacion'])){
     }
   }
 
-  if($_POST['operacion'] == 'registrarEstudiante'){
+  if($_POST['operacion'] == 'ActualizarLibro'){
     $datosGuardar = [
       "idlibro"             => $_POST['idlibro'],
       "cantidad"            => $_POST['cantidad'],
@@ -121,7 +121,7 @@ if (isset($_POST['operacion'])){
       "anio"                => $_POST['anio'],    
       "idioma"              => $_POST['idioma'],
       "descripcion"         => $_POST['descripcion'],
-      "imagenportada"       => $_POST['imagenportada'],
+      //"imagenportada"       => $_POST['imagenportada'],
       "idautor"             => $_POST['idautor'],
       "iddetalleautor"     => $_POST['iddetalleautor']
     ];

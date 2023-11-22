@@ -15,7 +15,7 @@ SELECT usuarios.idusuario, personas.nombres, personas.apellidos, usuarios.nombre
 END$$
 
 CALL spu_login ('75123489');
-
+SELECT * FROM prestamos
 
 -- delimiter $$
 -- create procedure spu_listar_subcategoria( in )
@@ -153,6 +153,23 @@ SELECT * FROM libros
 CALL spu_obtener_detalleautores(2);
  
 
-SELECT * FROM libros WHERE estado = 0
+SELECT * FROM librosentregados WHERE estado = 0
 
- 
+
+DELIMITER $$
+CREATE PROCEDURE spu_traer_grado
+(
+	IN _idusuario INT
+)
+BEGIN 
+	SELECT u.idusuario, p.descripcion
+	FROM usuarios u
+	-- JOIN roles r ON u.idrol = r.idrol
+	JOIN prestamos p ON u.idusuario = p.idbeneficiario
+	WHERE u.idusuario = 5 AND p.estado = 'T'
+	GROUP BY u.idusuario;
+END $$
+
+CALL spu_traer_grado(11)
+
+SELECT * FROM prestamos

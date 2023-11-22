@@ -74,7 +74,6 @@ CREATE PROCEDURE spu_actualizar_libro
     IN _anio DATE,
     IN _idioma VARCHAR(30),
     IN _descripcion TEXT,
-    IN _imagenportada VARCHAR(200),
     IN _idautor  INT,
     IN _iddetalleautor INT
 )
@@ -117,8 +116,7 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion,
-        imagenportada = _imagenportada
+        descripcion = _descripcion
         WHERE idlibro = p_idlibro;
         
         UPDATE detalleautores SET

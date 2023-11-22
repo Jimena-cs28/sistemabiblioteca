@@ -153,3 +153,10 @@
     $respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
     echo json_encode($respuesta);
   }
+
+  if($_POST['operacion'] == 'traerDescripcion'){
+    $datos = $prestamo->traerDescripcion($_POST['idusuario']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
