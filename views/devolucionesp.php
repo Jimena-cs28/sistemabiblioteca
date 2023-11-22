@@ -190,44 +190,6 @@
     const GuadarD = document.querySelector("#guadarlibroD");
     let idprestamo = ''; //variable que almacena el id del prestamo
     let idlibroentregado = '';
-    // Obtén la fecha actual
-    const fechaActual = new Date();
-    // Supongamos que obtienes la fecha de la tabla del elemento con id "fechaEnTabla"
-    const fechaEnTabla = document.querySelectorAll('#tablaD tbody td.fechaEnTabla');
-    //const modal = new bootstrap.Modal(document.querySelector("#modal"));
-
-    // Convierte la cadena de fecha en un objeto Date
-    //var fechaTabla = new Date(fechaEnTablaString);
-
-    function showCustomAlert(message) {
-        var customAlert = document.getElementById('customAlert');
-        customAlert.innerText = message;
-        customAlert.style.display = 'block';
-    }
-
-    function hideCustomAlert() {
-        var customAlert = document.getElementById('customAlert');
-        customAlert.style.display = 'none';
-    }
-
-    fechaEnTabla.forEach(function (fechaElement) {
-        var fechaEnTablaString = fechaElement.innerText;
-        var fechaTabla = new Date(fechaEnTablaString);
-
-        // Compara las fechas
-        if (fechaActual < fechaTabla) {
-            fechaElement.classList.add('fechaPasada');
-            // Muestra la alerta personalizada
-            //showCustomAlert('La fecha en la tabla es mayor que la fecha actual.');
-
-            // Establece un temporizador para ocultar la alerta después de 3 segundos
-            //setTimeout(function() {
-              //  hideCustomAlert();
-            //}, 3000);
-        } else {
-            // showCustomAlert('La fecha en la tabla no es mayor que la fecha actual.');
-        }
-    })
 
     function mostrarAvisoFlotante(mensaje) {
         // Crear un elemento div para el aviso flotante
@@ -244,6 +206,20 @@
         }, 5000); // 5000 milisegundos (5 segundos)
     }
 
+    function mostrarAvisoDirecto(mensaje) {
+        const aviso = document.createElement('div');
+        aviso.textContent = mensaje;
+        aviso.style.color = 'red'; // Puedes personalizar el estilo según tus necesidades
+        aviso.style.fontWeight = 'bold';
+        aviso.style.margin = '10px 0';
+        
+        // Agrega el aviso directamente al cuerpo del documento
+        document.body.insertBefore(aviso, document.body.firstChild);
+        // Opcional: Elimina el aviso después de un cierto período
+        setTimeout(() => {
+            document.body.removeChild(aviso);
+        }, 5000); // Elimina el aviso después de 5 segundos (ajusta según sea necesario)
+    }
 
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
@@ -259,7 +235,7 @@
                 const recibir = `
                 <tr>
                     <td>${element.idprestamo}</td>
-                    <td>${element.nombres}</td>
+                    <td>${element.nombres }</td>
                     <td>${element.descripcion}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaentrega}</td>
@@ -289,12 +265,13 @@
         .then(datos => {
             const actual = new Date();
             CuerpoP.innerHTML = ``;
+            
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
                 const fechaPasada = fechadevolucion < actual;
-                if(fechaPasada){
-                    mostrarAvisoFlotante(`No ah devuelto a tiempo el libro`);
+                if (fechaPasada) {
+                    mostrarAvisoDirecto(`No ha devuelto a tiempo el libro`);
                 }
                 const style = fechaPasada ? 'color: red;' : '';
                 idejemplar = element.idejemplar;

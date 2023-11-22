@@ -51,65 +51,8 @@
         </div>
     </div>
 </div>
-<div id="customAlert" class="custom-alert"></div>
-<style>
-        .fechaEnTabla {
-            /* Estilo predeterminado para las fechas */
-            color: black;
-        }
-        .fechaPasada {
-            /* Estilo para las fechas que son mayores que la fecha actual */
-            color: red;
-        }
-    </style>
-<!-- <tr id="fechaEnTabla">2023-11-18</tr> -->
-<table>
-    <tr>
-        <td class="fechaEnTabla">2023-10-1</td>
-        <td class="fechaEnTabla">2023-11-19</td>
-        <td class="fechaEnTabla">2023-11-1</td>
-    </tr>
-</table>
 
 <script>
-        // Obtén la fecha actual
-        var fechaActual = new Date();
-
-        // Supongamos que obtienes la fecha de la tabla del elemento con id "fechaEnTabla"
-        var fechaEnTabla = document.querySelectorAll('.fechaEnTabla');
-
-        // Convierte la cadena de fecha en un objeto Date
-        //var fechaTabla = new Date(fechaEnTablaString);
-
-        fechaEnTabla.forEach(function (fechaElement) {
-            var fechaEnTablaString = fechaElement.innerText;
-            var fechaTabla = new Date(fechaEnTablaString);
-
-            // Compara las fechas
-            if (fechaActual < fechaTabla) {
-                fechaElement.classList.add('fechaPasada');
-                // Muestra la alerta personalizada
-                showCustomAlert('La fecha en la tabla es mayor que la fecha actual.');
-
-                // Establece un temporizador para ocultar la alerta después de 3 segundos
-                setTimeout(function() {
-                    hideCustomAlert();
-                }, 3000);
-            } else {
-               // showCustomAlert('La fecha en la tabla no es mayor que la fecha actual.');
-            }
-        })
-
-    function showCustomAlert(message) {
-        var customAlert = document.getElementById('customAlert');
-        customAlert.innerText = message;
-        customAlert.style.display = 'block';
-    }
-
-    function hideCustomAlert() {
-        var customAlert = document.getElementById('customAlert');
-        customAlert.style.display = 'none';
-    }
 
     const descripcion = document.querySelector("#descripcion");
     const tabla = document.querySelector("tbody");

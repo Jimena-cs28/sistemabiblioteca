@@ -61,7 +61,7 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DESCRIPCION</label>
-                            <input type="text" class="form-control" placeholder="Grado o Curso" id="descripcion">
+                            <input type="text" class="form-control" id="descripcion">
                         </div>
                         <div class="col-md-3" id="lugarD">
                             <label for="" style="color:#574E4E;">DESTINO</label>
@@ -135,6 +135,7 @@ $datoID = json_encode($_SESSION['login']);
     const filtroStudent = document.querySelector("#filtronombres");
     const libro = document.querySelector("#libro");
     const Agregar = document.querySelector("#Rguardarlibro");
+    const des = document.querySelector("#descripcion");
     // const cuerpo = document.querySelector("tbody");
     //const cantidad = document.querySelector("#cantidad");
     const tablalibro = document.querySelector("#tabla2")
@@ -483,9 +484,28 @@ $datoID = json_encode($_SESSION['login']);
         }
     }
 
+
+    function TraerDescripcion(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerDescripcion");
+        parametros.append("idusuario", filtroStudent.value);
+        fetch("../controller/prestamos.php", {
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            console.log(datos);
+            datos.forEach(element => {
+                des.value = element.descripcion; 
+            });
+        });
+    }
+
     conseguirlibro();
     listarUsuario();
     // listarprestamo();
+    filtroEjempla.addEventListener("change", TraerDescripcion);
     Guardar.addEventListener("click", ValidarRegistrar);
     libro.addEventListener("change", listarEjemplares);
 

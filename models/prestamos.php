@@ -259,4 +259,16 @@ class Prestamos extends conexion{
     }
     return $respuesta;
   }
+
+  public function traerDescripcion($idusuario){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_grado(?)");
+      $consulta->execute(array($idusuario));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 }
