@@ -150,8 +150,9 @@
       "condicionentrega"  => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];
-    $respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
-    echo json_encode($respuesta);
+    //$respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
+    echo json_encode($prestamo->AddLibroentregadonow($datosGuardar));
+    // echo json_encode($respuesta);
   }
 
   if($_POST['operacion'] == 'traerDescripcion'){

@@ -28,7 +28,6 @@
                         <th style="color:#574E4E;">F.Entrega</th>
                         <th style="color:#574E4E;">F.Prestamo</th>
                         <th style="color:#574E4E;">Recibir</th>
-                        <th style="color:#574E4E;">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,14 +166,13 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #76de84; /* Color de fondo rojo, ajusta según tus preferencias */
+        background-color: rgb(238, 47, 47); /* Color de fondo rojo, ajusta según tus preferencias */
         color: #090404; /* Color del texto blanco, ajusta según tus preferencias */
         padding: 10px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 </style>
-
 <script>
     let idlibro = '';
     let idusuario = '';
@@ -206,21 +204,6 @@
         }, 5000); // 5000 milisegundos (5 segundos)
     }
 
-    function mostrarAvisoDirecto(mensaje) {
-        const aviso = document.createElement('div');
-        aviso.textContent = mensaje;
-        aviso.style.color = 'red'; // Puedes personalizar el estilo según tus necesidades
-        aviso.style.fontWeight = 'bold';
-        aviso.style.margin = '10px 0';
-        
-        // Agrega el aviso directamente al cuerpo del documento
-        document.body.insertBefore(aviso, document.body.firstChild);
-        // Opcional: Elimina el aviso después de un cierto período
-        setTimeout(() => {
-            document.body.removeChild(aviso);
-        }, 5000); // Elimina el aviso después de 5 segundos (ajusta según sea necesario)
-    }
-
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarDpendientes")
@@ -242,9 +225,6 @@
                     <td>${element.fechaprestamo}</td>
                     <td>
                         <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
-                    </td>
-                    <td>
-                        <button class='btn btn-info'>Devolucion</button>
                     </td>
                 </tr>
                 `;
@@ -271,7 +251,7 @@
                 const fechadevolucion = new Date(element.fechadevolucion);
                 const fechaPasada = fechadevolucion < actual;
                 if (fechaPasada) {
-                    mostrarAvisoDirecto(`No ha devuelto a tiempo el libro`);
+                    mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
                 const style = fechaPasada ? 'color: red;' : '';
                 idejemplar = element.idejemplar;
@@ -395,12 +375,12 @@
                             // modal.close();
                         }
                     })
-                    GuadarD.addEventListener("click", () => {
-                        validarRecibirlibro(); updatedevolucionesUno();
-                    });
+                    
                 }
             };
-            
+            GuadarD.addEventListener("click", () => {
+                validarRecibirlibro(); updatedevolucionesUno();
+            });
         }
     });
 
