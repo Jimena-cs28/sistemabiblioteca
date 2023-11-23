@@ -88,7 +88,8 @@ SELECT * FROM librosentregados
 SELECT * FROM prestamos WHERE fechasolicitud BETWEEN '2023-11-13' AND '2023-11-16' AND estado = 'T';
 -- esta funcionanado este es para todos los prestamos
 DELIMITER $$
-CREATE PROCEDURE spu_updateD_todo_prestamo(
+CREATE PROCEDURE spu_updateD_todo_prestamo
+(
     IN _idprestamo INT,
     IN _idlibroentregado INT,
     IN _condiciondevolucion VARCHAR(50),
@@ -103,7 +104,7 @@ BEGIN
     
     -- Actualizar ocupado a 'NO', la condicionentrega y observaciones para los idejemplar asociados al idprestamo y que la fechadevolucion es now()
     UPDATE ejemplares ej
-    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
+    JOIN librosentregados le ON ej.idejemplar =- le.idejemplar
     SET ej.ocupado = 'NO', le.condiciondevolucion = _condiciondevolucion, le.observaciones = _observaciones, le.fechadevolucion = NOW()
     WHERE le.idprestamo = _idprestamo;
 
@@ -117,18 +118,27 @@ BEGIN
     IF _count_ocupados > 0 THEN
         UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
         UPDATE usuarios SET estado = 1 , inactive_at = NOW() WHERE idusuario = _idbene;
-        UPDATE libros l SET l.cantidad = l.cantidad + _count_ocupados
-        WHERE l.idlibro = (SELECT idlibro FROM ejemplares WHERE idejemplar = (SELECT MIN(idejemplar)
-                FROM librosentregados WHERE idlibroentregado = _idlibroentregado));
     END IF;
 END$$
 
-CALL spu_updateD_todo_prestamo(13,36,'LALA','CACA');
-SELECT * FROM libros
+CALL spu_updateD_todo_prestamo(64,196,'BIEN','BIEN');  -- FUNCIONA
+-- 5
+SELECT COUNT(ej.idlibro) AS 'cantidad', ej.idlibro, li.libro
+FROM ejemplares ej
+INNER JOIN libros li ON li.idlibro = ej.idlibro
+WHERE ej.ocupado = 'NO' AND ej.estado = 1
+GROUP BY ej.idlibro;
+
+
+SELECT * FROM prestamos WHERE estado = 'D'
 SELECT * FROM librosentregados
+ -- 59
+
+SELECT * FROM prestamos
+SELECT * FROM librosentregados -- atlas 8
 SELECT * FROM usuarios
 SELECT * FROM ejemplares
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 6
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 7
 
-UPDATE libros SET estado = 1 WHERE idlibro = 2
+UPDATE libros SET cantidad = 10 WHERE idlibro = 4

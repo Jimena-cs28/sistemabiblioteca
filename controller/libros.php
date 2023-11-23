@@ -109,21 +109,7 @@ if (isset($_POST['operacion'])){
   if($_POST['operacion'] == 'ActualizarLibro'){
     $datosGuardar = [
       "idlibro"             => $_POST['idlibro'],
-      "cantidad"            => $_POST['cantidad'],
-      "idsubcategoria"      => $_POST['idsubcategoria'],
-      "ideditorial"         => $_POST['ideditorial'],
-      "libro"               => $_POST['libro'],
-      "tipo"                => $_POST['tipo'],   
-      "numeropaginas"       => $_POST['numeropaginas'],
-      "codigo"              => $_POST['codigo'],
-      "edicion"             => $_POST['edicion'],    
-      "formato"             => $_POST['formato'],    
-      "anio"                => $_POST['anio'],    
-      "idioma"              => $_POST['idioma'],
-      "descripcion"         => $_POST['descripcion'],
-      //"imagenportada"       => $_POST['imagenportada'],
-      "idautor"             => $_POST['idautor'],
-      "iddetalleautor"     => $_POST['iddetalleautor']
+      "cantidad"            => $_POST['cantidad']
     ];
     $respuesta = $libro->EditarLibro($datosGuardar);
     echo json_encode($respuesta);

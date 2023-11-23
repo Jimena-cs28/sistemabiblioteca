@@ -51,20 +51,16 @@
             <div class="modal-body">
                 <form action="off" id="modal-editar">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="Libro">Libro</label>
                             <input type="text" class="form-control" id="libro" disabled>
                         </div>
-                        <div class="col-md-4">
-                            <label for="Categoria">Cantidad</label>
-                            <input type="number" class="form-control mb-3" id="cantidad" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Nombre</label>
+                        <div class="col-md-6">
+                            <label for="">Usuario</label>
                             <input type="text" class="form-control" id="persona" disabled>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-md-4">
                             <label>Descripcion</label>
                             <input type="text" class="form-control mb-3" id="descripcion" disabled>
@@ -75,7 +71,7 @@
                         </div>
                         <div class="col-md-4">
                             <label>Fecha devolucion</label>
-                            <input type="text" class="form-control" id="fechadevolucion">
+                            <input type="text" class="form-control" id="fechadevolucion" disabled>
                         </div>
                     </div>
                 </form>
@@ -130,7 +126,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo > actual;
+                const fechapasada = FechaPrestamo < actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -205,8 +201,7 @@
                 datos.forEach(element => {
                     descripcion.value = element.descripcion;
                     persona.value = element.nombres;
-                    cantidad.value = element.cantidad;
-                    libro.value = element.nombre;
+                    libro.value = element.libro;
                     fechadevolucion.value = element.fechadevolucion;
                     fechaprestamo.value = element.fechaprestamo;
                 });
@@ -238,7 +233,7 @@
                     listarEntregas();
                     datos.forEach(element => {
                     });
-                    btguardar.addEventListener("click", EditarEpendiente);
+                    // btguardar.addEventListener("click", EditarEpendiente);
             
                 })
             }

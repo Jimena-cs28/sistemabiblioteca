@@ -24,7 +24,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered"  data-replace="jtable" id="dataTable"  aria-label="JS Datatable" data-locale="en" data-search="true">
+            <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -34,7 +34,6 @@
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
                         <th>F. Prestamo</th>
-                        <th>Eliminar</th>
                         <th>Ver ficha</th>
                     </tr>
                 </thead>
@@ -186,8 +185,7 @@
                     <td>${element.fechaprestamo}</td>
                     <td>
                         <a href='#modal-id' class='todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ver ficha</a>
-                    <td>
-                    <button class="btn btn-danger"><i class='zmdi zmdi-delete'></i></button>                  
+                    <td>               
                 </tr>
                 `;
                 cuerpo.innerHTML += pres;

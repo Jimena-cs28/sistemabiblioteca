@@ -62,20 +62,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_actualizar_libro
 (
     IN p_idlibro INT, 
-    IN p_nueva_cantidad INT,
-    IN _idsubcategoria INT,
-    IN _ideditorial INT,
-    IN _libro VARCHAR(70),
-    IN _tipo VARCHAR(50),
-    IN _numeropaginas VARCHAR(100),
-    IN _codigo DECIMAL(6,3),
-    IN _edicion VARCHAR(50),
-    IN _formato VARCHAR(50),
-    IN _anio DATE,
-    IN _idioma VARCHAR(30),
-    IN _descripcion TEXT,
-    IN _idautor  INT,
-    IN _iddetalleautor INT
+    IN p_nueva_cantidad INT
 )
 BEGIN
       DECLARE v_ultimo_codigo_libro INT;
@@ -105,24 +92,9 @@ BEGIN
 
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
-        cantidad = cantidad + p_nueva_cantidad,      -- select * from detalleautores
-        idsubcategoria = _idsubcategoria,
-        ideditorial = _ideditorial,
-        libro = _libro,
-        tipo = _tipo,
-        numeropaginas = _numeropaginas,
-        codigo = _codigo,
-        edicion = _edicion,
-        formato = _formato,
-        anio = _anio,
-        idioma = _idioma,
-        descripcion = _descripcion
+        cantidad = cantidad + p_nueva_cantidad    -- select * from detalleautores
         WHERE idlibro = p_idlibro;
-        
-        UPDATE detalleautores SET
-        idautor = _idautor,
-        idlibro = p_idlibro
-        WHERE iddetalleautor = _iddetalleautor;
+
 
         -- Imprimir mensaje o devolver resultado si es necesario
         SELECT 'Cantidad y código_libro actualizados correctamente' AS 'Mensaje';
@@ -133,12 +105,12 @@ BEGIN
 
 END $$
 
-
-CALL spu_actualizar_libro(4,3,4,2,'Prueba','texto',23,23.2,'','Mediano','2010-11-12','español','solo es una prueba','',2,2) -- 6
+SELECT * FROM ejemplares
+CALL spu_actualizar_libro(7,3) -- 6
 SELECT * FROM detalleautores
 SELECT * FROM libros
 -- Después de insertar un nuevo libro, llamar a spu_actualizar_ejemplares
-CALL spu_actualizar_ejemplares(4,2);
+CALL spu_actualizar_libro(4,2);
 
 CALL spu_registrar_libro(4,2,'prueba','texto',4,23,23.2,'','mediano','','','','',2);
 -- ejecutado LIBROS ACTIVOS
@@ -146,19 +118,48 @@ INSERT INTO detalleautores(idlibro, idautor) VALUES (3,3);
 SELECT * FROM libros
 SELECT * FROM detalleautores
 SELECT * FROM ejemplares
+
 DELIMITER $$
-CREATE PROCEDURE spu_listado_libros()
+DROP PROCEDURE spu_listado_libros()
 BEGIN
-	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
+	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, COUNT(ejemplares.idlibro) AS 'todo',  categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
 	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor'
 	FROM detalleautores
 	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	LEFT JOIN ejemplares ON ejemplares.idejemplar = ejemplares.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE estado = 1
-	ORDER BY iddetalleautor DESC;
+	WHERE libros.estado = 1 AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1
+	GROUP BY ejemplares.idlibro
+	ORDER BY iddetalleautor DESC
 END $$
+
+
+SELECT ej.idlibro, COUNT(ej.idlibro) AS 'cantidad' , li.libro
+FROM ejemplares ej
+INNER JOIN libros li ON li.idlibro = ej.idlibro
+WHERE ej.ocupado = 'NO' AND ej.estado = 1
+GROUP BY ej.idlibro;
+
+DELIMITER $$
+CREATE PROCEDURE spu_listado_libros()
+BEGIN
+	SELECT ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria, lib.libro, COUNT(ej.idlibro) AS 'Disponible' , 
+	lib.cantidad AS 'cantidad', lib.codigo, CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+	FROM subcategorias sub
+	JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+	JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+	JOIN detalleautores det ON lib.idlibro = det.idlibro
+	JOIN autores aut ON det.idautor = aut.idautor
+	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
+	WHERE ej.ocupado = 'NO' AND ej.estado = 1
+	GROUP BY ej.idlibro;
+END $$
+
+UPDATE libros SET cantidad =  21 WHERE idlibro = 7
+
+SELECT * FROM ejemplares
 -- LIBROS INACTIVOS
 DELIMITER $$
 CREATE PROCEDURE spu_inactivo_libros()

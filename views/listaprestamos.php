@@ -284,11 +284,20 @@ $datoID = json_encode($_SESSION['login']);
             });
             choiselistarlibro.setChoices([], 'value','label',true);
             choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
+            
             // listarEjemplares();
         });
     }
 
+    const choicesLibro= new Choices(filtroEjempla, {
+        searchEnabled: true,
+        itemSelectText: '',
+        allowHTML:true
+    });
+    // choicesLibro.setChoices([], 'value','label',true);
+
     function listarEjemplares(){
+        
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtroEjemplar");
         parametros.append("idlibro", libro.value);
@@ -306,6 +315,8 @@ $datoID = json_encode($_SESSION['login']);
                 `
                 filtroEjempla.innerHTML +=Select;
             });
+            choicesLibro.setChoices([], 'value','label',true);
+            choicesLibro.setChoices(datos, 'idejemplar','Ejemplares', true);
         });
     }
 
@@ -424,7 +435,7 @@ $datoID = json_encode($_SESSION['login']);
     function registrarLibroentregado(idprestamo){
         if(confirm("estas seguro de guardar?")){
             const row = tablalibro.rows;
-            for (let i = 0; i < row.length; i++) {
+            for (let i = 1; i < row.length; i++) {
                 const idejemplar = parseInt(row[i].cells[0].innerText);
                 const condicionEntre   = String(row[i].cells[3].innerText);
                 const fechaD = String(row[i].cells[2].innerText);
@@ -444,6 +455,7 @@ $datoID = json_encode($_SESSION['login']);
                     // console.log(datos);
                     if(datos.status){
                         document.querySelector("#form-prestamos").reset();
+                        tablalibro.reset();
                     }else{
                         datos.message();
                     }
@@ -455,10 +467,12 @@ $datoID = json_encode($_SESSION['login']);
     function registrarLibroentregado2(idprestamo){
         if(confirm("estas seguro de guardar?")){
             const filaAhora = tablalibro.rows;
-            for (let i = 0; i < filaAhora.length; i++) {
+            const promesas = [];
+            for (let i = 1; i < filaAhora.length; i++) {
                 const idejemplo = parseInt(filaAhora[i].cells[0].innerText);
                 const fecha     = String(filaAhora[i].cells[2].innerText);
                 const condicionEntre = String(filaAhora[i].cells[3].innerText);
+                console.log(idejemplo);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "AddLibroentregadonow");
                 parametros.append("idprestamo", idprestamo);
@@ -466,20 +480,29 @@ $datoID = json_encode($_SESSION['login']);
                 parametros.append("condicionentrega", condicionEntre);
                 parametros.append("fechadevolucion", fecha);
 
-                fetch("../controller/prestamos.php",{
-                    method:'POST',
+                const fetchPromise = fetch("../controller/prestamos.php", {
+                    method: "POST",
                     body: parametros
                 })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    // console.log(datos);
-                    if(datos.status){
-                        document.querySelector("#form-prestamos").reset();
-                    }
-                    else{
-                        datos.message();
+                // fetch("../controller/prestamos.php",{
+                //     method:'POST',
+                //     body: parametros
+                // })
+                // .then(respuesta => respuesta.json())
+                .then(response => {
+                    if (response.ok) {
+                    // Si la respuesta es exitosa, puedes realizar acciones adicionales aquí si es necesario.
+                    console.log(`Detalle ${idejemplo} registrado con éxito.`);
+                    } else {
+                    // Manejar errores de solicitud aquí
+                    console.error(`Error al registrar el detalle ${idejemplo}.`);
                     }
                 })
+                .catch(error => {
+                    // Manejar errores de red aquí
+                    console.error(`Error de red al registrar el detalle ${idejemplo}.`, error);
+                });
+                promesas.push(fetchPromise);
             }
         }
     }

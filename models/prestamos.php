@@ -193,14 +193,15 @@ class Prestamos extends conexion{
   }
 
   public function registrarLibroentregado($datos = []){
-    $respuesta = [
-      "status" => false,
-      "message" =>""
-    ];
+    // $respuesta = [
+    //   "status" => false,
+    //   "message" =>""
+    // ];
     
     try{
       $consulta = $this->acesso->prepare("CALL spu_libroentregado_register(?,?,?,?)");
-      $respuesta["status"] = $consulta->execute(
+      // $respuesta["status"] = 
+      $consulta->execute(
         array(
           $datos["idprestamo"],
           $datos["idejemplar"],
@@ -208,11 +209,13 @@ class Prestamos extends conexion{
           $datos["fechadevolucion"]
         )
       );
+      return $consulta->fetchAll(PDO::FETCH_NUM);
     }
     catch(Exception $e){
-      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+      die($e->getMessage());
+      // $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
-    return $respuesta;
+    // return $respuesta;
   }
 
   public function registrarAhora($datos = []){

@@ -103,18 +103,4 @@ END $$
 
 SELECT * FROM ejemplares -- 11
 
-DELIMITER $$
-CREATE PROCEDURE spu_listado_libros()
-BEGIN
-	SELECT iddetalleautor, libros.idlibro, subcategorias.subcategoria, categorias.categoria, libros.libro, libros.tipo, libros.cantidad, libros.numeropaginas,
-	libros.codigo, libros.edicion, libros.formato, libros.anio, libros.idioma, libros.descripcion, CONCAT(autores.autor,' ',autores.apellidos) AS 'autor'
-	FROM detalleautores
-	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
-	INNER JOIN autores ON autores.idautor = detalleautores.idautor
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE estado = 1
-	ORDER BY iddetalleautor DESC;
-END $$
-
 
