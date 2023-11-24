@@ -52,7 +52,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
                     <label for="nombrerol" class="form-label">Rol:</label>
                     <input type="text" class="form-control" id="nombrerol" name="nombrerol" value="<?php echo $_SESSION['login']['nombrerol'] ?>" readonly>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="nrodocumento" class="form-label">DNI:</label>
                     <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" value="<?php echo $_SESSION['login']['nrodocumento'] ?>" readonly>
                 </div>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección:</label>
                     <input type="text" class="form-control" id="direccion" name="direccion" value="<?php echo $_SESSION['login']['direccion'] ?>" readonly>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

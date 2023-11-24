@@ -9,7 +9,7 @@ BEGIN
 SELECT * FROM subcategorias 
 WHERE idcategoria = _idcat;
 END$$
-
+SELECT * FROM libros
 
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro_user
@@ -64,10 +64,12 @@ BEGIN
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial; 
+	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
+	WHERE libros.estado = 1; 
 END$$
+UPDATE libros SET estado = 0 WHERE idlibro = 4
 CALL spu_list_libro();
-
+SELECT * FROM usuarios
 -- BUSCADOR DE LIBRO
 DELIMITER $$
 CREATE PROCEDURE spu_buscar_libro
@@ -75,7 +77,7 @@ CREATE PROCEDURE spu_buscar_libro
 	IN _idlibro INT
 )
 BEGIN
-	SELECT libros.idlibro, libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
+	SELECT libros.idlibro, libros.libro,subcategorias.subcategoria, libros.imagenportada, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
 	autores.autor AS "autor", editoriales.nombres AS "editorial", libros.descripcion, libros.cantidad
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
@@ -154,11 +156,12 @@ UPDATE prestamos SET estado = 'D'
 -- END $$
 
 DELIMITER $$
-CREATE PROCEDURE spu_historial(
+CREATE PROCEDURE spu_historial
+(
 	IN _idusuario INT
 )
 BEGIN
-	SELECT prestamos.idprestamo, libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	SELECT prestamos.idprestamo,libros.imagenportada ,libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
 	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.estado,
 	prestamos.cantidad
 	FROM prestamos
@@ -168,6 +171,7 @@ BEGIN
 	WHERE prestamos.idbeneficiario = _idusuario;
 	
 END $$
+
 SELECT * FROM prestamos
 CALL spu_historial(2)
 

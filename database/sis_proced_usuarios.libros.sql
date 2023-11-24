@@ -278,7 +278,7 @@ BEGIN
 END$$
 
 SELECT * FROM usuarios
-
+UPDATE usuarios SET estado = 1 WHERE idusuario =5
 CALL spu_listar_estudiantes();
 -- ejecutado
 DELIMITER $$
@@ -291,7 +291,7 @@ BEGIN
 	WHERE usuarios.idrol = 2 AND estado = 1;
 END$$
 
-CALL spu_listar_estudiantes();
+CALL spu_listar_profesor();
 
 -- REGISTRO ESTUDIANTE Y PROFESOR
 DELIMITER $$

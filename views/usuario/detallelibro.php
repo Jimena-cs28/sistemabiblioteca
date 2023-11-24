@@ -207,7 +207,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 containerLibro.innerHTML = `
                 <ul>
                 <div class="titulo">Descripción:</div>
-                <img src="../img/${datos.imagenportada}" width="200px" />
+                <img src="../img/${datos.imagenportada}" class="ml-2" width="200px" />
                 <li class="descripcion"">Nombre de libro: ${datos.libro}</li>
                 <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
                 <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
