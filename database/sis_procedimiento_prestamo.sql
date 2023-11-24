@@ -469,19 +469,6 @@ SELECT * FROM prestamos
 CALL spu_registrar_libro(3,1,'nose','texto',2,33,233.3,'','','','español','','',3);
 
 SELECT * FROM libros
--- listar Solicitud
-DELIMITER $$
-CREATE PROCEDURE spu_solicitud_listar()
-BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(prestamos.fechaprestamo) AS 'fechaprestamo', DATE(librosentregados.fechadevolucion) AS 'fechadevolucion'
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
-	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'S';
-END $$
 
 CALL spu_solicitud_listar();
 

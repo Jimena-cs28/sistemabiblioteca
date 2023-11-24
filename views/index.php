@@ -23,6 +23,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
     <!-- <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
     <link rel="icon" href="../img/logo2.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -44,7 +45,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index.php?view=dashboard.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="bi bi-house-door-fill"></i>
                     <span>HOME</span></a>
             </li>
 
@@ -60,7 +61,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="bi bi-person-add"></i>
                     <span>Registro de usuarios</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -76,8 +77,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    aria-expanded="true" aria-controls="collapseUtilities" width="16" height="16">
+                    <i class="bi bi-book" ></i>
                     <span>Libros</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -100,7 +101,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=listaprestamos.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="bi bi-patch-plus"></i>
                     <span>Nuevo Prestamo</span></a>
             </li>
             <li class="nav-item">

@@ -95,11 +95,12 @@ $datoID = json_encode($_SESSION['login']);
                             <div class="input-group mb-4">
                                 <input type="date" class="form-control" id="fechadevolucion">
                                 <div class="input-group-append" id="a">
-                                    <button class="btn btn-outline-warning" type="button" id="Rguardarlibro">Apuntar</button>
+                                    <button class="btn" type="button" id="Rguardarlibro"><i  class="bi bi-plus-circle-fill"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row ml-5 mt-4">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
