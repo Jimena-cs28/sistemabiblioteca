@@ -144,10 +144,13 @@ CREATE TABLE prestamos
 	idprestamo		INT AUTO_INCREMENT PRIMARY KEY,
 	idbeneficiario 		INT 		NOT NULL,
 	idbibliotecario		INT 		NULL,
+	idlibro			INT		NOT NULL,
+	cantidad		SMALLINT 	NULL,
 	fechasolicitud		DATETIME	NOT NULL DEFAULT NOW(),
 	fechaprestamo		DATETIME 	NULL,
 	fecharespuesta		DATETIME	NULL,
 	fechaentrega		DATETIME	NULL,
+	fechadevolucion		DATETIME 	NULL,
 	descripcion		VARCHAR(20)	NULL,
 	enbiblioteca		CHAR(2)		NOT NULL,
 	lugardestino		VARCHAR(100) 	NULL,
@@ -156,7 +159,8 @@ CREATE TABLE prestamos
 	CONSTRAINT fk_idbene_prestamo FOREIGN KEY (idbeneficiario) REFERENCES usuarios (idusuario),
 	CONSTRAINT fk_idbiblio_prestamo FOREIGN KEY (idbibliotecario) REFERENCES usuarios (idusuario),
 	CONSTRAINT ck_enbiblio_presta  CHECK(enbiblioteca IN ("SI","NO")),
-	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N"))
+	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N")),
+	CONSTRAINT fk_idlibro_prestamo FOREIGN KEY (idlibro) REFERENCES libros (idlibro)
 )ENGINE=INNODB;
 
 CREATE TABLE ejemplares
@@ -172,13 +176,12 @@ CREATE TABLE ejemplares
 	CONSTRAINT fk_idlibro_ejemplar FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
 	CONSTRAINT uk_codigo_ejemplar UNIQUE(codigo_libro,idlibro)
 )ENGINE=INNODB;
-
+SELECT * FROM librosentregados
 CREATE TABLE librosentregados
 (
 	idlibroentregado	INT AUTO_INCREMENT PRIMARY KEY,
 	idprestamo		INT 		NOT NULL,
 	idejemplar		INT 		NOT NULL,
-	cantidad		SMALLINT 	NULL,
 	condicionentrega	VARCHAR(50)	NULL,
 	condiciondevolucion	VARCHAR(50)	NULL,
 	observaciones		VARCHAR(40)	NULL,

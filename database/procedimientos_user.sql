@@ -45,7 +45,7 @@ CREATE PROCEDURE spu_validar_libroprestado
 	IN _idusuario INT
 )
 BEGIN
-	SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idusuario AND estado IN ('S') ;
+	SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idusuario AND estado IN ('S', 'E') ;
 
 END $$
 
@@ -158,16 +158,17 @@ CREATE PROCEDURE spu_historial(
 	IN _idusuario INT
 )
 BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.estado
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
+	SELECT prestamos.idprestamo, libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.estado,
+	prestamos.cantidad
+	FROM prestamos
+	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.idbeneficiario = _idusuario;
+	
 END $$
-
+SELECT * FROM prestamos
 CALL spu_historial(2)
 
 DELETE FROM librosentregados
@@ -185,6 +186,53 @@ END $$
 CALL spu_ejemplarlibro(2)
 
 
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_solicitud_usuario
+(
+	IN _idlibro INT,
+	IN _idbeneficiario INT,
+	IN _cantidad INT,
+	IN _descripcion VARCHAR(20),
+	IN _enbiblioteca CHAR(2),
+	IN _lugardestino VARCHAR(100),
+	IN _fechaprestamo DATETIME,
+	IN _fechadevolución DATETIME
+)
+BEGIN
+	INSERT INTO prestamos(idlibro, idbeneficiario, cantidad, descripcion, enbiblioteca, lugardestino, fechaprestamo, 
+	fechadevolucion, estado) VALUES (_idlibro, _idbeneficiario, _cantidad, _descripcion, _enbiblioteca, 
+	_lugardestino, _fechaprestamo, _fechadevolucion, 'S');
+
+END $$
+
+SELECT * FROM prestamos
 	
 
 	
+DELIMITER $$
+CREATE PROCEDURE spu_datos_personales
+(
+	IN _idusuario INT
+)
+BEGIN 
+	SELECT personas.apellidos,personas.nombres,personas.nrodocumento,personas.fechanac,
+	personas.direccion,personas.telefono,personas.email,roles.nombrerol FROM usuarios
+
+INNER JOIN personas ON personas.idpersona=usuarios.idpersona
+INNER JOIN roles ON roles.idrol=usuarios.idrol WHERE usuarios.idusuario=_idusuario;
+
+END $$
+
+CALL spu_datos_personales(2)
+
+DELIMITER $$
+CREATE PROCEDURE spu_listar_ejemplares
+(
+	IN _idlibro INT,
+	IN _cantidad INT
+)
+BEGIN
+	SELECT idejemplar, codigo_libro FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1 LIMIT _cantidad;
+END $$
+
+CALL spu_listar_ejemplares(1,2)
