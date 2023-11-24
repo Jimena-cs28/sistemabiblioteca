@@ -111,7 +111,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
             <div class="content-footer">
                 <h4>Teléfono</h4>
-                <p>261941</p>
+                <p>(056)784813</p>
             </div>
         </div>
     </footer>

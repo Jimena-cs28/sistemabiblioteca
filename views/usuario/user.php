@@ -126,7 +126,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
             <div class="content-footer">
                 <h4>Teléfono</h4>
-                <p>261941</p>
+                <p>(056)784813</p>
             </div>
         </div>
     </footer>
@@ -184,7 +184,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     card.innerHTML = ``;
                     datos.forEach(element => {
                         const libro = `
-                        <div class="col-xl-3">
+                        <div class="col-xl-3 mb-4">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
                                     <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
@@ -225,7 +225,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     card.innerHTML = ``;
                     datos.forEach(element => {
                         const libro = `
-                        <div class="col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
                                     <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
@@ -237,13 +237,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     <hr> 
                                 <div class="d-flex align-items-center justify-content-between">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group">Autor: ${element.autor}</li>
-                                        <li class="list-group">Editorial: ${element.editorial}</li>
-                                        <li class="mt-2 list-group">Cantidad: ${element.cantidad}</li>
+                                    <li class="list-group-item">Autor: ${element.autor}</li>
+                                    <li class="list-group-item">Editorial: ${element.editorial}</li>
+                                    <li class="mt-2 list-group-item">Cantidad: ${element.cantidad}</li>
                                     </ul>
                                     
                                 </div>
-                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary">Ver más</a>
+                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary mt-3">Ver más</a>
                             </div>
                         </div>
                         `;

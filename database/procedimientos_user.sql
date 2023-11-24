@@ -9,7 +9,7 @@ BEGIN
 SELECT * FROM subcategorias 
 WHERE idcategoria = _idcat;
 END$$
-
+SELECT * FROM libros
 
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro_user
