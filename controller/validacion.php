@@ -38,7 +38,6 @@ if (isset($_POST['operacion'])){
     if($_POST['operacion'] == 'updatedevolucionesTodos'){
         $datosActulizar = [
             "idprestamo"            => $_POST['idprestamo'],
-            "idlibroentregado"      => $_POST['idlibroentregado'],
             "condiciondevolucion"   => $_POST['condiciondevolucion'],
             "observaciones"         => $_POST['observaciones']
         ];

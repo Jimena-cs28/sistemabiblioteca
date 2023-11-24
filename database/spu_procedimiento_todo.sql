@@ -1,6 +1,6 @@
+USE sistemabiblioteca;
+
 SELECT * FROM libros
-
-
 SELECT * FROM prestamos WHERE estado = 'T'
 
 SELECT * FROM librosentregados WHERE idprestamo = 5
@@ -32,7 +32,7 @@ CREATE PROCEDURE spu_obtener_prestamo
 	IN _idprestamo INT
 )
 BEGIN 
-	SELECT * FROM prestamos WHERE idprestamo = _idprestamo;
+	SELECT * FROM prestamos WHERE idprestamo = _idprestamo
 END$$
 
 -- EJECUTADO

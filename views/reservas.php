@@ -84,9 +84,58 @@
     </div>
 </div>
 
+<div> 
+    <div class="modal fade" id="traerE">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form autocomplete="off" id="form-devolucion" class="p-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Usuario: </label>
+                            </div>
+                            <!-- DESCRIPCION -->
+                            <div class="col-md-10">
+                                <input type="text" class="form-control form-control-sm" id="user" disabled>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="color:#574E4E;">#</th>
+                                        <th style="color:#574E4E;">Libro</th>
+                                        <th style="color:#574E4E;">Codigo</th>
+                                        <th style="color:#574E4E;">C. Entrega</th>
+                                        <th style="color:#574E4E;">F. Devolucion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     let idprestamo = '';
     let idlibroentregado = '';
+    let usuario = '';
+    const user = document.querySelector("#user");
     const card = document.querySelector("#cardreserva");
     const cuerpo = document.querySelector("tbody");
     const descripcion = document.querySelector("#descripcion");
@@ -96,6 +145,9 @@
     const fechadevolucion = document.querySelector("#fechadevolucion");
     const fechaprestamo = document.querySelector("#fechaprestamo");
     const btguardar = document.querySelector("#guardar");
+
+    const tabla = document.querySelector("#tabla");
+    const CuerpoP = tabla.querySelector("tbody");
 
     function mostrarAvisoFlotante(mensaje) {
         // Crear un elemento div para el aviso flotante
@@ -126,7 +178,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo < actual;
+                const fechapasada = FechaPrestamo > actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -140,7 +192,7 @@
                             </div>
                             <div class="col-md-7" >
                                 <div class="card-body">
-                                    <h5 class="card-title text-center" style="${style}">${element.libro} - ${element.codigo_libro}</h5>
+                                    <h5 class="card-title text-center" style="${style}">${element.libro} - ${element.codigo}</h5>
                                     <p class="card-text" style="color:#635555;">Usuario: ${element.nombres} -  ${element.descripcion}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
@@ -149,7 +201,7 @@
                                     <div class="row">
                                         <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
                                         <div class="col-md-4"><a href='#' class='borrar' data-idprestamo='${element.idprestamo}' data-idlibro='${element.idlibro}'>Borrar</a></div>
-                                        <div class="col-md-4"><a href='#Meditar' class='editar' data-toggle='modal' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
+                                        <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
                                     </div>
                                 </ul>
                             </div>
@@ -161,6 +213,38 @@
                 card.innerHTML +=reserva;
             });
         })
+    }
+
+    function listarEjemplare(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerEjemplar");
+        parametros.append("idprestamo", idprestamo);
+        fetch("../controller/librosentregados.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            const actual = new Date();
+            CuerpoP.innerHTML = ``;
+            if(datos){
+                datos.forEach(element => {
+                idejemplar = element.idejemplar;
+                const Vopcion1 = `
+                <tr>
+                    <td>${element.idejemplar}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.codigo_libro}</td>
+                    <td>${element.condicionentrega}</td>
+                    <td>${element.fechadevolucion}</td>
+                </tr>`
+                ;
+                CuerpoP.innerHTML +=Vopcion1;
+                });
+            }else{
+                table.reset();
+            }
+        });
     }
 
     card.addEventListener("click", (event) => {
@@ -186,28 +270,21 @@
         if(event.target.classList[0] === 'editar'){
             idprestamo = parseInt(event.target.dataset.idprestamo)
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            usuario = String(event.target.dataset.nombres);
             // console.log(idlibroentregado);
             const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerlibroentregado");
-            parametros.append("idlibroentregado", idlibroentregado);
+            parametros.append("operacion","obtenerprestamo");
+            parametros.append("idprestamo", idprestamo);
 
-            fetch("../controller/librosentregados.php",{
+            fetch("../controller/prestamos.php",{
                 method: 'POST',
                 body: parametros
-            })
+            }) // console.log(idlibroentregado)
             .then(response => response.json())
             .then(datos => {
-                listarEntregas();
-                datos.forEach(element => {
-                    descripcion.value = element.descripcion;
-                    persona.value = element.nombres;
-                    libro.value = element.libro;
-                    fechadevolucion.value = element.fechadevolucion;
-                    fechaprestamo.value = element.fechaprestamo;
-                });
-                btguardar.addEventListener("click", EditarEpendiente);
-        
-            })
+                listarEjemplare();
+                user.value = usuario;
+            });
         }
     });
 
