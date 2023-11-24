@@ -85,12 +85,6 @@ if (isset($_POST['operacion'])){
     }
   }
 
-  if($_POST['operacion'] == 'tablareporte'){
-    $datos = $libroentregado->tablareporte($_POST['descripcion']);
-    if($datos){
-      echo json_encode($datos);
-    }
-  }
 
   if($_POST['operacion'] == 'traerEjemplar'){
     $datos = $libroentregado->traerEjemplar($_POST['idprestamo']);
