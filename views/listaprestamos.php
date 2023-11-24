@@ -117,7 +117,7 @@ $datoID = json_encode($_SESSION['login']);
                         </table>
                     </div>
                     <p class="text-center mt-4">
-                        <button type="button" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
+                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                     </p>
                 </form>
@@ -365,52 +365,61 @@ $datoID = json_encode($_SESSION['login']);
     // }
 
 // Variable para rastrear los libros agregados
-    let librosAgregados = [];
+let librosAgregados = [];
 
-    function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
-        const nuevaFila = document.createElement('tr');
+function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
+    const nuevaFila = document.createElement('tr');
 
-        nuevaFila.innerHTML = `
-            <td>${idejemplar}</td>
-            <td>${nombreLibro}</td>
-            <td>${fechaDevolucion}</td>
-            <td>${condicion}</td>
-            <td>
-                <a href='#' class='eliminar'>Eliminar</a>
-            </td>`;
+    nuevaFila.innerHTML = `
+        <td>${idejemplar}</td>
+        <td>${nombreLibro}</td>
+        <td>${fechaDevolucion}</td>
+        <td>${condicion}</td>
+        <td>
+            <a href='#' class='eliminar'>Eliminar</a>
+        </td>`;
 
-        // Agregar la nueva fila a la tabla
-        tablalibro.appendChild(nuevaFila);
-    }
+    // Agregar la nueva fila a la tabla
+    tablalibro.appendChild(nuevaFila);
+}
 
-    function agregarLibros() {
-        const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-        const elementosSelect = filtroEjempla.options;
+function agregarLibros() {
+    const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
+    const elementosSelect = filtroEjempla.options;
 
-        // Obtener el último índice de libros agregados o 0 si no hay ninguno
-        const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
+    // Obtener el último índice de libros agregados o 0 si no hay ninguno
+    const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
 
-        // Iterar sobre la cantidad especificada de libros
-        for (let i = 0; i < cantidadLibros; i++) {
-            // Obtener el índice actual
-            const indiceActual = (i + ultimoIndice) % elementosSelect.length;
+    console.log("Cantidad de libros:", cantidadLibros);
+    console.log("Último índice:", ultimoIndice);
 
-            // Obtener el elemento del select en el índice actual
-            const idlejemplarSeleccionado = elementosSelect[indiceActual];
-            const idejemplar = idlejemplarSeleccionado.value;
-            const nombreLibro = idlejemplarSeleccionado.label;
-            const fechaDevolucion = fechadevolucion.value;
-            const condicion = Condicionentrega.value;
+    // Iterar sobre la cantidad especificada de libros
+    for (let i = 0; i < cantidadLibros; i++) {
+        // Obtener el índice actual
+        const indiceActual = (i + ultimoIndice) % elementosSelect.length;
 
-            // No agregar el libro si ya ha sido agregado
-            if (librosAgregados.includes(idejemplar)) {
-                alert("Este libro ya ha sido agregado");
-            } else {
-                agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
-                librosAgregados.push(idejemplar);
-            }
+        console.log("Índice actual:", indiceActual);
+
+        // Obtener el elemento del select en el índice actual
+        const idlejemplarSeleccionado = elementosSelect[indiceActual];
+        const idejemplar = idlejemplarSeleccionado.value;
+        const nombreLibro = idlejemplarSeleccionado.label;
+        const fechaDevolucion = fechadevolucion.value;
+        const condicion = Condicionentrega.value;
+
+        console.log("Idejemplar:", idejemplar);
+        console.log("Nombre del libro:", nombreLibro);
+
+        // No agregar el libro si ya ha sido agregado
+        if (librosAgregados.includes(idejemplar)) {
+            alert("Este libro ya ha sido agregado");
+        } else {
+            agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
+            librosAgregados.push(idejemplar);
+            console.log("Libro agregado:", idejemplar);
         }
     }
+}
 
     Agregar.addEventListener("click", agregarLibros);
 

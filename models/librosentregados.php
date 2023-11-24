@@ -141,17 +141,6 @@ class LibroEntregado extends conexion{
     }
   }
 
-  public function tablareporte($descripcion){
-    try {
-      $consulta = $this->acesso->prepare("CALL spu_reporte_descripcion(?)");
-      $consulta->execute(array($descripcion));
-      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
-      return $datosObtenidos; 
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-  }
 
   public function traerEjemplar($idprestamo){
     try {

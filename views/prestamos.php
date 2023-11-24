@@ -46,78 +46,81 @@
 </div>
 
 <!-- modal -->
-<div class="modal fade" id="modal-id">
+
+<!-- modal ejemplar-->
+<div class="modal fade" id="ejemplar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Todos los Datos</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #2e4edf;">LIBROS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="">
-                    <!-- libro -->
+            <form id="form-ejemplar">
                     <div class="row">
-                        <div class="col-md-4">
-                            <label>Rol</label>                                
-                            <input type="text" class="form-control" id="rol" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Nombres</label>
-                            <input type="text" class="form-control" id="nombres" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" disabled>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label>Categoria</label>
-                            <input type="text" class="form-control" id="categoria" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Sub Categoria</label>
-                            <input type="text" class="form-control" id="subcategoria" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Libro</label>
-                            <input type="text" class="form-control" id="libro" disabled>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-md-3">
-                            <label>F.Solicitud</label>
-                            <input type="text" class="form-control" id="Fsolicitud" disabled>
-                        </div>   
-                        <div class="col-md-3">
-                            <label>F.Prestamo</label>
-                            <input type="text" class="form-control" id="Fprestamo" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label>F.Entrega</label>
-                            <input type="text" class="form-control" id="Fentrega" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label>F.Aceptacion</label>
-                            <input type="text" class="form-control" id="Frespuesta" disabled>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
+                        <div class="col-sm-8">
                             <div class="row">
-                                <label for="">Imagen</label>                                
+                                <div class="col-sm-4">
+                                    <label>Rol</label>                                
+                                    <input type="text" class="form-control" id="rol" disabled>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Descripcion</label>
+                                    <input type="text" class="form-control" id="descripcion" disabled>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label>Nombres</label>
+                                    <input type="text" class="form-control" id="nombres" disabled>
+                                </div>
                             </div>
-                            <div class="row">
-                                <img class="visor" alt="" id="img" width="200px">
+                            <div class="row mt-3">
+                                <div class="col-sm-5">
+                                <label>Categoria</label>
+                                    <input type="text" class="form-control" id="categoria" disabled>
+                                </div>
+                                <div class="col-sm-7">
+                                    <label>Sub Categoria</label>
+                                    <input type="text" class="form-control" id="subcategoria" disabled>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4">
+                                    <label>Libro</label>
+                                    <input type="text" class="form-control" id="libro" disabled>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>F.Solicitud</label>
+                                    <input type="text" class="form-control" id="Fsolicitud" disabled>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>F.Prestamo</label>
+                                    <input type="text" class="form-control" id="Fprestamo" disabled>
+                                </div>
+                                
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4">
+                                    <label>F.Entrega</label>
+                                    <input type="text" class="form-control" id="Fentrega" disabled>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>F.Aceptacion</label>
+                                    <input type="text" class="form-control" id="Frespuesta" disabled>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="content ml-3 mt-3">
+                                <img class="visor" alt="" id="img" width="200px" src="">
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="tabla" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -130,20 +133,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-success" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
-</div>  
+</div>
 
 <script>
     let idlibroentregado = '';
@@ -184,7 +186,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' class='todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ver ficha</a>
+                        <a href='#ejemplar' class='todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ver ficha</a>
                     <td>               
                 </tr>
                 `;

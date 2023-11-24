@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="./views/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
 </head>
 <body class="full-cover-background">
   <div class="container">
@@ -32,7 +34,9 @@
                                   <input type="email" class="form-control form-control-user" id="nombreusuario" placeholder="Escriba su user">
                                 </div>
                                 <div class="form-group">
+                                    <!-- <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña"> -->
                                     <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña">
+                                    <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
                                 </div>
                                 <button id="iniciar" class="btn btn-primary btn-user btn-block">
                                     Login
@@ -47,11 +51,11 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="" href="forgot-password.html">Forgot Password?</a>
+                                <a class="" href="./views/forgot-password.html">Olvidaste tu contraseña?</a>
                             </div>
-                            <div class="text-center">
+                            <!-- <div class="text-center">
                                 <a class="" href="register.html">Create an Account!</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -115,7 +119,20 @@
       });
       
       botonIniciarSesion.addEventListener("click", validarDatos);
-    });
+      });
+
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById("claveacceso");
+      const togglePasswordIcon = document.getElementById("togglePassword");
+
+      // Alternar entre "password" y "text"
+      passwordInput.type = (passwordInput.type === "password") ? "text" : "password";
+
+      // Cambiar el ícono basado en el tipo actual del input
+      togglePasswordIcon.classList.toggle("fa-eye", passwordInput.type === "password");
+      togglePasswordIcon.classList.toggle("fa-eye-slash", passwordInput.type === "text");
+    }
   </script>
 </body>
 </html>
