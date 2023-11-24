@@ -33,6 +33,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <img class="img" src="../../img/logo2.png" alt="logo">
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
+        <a class="btn btn-outline-dark" href="../../views/usuario/datospersonales.php">Ver Perfil</a>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
 			</p>
@@ -186,7 +187,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">
@@ -227,7 +228,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <div class="col-xl-3">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="...">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">

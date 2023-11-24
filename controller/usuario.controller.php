@@ -29,6 +29,9 @@ if(isset($_POST['operacion'])) {
         $resultado["nombres"] = $datosObtenidos["nombres"] . " " . $datosObtenidos["apellidos"];
         $resultado["idusuario"]=$datosObtenidos["idusuario"];
         $resultado["nombrerol"]=$datosObtenidos["nombrerol"];
+        $resultado["nrodocumento"]=$datosObtenidos["nrodocumento"];
+        $resultado["fechanac"]=$datosObtenidos["fechanac"];
+        $resultado["direccion"]=$datosObtenidos["direccion"];
       } else {
         //clave incorrecta
         $resultado["mensaje"] = "contraseña incorrecta";

@@ -62,6 +62,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const estados = {
                 S:"Solicitado",
                 R: "Reservado",
+                E: "Entregado",
                 D:"Devuelto"
             }
             formData.append("operacion", "historialusuario")
@@ -80,6 +81,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                 <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
                                 <li class="list-group-item">Fecha devolución: ${el.fechadevolucion}</li>
                                 <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                                <li class="list-group-item">Cantidad: ${el.cantidad}</li>
                             </ul>
                             
                         </div>

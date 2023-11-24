@@ -1,4 +1,3 @@
-
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -9,6 +8,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="registrarejemplares" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar Ejemplares</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="listejemplares">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -38,12 +62,20 @@
     </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
     let idprestamo = '';
+    let idlibro = '';
+    let cantidad = '';
     cuerpo = document.querySelector("tbody");
+    listejemplares = document.querySelector("#listejemplares");
+    const modal = new bootstrap.Modal(
+          document.querySelector("#registrarejemplares")
+        );
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
+        
         parametros.append("operacion","listarSolicitud")
 
         fetch("../controller/librosentregados.php", {
@@ -65,7 +97,7 @@
                     <td>${element.fechaprestamo}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#' class='Aceptar' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Aceptar</a>
+                    <a  class="btn btn-info btn-sm editar" data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
                     </td>
                     <td>
                         <a href='#'  class='' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
@@ -78,21 +110,70 @@
     }
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'Aceptar'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","aceptarSolicitud");
-            parametros.append("idprestamo", idprestamo);
-            fetch("../controller/librosentregados.php",{
-                method: 'POST',
-                body: parametros
-            })
-            // console.log(idprestamo)
-            .then(response => response.json())
-            .then(datos => {
-                listarSolicitud();
-            })
-        }
-    });
+    const element = event.target.closest(".editar");
+    if (element) {
+        // obtener el id de editar
+        idlibro = element.dataset.id;
+        idprestamo = element.dataset.idprestamo;
+        cantidad = element.dataset.cantidad;
+        console.log(idlibro, idprestamo, cantidad);
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "listarEjemplaresdisponibles");
+        parametros.append("idlibro", idlibro);
+        parametros.append("cantidad", cantidad);
+
+        fetch("../controller/userlibros.php", {
+            method: "POST",
+            body: parametros,
+        })
+            .then((res) => res.json())
+            .then((datos) => {
+                // Tabla en el modal
+                const table = document.createElement("table");
+                table.classList.add("table", "table-bordered");
+
+                // Agregar una fila de encabezado
+                const headerRow = table.createTHead().insertRow(0);
+
+                // Encabezado 1: Código del Libro
+                const codigoLibroHeader = headerRow.insertCell(0);
+                codigoLibroHeader.textContent = "Código del libro";
+
+                // Encabezado 2: Condición de Entrega
+                const condicionEntregaHeader = headerRow.insertCell(1);
+                condicionEntregaHeader.textContent = "Condición de entrega";
+
+                // Agregar datos a la tabla en dos columnas
+                datos.forEach((el) => {
+                    const row = table.insertRow(-1);
+
+                    // Columna 1: Código del Libro
+                    const codigoLibroCell = row.insertCell(0);
+                    codigoLibroCell.textContent = el.codigo_libro;
+
+                    // Columna 2: Condición de Entrega
+                    const condicionEntregaCell = row.insertCell(1);
+
+                    // Input debajo del texto
+                    const inputCondicion = document.createElement("input");
+                    inputCondicion.setAttribute("type", "text");
+                    condicionEntregaCell.appendChild(inputCondicion);
+                });
+
+                // Limpiar el contenido anterior del listejemplares
+                listejemplares.innerHTML = "";
+
+                // Agregar la tabla al listejemplares
+                listejemplares.appendChild(table);
+            });
+
+        //apertura del modal
+        modal.toggle();
+    }
+});
+
     listarSolicitud();
+
+
+
 </script>

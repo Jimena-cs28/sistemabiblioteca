@@ -1,8 +1,9 @@
-USE sistemabiblioteca 
+USE sistemabiblioteca
 
 INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
 	(1, 1, '75123489', '1234567'),-- administrador
-	(2, 3, '78674219', '1234567'); -- usuario
+	(2, 3, '78674219', '1234567'),
+	(3, 2, '76401538', '1234567'); -- usuario
 --	(2, 3, '75140236', '223344'),
 --	(3, 3, '73129045', 'sofi12'),
 --	(4, 3, '78674219', '121223'),
@@ -18,6 +19,9 @@ WHERE idusuario = 1;
 -- 73129045
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
 WHERE idusuario = 2;
+
+UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
+WHERE idusuario = 3;
 
 SELECT * FROM usuarios
 SELECT * FROM roles
@@ -84,7 +88,7 @@ INSERT INTO autores (apellidos, autor, pseudonimio, nacionalidad) VALUES
 ('Cortes', 'Jeremy', '', 'Estadunidence');
 
 INSERT INTO libros (idsubcategoria, ideditorial,libro, tipo,cantidad, numeropaginas, codigo, edicion, formato, anio, idioma, descripcion, imagenportada) VALUES
-	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '','');
+	(1, 1, 'Historia del mundo contemporáneo', 'texto', 9,'132', '140.053', '','', '', 'castellano', '',''),
 	(3, 2, 'El mentor de matematicas', 'texto', 11,'102', '513', '','', '2010', 'castellano', '',''),
 	(4, 2, 'Atlas del cielo', 'texto', 12 ,'100', '525', '','', '2020', 'castellano', '',''),
 	(6, 2, 'Atlas del cuerpo humano', 'texto', 9,'12', '574', '','', '2001', 'castellano', '',''),
@@ -94,6 +98,7 @@ INSERT INTO libros (idsubcategoria, ideditorial,libro, tipo,cantidad, numeropagi
 SELECT * FROM libros
 
 INSERT INTO detalleautores (idlibro, idautor) VALUES
+(1 ,2);
 (2, 2),
 (2, 2),
 (3, 2),
