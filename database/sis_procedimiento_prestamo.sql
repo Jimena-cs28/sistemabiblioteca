@@ -63,6 +63,7 @@ CALL spu_libroentregado_register(44,6,'Nuevo','2023-11-23');
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
 SELECT * FROM ejemplares
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
+
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo
 (
@@ -133,9 +134,6 @@ BEGIN
         WHERE idusuario = _idbene;
 END $$
 
-CALL spu_libroentregado_AddAhora(45,7,'Bien','2023-11-14')
-CALL spu_libroentregado_AddAhora(45,8,'Bien','2023-11-14')
-CALL spu_libroentregado_AddAhora(45,9,'Bien','2023-11-14')
 
 SELECT * FROM ejemplares -- 4
 -- LISTAR LIBROS EN PRESTAMO
@@ -166,18 +164,13 @@ END $$
 
 CALL spu_filtrar_ejemplares(1)
 
-SELECT * FROM prestamos
-
-SELECT * FROM prestamos
-SELECT * FROM librosentregados
 -- RESERVAAAAAAAAAAAAAS
 -- PASO 3 LISTAR ENTREGAS PENDIENTES ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_entregaspendiente()
-BEGIN
-	SELECT idlibroentregado, prestamos.idprestamo, libros.libro, ejemplares.codigo_libro, libros.idlibro, libros.imagenportada, personas.nombres, prestamos.descripcion, 
-	prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo', 
-	DATE(fechadevolucion) AS 'fechadevolucion'
+BEGIN   
+	SELECT prestamos.idprestamo, librosentregados.idlibroentregado, libros.libro, libros.idlibro, libros.codigo, libros.imagenportada,CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, 
+	prestamos.fechasolicitud, DATE(fechaprestamo) AS 'fechaprestamo'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
@@ -185,7 +178,8 @@ BEGIN
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'R'
-	ORDER BY idlibroentregado DESC;
+	-- order by librosentregados.idlibroentregado
+	GROUP BY prestamos.idprestamo;
 END $$
 
 CALL spu_listar_entregaspendiente();

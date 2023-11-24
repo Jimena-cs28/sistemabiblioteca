@@ -72,11 +72,10 @@ class Validacion extends conexion{
             "message" => ""
         ];
         try{
-            $consulta = $this->acesso->prepare("CALL spu_updateD_todo_prestamo(?,?,?,?)");
+            $consulta = $this->acesso->prepare("CALL spu_updateD_todo_prestamo(?,?,?)");
             $respuesta["status"] = $consulta->execute(
                 array(
                     $datos["idprestamo"],
-                    $datos["idlibroentregado"],
                     $datos["condiciondevolucion"],
                     $datos["observaciones"]
                     

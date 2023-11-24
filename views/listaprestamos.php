@@ -11,6 +11,7 @@ $datoID = json_encode($_SESSION['login']);
     /* Estilo para ocultar el div inicialmente */
     #divPrestamo {
         display: none;
+        /* display: block; */
     }
 </style>
 <div class="container-fluid border-0">
@@ -156,10 +157,16 @@ $datoID = json_encode($_SESSION['login']);
         if (Reservar.checked) {
             divPrestamo.style.display = 'block';
         }else{
+            
+        }
+    });
+
+    ahora.addEventListener("change", function() {
+        if(ahora.checked){
             divPrestamo.style.display = 'none';
         }
     });
-    
+
     function ValidarRegistrar(){
         const Reservar = document.querySelector("#reservar");
         if(Reservar.checked){
@@ -224,7 +231,7 @@ $datoID = json_encode($_SESSION['login']);
 
         if(valor == 'NO'){
             divLugar.classList.remove("d-none")
-        }else{
+        }else if(valor == 'SI'){
             divLugar.classList.add("d-none")
         }
     })
@@ -322,12 +329,7 @@ $datoID = json_encode($_SESSION['login']);
 
     function agregarLibros() {
         const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-        // if (isNaN(cantidadLibros) || cantidadLibros <= 0) {
-        //     alert("Por favor, ingrese un número válido mayor que cero en el campo de cantidad.");
-        //     return;
-        // }
-        // Obtener todos los elementos del select
-        const elementosSelect = filtroEjempla.options;
+        const elementosSelect = Array.from(filtroEjempla.options);
 
         // Iterar sobre la cantidad especificada de libros
         for (let i = 0; i < cantidadLibros; i++) {

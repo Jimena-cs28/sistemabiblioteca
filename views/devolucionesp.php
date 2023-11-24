@@ -77,7 +77,6 @@
                                         <th style="color:#574E4E;">Ocupado</th> 
                                         <th style="color:#574E4E;">F. Devolucion</th>
                                         <th style="color:#574E4E;">Recibir</th>
-                                        <th style="color:#574E4E;">Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,6 +102,7 @@
         </div>
     </div>
 </div>
+
 <!-- detallado -->
 <div> 
     <div class="modal fade" id="modal">
@@ -311,7 +311,7 @@
             const parametros = new URLSearchParams();
             parametros.append("operacion","updatedevolucionesTodos");
             parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibroentregado", idlibroentregado);
+            // parametros.append("idlibroentregado", idlibroentregado);
             parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
             parametros.append("observaciones", document.querySelector("#observacion").value);
             fetch("../controller/validacion.php",{

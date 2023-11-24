@@ -88,7 +88,7 @@ SELECT * FROM librosentregados
 SELECT * FROM prestamos WHERE fechasolicitud BETWEEN '2023-11-13' AND '2023-11-16' AND estado = 'T';
 -- esta funcionanado este es para todos los prestamos
 DELIMITER $$
-CREATE PROCEDURE spu_updateD_todo_prestamo
+DROP PROCEDURE spu_updateD_todo_prestamo
 (
     IN _idprestamo INT,
     IN _idlibroentregado INT,
@@ -121,18 +121,59 @@ BEGIN
     END IF;
 END$$
 
-CALL spu_updateD_todo_prestamo(64,196,'BIEN','BIEN');  -- FUNCIONA
--- 5
-SELECT COUNT(ej.idlibro) AS 'cantidad', ej.idlibro, li.libro
-FROM ejemplares ej
-INNER JOIN libros li ON li.idlibro = ej.idlibro
-WHERE ej.ocupado = 'NO' AND ej.estado = 1
-GROUP BY ej.idlibro;
+DELIMITER $$
+CREATE PROCEDURE spu_updateD_todo_prestamo
+(
+    IN _idprestamo INT,
+    -- IN _idlibroentregado INT,
+    IN _condiciondevolucion VARCHAR(50),
+    IN _observaciones  VARCHAR(50)
+)
+BEGIN
+    DECLARE _idbene INT;
+    DECLARE _count_ocupados INT;
+    
+    SELECT idbeneficiario INTO _idbene
+    FROM prestamos WHERE idprestamo = _idprestamo;
+    
+    -- Actualizar ejemplares a 'NO' para los idejemplar asociados al idprestamo
+    UPDATE ejemplares ej
+    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
+    SET ej.ocupado = 'NO'
+    WHERE le.idprestamo = _idprestamo;
 
+    -- Actualizar observaciones para los idlibroentregado que coincidan con el idprestamo
+    UPDATE librosentregados SET 
+    observaciones = _observaciones,
+    condiciondevolucion = _condiciondevolucion,
+    fechadevolucion = NOW()
+    WHERE idprestamo = _idprestamo;
+    -- le.condiciondevolucion = _condiciondevolucion, le.observaciones = _observaciones, le.
+
+    -- Verificar si todos los idejemplar tienen ocupado='NO'
+    SELECT COUNT(*) INTO _count_ocupados
+    FROM ejemplares ej
+    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
+    WHERE le.idprestamo = _idprestamo AND ej.ocupado = 'NO';
+
+    -- Si todos los idejemplar tienen ocupado='NO', actualizar el estado del préstamo a 'T'
+    IF _count_ocupados > 0 THEN
+        UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
+        UPDATE usuarios SET estado = 1 , inactive_at = NOW() WHERE idusuario = _idbene;
+    END IF;
+END$$
+
+
+SELECT * FROM usuarios
+
+CALL spu_updateD_todo_prestamo(50,'BIEN','BIEN');  -- FUNCIONA
+
+UPDATE libros SET cantidad = 9 WHERE idlibro = 3
 
 SELECT * FROM prestamos WHERE estado = 'D'
 SELECT * FROM librosentregados
- -- 59
+SELECT * FROM ejemplares
+UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 73
 
 SELECT * FROM prestamos
 SELECT * FROM librosentregados -- atlas 8
