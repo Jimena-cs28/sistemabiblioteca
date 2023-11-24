@@ -45,22 +45,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <div class="carousel-item active">
         <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 1">
     </div>
-    <div class="carousel-item">
-        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 2">
     </div>
-    <div class="carousel-item">
-        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 3">
-    </div>
-    </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-    </button>
 </div>
     
     <!--Section Libros-->
@@ -228,7 +213,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
+                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" style="width: 100%; height: 300px;">                           
                                 </div>
                                 <div class="card-body pt-3 p-4">
                                     <div class="col-md">

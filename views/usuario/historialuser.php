@@ -79,7 +79,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <div class="card mb-3" style="max-width: 500px;">
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img class="img-fluid rounded-start" src="./img/${el.imagenportada}" alt="imagenLibro" width="600px">
+                                <img class="img-fluid rounded-start" src="../img/${el.imagenportada}" alt="imagenLibro" width="600px">
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body">

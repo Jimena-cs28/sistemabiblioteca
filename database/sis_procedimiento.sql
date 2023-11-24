@@ -7,6 +7,7 @@ CREATE PROCEDURE spu_login
 )
 BEGIN
 SELECT usuarios.idusuario, personas.nombres, personas.apellidos, usuarios.nombreusuario, roles.nombrerol,
+	personas.nrodocumento, personas.fechanac, personas.direccion,
 	usuarios.claveacceso
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
@@ -15,7 +16,7 @@ SELECT usuarios.idusuario, personas.nombres, personas.apellidos, usuarios.nombre
 END$$
 
 CALL spu_login ('75123489');
-SELECT * FROM usuarios
+SELECT * FROM personas
 
 -- delimiter $$
 -- create procedure spu_listar_subcategoria( in )

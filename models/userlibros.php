@@ -161,6 +161,23 @@ class userlibro extends conexion{
     ));
     return $consulta->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function registrarlibrosentregados($datos){
+    $consulta = $this->acesso->prepare("CALL spu_registrar_libros_entregados(?,?,?)");
+    $consulta->execute(array(
+      $datos["idejemplar"],
+      $datos["observacion"],
+      $datos["idprestamo"],
+    ));
+
+  }
+
+  public function cambiarestadoprestamo($estado, $idprestamo){
+    $consulta = $this->acesso->prepare("CALL spu_actualizar_estados_librosentregados(?,?)");
+    return $consulta->execute(array(
+      $estado, $idprestamo
+    ));
+  }
   
 
 }
