@@ -3,7 +3,7 @@
         <div class="card-body border-0">
             <div class="row mt-4 mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <!-- <img src="../views/img/user01.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;"> -->
+                    <img src="../views/img/user01.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     Bienvenido a la sección para registrar nuevos docentes. Para registrar un docente debes de llenar todos los campos del siguiente formulario, también puedes ver el listado de docentes registrados
@@ -92,91 +92,51 @@
 
 <script>            
     const btGuadar = document.querySelector("#btguardar");
-    const Cprofesor = document.querySelector("#c-profesor");
-
-
-    function ValidarRegistrar(){
-        if(Cprofesor.checked){
-            ValidacionProfesor();
-        }else{
-            ValidarEstudiante();
-        }
-    }
-    function ValidacionProfesor(){        
+    
+    function fecha(){        
         const fecharegistar =document.querySelector("#fechanacimiento").value;
         var fechactual =  new Date();
+        // var añoactual =fechactual.getFullYear();
+        // var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
+        // var diaActual =String(fechactual.getDate()).padStart(2,'0');
 
         var fechaRegistro = new Date(fecharegistar);
         // var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
         
         if(fechaRegistro < fechactual){
-            
-            if(confirm("esta seguro de guardar")){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion", "registrarDocente");
-                parametros.append("apellidos", document.querySelector("#apellidos").value);
-                parametros.append("nombres", document.querySelector("#nombres").value);
-                parametros.append("nrodocumento", document.querySelector("#dni").value);
-                parametros.append("tipodocumento", document.querySelector("#documento").value);
-                parametros.append("fechanac", fecharegistar.value);
-                parametros.append("direccion", document.querySelector("#direccion").value);
-                parametros.append("telefono", document.querySelector("#telefono").value);
-                parametros.append("email", document.querySelector("#correo").value);
-                parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                parametros.append("claveacceso", document.querySelector("#contraseña").value);
-
-                fetch("../controller/estudiantes.php" ,{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    if(datos.status){
-                        document.querySelector("#form-docente").reset();
-                    }
-                })
-            }
-            
+            registrarProfesor();
         }else{
             alert("Error en la fecha de nacimiento");
         }
     }
 
-    function ValidarEstudiante(){        
-            const fecharegista =document.querySelector("#fechanacimiento").value;
-            var Fechactual =  new Date();
-            
-            var Fecharegistro = new Date(fecharegista);
+    function registrarProfesor(){
+        if(confirm("esta seguro de guardar")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "registrarDocente");
+            parametros.append("apellidos", document.querySelector("#apellidos").value);
+            parametros.append("nombres", document.querySelector("#nombres").value);
+            parametros.append("nrodocumento", document.querySelector("#dni").value);
+            parametros.append("tipodocumento", document.querySelector("#documento").value);
+            parametros.append("fechanac", fecharegistar.value);
+            parametros.append("direccion", document.querySelector("#direccion").value);
+            parametros.append("telefono", document.querySelector("#telefono").value);
+            parametros.append("email", document.querySelector("#correo").value);
+            parametros.append("nombreusuario", document.querySelector("#usuario").value);
+            parametros.append("claveacceso", document.querySelector("#contraseña").value);
 
-            if(Fecharegistro < Fechactual){
-                if(confirm("esta seguro de guardar?")){
-                    const parametros = new URLSearchParams();
-                    parametros.append("operacion", "registrarEstudiante");
-                    parametros.append("apellidos", document.querySelector("#apellidos").value);
-                    parametros.append("nombres", document.querySelector("#nombres").value);
-                    parametros.append("nrodocumento", document.querySelector("#dni").value);
-                    parametros.append("tipodocumento", document.querySelector("#documento").value);
-                    parametros.append("fechanac", fecharegista.value);
-                    parametros.append("direccion", document.querySelector("#direccion").value);
-                    parametros.append("telefono", document.querySelector("#telefono").value);
-                    parametros.append("email", document.querySelector("#correo").value);
-                    parametros.append("nombreusuario", document.querySelector("#usuario").value);
-                    parametros.append("claveacceso", document.querySelector("#contraseña").value);
-                    fetch("../controller/estudiantes.php" ,{
-                        method: 'POST',
-                        body: parametros
-                    })
-                    .then(response => response.json())
-                    .then(datos => {
-                        if(datos.status){
-                            document.querySelector("#form-docente").reset();
-                        }
-                    })
+            fetch("../controller/estudiantes.php" ,{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    document.querySelector("#form-docente").reset();
                 }
-            }else{
-                alert("Error en la fecha de nacimiento");
-            }
+            })
         }
+    }
 
-    btGuadar.addEventListener("click", ValidarRegistrar);
+    btGuadar.addEventListener("click", fecha);
 </script>
