@@ -43,12 +43,15 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 			</p>
 
     </nav>
-    <h4>Historial de libros solicitados</h4>
+    <h4>LIBROS SOLICITADOS</h4>
     <style>
     h4 {
-        text-align: center;
-        margin-top: 20px; 
-    }
+            text-align: center;
+            margin-top: 0;
+            background-color: #4e4040;/*color de fondo*/
+            padding: 10px;
+            color: white; /* Color del texto en el título */
+        }
 </style>
 
     <div class="row" id="contenedor">
@@ -72,20 +75,27 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             }).then(res=>res.json())
             .then(data=>{
                 data.forEach(el=>{
-                    contenedor.innerHTML += `<div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">${el.libro}</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
-                                <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
-                                <li class="list-group-item">Fecha devolución: ${el.fechadevolucion}</li>
-                                <li class="list-group-item">Estado: ${estados[el.estado]}</li>
-                                <li class="list-group-item">Cantidad: ${el.cantidad}</li>
-                            </ul>
-                            
+                    contenedor.innerHTML += `<div class="col-md-4 card-deck">
+                    <div class="card mb-3" style="max-width: 500px;">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img class="img-fluid rounded-start" src="./img/${el.imagenportada}" alt="imagenLibro" width="600px">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">${el.libro}</h5>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
+                                    <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
+                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion}</li>
+                                    <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                                    <li class="list-group-item">Cantidad: ${el.cantidad}</li>
+                                </ul>
+                            </div>
                         </div>
-                        </div>`
+                    </div>
+                </div>`
 
                 })
             })
