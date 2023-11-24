@@ -113,5 +113,24 @@ if (isset($_POST['operacion'])){
     echo json_encode($datos);
   }
 
+  if($_POST['operacion'] == 'registrarlibrosentregados'){
+    $listejemplares= json_decode($_POST["listejemplar"]);
+    foreach($listejemplares as $ejemplar){
+    $ejemplarid = $ejemplar->idejemplar;
+    $observacion = $ejemplar->observacion;
+    $datos = [
+      "idejemplar" => $ejemplarid,
+      "observacion" => $observacion,
+      "idprestamo" => $_POST["idprestamo"]
+    ];
+    $userlibro->registrarlibrosentregados($datos);
+    }
+    $respuesta=[
+      "estado" => false
+    ];
+    $respuesta["estado"]=$userlibro->cambiarestadoprestamo("R", $_POST['idprestamo']);
+    echo json_encode($datos);
+  }
+
 
 }

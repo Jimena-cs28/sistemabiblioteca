@@ -31,6 +31,35 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
     }
 </style>
 
+<style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            color: #000; /* Set the color to black */
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control[readonly] {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+    </style>
+
 <nav>
     <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
     <h6>"Una santanina, una señorita de éxito"</h6>
@@ -68,8 +97,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
         </div>
     </div>
 </div>
-
-
 
 
 </body>

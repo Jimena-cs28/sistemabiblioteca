@@ -27,7 +27,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button id ="aceptarsolicitud" type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
@@ -67,6 +67,7 @@
     let idprestamo = '';
     let idlibro = '';
     let cantidad = '';
+    const btnaceptarsolicitud = document.querySelector("#aceptarsolicitud")
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
     const modal = new bootstrap.Modal(
@@ -146,6 +147,7 @@
                 // Agregar datos a la tabla en dos columnas
                 datos.forEach((el) => {
                     const row = table.insertRow(-1);
+                    row.classList.add("item-ejemplar")
 
                     // Columna 1: Código del Libro
                     const codigoLibroCell = row.insertCell(0);
@@ -171,6 +173,30 @@
         modal.toggle();
     }
 });
+
+btnaceptarsolicitud.addEventListener('click', function(){
+    const listaejemplares = document.querySelectorAll(".item-ejemplar")
+    const arrListejemplar = []
+    listaejemplares.forEach(el=>{
+        const idejemplar = el.querySelector("td").textContent
+        const observacion = el.querySelector("input").value
+        arrListejemplar.push({idejemplar,observacion})
+    })
+    const formData = new FormData()
+    formData.append("operacion", "registrarlibrosentregados")
+    formData.append("idprestamo", idprestamo)
+    formData.append("listejemplar", JSON.stringify(arrListejemplar))
+    btnaceptarsolicitud.setAttribute("disabled", "")
+    fetch("../controller/userlibros.php", {
+        method: 'POST',
+        body: formData
+    }).then(res=>res.json())
+    .then(datos=>{
+        btnaceptarsolicitud.removeAttribute("disabled")
+        modal.toggle();
+        location.reload()
+    })
+})
 
     listarSolicitud();
 

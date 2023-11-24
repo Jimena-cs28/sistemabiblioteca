@@ -236,3 +236,31 @@ BEGIN
 END $$
 
 CALL spu_listar_ejemplares(1,2)
+
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_libros_entregados
+(
+	IN _idejemplar INT,
+	IN _observacion VARCHAR(50),
+	IN _idprestamo INT
+	
+)
+BEGIN
+	INSERT INTO librosentregados(idprestamo, idejemplar, condicionentrega) 
+	VALUE (_idprestamo, _idejemplar, _observacion);
+	
+	UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = _idejemplar;
+END $$
+SELECT * FROM ejemplares
+SELECT * FROM librosentregados
+
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_estados_librosentregados
+(
+	IN _estado CHAR(1),
+	IN _idprestamo INT
+)
+BEGIN
+	UPDATE prestamos SET estado = _estado WHERE idprestamo = _idprestamo;
+
+END$$

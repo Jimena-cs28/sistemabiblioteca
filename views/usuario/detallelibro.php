@@ -35,9 +35,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
     <nav>
         <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
-        
         <h6>"Una santanina, una señorita de éxito"</h6>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
+        <a class="btn btn-outline-dark" href="../../views/usuario/datospersonales.php">Ver Perfil</a>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
         
@@ -50,20 +50,20 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <div>
         <form>
         <div class="form-row mt-2">
-            <h4>Solicitud de préstamo</h4>
+            <h4>Solicitud de Préstamo</h4>
   
-    <div class="form-group col-md-3 mt-2">
-        <label for="fechaprestamo" >Fecha préstamo</label>
+    <div class="form-group col-md-3 mt-3">
+        <label for="fechaprestamo" >Fecha de préstamo</label>
         <input type="date" class="form-control" id="fechaprestamo">
     </div>
     <input type="text" hidden id="rol" value="<?php echo $_SESSION['login']['nombrerol']?>">
 
-    <div id="contenedor-cantidad" class="form-group col-md-3 mt-2">
+    <div id="contenedor-cantidad" class="form-group col-md-3 mt-3">
         <label for="cantidad">Cantidad</label>
         <input type="number" class="form-control form-control-sm" id="cantidad">
     </div>
 
-    <div class="form-group col-md-3 mt-2">
+    <div class="form-group col-md-3 mt-3">
     <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
     <select class="form-control" required="" data-placement="top" id="enbiblioteca">
         <option value="">Seleccione</option>
@@ -72,18 +72,18 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </select>
     </div>
 
-    <div id="contenedor-lugar" class="form-group col-md-6 mt-2 d-none">
+    <div id="contenedor-lugar" class="form-group col-md-6 mt-3 d-none">
         <label for="lugar" class="form-label bold">Lugar</label>
         <input type="text" class="form-control" id="lugar">
     </div>
 
-    <div class="form-group col-md-6 mt-2">
+    <div class="form-group col-md-6 mt-3">
         <label for="descripcion" class="form-label bold">Descripción</label>
         <input type="text" class="form-control" id="descripcion">
     </div>
 
-    <div class="form-group col-md-3 mt-2">
-    <label for="fechadevolucion" >Fecha devolución</label>
+    <div class="form-group col-md-3 mt-3">
+    <label for="fechadevolucion" >Fecha de devolución</label>
     <input type="date" class="form-control" id="fechadevolucion">
     </div>
 
@@ -206,9 +206,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 
                 containerLibro.innerHTML = `
                 <ul>
-                <div class="titulo">Descripción:</div>
-                <img src="../img/${datos.imagenportada}" width="200px" />
-                <li class="descripcion"">Nombre de libro: ${datos.libro}</li>
+                <div class="titulo" style="margin-bottom: 10px;">Descripción:</div>
+                <div style="text-align: center;">
+                <img src="../img/${datos.imagenportada}" width="200px" alt="Portada del libro" style="border-radius: 8px;"/>
+                </div>
+                <li class="descripcion">Nombre de libro: ${datos.libro}</li>
                 <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
                 <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
                 <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
