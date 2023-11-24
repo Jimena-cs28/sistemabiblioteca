@@ -178,13 +178,13 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo > actual;
+                const fechapasada = FechaPrestamo < actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
                 const style = fechapasada ? 'color: red;' : '';
                 const reserva = `
-                <div class="col-md-4 card-deck">
+                <div class="col-md-6 card-deck">
                     <div class="card mb-3" style="max-width: 500px;">
                         <div class="row g-0">
                             <div class="col-md-5">

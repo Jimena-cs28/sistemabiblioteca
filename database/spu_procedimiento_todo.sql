@@ -1,4 +1,4 @@
-USE sistemabiblioteca;
+DROP DATABASE sistemabiblioteca;
 
 SELECT * FROM libros
 SELECT * FROM prestamos WHERE estado = 'T'

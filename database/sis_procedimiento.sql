@@ -110,6 +110,7 @@ END $$
 CALL spu_obtener_libroentregado(115);
 SELECT * FROM prestamos
 SELECT * FROM librosentregados
+
 DELIMITER $$
 CREATE PROCEDURE spu_traer_datosD
 (

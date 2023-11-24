@@ -177,6 +177,7 @@ CREATE TABLE ejemplares
 	CONSTRAINT uk_codigo_ejemplar UNIQUE(codigo_libro,idlibro)
 )ENGINE=INNODB;
 SELECT * FROM librosentregados
+
 CREATE TABLE librosentregados
 (
 	idlibroentregado	INT AUTO_INCREMENT PRIMARY KEY,

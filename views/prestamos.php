@@ -34,7 +34,7 @@
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
                         <th>F. Prestamo</th>
-                        <th>Ver ficha</th>
+                        <th>Ficha</th>
                     </tr>
                 </thead>
                 <tbody>
