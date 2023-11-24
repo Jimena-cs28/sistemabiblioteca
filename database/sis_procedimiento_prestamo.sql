@@ -247,6 +247,7 @@ BEGIN
         WHERE idlibro = _idlibro;
 END $$
 
+SELECT * FROM usuarios -- 78674219
 -- DEVOLUCIOOOOOOOOOOOOOOOOOOOOOOOON
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
@@ -315,7 +316,7 @@ END $$
 -- select * from usuarios
 -- ejecurtae
 CALL spu_update_devoluciones(1,1,'bien','bien');
-SELECT * FROM ejemplares
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_update_ejemplar
@@ -473,7 +474,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_solicitud_listar()
 BEGIN
 	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
+	DATE(prestamos.fechaprestamo) AS 'fechaprestamo', DATE(librosentregados.fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
 	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
@@ -484,7 +485,7 @@ END $$
 
 CALL spu_solicitud_listar();
 
-SELECT * FROM librosentregados
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_aceptar_solicitud
@@ -500,6 +501,18 @@ BEGIN
 END $$
 
 SELECT * FROM prestamos
+
+DELIMITER $$
+CREATE PROCEDURE spu_solicitud_listar()
+BEGIN
+	SELECT prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.cantidad, libros.idlibro
+	FROM prestamos
+	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
+	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'S';
+END $$
 
 
 -- procedimiento 

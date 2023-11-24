@@ -229,35 +229,35 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             })
 
             function RegistrarPrestamo(){
-            if(confirm("¿Está seguro de guardar?")){
-            const cantidad = nombrerol == 'Estudiante'?1:document.querySelector("#cantidad").value
-            const parametros = new URLSearchParams();
-            parametros.append("operacion", "prestamousuario");
-            parametros.append("idlibro", idlibro);     
-            parametros.append("cantidad", cantidad);
-            parametros.append("descripcion", document.querySelector("#descripcion").value);
-            parametros.append("enbiblioteca", enbiblioteca.value);
-            parametros.append("lugardestino", document.querySelector("#lugar").value);
-            parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value);
-            parametros.append("fechadevolucion", document.querySelector("#fechadevolucion").value)
-            fetch("../../controller/userlibros.php" ,{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                if(datos.status){
-                    document.querySelector("#fechaprestamo").value = ''
-                    document.querySelector("#cantidad").value = ''
-                    document.querySelector("#descripcion").value = ''
-                    document.querySelector("#lugar").value = ''
-                    document.querySelector("#fechadevolucion").value = ''
-                    enbiblioteca.value =''
-                }else{
-                    alert('No puede solicitar más libros')
+                if(confirm("¿Está seguro de guardar?")){
+                const cantidad = nombrerol == 'Estudiante'?1:document.querySelector("#cantidad").value
+                const parametros = new URLSearchParams();
+                parametros.append("operacion", "prestamousuario");
+                parametros.append("idlibro", idlibro);     
+                parametros.append("cantidad", cantidad);
+                parametros.append("descripcion", document.querySelector("#descripcion").value);
+                parametros.append("enbiblioteca", enbiblioteca.value);
+                parametros.append("lugardestino", document.querySelector("#lugar").value);
+                parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value);
+                parametros.append("fechadevolucion", document.querySelector("#fechadevolucion").value)
+                fetch("../../controller/userlibros.php" ,{
+                    method: 'POST',
+                    body: parametros
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    if(datos.status){
+                        document.querySelector("#fechaprestamo").value = ''
+                        document.querySelector("#cantidad").value = ''
+                        document.querySelector("#descripcion").value = ''
+                        document.querySelector("#lugar").value = ''
+                        document.querySelector("#fechadevolucion").value = ''
+                        enbiblioteca.value =''
+                    }else{
+                        alert('No puede solicitar más libros')
+                    }
+                })
                 }
-            })
-            }
             }
 
             Solicitar.addEventListener("click", RegistrarPrestamo);

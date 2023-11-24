@@ -51,7 +51,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     }
 </style>
 
-    <div id="contenedor">
+    <div class="row" id="contenedor">
 
     </div>
 

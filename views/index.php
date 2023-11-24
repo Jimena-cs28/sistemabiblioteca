@@ -22,6 +22,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- choices -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
     <!-- <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+    <link rel="icon" href="../img/logo2.png">
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->

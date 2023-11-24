@@ -144,7 +144,7 @@ CREATE TABLE prestamos
 	idprestamo		INT AUTO_INCREMENT PRIMARY KEY,
 	idbeneficiario 		INT 		NOT NULL,
 	idbibliotecario		INT 		NULL,
-	idlibro			INT		NOT NULL,
+	idlibro			INT		NULL,
 	cantidad		SMALLINT 	NULL,
 	fechasolicitud		DATETIME	NOT NULL DEFAULT NOW(),
 	fechaprestamo		DATETIME 	NULL,
