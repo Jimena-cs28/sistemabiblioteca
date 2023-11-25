@@ -20,6 +20,11 @@ END $$
 
 CALL spu_registrar_prestamo_reservar(2,1,'2023-11-22',"2A","SI","");
 SELECT * FROM prestamos;
+
+SELECT * FROM ejemplares
+UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 38 -- 25
+
+SELECT * FROM usuarios
 -- ejecutado RESERVAR
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_register

@@ -13,7 +13,7 @@ INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
 --	(15, 3,'73194180', '1234'),
 
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
-WHERE idusuario = 1;
+WHERE idusuario = 11;
 
 -- 1234
 -- 73129045
