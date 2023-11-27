@@ -11,6 +11,7 @@ WHERE idcategoria = _idcat;
 END$$
 SELECT * FROM libros
 
+-- Botón buscar
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro_user
 (
@@ -20,7 +21,8 @@ CREATE PROCEDURE spu_listar_libro_user
 )
 BEGIN
 	SELECT libros.idlibro,libros.imagenportada,libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	autores.autor AS "autor", editoriales.nombres AS "editorial"
+	CONCAT(autores.autor, ' ', autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
+	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
@@ -57,38 +59,49 @@ CREATE PROCEDURE spu_list_libro
 (	
 )
 BEGIN
-	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.cantidad,libros.codigo,
-	autores.autor AS "autor", editoriales.nombres AS "editorial"
+	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.codigo,
+	CONCAT(autores.autor, " ",autores.apellidos) AS "autor", editoriales.nombres AS "editorial", 
+	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial; 
+	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial;
+	
 END$$
 CALL spu_list_libro();
 
--- BUSCADOR DE LIBRO
+SELECT * FROM ejemplares WHERE idlibro = 2 AND ocupado = 'NO'
+SELECT * FROM libros
+
 DELIMITER $$
 CREATE PROCEDURE spu_buscar_libro
 (
-	IN _idlibro INT
+    IN _idlibro INT
 )
 BEGIN
-	SELECT libros.idlibro, libros.imagenportada,libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	autores.autor AS "autor", editoriales.nombres AS "editorial", libros.descripcion, libros.cantidad
+        SELECT libros.idlibro, libros.imagenportada, libros.libro, subcategorias.subcategoria,
+        categorias.categoria, libros.tipo, libros.numeropaginas, libros.codigo,
+        CONCAT(autores.autor, " ", autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
+        libros.descripcion, (SELECT COUNT(*) FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
-	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
 	WHERE libros.idlibro = _idlibro;
 END$$
 
+
 CALL spu_buscar_libro(2);
 SELECT * FROM librosentregados
 SELECT * FROM libros
+SELECT * FROM prestamos
+SELECT * FROM librosentregados
+
+
 
 DELIMITER $$
 CREATE PROCEDURE spu_prestamo_usuario
@@ -166,16 +179,16 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.idbeneficiario = _idusuario;
-	
+	WHERE prestamos.idbeneficiario = _idusuario
+	ORDER BY fechaprestamo DESC;
 END $$
-SELECT * FROM prestamos
+SELECT * FROM prestamos WHERE idlibro = NULL
 CALL spu_historial(2)
 
 DELETE FROM librosentregados
 DELETE FROM prestamos
 
-
+SELECT * FROM librosentregados
 DELIMITER $$
 CREATE PROCEDURE spu_ejemplarlibro (
 	IN _idlibro INT
@@ -251,9 +264,9 @@ BEGIN
 	VALUE (_idprestamo, _idejemplar, _observacion);
 	
 	UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = _idejemplar;
+	UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = _idprestamo;
 END $$
 SELECT * FROM ejemplares
-SELECT * FROM librosentregados
 
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_estados_librosentregados

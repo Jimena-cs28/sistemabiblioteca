@@ -21,6 +21,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <input id="condicionlibro" type="text">
+        <button id="aplicar">Aplicar a todo</button>
         <div id="listejemplares">
 
         </div>
@@ -51,7 +53,7 @@
                         <th>F. Prestamo</th>
                         <th>F. Devolucion</th>
                         <th>Aceptar</th>
-                        <th>Rechazar</th>
+                        <!-- <th>Rechazar</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +70,8 @@
     let idlibro = '';
     let cantidad = '';
     const btnaceptarsolicitud = document.querySelector("#aceptarsolicitud")
+    const condicionlibro = document.querySelector("#condicionlibro")
+    const aplicar = document.querySelector("#aplicar")
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
     const modal = new bootstrap.Modal(
@@ -110,6 +114,13 @@
         })
     }
 
+    aplicar.addEventListener("click", (event) => {
+        const observacion = condicionlibro.value
+        const inputlist = document.querySelectorAll(".item-ejemplar input")
+        inputlist.forEach(input=>{
+            input.value = observacion
+        })
+    })
     cuerpo.addEventListener("click", (event) => {
     const element = event.target.closest(".editar");
     if (element) {

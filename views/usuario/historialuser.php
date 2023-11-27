@@ -63,10 +63,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const formData= new FormData()
             const contenedor = document.querySelector("#contenedor")
             const estados = {
-                S:"Solicitado",
+                S: "Solicitado",
                 R: "Reservado",
                 E: "Entregado",
-                D:"Devuelto"
+                D: "Sin Devolver",
+                T: "Devuelto"
             }
             formData.append("operacion", "historialusuario")
             fetch("../../controller/userlibros.php", {
