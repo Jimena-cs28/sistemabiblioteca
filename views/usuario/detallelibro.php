@@ -203,7 +203,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 body: fordata
             }).then(res=>res.json())
             .then(datos=>{         
-                
+                if(datos.cantidad == 0){
+                    solicitar.style.display='none'
+                }
                 containerLibro.innerHTML = `
                 <ul>
                 <div class="titulo" style="margin-bottom: 10px;">DATOS:</div>
