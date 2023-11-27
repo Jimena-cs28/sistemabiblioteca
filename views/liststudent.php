@@ -49,7 +49,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Estudiantes Inactivos</h5>
+                <h5 class="modal-title text-center" id=" staticBackdropLabel" style="color: #5075da;">Estudiantes Inactivos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -166,6 +166,7 @@
                 .then(response => response.json())
                 .then(datos => {
                     listarEstudiante();
+                    EstudianteInactivo();
                 });
             }
         });
@@ -184,6 +185,7 @@
                 .then(response => response.json())
                 .then(datos => {
                     listarEstudiante();
+                    EstudianteInactivo();
                 });
             }
         });

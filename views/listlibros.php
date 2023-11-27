@@ -371,7 +371,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="row mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-12">
                             <table class="table table-bordered" id="ejemplarA" cellspacing="0">
                                 <thead>
@@ -381,7 +381,8 @@
                                         <th>Codigo</th>
                                         <th>Ocupado</th>
                                         <th>Estado</th>
-                                        <th>Editar</th>
+                                        <th>Activar Estado</th>
+                                        <th>Activar Ocupado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -389,7 +390,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> -->
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -412,8 +413,8 @@
     const tabla =  document.querySelector("#tabla");
     const cuerpoL = tabla.querySelector("tbody");
     const tablaE = document.querySelector("#ejemplarE");
-    // const tablaA = document.querySelector("#ejemplarA");
-    // const cuerpoA = tablaA.querySelector("tbody");
+    const tablaA = document.querySelector("#ejemplarA");
+    const cuerpoA = tablaA.querySelector("tbody");
     const cuerpoE = tablaE.querySelector("tbody");
     const selectcategoria = document.querySelector("#Ecategoria");
     const selectsubcategoria = document.querySelector("#Esubcategoria");
@@ -618,35 +619,38 @@
         });
     }
 
-    // function traerEjemplar1(){
-    //     const parametros = new URLSearchParams();
-    //     parametros.append("operacion", "TraerEjemplar");
-    //     parametros.append("idlibro", idlibro);
-    //     fetch("../controller/libros.php",{
-    //         method : 'POST',
-    //         body:parametros
-    //     })
-    //     .then(response => response.json())
-    //     .then(datos => {
-    //         cuerpoA.innerHTML = ``;
-    //         datos.forEach(element => {
-    //             const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
-    //             const ejemplar = `
-    //             <tr  class='${estadoClase}'>
-    //                 <td>${element.idejemplar}</td>
-    //                 <td>${element.libro}</td>
-    //                 <td>${element.codigo} - ${element.codigo_libro}</td>
-    //                 <td>${element.ocupado}</td>
-    //                 <td>${element.estado}</td>
-    //                 <td>
-    //                     <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Editar</a>
-    //                 </td>
-    //             </tr>`
-    //             ;
-    //             cuerpoA.innerHTML +=ejemplar;
-    //         });
-    //     });
-    // }
+    function traerEjemplar1(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "TraerEjemplar");
+        parametros.append("idlibro", idlibro);
+        fetch("../controller/libros.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpoA.innerHTML = ``;
+            datos.forEach(element => {
+                const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
+                const ejemplar = `
+                <tr  class='${estadoClase}'>
+                    <td>${element.idejemplar}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.codigo} - ${element.codigo_libro}</td>
+                    <td>${element.ocupado}</td>
+                    <td>${element.estado}</td>
+                    <td>
+                        <a href='#' class='activar' type='button' data-idejemplar='${element.idejemplar}'>Activar</a>
+                    </td>
+                    <td>
+                        <a href='#' class='activar' type='button' data-idejemplar='${element.idejemplar}'>Ocupado</a>
+                    </td>
+                </tr>`
+                ;
+                cuerpoA.innerHTML +=ejemplar;
+            });
+        });
+    }
 
     function SelectActor(){
         const parametros = new URLSearchParams();
@@ -667,6 +671,7 @@
             });
         })
     }
+
     SelectActor();
 
     cuerpo.addEventListener("click", (event) => {
@@ -739,7 +744,7 @@
                     selectAutores.value = element.Autor;
                     //traerEjemplar1();
                 });
-                // traerEjemplar1();
+                traerEjemplar1();
                 GuardarEditar.addEventListener("click", UpdateBook);
             })  
         }

@@ -258,7 +258,7 @@ CREATE PROCEDURE spu_reporte_descripcion
 	IN _descripcion VARCHAR(10)
 )
 BEGIN
-	SELECT idlibroentregado, categorias.categoria, subcategorias.subcategoria, libros.libro, librosentregados.cantidad, 
+	SELECT idlibroentregado, categorias.categoria, subcategorias.subcategoria, libros.libro, 
 	CONCAT(personas.nombres, ' ' ,personas.apellidos) AS 'nombres',	prestamos.descripcion
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
@@ -272,7 +272,7 @@ BEGIN
 	GROUP BY personas.nombres;
 END $$
 
-CALL spu_reporte_descripcion('1l');
+CALL spu_reporte_descripcion('3m');
 SELECT * FROM personas
 SELECT * FROM usuarios
 -- REPORTE 2 

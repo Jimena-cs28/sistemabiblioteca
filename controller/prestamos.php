@@ -161,3 +161,11 @@
       echo json_encode($datos);
     }
   }
+
+  if($_POST['operacion'] == 'CambiarEstado'){
+    $datosActulizar = [
+      "idprestamo" => $_POST['idprestamo']
+    ];
+    $respuesta = $prestamo->CambiarEstadoDev($datosActulizar);
+    echo json_encode($respuesta);
+  }

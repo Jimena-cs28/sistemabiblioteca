@@ -34,7 +34,7 @@
                         <th>F. Solicitud</th>
                         <th>F. Entrega</th>
                         <th>F. Prestamo</th>
-                        <th>Ficha</th>
+                        <th>Operacion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -186,7 +186,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#ejemplar' class='todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ver ficha</a>
+                        <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
                     <td>               
                 </tr>
                 `;
@@ -224,7 +224,8 @@
     }
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'todo'){
+        const element = event.target.closest(".todo");
+        if(element){
             idprestamo = parseInt(event.target.dataset.idprestamo);
             console.log(idprestamo);
 
