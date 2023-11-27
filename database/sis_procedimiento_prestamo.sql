@@ -24,7 +24,7 @@ SELECT * FROM prestamos;
 SELECT * FROM ejemplares
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 38 -- 25
 
-SELECT * FROM usuarios
+SELECT * FROM librosentregados
 -- ejecutado RESERVAR
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_register
@@ -68,6 +68,7 @@ CALL spu_libroentregado_register(44,6,'Nuevo','2023-11-23');
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
 SELECT * FROM ejemplares
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
+SELECT * FROM librosentregados
 
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo

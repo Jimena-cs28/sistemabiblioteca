@@ -274,4 +274,16 @@ class Prestamos extends conexion{
       die($e->getMessage());
     }
   }
+
+  public function CambiarEstadoDev($idprestamo){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_cambiarEstado_Devolucion(?)");
+      $consulta->execute(array($idprestamo));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 }

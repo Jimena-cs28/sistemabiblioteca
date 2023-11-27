@@ -186,7 +186,7 @@
         </div>
     </div> -->
 
-    <div class="col-xl-4">
+    <div class="col-xl-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
@@ -206,7 +206,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-7">
+    <div class="col-xl-6">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between mb-9">
             <div class="mb-3 mb-sm-0">

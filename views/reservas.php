@@ -178,7 +178,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo < actual;
+                const fechapasada = FechaPrestamo > actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -249,20 +249,22 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'entrega'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            console.log(idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","updateEpendiente");
-            parametros.append("idprestamo", idprestamo);
+            if(confirm("¿estas seguro de entregar el libro?")){
+                idprestamo = parseInt(event.target.dataset.idprestamo);
+                console.log(idprestamo);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","updateEpendiente");
+                parametros.append("idprestamo", idprestamo);
 
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                listarEntregas();
-            })  
+                fetch("../controller/prestamos.php",{
+                    method: 'POST',
+                    body: parametros
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    listarEntregas();
+                })
+            }
         }
     });
 

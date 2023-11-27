@@ -159,7 +159,7 @@ END $$
 
 UPDATE libros SET cantidad =  21 WHERE idlibro = 7
 
-SELECT * FROM ejemplares
+SELECT * FROM libros
 -- LIBROS INACTIVOS
 DELIMITER $$
 CREATE PROCEDURE spu_inactivo_libros()
@@ -223,7 +223,8 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3 AND estado = 0;
+	WHERE usuarios.idrol = 3 AND estado = 0
+	ORDER BY idusuario DESC;
 END $$
 
 DELIMITER $$
@@ -233,7 +234,8 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 2 AND estado = 0;
+	WHERE usuarios.idrol = 2 AND estado = 0
+	ORDER BY idusuario DESC;
 END $$
 
 CALL spu_inactivo_estudiantes();
@@ -252,6 +254,7 @@ END $$
 
 CALL spu_inabilitar_usuario(2);
 SELECT * FROM usuarios
+-- 
 DELIMITER $$
 CREATE PROCEDURE spu_abilitar_usuario
 (
@@ -279,7 +282,7 @@ END$$
 
 SELECT * FROM usuarios
 
-CALL spu_listar_estudiantes();
+CALL spu_listar_profesor();
 -- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_profesor()
@@ -324,12 +327,13 @@ END$$
 CALL spu_registrar_estudiante('Lopez García', 'Elizabeth', '78290181','DNI','',
 'Chincha Baja','928782981','','78290181','654321');
 
-CALL spu_listar_estudiantes();
 
+CALL spu_listar_estudiantes();
+SELECT * FROM usuarios
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_profesor
 (
-    IN _apellidos VARCHAR(50),
+    IN _apellidos VARCHAR(50), 
     IN _nombres VARCHAR(30),
     IN _nrodocumento CHAR(8),
     IN _tipodocumento VARCHAR(50),
@@ -364,7 +368,7 @@ SELECT * FROM subcategorias
 WHERE idcategoria = _idcat;
 END$$
 
-SELECT * FROM prestamos WHERE estado = 'T'
+SELECT * FROM EJEmplares WHERE estado = 'D'
  
 -- Category
 DELIMITER $$
@@ -384,3 +388,18 @@ BEGIN
 	FROM subcategorias
 	WHERE idcategoria =  _idcategoria;
 END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_cambiarEstado_Devolucion(IN _idprestamo INT)
+BEGIN
+    -- Actualizar el estado de los ejemplares con ocupado='SI' asociados al idprestamo a 0
+    UPDATE ejemplares
+    SET estado = '0'
+    WHERE idejemplar IN (SELECT le.idejemplar FROM librosentregados le JOIN ejemplares e ON le.idejemplar = e.idejemplar
+        WHERE le.idprestamo = _idprestamo AND e.ocupado = 'SI');
+END $$
+
+-- 61
+CALL spu_CambiarEstadoEjemplares(22);
+SELECT * FROM ejemplares

@@ -19,7 +19,7 @@
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#docente">Docentes</button>
 
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -78,26 +78,11 @@
         </div>
     </div>
 </div>  
-<!-- no se utiliza -->
-<div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
-    <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title text-center all-tittles">ayuda del sistema</h4>
-        </div>
-        <div class="modal-body">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore dignissimos qui molestias ipsum officiis unde aliquid consequatur, accusamus delectus asperiores sunt. Quibusdam veniam ipsa accusamus error. Animi mollitia corporis iusto.
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="zmdi zmdi-thumb-up"></i> &nbsp; De acuerdo</button>
-        </div>
-    </div>
-    </div>
-</div>
 
     <script> 
         const cuerpo = document.querySelector("tbody");
+        const tabla = document.querySelector("#dataTable");
+        const cuerpoI = tabla.querySelector("tbody");
         
         function listarDocente(){
             const parametros = new URLSearchParams();
@@ -121,7 +106,9 @@
                         <td>${element.email}</td>
                         <td>${element.direccion}</td>
                         <td>${element.nombreusuario}</td>
-                        <td>Actualizar</td>
+                        <td>
+                            <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        </td>
                     </tr>
                     `;
                     cuerpo.innerHTML += estu;
@@ -129,5 +116,76 @@
             })
         }
 
+        function ProfesorInactivo(){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","ProfesorInactivo")
+
+            fetch("../controller/estudiantes.php", {
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                cuerpoI.innerHTML = ``;
+                datos.forEach(element => {
+                    const estu = `
+                    <tr>
+                        <td>${element.idusuario}</td>
+                        <td>${element.nombres}</td>
+                        <td>${element.apellidos}</td>
+                        <td>${element.nrodocumento}</td>
+                        <td>${element.telefono}</td>
+                        <td>${element.email}</td>
+                        <td>${element.direccion}</td>
+                        <td>${element.nombreusuario}</td>
+                        <td>
+                            <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        </td>
+                    </tr>
+                    `;
+                    cuerpoI.innerHTML += estu;
+                });
+            })
+        }
+
+        cuerpo.addEventListener("click", (event) => {
+            if(event.target.classList[0] === 'inactivo'){
+                idusuarios = parseInt(event.target.dataset.idusuario);
+                console.log(idusuarios);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","SentenciarUser");
+                parametros.append("idusuario", idusuarios);
+                fetch("../controller/estudiantes.php",{
+                    method: 'POST',
+                    body: parametros
+                }) 
+                .then(response => response.json())
+                .then(datos => {
+                    listarDocente();
+                    ProfesorInactivo();
+                });
+            }
+        });
+
+        cuerpoI.addEventListener("click", (event) => {
+            if(event.target.classList[0] === 'inactivo'){
+                idusuarios = parseInt(event.target.dataset.idusuario);
+                // console.log(idusuarios);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","HabilitarUser");
+                parametros.append("idusuario", idusuarios);
+                fetch("../controller/estudiantes.php",{
+                    method: 'POST',
+                    body: parametros
+                }) 
+                .then(response => response.json())
+                .then(datos => {
+                    listarDocente();
+                    ProfesorInactivo();
+                });
+            }
+        });
+
         listarDocente();
+        ProfesorInactivo();
     </script>

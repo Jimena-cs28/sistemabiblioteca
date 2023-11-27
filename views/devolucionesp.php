@@ -27,7 +27,7 @@
                         <th style="color:#574E4E;">F.Solicitud</th>
                         <th style="color:#574E4E;">F.Entrega</th>
                         <th style="color:#574E4E;">F.Prestamo</th>
-                        <th style="color:#574E4E;">Recibir</th>
+                        <th style="color:#574E4E;">Operacion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,12 +90,16 @@
                                     <input class="form-check-input" type="checkbox" id="checkuser">
                                     <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
                                 </div>
+                                <div class=" form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="checkejemplar">
+                                    <label class="form-check-label" for="inlineCheckbox2">Sancionar Libro</label>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar">Cerrar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
                 </div>
             </div>
@@ -104,49 +108,47 @@
 </div>
 
 <!-- detallado -->
-<div> 
-    <div class="modal fade" id="modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form autocomplete="off" id="form-detallito" class="p-3">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Condicion:</label>
-                            </div>
-                            <!-- DESCRIPCION -->
-                            <div class="col-md-8">
-                                <input type="text" class="form-control form-control-sm" id="condicionD">
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" id="form-detallito" class="p-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Condicion:</label>
+                        </div>
+                        <!-- DESCRIPCION -->
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm" id="condicionD">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label>Observaciones:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm"  id="observacionD">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checklibro" value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">Sancionar</label>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-3">
-                                <label>Observaciones:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control form-control-sm"  id="observacionD">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="checklibro" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">Sancionar</label>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guadarlibroD">Guardar</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="guadarlibroD">Guardar</button>
             </div>
         </div>
     </div>
@@ -178,7 +180,7 @@
     let idusuario = '';
     let idejemplar = '';
     const cuerpo = document.querySelector("tbody");
-    //const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
+    const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
@@ -188,6 +190,8 @@
     const GuadarD = document.querySelector("#guadarlibroD");
     let idprestamo = ''; //variable que almacena el id del prestamo
     let idlibroentregado = '';
+
+    const modaldetallitos = new bootstrap.Modal(document.querySelector("#modal"));
 
     function mostrarAvisoFlotante(mensaje) {
         // Crear un elemento div para el aviso flotante
@@ -224,7 +228,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class='recibir' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class="btn btn-info recibir" data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
                     </td>
                 </tr>
                 `;
@@ -264,7 +268,7 @@
                     <td>${element.ocupado}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#modal' type='button' class='detallitos' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        <a href='#modal' type='button' class='btn btn-outline-dark detallitos' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
                     </td>
                 </tr>`
                 ;
@@ -306,6 +310,20 @@
         });
     }
 
+    function AbilitarUser(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","HabilitarUser");
+        parametros.append("idusuario", idusuario);
+        fetch("../controller/estudiantes.php",{
+            method: 'POST',
+            body: parametros
+        }) 
+        .then(response => response.json())
+        .then(datos => {
+            listarDevoluciones();
+        });
+    }
+
     function updatedevolucionesTodo(){
         if(confirm("estas seguro de guardar?")){
             const parametros = new URLSearchParams();
@@ -321,6 +339,7 @@
             .then(respuesta => respuesta.json())
             .then(datos => {
                 if(datos.status){
+                    modal.toggle();
                     document.querySelector("#form-devolucion").reset();
                 }
             })
@@ -328,7 +347,8 @@
     };
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'recibir'){
+        const element = event.target.closest(".recibir");
+        if(element){
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
@@ -342,41 +362,55 @@
             .then(response => response.json())
             .then(datos => {
                 //console.log(idlibroentregado)
-
+                listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
                     validarUser();  updatedevolucionesTodo(); 
                 });
+                btGuadar.addEventListener("click",CancelarEstado);
             });
         }
     });
 
+    function cambiarEstado(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","CambiarEstado");
+        parametros.append("idprestamo", idprestamo);
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            // btGuadar.addEventListener("click", updatedevoluciones);
+            listarEjemplare();
+        });
+    }
+
     CuerpoP.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'detallitos'){
+        const elementoDetalle = event.target.closest(".detallitos");
+        if(elementoDetalle){
             idejemplar = parseInt(event.target.dataset.idejemplar);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             function updatedevolucionesUno(){
-                if(confirm("estas seguro de guardar?")){
-                    const parametros = new URLSearchParams();
-                    parametros.append("operacion","updatedevolucionesUno");
-                    parametros.append("idejemplar", idejemplar);
-                    parametros.append("condiciondevolucion",condicion.value);
-                    parametros.append("observaciones", observaciones.value);
-                    parametros.append("idlibroentregado", idlibroentregado);
-                    fetch("../controller/validacion.php",{
-                        method:'POST',
-                        body: parametros
-                    })
-                    .then(respuesta => respuesta.json())
-                    .then(datos => {
-                        if(datos.status){
-                            listarEjemplare();
-                            document.querySelector("#form-detallito").reset();
-                            // modal.close();
-                        }
-                    })
-                    
-                }
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","updatedevolucionesUno");
+                parametros.append("idejemplar", idejemplar);
+                parametros.append("condiciondevolucion",condicion.value);
+                parametros.append("observaciones", observaciones.value);
+                parametros.append("idlibroentregado", idlibroentregado);
+                fetch("../controller/validacion.php",{
+                    method:'POST',
+                    body: parametros
+                })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    if(datos.status){
+                        listarEjemplare();
+                        document.querySelector("#form-detallito").reset();
+                        modaldetallitos.toggle();
+                    }
+                })
             };
             GuadarD.addEventListener("click", () => {
                 validarRecibirlibro(); updatedevolucionesUno();
@@ -388,6 +422,15 @@
         const CheckEstu = document.querySelector("#checkuser");
         if (CheckEstu.checked) {
             InavilitarUser();
+        }else{
+            AbilitarUser();
+        }
+    }
+
+    function CancelarEstado(){
+        const CheckEjemplar = document.querySelector("#checkejemplar");
+        if (CheckEjemplar.checked){
+            cambiarEstado();
         }
     }
 

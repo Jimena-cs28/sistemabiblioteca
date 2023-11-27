@@ -37,7 +37,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <!-- img -->
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                 </div>
-                <div class="sidebar-brand-text mx-3" style="color: rgb(216, 189, 189);">MEDIATECA</div>
+                <img src="../img/logo2.png" alt="logo" width="70px" >
+                <div class="sidebar-brand-text" style="color: rgb(244, 224, 224);">MEDIATECA</div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -68,8 +69,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Profesores:</h6>
                         <a class="collapse-item" href="index.php?view=profesores.php">Nuevo Usuario</a>
-                        <a class="collapse-item" href="index.php?view=listteacher.php">Todo los profesores</a>
-                        <a class="collapse-item" href="index.php?view=liststudent.php">Todo los estudiantes</a>
+                        <a class="collapse-item" href="index.php?view=listteacher.php">Profesores</a>
+                        <a class="collapse-item" href="index.php?view=liststudent.php">Estudiantes</a>
                     </div>
                 </div>
             </li>

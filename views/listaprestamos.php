@@ -95,7 +95,7 @@ $datoID = json_encode($_SESSION['login']);
                             <div class="input-group mb-4">
                                 <input type="date" class="form-control" id="fechadevolucion">
                                 <div class="input-group-append" id="a">
-                                    <button class="btn" type="button" id="Rguardarlibro"><i  class="bi bi-plus-circle-fill"></i></button>
+                                    <button class="btn btn-outline-success" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +153,16 @@ $datoID = json_encode($_SESSION['login']);
     const libroAgregados =  new Set();
     const ahora = document.querySelector("#ahora");
     const Reservar = document.querySelector("#reservar");
+
+    const fechaActual = new Date(); 
+    const fechaMinima = fechaActual.toISOString().split('T')[0];
+    fecharegistar.min = fechaMinima
+    fecharegistar.value = fechaMinima
+    fechadevolucion.min = fechaMinima
+    fecharegistar.addEventListener("change", function(){
+        console.log(fecharegistar.value)
+        fechadevolucion.min = fecharegistar.value
+    })
 
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
@@ -365,69 +375,70 @@ $datoID = json_encode($_SESSION['login']);
     //     }
     // }
 
-// Variable para rastrear los libros agregados
-let librosAgregados = [];
+    // Variable para rastrear los libros agregados
+    let librosAgregados = [];
 
-function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
-    const nuevaFila = document.createElement('tr');
+    function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
+        const nuevaFila = document.createElement('tr');
 
-    nuevaFila.innerHTML = `
-        <td>${idejemplar}</td>
-        <td>${nombreLibro}</td>
-        <td>${fechaDevolucion}</td>
-        <td>${condicion}</td>
-        <td>
-            <a href='#' class='eliminar'>Eliminar</a>
-        </td>`;
+        nuevaFila.innerHTML = `
+            <td>${idejemplar}</td>
+            <td>${nombreLibro}</td>
+            <td>${fechaDevolucion}</td>
+            <td>${condicion}</td>
+            <td>
+                <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
+            </td>
+        `;
 
-    // Agregar la nueva fila a la tabla
-    tablalibro.appendChild(nuevaFila);
-}
+        // Agregar la nueva fila a la tabla
+        tablalibro.appendChild(nuevaFila);
+    }
 
-function agregarLibros() {
-    const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-    const elementosSelect = filtroEjempla.options;
+    function agregarLibros() {
+        const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
+        const elementosSelect = filtroEjempla.options;
 
-    // Obtener el último índice de libros agregados o 0 si no hay ninguno
-    const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
+        // Obtener el último índice de libros agregados o 0 si no hay ninguno
+        const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
 
-    console.log("Cantidad de libros:", cantidadLibros);
-    console.log("Último índice:", ultimoIndice);
+        console.log("Cantidad de libros:", cantidadLibros);
+        console.log("Último índice:", ultimoIndice);
 
-    // Iterar sobre la cantidad especificada de libros
-    for (let i = 0; i < cantidadLibros; i++) {
-        // Obtener el índice actual
-        const indiceActual = (i + ultimoIndice) % elementosSelect.length;
+        // Iterar sobre la cantidad especificada de libros
+        for (let i = 0; i < cantidadLibros; i++) {
+            // Obtener el índice actual
+            const indiceActual = (i + ultimoIndice) % elementosSelect.length;
 
-        console.log("Índice actual:", indiceActual);
+            console.log("Índice actual:", indiceActual);
 
-        // Obtener el elemento del select en el índice actual
-        const idlejemplarSeleccionado = elementosSelect[indiceActual];
-        const idejemplar = idlejemplarSeleccionado.value;
-        const nombreLibro = idlejemplarSeleccionado.label;
-        const fechaDevolucion = fechadevolucion.value;
-        const condicion = Condicionentrega.value;
+            // Obtener el elemento del select en el índice actual
+            const idlejemplarSeleccionado = elementosSelect[indiceActual];
+            const idejemplar = idlejemplarSeleccionado.value;
+            const nombreLibro = idlejemplarSeleccionado.label;
+            const fechaDevolucion = fechadevolucion.value;
+            const condicion = Condicionentrega.value;
 
-        console.log("Idejemplar:", idejemplar);
-        console.log("Nombre del libro:", nombreLibro);
+            console.log("Idejemplar:", idejemplar);
+            console.log("Nombre del libro:", nombreLibro);
 
-        // No agregar el libro si ya ha sido agregado
-        if (librosAgregados.includes(idejemplar)) {
-            alert("Este libro ya ha sido agregado");
-        } else {
-            agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
-            librosAgregados.push(idejemplar);
-            console.log("Libro agregado:", idejemplar);
+            // No agregar el libro si ya ha sido agregado
+            if (librosAgregados.includes(idejemplar)) {
+                alert("Este libro ya ha sido agregado");
+            } else {
+                agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
+                librosAgregados.push(idejemplar);
+                console.log("Libro agregado:", idejemplar);
+            }
         }
     }
-}
 
     Agregar.addEventListener("click", agregarLibros);
 
-
     tablalibro.addEventListener("click", function(event) {
         // Verificar si el clic fue en un botón de clase "btn-danger"
-        if (event.target.classList.contains("eliminar")) {
+        const element = event.target.closest(".eliminar");
+        if (element) {
             // Obtener la fila a la que pertenece el botón
             const filaAEliminar = event.target.closest("tr");
 
@@ -568,7 +579,6 @@ function agregarLibros() {
         }
     }
 
-
     function TraerDescripcion(){
         const parametros = new URLSearchParams();
         parametros.append("operacion", "traerDescripcion");
@@ -586,11 +596,34 @@ function agregarLibros() {
         });
     }
 
+    // function TraerDescripcion() {
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "traerDescripcion");
+    //     parametros.append("idusuario", filtroStudent.value);
+
+    //     fetch("../controller/prestamos.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         console.log(datos);
+    //         // Check if datos array is empty
+    //         if (datos.length === 0) {
+    //             alert("No data available");
+    //         } else {
+    //             // Assuming you want to update 'des' with the first item in the array
+    //             des.value = datos[0].descripcion;
+    //         }
+    //     })
+    // }
+
+
     conseguirlibro();
     listarUsuario();
     // listarprestamo();
-    filtroEjempla.addEventListener("change", TraerDescripcion);
+    
     Guardar.addEventListener("click", ValidarRegistrar);
     libro.addEventListener("change", listarEjemplares);
-
+    filtroStudent.addEventListener("change", TraerDescripcion);
 </script>
