@@ -85,7 +85,8 @@ END $$
 SELECT * FROM libros
 CALL spu_obtener_detalleautores(2);
 
-SELECT * FROM detalleautores
+SELECT * FROM prestamos
+SELECT * FROM librosentregados
 -- TRAER EJEMPLAR (LIST  LIBROS)
 DELIMITER $$
 CREATE PROCEDURE spu_ejemplar_idlibro
@@ -102,5 +103,7 @@ END $$
 
 
 SELECT * FROM ejemplares -- 11
+
+SELECT * FROM prestamos
 
 

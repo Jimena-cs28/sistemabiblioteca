@@ -180,7 +180,7 @@
     let idusuario = '';
     let idejemplar = '';
     const cuerpo = document.querySelector("tbody");
-    const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
+    // const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
@@ -329,7 +329,6 @@
             const parametros = new URLSearchParams();
             parametros.append("operacion","updatedevolucionesTodos");
             parametros.append("idprestamo", idprestamo);
-            // parametros.append("idlibroentregado", idlibroentregado);
             parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
             parametros.append("observaciones", document.querySelector("#observacion").value);
             fetch("../controller/validacion.php",{
@@ -339,7 +338,7 @@
             .then(respuesta => respuesta.json())
             .then(datos => {
                 if(datos.status){
-                    modal.toggle();
+                    // modal.toggle();
                     document.querySelector("#form-devolucion").reset();
                 }
             })
@@ -352,6 +351,7 @@
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
+            
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -365,9 +365,12 @@
                 listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
+                    const CheckEjemplar = document.querySelector("#checkejemplar");
+                    if (CheckEjemplar.checked){
+                        cambiarEstado();
+                    }
                     validarUser();  updatedevolucionesTodo(); 
                 });
-                btGuadar.addEventListener("click",CancelarEstado);
             });
         }
     });
@@ -392,6 +395,7 @@
         if(elementoDetalle){
             idejemplar = parseInt(event.target.dataset.idejemplar);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            idprestamo = parseInt(event.target.dataset.idprestamo);
             function updatedevolucionesUno(){
                 const parametros = new URLSearchParams();
                 parametros.append("operacion","updatedevolucionesUno");
@@ -427,13 +431,10 @@
         }
     }
 
-    function CancelarEstado(){
-        const CheckEjemplar = document.querySelector("#checkejemplar");
-        if (CheckEjemplar.checked){
-            cambiarEstado();
-        }
+    function cancelarEstado(){
+        
+        
     }
-
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");
         if(CheckLibro.checked){

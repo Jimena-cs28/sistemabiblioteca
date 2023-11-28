@@ -403,3 +403,50 @@ END $$
 -- 61
 CALL spu_CambiarEstadoEjemplares(22);
 SELECT * FROM ejemplares
+--  ACTIVAR OCUPADO Y ACTIVAR ESTADO
+DELIMITER $$
+CREATE PROCEDURE spu_activar_estado_ejem
+(
+	IN _idejemplar INT
+)
+BEGIN
+	UPDATE ejemplares SET
+	estado = 1,
+	update_at = NOW()
+	WHERE idejemplar = _idejemplar;
+	
+END $$
+
+CALL spu_activar_estado(24)
+SELECT * FROM ejemplares
+
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_search_book
+(
+	IN _nombre VARCHAR(50)
+)
+BEGIN
+	SELECT ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria, lib.libro, COUNT(ej.idlibro) AS 'Disponible' , 
+	lib.cantidad AS 'cantidad', lib.codigo, CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+	FROM subcategorias sub
+	JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+	JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+	JOIN detalleautores det ON lib.idlibro = det.idlibro
+	JOIN autores aut ON det.idautor = aut.idautor
+	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
+	WHERE ej.ocupado = 'NO' AND ej.estado = 1 AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
+	GROUP BY ej.idlibro;
+END $$
+
+CALL spu_search_book('fisica')
+
+
+
+
+
+
+
+
+

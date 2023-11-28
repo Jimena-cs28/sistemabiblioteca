@@ -169,3 +169,10 @@
     $respuesta = $prestamo->CambiarEstadoDev($datosActulizar);
     echo json_encode($respuesta);
   }
+
+  if($_POST['operacion'] == 'SeachPrestamo'){
+    $datos = $prestamo->SeachPrestamo($_POST['nombres']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }

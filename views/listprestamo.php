@@ -8,488 +8,64 @@ if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
 $datoID = json_encode($_SESSION['login']);
 ?>
 
-
-<select name="" id="" class="form-control">
-    <option value="">1</option>
-    <option value="">1</option>
-    <option value="">1</option>
-</select>
-
-    <!-- modal Rnuevo -->
-<div class="modal fade" id="modal-nuevo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="modal-registrarlibro">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="Libro">Libro</label>
-                            <div class="input-group mb-4">
-                                <select class="form-control" id="libro">
-                                </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button" id="btBuscarLibro">Buscar</button>
-                                </div>
-                            </div>
+<div class="container-fluid border-0">
+    <div class="card border-0">
+        <div class="card-body border-0">
+            <!-- fila del titulo -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3 class="fw-semibold text-center" style="color:rgb(11, 90, 147) ;">DATOS DEL ADMINISTRADOR</h3>
+                </div>
+            </div>  
+        </div>
+        <div class="card border-0">
+            <div class="card-body">            
+                <form id="form-prestamos">
+                    <div class="ml-5 row">
+                        <div class="col-md-3">
+                            <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
                         </div>
-                        <div class="col-md-4">
-                            <label for="Categoria">Categoria</label>
-                            <input type="text" class="form-control mb-3" id="filtrocategoria" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Sub Categoria</label>
-                            <input type="text" class="form-control" id="filtrosubcategoria" disabled>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Cantidad</label>
-                            <input type="number" class="form-control mb-3" placeholder="00" id="cantidad">
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-3" id="divPrestamo">
+                            <label for="" style="color:#000000;">FECHA NACIMIENTO</label>
+                            <input type="text"  class="form-control" required=""id="fprestamo">
                         </div>
-                        <div class="col-md-4">
-                            <label>Condicion Entrega</label>
-                            <input type="text" class="form-control mb-3" id="condicionentrega">
+                        <div class="col-md-3">
+                            <label for="" style="color:#000000;">ROL</label>
+                            <input type="text" class="form-control">
                         </div>
-                        <div class="col-md-4">
-                            <label>Fecha devolucion</label>
-                            <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="fechadevolucion">
-                                <div class="input-group-append" id="fdevolucion">
-                                    <button class="btn btn-outline-warning" type="button" id="gudarlibro">Apuntar</button>
-                                </div>
-                            </div>
+                        <div class="col-md-3">
+                            <label for="" style="color:#000000;">DNI</label>
+                            <input type="text" class="form-control" id="descripcion">
+                        </div>
+                        <div class="col-md-3" id="lugarD">
+                            <label for="" style="color:#000000;">TELEFONO</label>
+                            <input type="text" class="form-control" maxlength="20" id="lugardestino">
                         </div>
                     </div>
-                    <div class="row p-5">
-                        <table class="table table-bordered mt-4" id="tablalibros" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>SubCategoria</th>
-                                    <th>Libro</th>
-                                    <th>Cantidad</th>
-                                    <th>F.Devolucion</th>
-                                    <th>Condicion</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-4">
+                            <label for="Libro" style="color:#000000;">CORREO</label>
+                            <input type="text" class="form-control" >
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color:#000000;">DIRECCION</label>
+                            <input type="text" name="" id="" class="form-control" >
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color:#000000;">USUARIO</label>
+                            <input type="text" class="form-control" id="cantidad" >
+                        </div>
                     </div>
+                    <p class="text-center mt-4">
+                        <button type="button" class="btn btn-info" id="btguardar">EDITAR</button>
+                    </p>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- modal reserva -->
-<div class="modal fade" id="LReservar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #6980e6;">Registrar Libro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="modal-registrarlibroreserva">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="Libro">Libro</label>
-                            <div class="input-group mb-4">
-                                <select name="" id="libro2" class="form-control">
-                                </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button" id="RbtBuscarLibro">Buscar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="Categoria">Categoria</label>
-                            <input type="text" class="form-control mb-3" id="Rfiltrocategoria" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Sub Categoria</label>
-                            <input type="text" class="form-control" id="Rfiltrosubcategoria" disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Cantidad</label>
-                            <input type="number" class="form-control mb-3" placeholder="00" id="Rcantidad">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Condicion Entrega</label>
-                            <input type="text" class="form-control mb-3" id="Rcondicionentrega">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Fecha devolucion</label>
-                            <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="Rfechadevolucion">
-                                <div class="input-group-append" id="a">
-                                    <button class="btn btn-outline-warning" type="button" id="Rguardarlibro">Apuntar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>SubCategoria</th>
-                                    <th>Libro</th>
-                                    <th>Cantidad</th>
-                                    <th>F.Devolucion</th>
-                                    <th>Condicion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="Rguardar">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-
-    let idprestamo = '';
-    const tablaPrestamo = document.querySelector("#dataTable");
-    const fecharegistar = document.querySelector("#fprestamo");
-    const Guardar = document.querySelector("#btguardar");
-    const tablalibro = document.querySelector("#tablalibros");
-    const filtroStudent = document.querySelector("#filtronombres");
-    const cuerpo = document.querySelector("tbody");
-    const btguardar = document.querySelector("#guardar");
-    const selectcategoria = document.querySelector("#filtrocategoria");
-    const filtrosubcategoria = document.querySelector("#filtrosubcategoria");            
-    const cantidad = document.querySelector("#cantidad");
-    const libro = document.querySelector("#libro");
-    const condicionentrega = document.querySelector("#condicionentrega");
-    const fechadevolucion = document.querySelector("#fechadevolucion");
-    const agregarLibro = document.querySelector("#gudarlibro");
-    // input del segundo modal
-    const Libro2 = document.querySelector("#libro2");
-    const tabla2 = document.querySelector("#tabla2");
-    const agregarlibro2 = document.querySelector("#Rguardarlibro");
-    const GuardarR = document.querySelector("#Rguardar");
-    const filtrosub2 = document.querySelector("#Rfiltrosubcategoria");
-    const cantidad2 = document.querySelector("#Rcantidad");
-    const fechadevolucion2 =  document.querySelector("#Rfechadevolucion");
-    const condicionEntrega2 = document.querySelector("#Rcondicionentrega");
-    const libroAgregados =  new Set();
-
-    function ValidarFechasPrestamo(fechaPrestamo, fechaDevolucion){
-        const tablaN = tablaPrestamo.rows;
-        const fechaPrestamoObj = new Date(fechaPrestamo);
-        const fechaDevolucionObj = new Date(fechaDevolucion);
-        
-        if (fechaDevolucionObj < fechaPrestamoObj) {
-            alert("La fecha de devolucion no puee ser anterior a la fecha de prestamo");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    function agregarLibros(){
-        const idlibroSeleccionado = libro.options[libro.selectedIndex];
-        const idlibro = idlibroSeleccionado.value;
-        const nombreLibro = idlibroSeleccionado.text;
-        const fechaPrestamo = fecharegistar.value;
-        const fechaDevolucion = fechadevolucion.value;
-
-        //no agregar el libro si las fehas no son validas
-        if(libroAgregados.has(idlibro)){
-            alert("este libro ya se ah sido agregado");
-            return;
-        }else{
-            let nuevaFila = `
-            <tr>
-                <td>${idlibro}</td>
-                <td>${filtrosubcategoria.value}</td>
-                <td>${nombreLibro}</td>
-                <td>${cantidad.value}</td>
-                <td>${fechadevolucion.value}</td>
-                <td>${condicionentrega.value}</td>
-                <td>Eliminar</td>
-            </tr>  
-            `;
-            tablalibro.innerHTML += nuevaFila;
-            libro.value="";
-            filtrosubcategoria.value = "";
-            selectcategoria.value = "";
-            cantidad.value = "";
-            condicionentrega.value = "";
-            fechadevolucion.value = "";
-        }
-        libroAgregados.add(idlibro);
-    }
-
-    agregarLibro.addEventListener("click", agregarLibros);
-
-    function agregarLibros2(){
-        const idlibroSeleccionado2 = Libro2.options[Libro2.selectedIndex];
-        const idlibro2 = idlibroSeleccionado2.value;
-        const nombreLibro2 = idlibroSeleccionado2.text;
-
-        if (libroAgregados.has(idlibro2)) {
-            alert("este libro ya se ah sido agregado");
-            return;
-        }else{
-            let nuevaFilas = `
-            <tr>
-                <td>${idlibro2}</td>
-                <td>${filtrosub2.value}</td>
-                <td>${nombreLibro2}</td>
-                <td>${cantidad2.value}</td>
-                <td>${fechadevolucion2.value}</td>
-                <td>${condicionEntrega2.value}</td>
-                
-            </tr>  
-            `;
-            tabla2.innerHTML += nuevaFilas;
-            Libro2.value="";
-            document.querySelector("#Rfiltrocategoria").value="";
-            filtrosub2.value = "";
-            cantidad2.value = "";
-            fechadevolucion2.value = "";
-            condicionEntrega2.value = "";
-        }
-        libroAgregados.add(idlibro2);
-    }
-
-    agregarlibro2.addEventListener("click", agregarLibros2);
-
-    function registrarLibroentregados(){
-        const filas = tablalibro.rows;
-        for (let i = 1; i < filas.length; i++) {
-            const idlibros = parseInt(filas[i].cells[0].innerText);
-            const cantidadd = parseInt(filas[i].cells[3].innerText);
-            const fechas    = new Date(filas[i].cells[4].innerText);
-            const condicionEntre = String(filas[i].cells[5].innerText);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","registrarLibroentregado");
-            parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibro", idlibros);
-            parametros.append("cantidad", cantidadd);
-            parametros.append("condicionentrega", condicionEntre);
-            parametros.append("fechadevolucion", fechas);
-            fetch("../controller/prestamos.php",{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                // console.log(datos);
-                if(datos.status){
-                alert("Prestamo guardados correctamente")
-                    document.querySelector("#modal-registrarlibro").reset();
-                    tablalibro.reset();
-                }
-            })
-        }
-        
-    }
-
-    function registrarlibroentregadoReserva(){
-        const fila = tabla2.rows;
-        for (let i = 1; i < fila.length; i++) {
-            const idlibros  = parseInt(fila[i].cells[0].innerText);
-            const cantidadd = parseInt(fila[i].cells[3].innerText);
-            const fecha     = new Date(fila[i].cells[4].innerText);
-            const condicionEntre = String(fila[i].cells[5].innerText);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","registrarlibroentregadoReserva");
-            parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibro", idlibros);
-            parametros.append("cantidad", cantidadd);
-            parametros.append("condicionentrega", condicionEntre);
-            parametros.append("fechadevolucion", fecha);
-            fetch("../controller/prestamos.php" ,{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                // console.log(datos);
-                if(datos.status){
-                alert("Prestamo guardados correctamente")
-                    document.querySelector("#modal-registrarlibro").reset();
-                    tabla2.reset();
-                }
-            })
-        }
-    }
-
-    function listarprestamo(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","listarprestamo")
-
-        fetch("../controller/prestamos.php", {
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                // console.log(datos);
-                const pres = `
-                <tr>
-                    <td>${element.idprestamo}</td>
-                    <td>${element.nombres}</td>
-                    <td>${element.apellidos}</td>
-                    <td>${element.nombreusuario}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>${element.nombrerol}</td>
-                    <td>
-                        <a href='#modal-nuevo' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Nuevo</a>
-                    </td>
-                    <td>
-                        <a href='#LReservar'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Reservar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += pres;
-            });
-        })
-    }
-
-    cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'Rnuevo'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerprestamo");
-            parametros.append("idprestamo", idprestamo);
-            // const filasP = tablalibro.rows;
-            // for (let i = 0; 1 < filasP.length; i++) {
-            //     const fechaP = new Date(filasP[i].cells[5].innerText);
-            //     console.log(fechaP)
-            // }
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            // console.log(idprestamo)
-            .then(response => response.json())
-            .then(datos => {
-                
-                listarprestamo();
-                // btguardarlibro.addEventListener("click", registrarLibroentregadosnuevo);
-                btguardar.addEventListener("click", registrarLibroentregados);
-            })
-        }
-    });
-
-    cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'Rreservar'){
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerprestamo");
-            parametros.append("idprestamo", idprestamo);
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            // console.log(idprestamo)
-            .then(response => response.json())
-            .then(datos => {
-                listarprestamo();
-                GuardarR.addEventListener("click", registrarlibroentregadoReserva);
-            })  
-        }
-    });
-
-    function listarUsuario(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","filtrobeneficiario");
-
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
-            datos.forEach(element => {
-                const Tag = document.createElement("option");
-                Tag.value = element.idusuario;
-                Tag.text = element.nombres + ' ' + element.apellidos;
-
-                filtroStudent.appendChild(Tag);
-            });
-        })
-    }
-
-    var fechactual =  new Date();
-    var añoactual =fechactual.getFullYear();
-    var mesAcutual =String(fechactual.getMonth() + 1).padStart(2,'0');
-    var diaActual =String(fechactual.getDate()).padStart(2,'0');
-    var fechaActualFormateada =añoactual + '-' +mesAcutual +'-' +diaActual;
-
-    function fecha(){
-        if(fecharegistar >= fechaActualFormateada){
-            registrarPrestamo();
-        }else{
-            alert("Error");
-        }
-    }
-
-    function registrarPrestamo(){
-        const respuesta = <?php echo $datoID;?>;
-        const idusuario = respuesta.idbibliotecario;
-        if(confirm("estas seguro de guardar?")){
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","registrarPrestamo");
-            parametros.append("idbeneficiario", filtroStudent.value);
-            parametros.append("idbibliotecario", idUsuario);
-            parametros.append("fechaprestamo", fecharegistar.value);
-            parametros.append("descripcion", document.querySelector("#descripcion").value);
-            parametros.append("enbiblioteca", document.querySelector("#enbiblioteca").value);
-            parametros.append("lugardestino", document.querySelector("#lugardestino").value);
-
-            fetch("../controller/prestamos.php" ,{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                console.log(datos);
-                if(datos.status){
-                    alert("Datos guardados correctamente")
-                    // document.querySelector("#form-prestamos").reset();
-                }
-            })
-        }
-    }
-
-
-    listarprestamo();
-    // listarLibros();
-    listarUsuario();
-
-    Guardar.addEventListener("click", fecha);
-</script>

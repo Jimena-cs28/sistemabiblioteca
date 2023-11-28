@@ -5,7 +5,7 @@
             <img src="../img/calendar_book.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran las reservaciones de libros hechas por los docentes y estudiantes, las cuales están pendientes para ser aprobadas por ti
+            Bienvenido a esta sección, aquí se muestran todos los prestamos hechos por docentes y estudiantes tambien se podra ver detalladamente los prestamos
         </div>
     </div>
 </div>
@@ -18,12 +18,18 @@
     }
 </style>
 
+<!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">LISTADO DE ESTUDIANTES</h6>
+        <h6 class="m-0 font-weight-bold text-primary">LISTADO DE PRESTAMO</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
+            <div id="dataTable_filter" class="dataTables_filter">
+                <label for="">Search
+                    <input type="search" class="form-control form-control-sm" id="PrestamoSearch">
+                </label>
+            </div>
             <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
@@ -149,6 +155,7 @@
 
 <script>
     let idlibroentregado = '';
+    const secharP = document.querySelector("#PrestamoSearch");
     const cuerpo = document.querySelector("tbody");
     const tabla = document.querySelector("#tabla");
     const CuerpoT = tabla.querySelector("tbody");
@@ -260,7 +267,41 @@
         }
     });
 
+
+    function searchPrestamo(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "SeachPrestamo");
+        parametros.append("nombres", secharP.value);
+        fetch("../controller/prestamos.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                const pres = `
+                <tr>
+                    <td>${element.idprestamo}</td>
+                    <td>${element.Nombres}</td>
+                    <td>${element.descripcion}</td>
+                    <td>${element.enbiblioteca}</td>
+                    <td>${element.fechasolicitud}</td>
+                    <td>${element.fechaentrega}</td>
+                    <td>${element.fechaprestamo}</td>
+                    <td>
+                        <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
+                    <td>               
+                </tr>
+                `;
+                cuerpo.innerHTML += pres;
+            });
+        });
+    }
+
     listarprestamo();
-    
+    secharP.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) searchPrestamo();
+    });
 
 </script>

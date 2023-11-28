@@ -22,53 +22,53 @@
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">CATEGORIA</label>
-                            <select class="form-control form-control-sm" id="selectcategoria">
+                            <select class="form-control" id="selectcategoria">
                                 
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="">SUBCATEGORIA</label>
-                            <select class="form-control form-control-sm" id="selectsubcategoria">
+                            <select class="form-control" id="selectsubcategoria">
                                 
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="">EDITORIAL</label>
-                            <select class="form-control form-control-sm" id="selecteditorial">
+                            <select class="form-control" id="selecteditorial">
                             
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="libro" class="form-control form-control-sm" required="" maxlength="70">
+                            <input type="text" id="libro" class="form-control" required="" maxlength="70">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">CANTIDAD</label>
-                            <input type="number" class="form-control form-control-sm" id="cantidad">
+                            <input type="number" class="form-control" id="cantidad">
                         </div>
                         <div class="col-md-3">
                             <label for="">NUMERO DE PAGINA</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="123456789" id="paginas">
+                            <input type="number" class="form-control" placeholder="123456789" id="paginas">
                         </div>
                         <div class="col-md-3">
                             <label for="">CODIGO</label>  
-                            <input type="text" class="form-control form-control-sm" required="" id="codigo">
+                            <input type="text" class="form-control" required="" id="codigo">
                         </div>
                         <div class="col-md-3">
                             <label for="">FORMATO</label>
-                            <input type="text" class="form-control form-control-sm" required="" maxlength="50"id="formato">
+                            <input type="text" class="form-control" required="" maxlength="50"id="formato">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">Descripcion</label>
-                            <input type="text" id="descripcion" class="form-control form-control-sm">
+                            <input type="text" id="descripcion" class="form-control" maxlength="500">
                         </div>
                         <div class="col-md-3">
                             <label for="">IDIOMA</label>
-                            <select class="form-control form-control-sm" id="idioma">
+                            <select class="form-control" id="idioma">
                                 <option value="" disabled="" selected="">Seleccione</option>
                                 <option value="Español">Español</option>
                                 <option value="Ingles">Ingles</option>
@@ -76,28 +76,28 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">AÑO</label>
-                            <input type="date" id="anio" class="form-control form-control-sm" required="">
+                            <input type="date" id="anio" class="form-control" required="">
                         </div>
                         <div class="col-md-3">
                             <label for="">TIPO</label>
-                            <input type="text" id="tipo" class="form-control form-control-sm">
+                            <input type="text" id="tipo" class="form-control">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="">Imagen</label>
-                            <input type="file" id="fotografia" class="form-control form-control-sm" placeholder="imagen del libro">
+                            <input type="file" id="fotografia" class="form-control" placeholder="imagen del libro">
                         </div>
                         <div class="col-md-3">
                             <img class="visor" alt="" id="img" width="200px">
                         </div>
                         <div class="col-md-3">
                             <label for="">EDICION</label>
-                            <input type="text" id="edicion" class="form-control form-control-sm" placeholder="nose" required="">
+                            <input type="text" id="edicion" class="form-control">
                         </div>
                         <div class="col-md-3">
                             <label for="">Autor</label>
-                            <select name="" id="autor" class="form-control form-control-sm">
+                            <select name="" id="autor" class="form-control">
 
                             </select>
                         </div>

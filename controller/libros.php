@@ -115,4 +115,29 @@ if (isset($_POST['operacion'])){
     echo json_encode($respuesta);
   }
 
+  if($_POST['operacion'] == 'buscarBook'){
+    $datos = $libro->buscarBook($_POST['nombre']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'ActivarEstado'){
+    $datos = $libro->ActivarEstado($_POST['idejemplar']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'RegistrarCategory'){
+    $datosGuardar = [
+      "idcategoria"         => $_POST['idcategoria'],
+      "subcategoria"        => $_POST['subcategoria'],
+      "codigo"              => $_POST['codigo']
+    ];
+    //$respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
+    echo json_encode($libro->registrarCategoria($datosGuardar));
+    // echo json_encode($respuesta);
+  }
+
 }
