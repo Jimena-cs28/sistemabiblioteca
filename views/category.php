@@ -18,7 +18,7 @@
         </div>
         <div class="card border-0">
             <div class="card-body">            
-                <form id="">
+                <form id="form-categori">
                     <div class="row ml-5 mt-4">
                         <div class="col-md-4">
                             <label for="">CATEGORIA</label>
@@ -71,6 +71,7 @@
 <script>
     const cuerpo = document.querySelector("tbody");
     const selectcategoria = document.querySelector("#selectcategoria");
+    const btGuardar = document.querySelector("#btguardar");
 
     function listarsubcategorias(){
         const parametros = new URLSearchParams();
@@ -132,6 +133,30 @@
         })
     }
 
+    function registrarCategory(){
+        if(confirm("estas seguro de guardar?")){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "RegistrarCategory");
+            parametros.append("idcategoria", selectcategoria.value);
+            parametros.append("subcategoria", document.querySelector("#subcategoria").value);
+            parametros.append("codigo", document.querySelector("#codigo").value);
+
+            fetch("../controller/libros.php",{
+                method:'POST',
+                body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                // console.log(datos);
+                if(datos.status){
+                    document.querySelector("#form-categori").reset();
+                }
+            });
+            
+        }
+    }
+
+    btGuardar.addEventListener("click", registrarCategory);
     listarCategoria();
 
     listarsubcategorias();

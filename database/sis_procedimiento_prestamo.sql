@@ -385,6 +385,7 @@ BEGIN
 	WHERE prestamos.estado = 'T'
 	ORDER BY idprestamo DESC;
 END $$
+
 SELECT * FROM UPDATE prestamos SET fechaprestamo= '2023-11-' WHERE idprestamo = 47
 SELECT librosentregados.idlibroentregado, libros.libro, ejemplares.codigo_libro, libros.tipo, prestamos.`fechasolicitud`, 
 prestamos.fechaentrega, librosentregados.fechadevolucion, personas.nombres
@@ -509,3 +510,28 @@ END $$
 
 
 -- procedimiento 
+
+SELECT idprestamo, personas.nombres, personas.apellidos
+FROM prestamos
+INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+WHERE 
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_search_prestamo
+(
+	IN _nombres VARCHAR(50)
+)
+BEGIN
+	SELECT idprestamo,prestamos.`fechasolicitud`, prestamos.descripcion, prestamos.enbiblioteca,
+	fechaprestamo, prestamos.fechaentrega, CONCAT(personas.nombres, ' ', personas.apellidos) AS 'Nombres'
+	FROM prestamos
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.`idpersona` = usuarios.`idpersona`
+	WHERE prestamos.estado = 'T' AND (_nombres ="" OR personas.nombres LIKE CONCAT("%",_nombres, "%"))
+	ORDER BY idprestamo DESC;
+END $$
+
+CALL spu_search_prestamo('Maria')
+SELECT * FROM personas

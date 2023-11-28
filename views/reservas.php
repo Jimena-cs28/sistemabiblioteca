@@ -4,27 +4,25 @@
             <img src="../img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran los libros registrados por el estudiante, se podra editar y eliminar los libros que usted desee
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header ">
-                    <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE ENTREGAS PENDIENTES</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row" id="cardreserva">
-            
-                    </div>
-    
-                </div>
-            </div>
-
+            Bienvenido a esta sección, aquí se muestran las reservas echas por estudiantes y profesores, estas reservas faltan recojer por parte de los usuario y se podra ver detalladamente que cantidad de libro de pidio
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header ">
+                <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE RESERVAS</h6>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row mt-4" id="cardreserva">
+
+</div>
 <style>
     .aviso-flotante {
         position: fixed;
@@ -184,8 +182,8 @@
                 }
                 const style = fechapasada ? 'color: red;' : '';
                 const reserva = `
-                <div class="col-md-6 card-deck">
-                    <div class="card mb-3" style="max-width: 500px;">
+                <div class="col-md-4 card-deck">
+                    <div class="card mb-3 overflow-hidden rounded-2" style="max-width: 500px;" >
                         <div class="row g-0">
                             <div class="col-md-5">
                                 <img class="img-fluid rounded-start" src="./img/${element.imagenportada}" alt="imagenLibro" width="600px">
@@ -199,9 +197,8 @@
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
                                     <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
-                                        <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-4"><a href='#' class='borrar' data-idprestamo='${element.idprestamo}' data-idlibro='${element.idlibro}'>Borrar</a></div>
-                                        <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Editar</a></div>
+                                        <div class="col-md-6"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
+                                        <div class="col-md-6"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
                                     </div>
                                 </ul>
                             </div>

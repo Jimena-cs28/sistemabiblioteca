@@ -88,7 +88,7 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-2">
                             <label>Condicion Entrega</label>
-                            <input type="text" class="form-control mb-3" id="condicionentrega">
+                            <input type="text" value="bien" class="form-control mb-3" id="condicionentrega">
                         </div>
                         <div class="col-md-2">
                             <label>Fecha devolucion</label>

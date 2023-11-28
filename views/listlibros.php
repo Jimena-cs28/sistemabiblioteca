@@ -14,9 +14,13 @@
         <h6 class="m-0 font-weight-bold text-primary">LISTADO DE LIBROS</h6>
     </div>
     <div class="card-body">
-    <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
-
         <div class="table-responsive">
+            <div id="dataTable_filter" class="dataTables_filter">
+                <label for="">Search
+                    <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
+                </label>
+                <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+            </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -28,7 +32,7 @@
                         <th>Cantidad</th>
                         <th>Autor</th>
                         <th>C. Disponible</th>
-                        <th>Codigo</th>
+                        <th>Ver</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
@@ -382,7 +386,6 @@
                                         <th>Ocupado</th>
                                         <th>Estado</th>
                                         <th>Activar Estado</th>
-                                        <th>Activar Ocupado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -409,6 +412,7 @@
 </style>
 
 <script>
+    const nombre = document.querySelector("#bookSearch");
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
     const cuerpoL = tabla.querySelector("tbody");
@@ -489,7 +493,7 @@
                     <td>${element.autor}</td>
                     <td>${element.Disponible}</td>
                     <td>
-                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
+                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
                     </td>
                     <td>
                         <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
@@ -642,9 +646,6 @@
                     <td>
                         <a href='#' class='activar' type='button' data-idejemplar='${element.idejemplar}'>Activar</a>
                     </td>
-                    <td>
-                        <a href='#' class='activar' type='button' data-idejemplar='${element.idejemplar}'>Ocupado</a>
-                    </td>
                 </tr>`
                 ;
                 cuerpoA.innerHTML +=ejemplar;
@@ -770,6 +771,65 @@
         }
     });
 
+    cuerpoA.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'activar'){
+            if(confirm("¿estas seguro de activar el estado?")){
+                idlibro = parseInt(event.target.dataset.idlibro);
+                idejemplar = parseInt(event.target.dataset.idejemplar);
+                // console.log(idlibro);
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","ActivarEstado");
+                parametros.append("idejemplar", idejemplar);
+
+                fetch("../controller/libros.php",{
+                    method: 'POST',
+                    body: parametros
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    if(datos.estatus){
+                        traerEjemplar1();
+                    }
+                })  
+            }
+        }
+    });
+
+    function seachBook(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "buscarBook");
+        parametros.append("nombre", nombre.value);
+        fetch("../controller/libros.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                const libro = `
+                <tr>
+                    <td>${element.idlibro}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.subcategoria}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.codigo}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.autor}</td>
+                    <td>${element.Disponible}</td>
+                    <td>
+                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
+                    </td>
+                    <td>
+                        <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += libro;
+            });
+        })
+    }
+
     // cuerpo.addEventListener("click", (event) => {
     //     if(event.target.classList[0] === 'inabilitar'){
     //         idlibro = parseInt(event.target.dataset.idlibro);
@@ -790,6 +850,10 @@
     // });
 
     // LibrosInactivo();
+    nombre.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) seachBook();
+    });
+
     listadoLibro();
     selectcategoria.addEventListener("change", selectsubCategoria);
 </script>

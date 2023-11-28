@@ -108,13 +108,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=reservas.php">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Reservacion</span></a>
+                    <span>Reservaciones</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=devolucionesp.php">
                 <i class="fas fa-fw fa-table"></i>
-                    <span>Devolucion</span></a>
+                    <span>Devoluciones</span></a>
             </li>
 
             <!-- Nav Item - Charts -->

@@ -177,5 +177,50 @@ class Libro extends conexion{
     catch(Exception $e){
       die($e->getMessage());
     }
+  }  
+  public function buscarBook($nombre){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_search_book(?)");
+      $consulta->execute(array($nombre));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
   }
+
+  public function ActivarEstado($idejemplar){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_activar_estado_ejem(?)");
+      $consulta->execute(array($idejemplar));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function registrarCategoria($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_registrar_subcategory(?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idcategoria"],
+          $datos["subcategoria"],
+          $datos["codigo"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
+
 }
