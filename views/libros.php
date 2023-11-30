@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">NUMERO DE PAGINA</label>
-                            <input type="number" class="form-control" placeholder="123456789" id="paginas">
+                            <input type="number" class="form-control" placeholder="55" id="paginas">
                         </div>
                         <div class="col-md-3">
                             <label for="">CODIGO</label>  

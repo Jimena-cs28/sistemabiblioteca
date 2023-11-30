@@ -24,6 +24,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
     <link rel="icon" href="../img/logo2.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+    <!-- Exportar Excel -->
+    <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -146,6 +151,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
                         <a class="collapse-item" href="index.php?view=report.php">Por grado</a>
+                        <a class="collapse-item" href="index.php?view=estudiante.php">Libros mas Pedidos</a>
                     </div>
                 </div>
             </li>

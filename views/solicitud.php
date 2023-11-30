@@ -94,7 +94,7 @@
                 // console.log(datos);
                 const pres = `
                 <tr>
-                    <td>${element.idlibroentregado}</td>
+                    <td>${element.idprestamo}</td>
                     <td>${element.Nombres}</td>
                     <td>${element.libro}</td>
                     <td>${element.descripcion}</td>

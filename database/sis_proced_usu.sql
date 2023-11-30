@@ -291,19 +291,7 @@ ORDER BY totalPedidos DESC
 LIMIT 10;
 	
 SELECT * FROM LIBROS
-	
-DELIMITER $$
-CREATE PROCEDURE spu_solicitud_listar()
-BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, ' ' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
-	INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
-	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'S';
-END$$
+
 -- REPORTES
 
 DELIMITER $$
@@ -321,4 +309,60 @@ BEGIN
 END $$
 
 CALL ReporteLibrosPrestadosPorCategoria();
+SELECT * FROM prestamos
+-- REPORTES
+-- LOS LIBROS MAS PEDIDOS POR GRADO-CURSO - POR CATEGORIA
+
+SELECT
+    l.idlibro,
+    l.libro,
+    p.descripcion,
+    COUNT(p.idprestamo) AS cantidad_prestamos
+FROM
+    prestamos p
+    JOIN libros l ON p.idlibro = l.idlibro
+WHERE
+    p.estado = 'T'
+GROUP BY
+    l.idlibro, l.libro, p.descripcion
+ORDER BY
+    cantidad_prestamos DESC;
+
+-- LOS LIBROS MAS PEDIDOS - POR CATEGORIA
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_reporte_fechasolicitud
+( 
+	IN _fechasolicitud DATE,
+	IN _fechasolicitud1 DATE
+)
+BEGIN
+	SELECT c.idcategoria, c.categoria, COUNT(p.idprestamo) AS 'CantidadPrestada'
+	FROM categorias c
+	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
+	LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
+	LEFT JOIN ejemplares e ON l.idlibro = e.idlibro
+	LEFT JOIN librosentregados le ON e.idejemplar = le.idejemplar
+	LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
+	WHERE DATE(p.fechasolicitud) BETWEEN _fechasolicitud AND _fechasolicitud1
+	GROUP BY c.idcategoria;
+END $$
+
+CALL spu_reporte_fechasolicitud('2023-11-23','2023-11-29')
+
+-- LOSLIBROS MAS PEDIDOS (POR DIA, MES,AÑO)-POR CATEGORIA
+DELIMITER $$
+CREATE PROCEDURE spu_listar_reporte()
+BEGIN
+	SELECT c.idcategoria, c.categoria, COUNT(p.idprestamo) AS 'CantidadPrestada', p.fechasolicitud
+	FROM categorias c
+	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
+	LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
+	LEFT JOIN ejemplares e ON l.idlibro = e.idlibro
+	LEFT JOIN librosentregados le ON e.idejemplar = le.idejemplar
+	LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
+	GROUP BY c.idcategoria;
+END $$
+
 

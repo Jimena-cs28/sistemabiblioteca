@@ -18,6 +18,7 @@
     }
 </style>
 
+<!-- <button id="excel" class="btn btn-blue">exportar excel</button> -->
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -115,6 +116,10 @@
                                     <label>F.Aceptacion</label>
                                     <input type="text" class="form-control" id="Frespuesta" disabled>
                                 </div>
+                                <div class="col-sm-4">
+                                    <label>Lugar Destino</label>
+                                    <input type="text" class="form-control" id="lugardestino" disabled>
+                                </div>
                             </div>
                             
                         </div>
@@ -156,6 +161,7 @@
 <script>
     let idlibroentregado = '';
     const secharP = document.querySelector("#PrestamoSearch");
+    // const tablasExcel = document.querySelector("#dataTable");
     const cuerpo = document.querySelector("tbody");
     const tabla = document.querySelector("#tabla");
     const CuerpoT = tabla.querySelector("tbody");
@@ -234,8 +240,7 @@
         const element = event.target.closest(".todo");
         if(element){
             idprestamo = parseInt(event.target.dataset.idprestamo);
-            console.log(idprestamo);
-
+            // console.log(idprestamo);
             const parametros = new URLSearchParams();
             parametros.append("operacion","fichaprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -259,7 +264,7 @@
                     //fdevolucion.value = element.fechadevolucion;
                     document.querySelector("#Frespuesta").value = element.fecharespuesta;
                     document.querySelector("#img").src = `./img/${element.imagenportada}`;
-                    //document.querySelector("#cdevolucion").value = element.condiciondevolucion;
+                    document.querySelector("#lugardestino").value = element.lugardestino;
                     //document.querySelector("#observacion").value = element.observaciones;
                 });
                 listarEjemplare();
@@ -304,4 +309,28 @@
         if(evt.charCode == 13) searchPrestamo();
     });
 
+
+    const $btnExportar = document.querySelector("#excel");
+    const $tabla = document.querySelector("#dataTable");
+
+    $btnExportar.addEventListener("click", function() {
+        let tableExport = new TableExport($tabla, {
+            exportButtons: false, // No queremos botones
+            filename: "Reporte", // Nombre del archivo de Excel
+            sheetname: "Hoja1", // Título de la hoja
+        });
+
+        let datos = tableExport.getExportData();
+        let preferenciasDocumento = datos.tabla.xlsx;
+        tableExport.export2file(
+            preferenciasDocumento.data,
+            preferenciasDocumento.mimeType,
+            preferenciasDocumento.filename,
+            preferenciasDocumento.fileExtension,
+            preferenciasDocumento.merges,
+            preferenciasDocumento.RTL,
+            preferenciasDocumento.sheetname
+        );
+    });
+    
 </script>

@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <div id="dataTable_filter" class="dataTables_filter">
+            <div class="col-md-6">
                 <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
                 </label>
@@ -24,15 +24,15 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Categoria</th>
-                        <th>SubCategoria</th>
-                        <th>Libro</th>
-                        <th>Codigo</th>
-                        <th>Cantidad</th>
-                        <th>Autor</th>
-                        <th>C. Disponible</th>
-                        <th>Ver</th>
+                        <th width="2%">#</th>
+                        <th width="15%">Categoria</th>
+                        <th width="24%">SubCategoria</th>
+                        <th width="20%">Libro</th>
+                        <th width="5%">Codigo</th>
+                        <th width="2%">Cantidad</th>
+                        <th width="8%">Autor</th>
+                        <th width="2%">Disponible</th>
+                        <th width="2%">Ver</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
@@ -139,7 +139,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Estudiantes Inactivos</h5>
+                <h5 class="modal-title text-center" id="staticBackdropLabel" style="color: #5075da;">Libros Inactivos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -505,41 +505,6 @@
         })
     }
 
-    // function UpdateBook(){
-    //     if(confirm("¿Esta seguro de Actualizar?")){
-    //         //Para binarios
-    //         const fd = new FormData();
-    //         fd.append("operacion","registrarLibro");
-    //         fd.append("idsubcategoria",selectsubcategoria.value);
-    //         fd.append("ideditorial",selectEditorial.value);
-    //         fd.append("nombre",document.querySelector("#libro").value);
-    //         fd.append("tipo",document.querySelector("#tipo").value);
-    //         fd.append("cantidad",document.querySelector("#cantidad").value);
-    //         fd.append("numeropaginas",document.querySelector("#paginas").value);
-    //         fd.append("codigo",document.querySelector("#codigo").value);
-    //         fd.append("edicion",document.querySelector("#edicion").value);
-    //         fd.append("formato",document.querySelector("#formato").value);
-    //         fd.append("anio",document.querySelector("#anio").value);
-    //         fd.append("idioma",document.querySelector("#idioma").value);
-    //         fd.append("descripcion",document.querySelector("#descripcion").value);
-    //         fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
-    //         fd.append("idautor",selectAutores.value);
-            
-    //         fetch("../controller/libros.php",{
-    //             method: "POST",
-    //             body: fd
-    //         })
-    //         .then(response => response.json())
-    //         .then(datos => {
-    //             if(datos.status){
-    //                 document.querySelector("#form-editar").resert();
-    //                 alert("Se guardo el Libro correctamente")
-    //             }else{
-    //                 alert("no se guardo");
-    //             }
-    //         })
-    //     }
-    // }
     // function LibrosInactivo(){
     //     const parametros = new URLSearchParams();
     //     parametros.append("operacion","librosInactivo")
@@ -579,6 +544,7 @@
             fd.append("operacion","ActualizarLibro");
             fd.append("idlibro", idlibro);
             fd.append("cantidad",document.querySelector("#Ecantidad").value);
+            fd.append("libro",document.querySelector("#Elibro").value);
 
             fetch("../controller/libros.php",{
                 method: "POST",

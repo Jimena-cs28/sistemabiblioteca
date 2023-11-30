@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 </head>
-<body class="full-cover-background">
+<body class="bg-gradient-primary">
   <div class="container">
         <!-- Outer Row -->
       <div class="row justify-content-center">
@@ -80,39 +80,39 @@
   <!-- <script src="./js/login.js"></script> -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-    const botonIniciarSesion = document.querySelector("#iniciar");
-    const textPassword = document.querySelector("#claveacceso");
+      const botonIniciarSesion = document.querySelector("#iniciar");
+      const textPassword = document.querySelector("#claveacceso");
 
-    function validarDatos() {
-      const usuario = document.querySelector("#nombreusuario");
-      const claveaccceso = document.querySelector("#claveacceso");
+      function validarDatos() {
+        const usuario = document.querySelector("#nombreusuario");
+        const claveaccceso = document.querySelector("#claveacceso");
 
-      const parametros = new URLSearchParams();
-      parametros.append("operacion", "login")
-      parametros.append("nombreusuario", usuario.value)
-      parametros.append("claveIngresada", claveaccceso.value)
-      fetch(`./controller/usuario.controller.php`, {
-        method: 'POST',
-        body: parametros
-      })
-      .then(respuesta => respuesta.json())
-      .then(datos => {
-        if (!datos.status){
-          alert(datos.mensaje);
-          usuario.focus();
-        } else {
-          window.location.href = './views/index.php?view=dashboard.php';
-          if (datos.nombrerol==="Administrador"){
-            window.location.href = './views/index.php?view=dashboard.php';
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "login")
+        parametros.append("nombreusuario", usuario.value)
+        parametros.append("claveIngresada", claveaccceso.value)
+        fetch(`./controller/usuario.controller.php`, {
+          method: 'POST',
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          if (!datos.status){
+            alert(datos.mensaje);
+            usuario.focus();
           } else {
-            window.location.href = './views/usuario/user.php'
+            window.location.href = './views/index.php?view=dashboard.php';
+            if (datos.nombrerol==="Administrador"){
+              window.location.href = './views/index.php?view=dashboard.php';
+            } else {
+              window.location.href = './views/usuario/user.php'
+            }
           }
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
 
       textPassword.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) validarDatos();
