@@ -82,11 +82,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <input type="text" class="form-control" id="descripcion">
     </div>
 
-    <div class="form-group col-md-3 mt-3">
-    <label for="fechadevolucion" >Fecha de devolución</label>
-    <input type="date" class="form-control" id="fechadevolucion">
-    </div>
-
     <div class="mt-4 mb-4">
     <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
     </div>
@@ -178,7 +173,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const contenedorlugar = document.querySelector("#contenedor-lugar")
             const nombrerol = document.querySelector("#rol").value
             const fechaprestamo = document.querySelector("#fechaprestamo")
-            const fechadevolucion = document.querySelector("#fechadevolucion")
+    
 
             if(nombrerol == 'Estudiante'){
                 document.querySelector('#contenedor-cantidad').style.display='none'
@@ -189,11 +184,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const fechaMinima = fechaActual.toISOString().split('T')[0];
             fechaprestamo.min = fechaMinima
             fechaprestamo.value = fechaMinima
-            fechadevolucion.min = fechaMinima
-            fechaprestamo.addEventListener("change", function(){
-                console.log(fechaprestamo.value)
-                fechadevolucion.min = fechaprestamo.value
-            })
+            
         
 
             fordata.append("operacion", "buscarlibro")
@@ -242,8 +233,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 parametros.append("descripcion", document.querySelector("#descripcion").value);
                 parametros.append("enbiblioteca", enbiblioteca.value);
                 parametros.append("lugardestino", document.querySelector("#lugar").value);
-                parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value);
-                parametros.append("fechadevolucion", document.querySelector("#fechadevolucion").value)
+                parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value)
+                
                 fetch("../../controller/userlibros.php" ,{
                     method: 'POST',
                     body: parametros
@@ -255,7 +246,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         document.querySelector("#cantidad").value = ''
                         document.querySelector("#descripcion").value = ''
                         document.querySelector("#lugar").value = ''
-                        document.querySelector("#fechadevolucion").value = ''
                         enbiblioteca.value =''
                     }else{
                         alert('No puede solicitar más libros')

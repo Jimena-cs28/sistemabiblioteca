@@ -217,14 +217,15 @@ class Prestamos extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_ahora(?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_prestamo_ahora(?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idbeneficiario"],
           $datos["idbibliotecario"],
           $datos["descripcion"],
           $datos["enbiblioteca"],
-          $datos["lugardestino"]
+          $datos["lugardestino"],
+          $datos["cantidad"]
         )
       );
     }
