@@ -100,12 +100,11 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
-          $datos["cantidad"],
-          $datos["libro"]
+          $datos["cantidad"]
         )
       );
     }

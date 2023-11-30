@@ -544,7 +544,6 @@
             fd.append("operacion","ActualizarLibro");
             fd.append("idlibro", idlibro);
             fd.append("cantidad",document.querySelector("#Ecantidad").value);
-            fd.append("libro",document.querySelector("#Elibro").value);
 
             fetch("../controller/libros.php",{
                 method: "POST",

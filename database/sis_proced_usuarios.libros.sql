@@ -63,7 +63,6 @@ CREATE PROCEDURE spu_actualizar_libro
 (
     IN p_idlibro INT, 
     IN p_nueva_cantidad INT,
-    IN _libro VARCHAR(100)
 )
 BEGIN
       DECLARE v_ultimo_codigo_libro INT;
@@ -94,7 +93,6 @@ BEGIN
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
         cantidad = cantidad + p_nueva_cantidad,
-        libro = _libro
         WHERE idlibro = p_idlibro;
 
 
@@ -107,9 +105,54 @@ BEGIN
 
 END $$
 SELECT * FROM ejempla
-SELECT * FROM ejemplares
-CALL spu_actualizar_libro(7,3) -- 6
-SELECT * FROM detalleautores
+
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_libro
+(
+    IN p_idlibro INT, 
+    IN p_nueva_cantidad INT
+)
+BEGIN
+    DECLARE v_ultimo_codigo_libro INT;
+    DECLARE v_nuevo_codigo_libro INT;
+    DECLARE contador INT DEFAULT 1;
+
+    -- Obtener el último número de código_libro para el libro específico
+    SELECT COALESCE(MAX(codigo_libro), 0) INTO v_ultimo_codigo_libro
+    FROM ejemplares
+    WHERE idlibro = p_idlibro;
+
+    -- Verificar si hay ejemplares existentes
+    IF v_ultimo_codigo_libro IS NOT NULL THEN
+        -- Calcular el nuevo número de código_libro
+        SET v_nuevo_codigo_libro = v_ultimo_codigo_libro + 1;
+
+        -- Insertar ejemplares para la nueva cantidad
+        WHILE contador <= p_nueva_cantidad DO
+            INSERT INTO ejemplares (idlibro, codigo_libro)
+            VALUES (p_idlibro, v_nuevo_codigo_libro);
+
+            SET contador = contador + 1;
+            SET v_nuevo_codigo_libro = v_nuevo_codigo_libro + 1;
+        END WHILE;
+
+        -- Actualizar la cantidad del libro          
+        UPDATE libros SET 
+        cantidad = cantidad + p_nueva_cantidad
+        WHERE idlibro = p_idlibro;
+
+        -- Imprimir mensaje o devolver resultado si es necesario
+        SELECT 'Cantidad y código_libro actualizados correctamente' AS 'Mensaje';
+    ELSE
+        -- Si no hay ejemplares existentes, mostrar mensaje de error
+        SELECT 'No hay ejemplares existentes para el libro especificado' AS 'Error';
+    END IF;
+
+END $$
+
+CALL spu_actualizar_libro2(5,1)
 SELECT * FROM libros
 -- Después de insertar un nuevo libro, llamar a spu_actualizar_ejemplares
 CALL spu_actualizar_libro(4,2);
@@ -459,8 +502,6 @@ BEGIN
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE usuarios.idrol = 3 AND estado = 1 AND (_nombre ="" OR personas.nombres LIKE CONCAT("%", _nombre , "%"));
 END $$
-
-
 
 
 

@@ -77,6 +77,7 @@
                                         <th style="color:#574E4E;">Ocupado</th> 
                                         <th style="color:#574E4E;">F. Devolucion</th>
                                         <th style="color:#574E4E;">Recibir</th>
+                                        <th style="color:#574E4E;">Recibir</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,7 +93,7 @@
                                 </div>
                                 <div class=" form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="checkejemplar">
-                                    <label class="form-check-label" for="inlineCheckbox2">Sancionar Libro</label>
+                                    <label class="form-check-label" for="inlineCheckbox2">Dar de baja el libro</label>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +126,10 @@
                         </div>
                         <!-- DESCRIPCION -->
                         <div class="col-md-8">
-                            <input type="text" class="form-control form-control-sm" id="condicionD">
+                            <select name=""  id="condicionD" class="form-control">
+                                <option value="Mal">Mal</option>
+                                <option value="Deteriorado">Deteriorado</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -140,7 +144,7 @@
                         <div class="col-md-6">
                             <div class="form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="checklibro" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">Sancionar</label>
+                                <label class="form-check-label" for="inlineCheckbox1">Dar de Baja</label>
                             </div>
                         </div>
                     </div>
@@ -253,7 +257,7 @@
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion < actual;
+                const fechaPasada = fechadevolucion > actual;
                 if (fechaPasada) {
                     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
@@ -268,7 +272,10 @@
                     <td>${element.ocupado}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#modal' type='button' class='btn btn-outline-dark detallitos' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        <a href='#modal' type='button' class='btn btn-danger detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                    </td>
+                    <td>
+                        <a href='' type='button' class='btn btn-success detallitosBien' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
                     </td>
                 </tr>`
                 ;
@@ -391,34 +398,35 @@
     }
 
     CuerpoP.addEventListener("click", (event) => {
-        const elementoDetalle = event.target.closest(".detallitos");
+        const elementoDetalle = event.target.closest(".detallitosBien");
         if(elementoDetalle){
-            idejemplar = parseInt(event.target.dataset.idejemplar);
-            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-            idprestamo = parseInt(event.target.dataset.idprestamo);
-            function updatedevolucionesUno(){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","updatedevolucionesUno");
-                parametros.append("idejemplar", idejemplar);
-                parametros.append("condiciondevolucion",condicion.value);
-                parametros.append("observaciones", observaciones.value);
-                parametros.append("idlibroentregado", idlibroentregado);
-                fetch("../controller/validacion.php",{
-                    method:'POST',
-                    body: parametros
-                })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    if(datos.status){
-                        listarEjemplare();
-                        document.querySelector("#form-detallito").reset();
-                        modaldetallitos.toggle();
-                    }
-                })
-            };
-            GuadarD.addEventListener("click", () => {
-                validarRecibirlibro(); updatedevolucionesUno();
-            });
+            if(confirm("¿estas seguro de entrega?")){
+                idejemplar = parseInt(event.target.dataset.idejemplar);
+                idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+                // idprestamo = parseInt(event.target.dataset.idprestamo);
+                function updatedevolucionesUno(){
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion","updatedevolucionesUno");
+                    parametros.append("idejemplar", idejemplar);
+                    parametros.append("idlibroentregado", idlibroentregado);
+                    fetch("../controller/validacion.php",{
+                        method:'POST',
+                        body: parametros
+                    })
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        if(datos.status){
+                            listarEjemplare();
+                            //document.querySelector("#form-detallito").reset();
+                            //modaldetallitos.toggle();
+                        }
+                    })
+                };
+                GuadarD.addEventListener("click", () => {
+                    validarRecibirlibro(); updatedevolucionesUno();
+                });
+            }
+            
         }
     });
 
@@ -431,10 +439,10 @@
         }
     }
 
-    function cancelarEstado(){
+    // function cancelarEstado(){
         
         
-    }
+    // }
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");
         if(CheckLibro.checked){
