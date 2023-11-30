@@ -74,8 +74,7 @@ if (isset($_POST['operacion'])){
         "descripcion" =>  $_POST['descripcion'],
         "enbiblioteca"  => $_POST['enbiblioteca'],
         "lugardestino"  =>  $_POST['lugardestino'],
-        "fechaprestamo" =>  $_POST['fechaprestamo'],
-        "fechadevolucion" =>  $_POST['fechadevolucion']
+        "fechaprestamo" =>  $_POST['fechaprestamo']
       ];
       $datos = $userlibro->prestamousuario($datos);
       echo json_encode($datos);
@@ -118,10 +117,12 @@ if (isset($_POST['operacion'])){
     foreach($listejemplares as $ejemplar){
     $ejemplarid = $ejemplar->idejemplar;
     $observacion = $ejemplar->observacion;
+    $fechadevolucion = $ejemplar->fechadevolucion;
     $datos = [
       "idejemplar" => $ejemplarid,
       "observacion" => $observacion,
-      "idprestamo" => $_POST["idprestamo"]
+      "idprestamo" => $_POST["idprestamo"],
+      "fechadevolucion" => $fechadevolucion
     ];
     $userlibro->registrarlibrosentregados($datos);
     }

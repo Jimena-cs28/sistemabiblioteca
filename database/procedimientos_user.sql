@@ -46,7 +46,7 @@ BEGIN
 	SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idusuario AND estado IN ('S', 'R', 'D') ;
 
 END $$
-
+UPDATE prestamos SET estado = 'T'
 CALL spu_validar_libroprestado(2)
 SELECT * FROM prestamos
 -- LISTAR LIBRO
@@ -169,15 +169,22 @@ CREATE PROCEDURE spu_historial
 )
 BEGIN
 	SELECT prestamos.idprestamo, libros.libro AS 'libro', libros.imagenportada, prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.estado,
+	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.estado,
 	prestamos.cantidad
 	FROM prestamos
-	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
+	INNER JOIN librosentregados ON librosentregados.idprestamo = prestamos.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	LEFT JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.idbeneficiario = _idusuario
 	ORDER BY fechaprestamo DESC;
 END $$
+
+
+UPDATE usuarios SET estado = 1
+UPDATE librosentregados SET fechadevolucion = NOW()
+SELECT * FROM usuarios
 SELECT * FROM prestamos WHERE idlibro = NULL
 CALL spu_historial(2)
 
@@ -244,7 +251,7 @@ CREATE PROCEDURE spu_listar_ejemplares
 BEGIN
 	SELECT idejemplar, codigo_libro FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1 LIMIT _cantidad;
 END $$
-
+SELECT * FROM librosentregados
 CALL spu_listar_ejemplares(1,2)
 
 DELIMITER $$
@@ -252,17 +259,18 @@ CREATE PROCEDURE spu_registrar_libros_entregados
 (
 	IN _idejemplar INT,
 	IN _observacion VARCHAR(50),
-	IN _idprestamo INT
+	IN _idprestamo INT,
+	IN _fechadevolucion DATETIME
 	
 )
 BEGIN
-	INSERT INTO librosentregados(idprestamo, idejemplar, condicionentrega) 
-	VALUE (_idprestamo, _idejemplar, _observacion);
+	INSERT INTO librosentregados(idprestamo, idejemplar, condicionentrega, fechadevolucion) 
+	VALUE (_idprestamo, _idejemplar, _observacion, _fechadevolucion);
 	
 	UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = _idejemplar;
 	UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = _idprestamo;
 END $$
-SELECT * FROM ejemplares
+SELECT * FROM librosentregados
 SELECT * FROM prestamos
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_estados_librosentregados
@@ -291,8 +299,8 @@ BEGIN
 END$$
 
 
-
-
+SELECT * FROM prestamos WHERE idbeneficiario = 2
+SELECT * FROM librosentregados
 IF (prestamo.idlirbo = ' ')
 	-- listarhisto
 	

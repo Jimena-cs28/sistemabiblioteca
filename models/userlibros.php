@@ -101,7 +101,7 @@ class userlibro extends conexion{
     ];
     
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_solicitud_usuario(?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_solicitud_usuario(?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -110,8 +110,7 @@ class userlibro extends conexion{
           $datos["descripcion"],
           $datos["enbiblioteca"],
           $datos["lugardestino"],
-          $datos["fechaprestamo"],
-          $datos["fechadevolucion"]
+          $datos["fechaprestamo"]
         )
       );
     }
@@ -163,11 +162,12 @@ class userlibro extends conexion{
   }
 
   public function registrarlibrosentregados($datos){
-    $consulta = $this->acesso->prepare("CALL spu_registrar_libros_entregados(?,?,?)");
+    $consulta = $this->acesso->prepare("CALL spu_registrar_libros_entregados(?,?,?,?)");
     $consulta->execute(array(
       $datos["idejemplar"],
       $datos["observacion"],
       $datos["idprestamo"],
+      $datos["fechadevolucion"],
     ));
 
   }

@@ -93,13 +93,14 @@ CREATE PROCEDURE spu_registrar_prestamo_ahora
 	IN _idbibliotecario INT, -- n 
 	IN _descripcion VARCHAR(40),
 	IN _enbiblioteca CHAR(2),
-	IN _lugardestino VARCHAR(90)
+	IN _lugardestino VARCHAR(90),
+	IN _cantidad INT
 )
 BEGIN
 	-- DECLARE lastinsert INT;
 	IF _lugardestino = "" THEN SET _lugardestino = NULL; END IF;	
-	INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fechaentrega,descripcion,enbiblioteca,lugardestino) VALUES
-			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino);
+	INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fechaentrega,descripcion,enbiblioteca,lugardestino,cantidad) VALUES
+			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino,_cantidad);
 END $$
 
 CALL spu_registrar_prestamo_ahora(3,1, '5B','SI','')
@@ -502,7 +503,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_solicitud_listar()
 BEGIN
 	SELECT prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion', prestamos.cantidad, libros.idlibro
+	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.cantidad, libros.idlibro
 	FROM prestamos
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario

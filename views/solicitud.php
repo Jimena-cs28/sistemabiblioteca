@@ -23,6 +23,7 @@
       <div class="modal-body">
         <input id="condicionlibro" type="text">
         <button id="aplicar">Aplicar a todo</button>
+        <input id="fechadevolucion" type="date">
         <div id="listejemplares">
 
         </div>
@@ -51,7 +52,6 @@
                         <th>Descripcion</th>
                         <th>F. Solicitud</th>
                         <th>F. Prestamo</th>
-                        <th>F. Devolucion</th>
                         <th>Aceptar</th>
                         <!-- <th>Rechazar</th> -->
                     </tr>
@@ -72,6 +72,7 @@
     const btnaceptarsolicitud = document.querySelector("#aceptarsolicitud")
     const condicionlibro = document.querySelector("#condicionlibro")
     const aplicar = document.querySelector("#aplicar")
+    const fechadevolucion = document.querySelector("#fechadevolucion")
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
     const modal = new bootstrap.Modal(
@@ -100,12 +101,8 @@
                     <td>${element.descripcion}</td>
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaprestamo}</td>
-                    <td>${element.fechadevolucion}</td>
                     <td>
-                    <a  class="btn btn-info btn-sm editar" data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
-                    </td>
-                    <td>
-                        <a href='#'  class='' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>libros</a>
+                    <a  class="btn btn-info btn-sm editar" data-fechasolicitud="${element.fechasolicitud}"data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
                     </td>
                 </tr>
                 `;
@@ -129,6 +126,7 @@
         idprestamo = element.dataset.idprestamo;
         cantidad = element.dataset.cantidad;
         console.log(idlibro, idprestamo, cantidad);
+        fechadevolucion.min = new Date(element.dataset.fechasolicitud).toISOString().split('T')[0];
         const parametros = new URLSearchParams();
         parametros.append("operacion", "listarEjemplaresdisponibles");
         parametros.append("idlibro", idlibro);
@@ -191,7 +189,7 @@ btnaceptarsolicitud.addEventListener('click', function(){
     listaejemplares.forEach(el=>{
         const idejemplar = el.querySelector("td").textContent
         const observacion = el.querySelector("input").value
-        arrListejemplar.push({idejemplar,observacion})
+        arrListejemplar.push({idejemplar,observacion,fechadevolucion:fechadevolucion.value})
     })
     const formData = new FormData()
     formData.append("operacion", "registrarlibrosentregados")

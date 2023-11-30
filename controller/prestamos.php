@@ -137,7 +137,8 @@
       "idbibliotecario"     => $_POST['idbibliotecario'],
       "descripcion"       => $_POST['descripcion'],
       "enbiblioteca"      => $_POST['enbiblioteca'],
-      "lugardestino"       => $_POST['lugardestino']
+      "lugardestino"       => $_POST['lugardestino'],
+      "cantidad"       => $_POST['cantidad']
     ];
     $respuesta = $prestamo->registrarAhora($datosGuardar);
     echo json_encode($respuesta);

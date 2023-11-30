@@ -481,6 +481,7 @@ $datoID = json_encode($_SESSION['login']);
         parametros.append("descripcion", document.querySelector("#descripcion").value);
         parametros.append("enbiblioteca", biblioteca.value);
         parametros.append("lugardestino", lugarDesti.value);
+        parametros.append("cantidad", tablalibro.rows.length-1)
         fetch("../controller/prestamos.php", {
             method: 'POST',
             body: parametros
