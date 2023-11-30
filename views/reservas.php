@@ -176,7 +176,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo < actual;
+                const fechapasada = FechaPrestamo <= actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -186,7 +186,7 @@
                     <div class="card mb-3 overflow-hidden rounded-2" style="max-width: 500px;" >
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img class="img-fluid rounded-start" src="./img/${element.imagenportada}" alt="imagenLibro" width="600px">
+                                <img class="img-fluid rounded-start" src="./img/${element.imagenportada}" alt="imagenLibro">
                             </div>
                             <div class="col-md-7" >
                                 <div class="card-body">
@@ -197,8 +197,9 @@
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
                                     <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
-                                        <div class="col-md-6"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-6"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
+                                        <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
+                                        <div class="col-md-4"><a href='#' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
+                                        <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
                                     </div>
                                 </ul>
                             </div>
@@ -246,11 +247,34 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'entrega'){
-            if(confirm("¿estas seguro de entregar el libro?")){
+            mostrarPregunta("ENTREGAR", "¿Estas seguro de entregar el libro?").then((result)=>{
+                if(result.isConfirmed){
+                    idprestamo = parseInt(event.target.dataset.idprestamo);
+                    console.log(idprestamo);
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion","updateEpendiente");
+                    parametros.append("idprestamo", idprestamo);
+
+                    fetch("../controller/prestamos.php",{
+                        method: 'POST',
+                        body: parametros
+                    })
+                    .then(response => response.json())
+                    .then(datos => {
+                        listarEntregas();
+                    })
+                }
+            })
+        }
+    });
+
+    card.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'cancelar'){
+            if(confirm("¿estas seguro de cancelar esta reserva?")){
                 idprestamo = parseInt(event.target.dataset.idprestamo);
                 console.log(idprestamo);
                 const parametros = new URLSearchParams();
-                parametros.append("operacion","updateEpendiente");
+                parametros.append("operacion","cancelarRevesva");
                 parametros.append("idprestamo", idprestamo);
 
                 fetch("../controller/prestamos.php",{

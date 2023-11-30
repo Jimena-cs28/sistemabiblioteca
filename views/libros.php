@@ -203,39 +203,42 @@
     }
 
     function register(){
-        if(confirm("¿Esta seguro de guardar?")){
-            //Para binarios
-            const fd = new FormData();
-            fd.append("operacion","registrarLibro");
-            fd.append("idsubcategoria",selectsubcategoria.value);
-            fd.append("ideditorial",selectEditorial.value);
-            fd.append("nombre",document.querySelector("#libro").value);
-            fd.append("tipo",document.querySelector("#tipo").value);
-            fd.append("cantidad",document.querySelector("#cantidad").value);
-            fd.append("numeropaginas",document.querySelector("#paginas").value);
-            fd.append("codigo",document.querySelector("#codigo").value);
-            fd.append("edicion",document.querySelector("#edicion").value);
-            fd.append("formato",document.querySelector("#formato").value);
-            fd.append("anio",document.querySelector("#anio").value);
-            fd.append("idioma",document.querySelector("#idioma").value);
-            fd.append("descripcion",document.querySelector("#descripcion").value);
-            fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
-            fd.append("idautor",selectAutores.value);
-            
-            fetch("../controller/libros.php",{
-                method: "POST",
-                body: fd
-            })
-            .then(response => response.json())
-            .then(datos => {
-                if(datos.status){
-                    document.querySelector("#form-libro").resert();
-                    alert("Se guardo el Libro correctamente")
-                }else{
-                    alert("no se guardo");
-                }
-            })
-        }
+        mostrarPregunta("PRESTAMO", "¿Estas seguro de guardar el libro").then((result)=>{
+            if(result.isConfirmed){
+                //Para binarios
+                const fd = new FormData();
+                fd.append("operacion","registrarLibro");
+                fd.append("idsubcategoria",selectsubcategoria.value);
+                fd.append("ideditorial",selectEditorial.value);
+                fd.append("nombre",document.querySelector("#libro").value);
+                fd.append("tipo",document.querySelector("#tipo").value);
+                fd.append("cantidad",document.querySelector("#cantidad").value);
+                fd.append("numeropaginas",document.querySelector("#paginas").value);
+                fd.append("codigo",document.querySelector("#codigo").value);
+                fd.append("edicion",document.querySelector("#edicion").value);
+                fd.append("formato",document.querySelector("#formato").value);
+                fd.append("anio",document.querySelector("#anio").value);
+                fd.append("idioma",document.querySelector("#idioma").value);
+                fd.append("descripcion",document.querySelector("#descripcion").value);
+                fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
+                fd.append("idautor",selectAutores.value);
+                
+                fetch("../controller/libros.php",{
+                    method: "POST",
+                    body: fd
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    if(datos.status){
+                        document.querySelector("#form-libro").resert()
+                        notificar("Libros","Se guardo correctamente", 3);
+                        // alert("Se guardo el Libro correctamente")
+                    }else{
+                        notificar("Libros","No se guardo", 3);
+                    }
+                })
+            }
+        });
     }
 
     inputFile.addEventListener("change", (e) => {

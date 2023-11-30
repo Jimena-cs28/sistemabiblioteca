@@ -32,7 +32,7 @@ $datoID = json_encode($_SESSION['login']);
                             <label style="color:#574E4E;">NOMBRES Y APELLIDOS :</label>
                         </div>
                         <div class="col-md-7">
-                            <select class="form-control" id="filtronombres">
+                            <select class="form-control" id="filtronombres" required>
                             
                             </select>
                         </div>
@@ -50,7 +50,7 @@ $datoID = json_encode($_SESSION['login']);
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3" id="divPrestamo">
                             <label for="" style="color:#574E4E;">FECHA PRESTAMO</label>
-                            <input type="date"  class="form-control" required=""id="fprestamo">
+                            <input type="date"  class="form-control" id="fprestamo">
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">EN BIBLIOTECA</label>
@@ -62,17 +62,17 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DESCRIPCION</label>
-                            <input type="text" class="form-control" id="descripcion">
+                            <input type="text" class="form-control" id="descripcion" required>
                         </div>
                         <div class="col-md-3" id="lugarD">
                             <label for="" style="color:#574E4E;">DESTINO</label>
-                            <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino">
+                            <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino" required>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="Libro">Libro</label>
-                            <select name="" id="libro" class="form-control">
+                            <select name="" id="libro" class="form-control" required>
 
                             </select>
                         </div>
@@ -84,16 +84,16 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-2">
                             <label>Cantidad</label>
-                            <input type="number" class="form-control" id="cantidad" value="1">
+                            <input type="number" class="form-control" id="cantidad" value="1" required>
                         </div>
                         <div class="col-md-2">
                             <label>Condicion Entrega</label>
-                            <input type="text" value="bien" class="form-control mb-3" id="condicionentrega">
+                            <input type="text" value="bien" class="form-control mb-3" id="condicionentrega" required>
                         </div>
                         <div class="col-md-2">
                             <label>Fecha devolucion</label>
                             <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="fechadevolucion">
+                                <input type="date" class="form-control" id="fechadevolucion" required>
                                 <div class="input-group-append" id="a">
                                     <button class="btn btn-outline-success" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
                                 </div>
@@ -496,78 +496,79 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function registrarLibroentregado(idprestamo){
-        if(confirm("estas seguro de guardar?")){
-            const row = tablalibro.rows;
-            for (let i = 1; i < row.length; i++) {
-                const idejemplar = parseInt(row[i].cells[0].innerText);
-                const condicionEntre   = String(row[i].cells[3].innerText);
-                const fechaD = String(row[i].cells[2].innerText);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion", "registrarLibroentregado");
-                parametros.append("idprestamo", idprestamo);
-                parametros.append("idejemplar", idejemplar);
-                parametros.append("condicionentrega", condicionEntre);
-                parametros.append("fechadevolucion", fechaD);
+        mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el Prestamo?").then((result)=>{
+            if(result.isConfirmed){
+                const row = tablalibro.rows;
+                for (let i = 1; i < row.length; i++) {
+                    const idejemplar = parseInt(row[i].cells[0].innerText);
+                    const condicionEntre   = String(row[i].cells[3].innerText);
+                    const fechaD = String(row[i].cells[2].innerText);
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion", "registrarLibroentregado");
+                    parametros.append("idprestamo", idprestamo);
+                    parametros.append("idejemplar", idejemplar);
+                    parametros.append("condicionentrega", condicionEntre);
+                    parametros.append("fechadevolucion", fechaD);
 
-                fetch("../controller/prestamos.php",{
-                    method:'POST',
-                    body: parametros
-                })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    // console.log(datos);
-                    if(datos.status){
-                        document.querySelector("#form-prestamos").reset();
-                        tablalibro.reset();
-                    }else{
-                        datos.message();
-                    }
-                })
+                    fetch("../controller/prestamos.php",{
+                        method:'POST',
+                        body: parametros
+                    })
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        // console.log(datos);
+                        if(datos.status){
+                            biblioteca.value = ''
+                            des.value = ''
+                            fecharegistar.value = ''
+                            filtroStudent.value = ''
+                            // document.querySelector("#formk-prestamos").reset();
+                            tablalibro.reset();
+                        }
+                    })
+                }
             }
-        }
+        })
     }
 
     function registrarLibroentregado2(idprestamo){
-        if(confirm("estas seguro de guardar?")){
-            const filaAhora = tablalibro.rows;
-            const promesas = [];
-            for (let i = 1; i < filaAhora.length; i++) {
-                const idejemplo = parseInt(filaAhora[i].cells[0].innerText);
-                const fecha     = String(filaAhora[i].cells[2].innerText);
-                const condicionEntre = String(filaAhora[i].cells[3].innerText);
-                console.log(idejemplo);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion", "AddLibroentregadonow");
-                parametros.append("idprestamo", idprestamo);
-                parametros.append("idejemplar", idejemplo);
-                parametros.append("condicionentrega", condicionEntre);
-                parametros.append("fechadevolucion", fecha);
+        mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el prestamo?").then((result)=>{ 
+            if(result.isConfirmed){
+                const filaAhora = tablalibro.rows;
+                const promesas = [];
+                for (let i = 1; i < filaAhora.length; i++) {
+                    const idejemplo = parseInt(filaAhora[i].cells[0].innerText);
+                    const fecha     = String(filaAhora[i].cells[2].innerText);
+                    const condicionEntre = String(filaAhora[i].cells[3].innerText);
+                    console.log(idejemplo);
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion", "AddLibroentregadonow");
+                    parametros.append("idprestamo", idprestamo);
+                    parametros.append("idejemplar", idejemplo);
+                    parametros.append("condicionentrega", condicionEntre);
+                    parametros.append("fechadevolucion", fecha);
 
-                const fetchPromise = fetch("../controller/prestamos.php", {
-                    method: "POST",
-                    body: parametros
-                })
-                // fetch("../controller/prestamos.php",{
-                //     method:'POST',
-                //     body: parametros
-                // })
-                // .then(respuesta => respuesta.json())
-                .then(response => {
-                    if (response.ok) {
-                    // Si la respuesta es exitosa, puedes realizar acciones adicionales aquí si es necesario.
-                    console.log(`Detalle ${idejemplo} registrado con éxito.`);
-                    } else {
-                    // Manejar errores de solicitud aquí
-                    console.error(`Error al registrar el detalle ${idejemplo}.`);
-                    }
-                })
-                .catch(error => {
-                    // Manejar errores de red aquí
-                    console.error(`Error de red al registrar el detalle ${idejemplo}.`, error);
-                });
-                promesas.push(fetchPromise);
+                    const fetchPromise = fetch("../controller/prestamos.php", {
+                        method: "POST",
+                        body: parametros
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                        // Si la respuesta es exitosa, puedes realizar acciones adicionales aquí si es necesario.
+                        console.log(`Detalle ${idejemplo} registrado con éxito.`);
+                        } else {
+                        // Manejar errores de solicitud aquí
+                        console.error(`Error al registrar el detalle ${idejemplo}.`);
+                        }
+                    })
+                    .catch(error => {
+                        // Manejar errores de red aquí
+                        console.error(`Error de red al registrar el detalle ${idejemplo}.`, error);
+                    });
+                    promesas.push(fetchPromise);
+                }
             }
-        }
+        });
     }
 
     function TraerDescripcion(){

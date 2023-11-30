@@ -16,19 +16,12 @@ DELIMITER $$
 CREATE PROCEDURE spu_update_ejemplar
 (
     IN _idejemplar INT,
-    IN _condiciondevolucion VARCHAR(50),
-    IN _observaciones VARCHAR(50),
     IN _idlibroentregado INT
 )
 BEGIN
     DECLARE _count_ocupados INT;
     DECLARE _idbene INT;
     DECLARE _idprestamo INT;
-    DECLARE _idlibro INT;
-    DECLARE _cantidadactual SMALLINT;
-    
-    SELECT idlibro INTO _idlibro
-    FROM ejemplares WHERE idejemplar = _idejemplar;
     
     SELECT idprestamo INTO _idprestamo
     FROM librosentregados WHERE idlibroentregado = _idlibroentregado;
@@ -41,19 +34,10 @@ BEGIN
     WHERE idejemplar = _idejemplar;
     
     UPDATE librosentregados SET
-    -- fechadevolucion =  NOW(),
-    condiciondevolucion = _condiciondevolucion,
-    observaciones = _observaciones
+    condiciondevolucion = 'Bien',
+    observaciones = 'Bien'
     WHERE idlibroentregado = _idlibroentregado;
-    
-    SELECT cantidad INTO _cantidadactual
-    FROM libros
-    WHERE idlibro = _idlibro;
 
-    -- SE actualiza la cantidad del libro
-    UPDATE libros
-    SET cantidad = _cantidadactual + 1
-    WHERE idlibro = _idlibro;
 
     -- Contar los idejemplar asociados al idprestamo que tienen ocupado='SI'
     SELECT COUNT(*) INTO _count_ocupados
@@ -71,7 +55,8 @@ BEGIN
     END IF;
 END$$
 
-CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
+CALL spu_update_ejemplar(115,12)
+-- CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
 
 UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = 2 -- 7,9
 UPDATE usuarios SET estado = 0 WHERE idusuario = 2
@@ -123,7 +108,6 @@ BEGIN
     END IF;
 END$$
 SELECT * FROM librosentregados
-
 
 DELIMITER $$
 CREATE PROCEDURE spu_updateD_todo_prestamo

@@ -109,8 +109,7 @@ if (isset($_POST['operacion'])){
   if($_POST['operacion'] == 'ActualizarLibro'){
     $datosGuardar = [
       "idlibro"             => $_POST['idlibro'],
-      "cantidad"            => $_POST['cantidad'],
-      "libro"               => $_POST['libro']
+      "cantidad"            => $_POST['cantidad']
     ];
     $respuesta = $libro->EditarLibro($datosGuardar);
     echo json_encode($respuesta);
