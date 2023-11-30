@@ -185,8 +185,10 @@ BEGIN
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.estado = 'R'
 	-- order by librosentregados.idlibroentregado
-	GROUP BY prestamos.idprestamo;
+	GROUP BY prestamos.idprestamo DESC;
 END $$
+
+SELECT * FROM prestamos
 
 CALL spu_listar_entregaspendiente();
 DELIMITER $$ -- ejecutado
@@ -535,3 +537,35 @@ END $$
 
 CALL spu_search_prestamo('Maria')
 SELECT * FROM personas
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_datos_personales
+(
+	IN _idusuario INT
+)
+BEGIN
+	SELECT idusuario, CONCAT(personas.apellidos, ' ', personas.nombres) AS 'Datos', personas.nrodocumento, personas.fechanac, personas.direccion,
+	personas.telefono, personas.email, usuarios.nombreusuario, roles.nombrerol
+	FROM usuarios
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idusuario = _idusuario;
+END $$
+
+CALL spu_datos_personales(1)
+SELECT * FROM roles
+
+
+
+
+
+
+
+
+
+
+
+
+
+

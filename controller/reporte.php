@@ -12,4 +12,19 @@ if (isset($_POST['operacion'])){
             echo json_encode($datos);
         }
     }
+
+    if($_POST['operacion'] == 'reporteSolicitud'){
+        $datosGuardar = [
+            "fechasolicitud"        => $_POST['fechasolicitud'],
+            "fechasolicitud1"           => $_POST['fechasolicitud1']
+        ];
+        echo json_encode($reporte->reporteSolicitud($datosGuardar));
+    }
+
+    if($_POST['operacion'] == 'listarReporte'){
+        $datos = $reporte->listarReporte();
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
 }

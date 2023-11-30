@@ -34,6 +34,7 @@
                         <th>Direccion</th>
                         <th>nombreusuario</th>
                         <th>operacion</th>
+                        <th>Actualizar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +114,9 @@
                         <td>${element.nombreusuario}</td>
                         <td>
                             <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        </td>
+                        <td>
+                            <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Editar</a>
                         </td>
                     </tr>
                     `;

@@ -37,22 +37,18 @@ END$$
 CALL spu_listar_libro_user(NULL, 6, 'funciona');
 SELECT * FROM libro
 
-
-SELECT * FROM libros
-
-
 DELIMITER $$
 CREATE PROCEDURE spu_validar_libroprestado
 (
 	IN _idusuario INT
 )
 BEGIN
-	SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idusuario AND estado IN ('S', 'E') ;
+	SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idusuario AND estado IN ('S', 'R', 'D') ;
 
 END $$
 
 CALL spu_validar_libroprestado(2)
-
+SELECT * FROM prestamos
 -- LISTAR LIBRO
 DELIMITER $$
 CREATE PROCEDURE spu_list_libro
@@ -209,18 +205,18 @@ CREATE PROCEDURE spu_registrar_solicitud_usuario
 	IN _descripcion VARCHAR(20),
 	IN _enbiblioteca CHAR(2),
 	IN _lugardestino VARCHAR(100),
-	IN _fechaprestamo DATETIME,
-	IN _fechadevolución DATETIME
+	IN _fechaprestamo DATETIME
 )
 BEGIN
-	INSERT INTO prestamos(idlibro, idbeneficiario, cantidad, descripcion, enbiblioteca, lugardestino, fechaprestamo, 
-	fechadevolucion, estado) VALUES (_idlibro, _idbeneficiario, _cantidad, _descripcion, _enbiblioteca, 
-	_lugardestino, _fechaprestamo, _fechadevolucion, 'S');
+	INSERT INTO prestamos(idlibro, idbeneficiario, cantidad, descripcion, enbiblioteca, lugardestino, fechaprestamo, estado) VALUES 
+	(_idlibro, _idbeneficiario, _cantidad, _descripcion, _enbiblioteca, 
+	_lugardestino, _fechaprestamo, 'S');
 
 END $$
 
+CALL spu_registrar_solicitud_usuario(3,2,1,'4B','SI','','2023-11-30')
+
 SELECT * FROM prestamos
-	
 
 	
 DELIMITER $$
@@ -267,7 +263,7 @@ BEGIN
 	UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = _idprestamo;
 END $$
 SELECT * FROM ejemplares
-
+SELECT * FROM prestamos
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_estados_librosentregados
 (
@@ -278,3 +274,28 @@ BEGIN
 	UPDATE prestamos SET estado = _estado WHERE idprestamo = _idprestamo;
 
 END$$
+
+SELECT * FROM prestamos WHERE estado = 'S'
+	
+DELIMITER $$
+CREATE PROCEDURE spu_solicitud_listar()
+BEGIN
+	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, ' ' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion, prestamos.fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo'
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
+	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'S';
+END$$
+
+
+
+
+IF (prestamo.idlirbo = ' ')
+	-- listarhisto
+	
+ELSE
+	-- 
+	

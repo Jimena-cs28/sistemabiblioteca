@@ -21,7 +21,7 @@
             <table class="table table-bordered" id="tablaD" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th style="color:#574E4E;">#</th>
+                        <th style="color:#574E4E;" width="2%">#</th>
                         <th style="color:#574E4E;">Usuario</th>
                         <th style="color:#574E4E;">Datos</th>
                         <th style="color:#574E4E;">F.Solicitud</th>
@@ -351,7 +351,7 @@
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
-            
+            const CheckEjemplar = document.querySelector("#checkejemplar");
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -365,10 +365,10 @@
                 listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
-                    const CheckEjemplar = document.querySelector("#checkejemplar");
                     if (CheckEjemplar.checked){
                         cambiarEstado();
                     }
+
                     validarUser();  updatedevolucionesTodo(); 
                 });
             });
@@ -386,7 +386,7 @@
         .then(response => response.json())
         .then(datos => {
             // btGuadar.addEventListener("click", updatedevoluciones);
-            listarEjemplare();
+            listarDevoluciones();
         });
     }
 

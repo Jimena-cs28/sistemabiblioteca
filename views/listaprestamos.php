@@ -154,15 +154,6 @@ $datoID = json_encode($_SESSION['login']);
     const ahora = document.querySelector("#ahora");
     const Reservar = document.querySelector("#reservar");
 
-    const fechaActual = new Date(); 
-    const fechaMinima = fechaActual.toISOString().split('T')[0];
-    fecharegistar.min = fechaMinima
-    fecharegistar.value = fechaMinima
-    fechadevolucion.min = fechaMinima
-    fecharegistar.addEventListener("change", function(){
-        console.log(fecharegistar.value)
-        fechadevolucion.min = fecharegistar.value
-    })
 
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {

@@ -62,7 +62,8 @@ DELIMITER $$
 CREATE PROCEDURE spu_actualizar_libro
 (
     IN p_idlibro INT, 
-    IN p_nueva_cantidad INT
+    IN p_nueva_cantidad INT,
+    IN _libro VARCHAR(100)
 )
 BEGIN
       DECLARE v_ultimo_codigo_libro INT;
@@ -92,7 +93,8 @@ BEGIN
 
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
-        cantidad = cantidad + p_nueva_cantidad    -- select * from detalleautores
+        cantidad = cantidad + p_nueva_cantidad,
+        libro = _libro
         WHERE idlibro = p_idlibro;
 
 
@@ -104,7 +106,7 @@ BEGIN
     END IF;
 
 END $$
-
+SELECT * FROM ejempla
 SELECT * FROM ejemplares
 CALL spu_actualizar_libro(7,3) -- 6
 SELECT * FROM detalleautores
@@ -154,7 +156,8 @@ BEGIN
 	JOIN autores aut ON det.idautor = aut.idautor
 	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
 	WHERE ej.ocupado = 'NO' AND ej.estado = 1
-	GROUP BY ej.idlibro;
+	GROUP BY ej.idlibro
+	ORDER BY ej.idlibro DESC;
 END $$
 
 UPDATE libros SET cantidad =  21 WHERE idlibro = 7
@@ -401,7 +404,9 @@ BEGIN
 END $$
 
 -- 61
-CALL spu_CambiarEstadoEjemplares(22);
+CALL spu_cambiarEstado_Devolucion(34);
+SELECT * FROM prestamos WHERE estado = 'D' -- 34, 40
+SELECT *FROM librosentregados
 SELECT * FROM ejemplares
 --  ACTIVAR OCUPADO Y ACTIVAR ESTADO
 DELIMITER $$
@@ -442,7 +447,18 @@ END $$
 
 CALL spu_search_book('fisica')
 
-
+DELIMITER $$
+CREATE PROCEDURE spu_search_user
+(
+	IN _nombre VARCHAR(50)
+)
+BEGIN
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	FROM usuarios
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE usuarios.idrol = 3 AND estado = 1 AND (_nombre ="" OR personas.nombres LIKE CONCAT("%", _nombre , "%"));
+END $$
 
 
 

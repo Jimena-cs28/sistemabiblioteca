@@ -150,7 +150,6 @@ CREATE TABLE prestamos
 	fechaprestamo		DATETIME 	NULL,
 	fecharespuesta		DATETIME	NULL,
 	fechaentrega		DATETIME	NULL,
-	fechadevolucion		DATETIME 	NULL,
 	descripcion		VARCHAR(20)	NULL,
 	enbiblioteca		CHAR(2)		NOT NULL,
 	lugardestino		VARCHAR(100) 	NULL,

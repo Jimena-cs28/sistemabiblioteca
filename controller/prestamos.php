@@ -163,11 +163,10 @@
   }
 
   if($_POST['operacion'] == 'CambiarEstado'){
-    $datosActulizar = [
-      "idprestamo" => $_POST['idprestamo']
-    ];
-    $respuesta = $prestamo->CambiarEstadoDev($datosActulizar);
-    echo json_encode($respuesta);
+    $datosActulizar = $prestamo->CambiarEstadoDev($_POST['idprestamo']);
+    if($datosActulizar){
+      echo json_encode($datosActulizar);
+    }
   }
 
   if($_POST['operacion'] == 'SeachPrestamo'){

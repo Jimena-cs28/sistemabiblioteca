@@ -23,4 +23,37 @@ class Reporte extends conexion{
         }
     }
 
+    public function reporteSolicitud($datos = []){
+        $respuesta = [
+            "status" => false,
+            "message" =>""
+        ];
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_reporte_fechasolicitud(?,?)");
+            $respuesta["status"] = $consulta->execute(
+                array(
+                $datos["fechasolicitud"],
+                $datos["fechasolicitud1"]
+                )
+            );
+        }
+        catch(Exception $e){
+            $respuesta["message"] = "No se pudo completar". $e->getMessage();
+        }
+        return $respuesta;
+    }
+
+    public function listarReporte(){
+        try {
+            $consulta = $this->acesso->prepare("CALL spu_listar_reporte()");
+            $consulta->execute();
+    
+          $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
 }
