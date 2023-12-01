@@ -553,7 +553,8 @@
             .then(datos => {
                 if(datos.status){
                     // document.querySelector("#form-editar").resert();
-                    alert("Se guardo el Libro correctamente")
+                    // notificar("LIBROS","Se Actualizo bien", 3)
+                    toast("Se hizo bien")
                 }else{
                     alert("no se guardo");
                 }

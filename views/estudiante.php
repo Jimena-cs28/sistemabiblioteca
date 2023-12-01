@@ -91,21 +91,25 @@
         .then(datos => {
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
-                const reporte = `
-                <tr>
-                    <td>${element.idcategoria}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.CantidadPrestada}</td>
-                </tr>
-                `;
-                cuerpo.innerHTML += reporte;
+                if(datos.status){
+                    const reporte = `
+                    <tr>
+                        <td>${element.idcategoria}</td>
+                        <td>${element.categoria}</td>
+                        <td>${element.CantidadPrestada}</td>
+                    </tr>
+                    `;
+                    cuerpo.innerHTML += reporte;
+                }
+                
             });
         })
     }
 
-    Fsolicitud1.addEventListener("keypress", (evt) => {
-        if(evt.charCode == 13) listarSolicitud();
-    });
+    // Fsolicitud1.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode == 13) listarSolicitud();
+    // });
+
     btGuardar.addEventListener("click", listarSolicitud);
     listarReporte();
 </script>

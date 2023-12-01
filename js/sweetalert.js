@@ -6,7 +6,7 @@
         text: mensaje,
         confirmButtonColor: '#2E86C1',
         confirmButtonText: 'Aceptar',
-        footer: 'Coloque aquí el nombre de su aplicación',
+        footer: 'Sistema Biblioteca',
         timerProgressBar: true,
         timer: (tiempo * 1000)
       })
@@ -21,6 +21,22 @@
           confirmButtonText: 'Aceptar',
           cancelButtonText: 'Cancelar',
           confirmButtonColor: '#249927',
+          cancelButtonColor: '#797D7F',
+          footer: 'Sistema Biblioteca'
+        }).then((result) => {
+          return result;
+      });
+    }
+
+    function mostrarPreguntaEliminar(titulo, mensaje) {
+      return Swal.fire({
+          title: titulo,
+          text: mensaje,
+          icon: 'error',
+          showCancelButton: true,
+          confirmButtonText: 'SI',
+          cancelButtonText: 'NO',
+          confirmButtonColor: '#F15757',
           cancelButtonColor: '#797D7F',
           footer: 'Coloque aquí el nombre de su aplicación'
         }).then((result) => {

@@ -230,7 +230,6 @@
                 .then(response => response.json())
                 .then(datos => {
                     if(datos.status){
-                        document.querySelector("#form-libro").resert()
                         notificar("Libros","Se guardo correctamente", 3);
                         // alert("Se guardo el Libro correctamente")
                     }else{

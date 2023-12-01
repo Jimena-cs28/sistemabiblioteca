@@ -176,7 +176,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo <= actual;
+                const fechapasada = FechaPrestamo < actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -270,22 +270,24 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'cancelar'){
-            if(confirm("¿estas seguro de cancelar esta reserva?")){
-                idprestamo = parseInt(event.target.dataset.idprestamo);
-                console.log(idprestamo);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","cancelarRevesva");
-                parametros.append("idprestamo", idprestamo);
+            mostrarPreguntaEliminar("ELIMINAR","¿Estas seguro de Cancelar la Reserva?").then((result)=>{
+                if(result.isConfirmed){
+                    idprestamo = parseInt(event.target.dataset.idprestamo);
+                    console.log(idprestamo);
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion","cancelarRevesva");
+                    parametros.append("idprestamo", idprestamo);
 
-                fetch("../controller/prestamos.php",{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    listarEntregas();
-                })
-            }
+                    fetch("../controller/prestamos.php",{
+                        method: 'POST',
+                        body: parametros
+                    })
+                    .then(response => response.json())
+                    .then(datos => {
+                        listarEntregas();
+                    })
+                }
+            })
         }
     });
 

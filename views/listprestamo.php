@@ -83,19 +83,19 @@ $datoID = json_encode($_SESSION['login']);
         </div>
         <div class="card border-0">
             <div class="card-body">            
-                <form id="form-prestamos">
+                <form id="form-prestamos mt-3">
                     <div class="ml-5 row">
                         <div class="col-md-3">
                             <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
                         </div>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" id="datos">
+                            <input type="text" class="form-control" id="datos" disabled>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3" id="divPrestamo">
                             <label for="" style="color:#000000;">FECHA NACIMIENTO</label>
-                            <input type="text"  class="form-control" required=""id="fnacimiento">
+                            <input type="text"  class="form-control" required=""id="fnacimiento" disabled>
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#000000;">ROL</label>

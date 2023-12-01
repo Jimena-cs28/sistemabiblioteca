@@ -93,14 +93,14 @@
                                 </div>
                                 <div class=" form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="checkejemplar">
-                                    <label class="form-check-label" for="inlineCheckbox2">Dar de baja el libro</label>
+                                    <label class="form-check-label" for="inlineCheckbox2">Dar de baja</label>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="guadarlibroD">Guardar</button>
             </div>
         </div>
@@ -257,7 +257,7 @@
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion > actual;
+                const fechaPasada = fechadevolucion < actual;
                 if (fechaPasada) {
                     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
@@ -272,10 +272,10 @@
                     <td>${element.ocupado}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
-                        <a href='#modal' type='button' class='btn btn-danger detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
                     </td>
                     <td>
-                        <a href='' type='button' class='btn btn-success detallitosBien' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        <a href='' type='button' class='btn btn-success btn-sm detallitosBien' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
                     </td>
                 </tr>`
                 ;
@@ -332,24 +332,26 @@
     }
 
     function updatedevolucionesTodo(){
-        if(confirm("estas seguro de guardar?")){
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","updatedevolucionesTodos");
-            parametros.append("idprestamo", idprestamo);
-            parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
-            parametros.append("observaciones", document.querySelector("#observacion").value);
-            fetch("../controller/validacion.php",{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                if(datos.status){
-                    // modal.toggle();
-                    document.querySelector("#form-devolucion").reset();
-                }
-            })
-        }
+        mostrarPregunta("DEVOLUCION", "¿Estas seguro de devolver el libro?").then((result)=>{
+            if(result.isConfirmed){
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","updatedevolucionesTodos");
+                parametros.append("idprestamo", idprestamo);
+                parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
+                parametros.append("observaciones", document.querySelector("#observacion").value);
+                fetch("../controller/validacion.php",{
+                    method:'POST',
+                    body: parametros
+                })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    if(datos.status){
+                        listarDevoluciones();
+                        document.querySelector("#form-devolucion").reset();
+                    }
+                })
+            }
+        })
     };
 
     cuerpo.addEventListener("click", (event) => {
@@ -376,7 +378,7 @@
                         cambiarEstado();
                     }
 
-                    validarUser();  updatedevolucionesTodo(); 
+                    validarUser();  updatedevolucionesTodo(); listarDevoluciones();
                 });
             });
         }
@@ -397,36 +399,68 @@
         });
     }
 
+    function updatedevolucionesUno(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","updatedevolucionesUno");
+        parametros.append("idejemplar", idejemplar);
+        parametros.append("idlibroentregado", idlibroentregado);
+        fetch("../controller/validacion.php",{
+            method:'POST',
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            if(datos.status){
+                listarEjemplare();
+            }
+        })
+    };
+
     CuerpoP.addEventListener("click", (event) => {
         const elementoDetalle = event.target.closest(".detallitosBien");
         if(elementoDetalle){
             if(confirm("¿estas seguro de entrega?")){
                 idejemplar = parseInt(event.target.dataset.idejemplar);
                 idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-                // idprestamo = parseInt(event.target.dataset.idprestamo);
-                function updatedevolucionesUno(){
-                    const parametros = new URLSearchParams();
-                    parametros.append("operacion","updatedevolucionesUno");
-                    parametros.append("idejemplar", idejemplar);
-                    parametros.append("idlibroentregado", idlibroentregado);
-                    fetch("../controller/validacion.php",{
-                        method:'POST',
-                        body: parametros
-                    })
-                    .then(respuesta => respuesta.json())
-                    .then(datos => {
-                        if(datos.status){
-                            listarEjemplare();
-                            //document.querySelector("#form-detallito").reset();
-                            //modaldetallitos.toggle();
-                        }
-                    })
-                };
-                GuadarD.addEventListener("click", () => {
-                    validarRecibirlibro(); updatedevolucionesUno();
-                });
+                idprestamo = parseInt(event.target.dataset.idprestamo);
+                updatedevolucionesUno();
+                listarEjemplare();
             }
-            
+        }
+    });
+
+    function updatedevolucionesUnoMala(){
+        mostrarPregunta("DEVOLVER", "¿Estas seguro de devolver el libro?").then((result)=>{
+            if(result.isConfirmed){
+                const parametros = new URLSearchParams();
+                parametros.append("operacion","updatedevolucionesUnoMal");
+                parametros.append("idejemplar", idejemplar);
+                parametros.append("idlibroentregado", idlibroentregado);
+                parametros.append("observaciones", observaciones.value);
+                parametros.append("condiciondevoluciones",condicion.value );
+                fetch("../controller/validacion.php",{
+                    method:'POST',
+                    body: parametros
+                })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    if(datos.status){
+                        listarEjemplare();
+                    }
+                })
+            }
+        })
+    };
+
+    CuerpoP.addEventListener("click", (event) => {
+        const elementoDetalle = event.target.closest(".detallitosMala");
+        if(elementoDetalle){
+            idejemplar = parseInt(event.target.dataset.idejemplar);
+            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
+            idprestamo = parseInt(event.target.dataset.idprestamo);
+            GuadarD.addEventListener("click", () => {
+                validarRecibirlibro(); updatedevolucionesUnoMala(); modaldetallitos.toggle();
+            });
         }
     });
 
@@ -439,21 +473,12 @@
         }
     }
 
-    // function cancelarEstado(){
-        
-        
-    // }
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");
         if(CheckLibro.checked){
             DesacEjem();
         }
     }
-
-    // btGuadar.addEventListener("click", () => {
-    //     updatedevoluciones();
-    //     validarRecibirlibro();
-    // });
 
     listarDevoluciones();
     // bt.addEventListener("click", ValidarRegistrar);

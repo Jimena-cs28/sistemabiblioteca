@@ -11,7 +11,7 @@ observaciones = 'bien'
 WHERE idejemplar = 1;
 
 SELECT * FROM libros
--- FUNCIONAAAAAAAAAAAAAAAAA - solo uno
+-- FUNCIONAAAAAAAAAAAAAAAAA - solo uno (BIEN)
 DELIMITER $$
 CREATE PROCEDURE spu_update_ejemplar
 (
@@ -55,6 +55,51 @@ BEGIN
     END IF;
 END$$
 
+-- (MAL)
+DELIMITER $$
+CREATE PROCEDURE spu_update_ejemplar_mal
+(
+    IN _idejemplar INT,
+    IN _idlibroentregado INT,
+    IN _observaciones VARCHAR(50),
+    IN _condiciondevoluciones VARCHAR(20)
+)
+BEGIN
+    DECLARE _count_ocupados INT;
+    DECLARE _idbene INT;
+    DECLARE _idprestamo INT;
+    
+    SELECT idprestamo INTO _idprestamo
+    FROM librosentregados WHERE idlibroentregado = _idlibroentregado;
+	
+    SELECT idbeneficiario INTO _idbene
+    FROM prestamos WHERE idprestamo = _idprestamo;
+    
+    UPDATE ejemplares SET
+    ocupado = 'NO'
+    WHERE idejemplar = _idejemplar;
+    
+    UPDATE librosentregados SET
+    condiciondevolucion = _condiciondevoluciones,
+    observaciones = _observaciones
+    WHERE idlibroentregado = _idlibroentregado;
+
+    -- Contar los idejemplar asociados al idprestamo que tienen ocupado='SI'
+    SELECT COUNT(*) INTO _count_ocupados
+    FROM ejemplares ej
+    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
+    WHERE le.idprestamo = _idprestamo
+        AND ej.ocupado = 'SI';
+
+    -- Actualizar el estado del préstamo en función de la cantidad de ejemplares ocupados
+    IF _count_ocupados = 0 THEN
+        UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
+        UPDATE usuarios SET estado = 1 WHERE idusuario = _idbene;
+    ELSE
+        UPDATE prestamos SET estado = 'D' WHERE idprestamo = _idprestamo;
+    END IF;
+END$$
+
 CALL spu_update_ejemplar(115,12)
 -- CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
 
@@ -64,7 +109,7 @@ UPDATE usuarios SET estado = 0 WHERE idusuario = 2
 SELECT * FROM usuarios
 SELECT * FROM ejemplares
 SELECT * FROM librosentregados
-SELECT * FROM prestamos
+SELECT * FROM prestamos WHERE estado = 'T'
 
 CALL spu_update_devoluciones(10,4,'bien','bien');
 SELECT * FROM librosentregados
@@ -143,21 +188,36 @@ END$$
 
 SELECT * FROM personas
 SELECT * FROM librosentregados
-UPDATE usuarios SET estado = 1 WHERE idusuario = 11
-CALL spu_updateD_todo_prestamo(16,'bien','bien');  -- FUNCIONA
 
-UPDATE libros SET cantidad = 9 WHERE idlibro = 3
+SELECT
+    l.idlibro,
+    l.libro,
+    COUNT(p.idprestamo) AS cantidad_prestamos
+FROM
+    prestamos p
+JOIN
+    usuarios u ON p.idbeneficiario = u.idusuario
+JOIN
+    libros l ON p.idlibro = l.idlibro
+JOIN
+    roles r ON u.idrol = r.idrol
+WHERE
+    r.nombrerol = 'Profesor'
+GROUP BY
+    l.idlibro, l.libro
+ORDER BY
+    cantidad_prestamos DESC
+LIMIT 5;
 
-SELECT * FROM prestamos WHERE estado = 'D'
-SELECT * FROM librosentregados
-SELECT * FROM ejemplares
-UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 73
 
-SELECT * FROM prestamos
-SELECT * FROM librosentregados -- atlas 8
-SELECT * FROM usuarios
-SELECT * FROM ejemplares
-UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 6
-UPDATE prestamos SET estado = 'D' WHERE idprestamo = 7
 
-UPDATE libros SET cantidad = 10 WHERE idlibro = 4
+
+
+
+
+
+
+
+
+
+

@@ -64,6 +64,29 @@ class Validacion extends conexion{
         return $respuesta;
     } 
 
+    public function updatedevolucionesUnoMal($datos = []){
+        $respuesta = [
+            "status" => false,
+            "message" => ""
+        ];
+        try{
+            $consulta = $this->acesso->prepare("CALL spu_update_ejemplar_mal(?,?,?,?)");
+            $respuesta["status"] = $consulta->execute(
+                array(
+                    $datos["idejemplar"],
+                    $datos["idlibroentregado"],
+                    $datos["observaciones"],
+                    $datos["condiciondevoluciones"]
+                    
+                )
+            );
+        }
+        catch(Exception $e){
+            $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
+        }
+        return $respuesta;
+    } 
+
     public function updatedevolucionesTodos($datos = []){
         $respuesta = [
             "status" => false,

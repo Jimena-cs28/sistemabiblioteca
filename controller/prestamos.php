@@ -137,8 +137,7 @@
       "idbibliotecario"     => $_POST['idbibliotecario'],
       "descripcion"       => $_POST['descripcion'],
       "enbiblioteca"      => $_POST['enbiblioteca'],
-      "lugardestino"       => $_POST['lugardestino'],
-      "cantidad"       => $_POST['cantidad']
+      "lugardestino"       => $_POST['lugardestino']
     ];
     $respuesta = $prestamo->registrarAhora($datosGuardar);
     echo json_encode($respuesta);
@@ -174,5 +173,12 @@
     $datos = $prestamo->SeachPrestamo($_POST['nombres']);
     if($datos){
       echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'cancelarRevesva'){
+    $datosActulizar = $prestamo->cancelarRevesva($_POST['idprestamo']);
+    if($datosActulizar){
+      echo json_encode($datosActulizar);
     }
   }
