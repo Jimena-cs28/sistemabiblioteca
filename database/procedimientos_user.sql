@@ -172,9 +172,7 @@ BEGIN
 	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.estado,
 	prestamos.cantidad
 	FROM prestamos
-	INNER JOIN librosentregados ON librosentregados.idprestamo = prestamos.idprestamo
-	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
-	LEFT JOIN libros ON libros.idlibro = ejemplares.idlibro
+	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.idbeneficiario = _idusuario
