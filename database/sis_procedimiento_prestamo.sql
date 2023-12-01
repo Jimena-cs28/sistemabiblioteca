@@ -93,14 +93,13 @@ CREATE PROCEDURE spu_registrar_prestamo_ahora
 	IN _idbibliotecario INT, -- n 
 	IN _descripcion VARCHAR(40),
 	IN _enbiblioteca CHAR(2),
-	IN _lugardestino VARCHAR(90),
-	IN _cantidad INT
+	IN _lugardestino VARCHAR(90)
 )
 BEGIN
 	-- DECLARE lastinsert INT;
 	IF _lugardestino = "" THEN SET _lugardestino = NULL; END IF;	
-	INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fechaentrega,descripcion,enbiblioteca,lugardestino,cantidad) VALUES
-			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino,_cantidad);
+	INSERT INTO prestamos (idbeneficiario, idbibliotecario,fechaprestamo,fechaentrega,descripcion,enbiblioteca,lugardestino) VALUES
+			(_idbeneficiario, _idbibliotecario,NOW(),NOW(),_descripcion,_enbiblioteca,_lugardestino);
 END $$
 
 CALL spu_registrar_prestamo_ahora(3,1, '5B','SI','')
@@ -140,6 +139,36 @@ BEGIN
         inactive_at = NOW()
         WHERE idusuario = _idbene;
 END $$
+
+-- CANCELAR RESERVA
+
+DELIMITER $$
+CREATE PROCEDURE spu_cancelar_reserva
+(
+	IN _idprestamo INT
+)
+BEGIN
+	DECLARE _idbene INT;
+	
+	SELECT idbeneficiario INTO _idbene
+	FROM prestamos WHERE idprestamo = _idprestamo;
+	
+    -- Actualizar ejemplares a 'NO' para los idejemplar asociados al idprestamo
+    UPDATE ejemplares ej
+    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
+    SET ej.ocupado = 'NO'
+    WHERE le.idprestamo = _idprestamo;
+	
+    UPDATE usuarios SET 
+    estado = '1'
+    WHERE idusuario = _idbene;
+    
+    UPDATE prestamos 
+    SET estado = 'N'
+    WHERE idprestamo = _idprestamo;
+END $$
+
+CALL spu_cancelar_reserva(4)
 
 
 SELECT * FROM ejemplares -- 4
@@ -323,57 +352,6 @@ BEGIN
 END $$
 
 -- select * from usuarios
--- ejecurtae
-CALL spu_update_devoluciones(1,1,'bien','bien');
-SELECT * FROM prestamos
-
-DELIMITER $$
-CREATE PROCEDURE spu_update_ejemplar
-(
-	IN _idjemplar INT,	
-	IN _condiciondevolucion VARCHAR(50),
-	IN _observaciones   VARCHAR(50)	
-)
-BEGIN
-	 DECLARE cantidad_actual INT;
-	 DECLARE _idbene INT;
-	 DECLARE _idlibro INT;
-	 DECLARE _idprestamos INT;
-	 
-	 UPDATE librosentregados SET
-	 condiciondevolucion = _condiciondevolucion,
-	 observaciones = _observaciones,
-	 fechadevolucion = NOW()
-	 WHERE idlibroentregado = _idlibroentregado;
-	
-	 SELECT idprestamo INTO _idprestamos
-	 FROM librosentregados WHERE idlibroentregado = _idlibroentregado;
-	 
-	 SELECT idlibro INTO _idlibro
-	 FROM ejemplares WHERE idejemplar = _idejemplar;
-	 
-	 SELECT idbeneficiario INTO _idbene
-	 FROM prestamos WHERE idprestamo = _idprestamos;
-	 
-	 UPDATE usuarios SET estado = 1
-	 WHERE idusuario = _idbene;
-	 
-	 UPDATE prestamos SET
-	 estado = 'T'
-	 WHERE idprestamo = _idprestamos;
-	 
-	 UPDATE ejemplares SET ocupado = 'NO'
-	 WHERE idejemplar = _idejemplar;
-	
-	SELECT cantidad INTO cantidad_actual
-	FROM libros
-	WHERE idlibro = _idlibro;
-	
-        -- SE actualiza la cantidad del libro
-        UPDATE libros
-        SET cantidad = cantidad_actual + 1
-        WHERE idlibro = _idlibro;
-END $$
 
 SELECT * FROM prestamos
 -- LISTAR TODOS LOS PRESTAMOS
@@ -444,8 +422,8 @@ END$$
 DELIMITER $$
 CREATE PROCEDURE spu_cantidad_categorias()
 BEGIN
-	SELECT COUNT(idcategoria) AS 'categorias'
-	FROM categorias;
+	SELECT COUNT(idprestamo) AS 'categorias'
+	FROM prestamos WHERE estado = 'S';
 END$$
 
 DELIMITER $$
@@ -471,7 +449,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_cantidad_prestamos()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'prestamo'
-	FROM prestamos;
+	FROM prestamos WHERE estado = 'T';
 END$$
 
 SELECT * FROM prestamos
@@ -511,7 +489,7 @@ BEGIN
 	WHERE prestamos.estado = 'S';
 END $$
 
-
+CALL spu_solicitud_listar()
 -- procedimiento 
 
 SELECT idprestamo, personas.nombres, personas.apellidos

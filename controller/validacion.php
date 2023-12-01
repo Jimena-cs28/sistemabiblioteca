@@ -28,8 +28,18 @@ if (isset($_POST['operacion'])){
             "idejemplar"            => $_POST['idejemplar'],
             "idlibroentregado"      => $_POST["idlibroentregado"]
         ];
-    
         $respuesta = $validacion->updatedevolucionesUno($datosActulizar);
+        echo json_encode($respuesta);
+    }
+
+    if($_POST['operacion'] == 'updatedevolucionesUnoMal'){
+        $datosActulizar = [
+            "idejemplar"            => $_POST['idejemplar'],
+            "idlibroentregado"      => $_POST["idlibroentregado"],
+            "observaciones"         => $_POST["observaciones"],
+            "condiciondevoluciones" => $_POST["condiciondevoluciones"]
+        ];
+        $respuesta = $validacion->updatedevolucionesUnoMal($datosActulizar);
         echo json_encode($respuesta);
     }
 

@@ -35,7 +35,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #082E47;">
+        <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #042840;">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php?view=dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">

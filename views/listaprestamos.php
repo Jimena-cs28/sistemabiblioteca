@@ -130,6 +130,7 @@ $datoID = json_encode($_SESSION['login']);
     let idprestamo = '';
     
     const biblioteca = document.querySelector("#enbiblioteca");
+    // const tablareset = document.querySelector("#tbody1");
     const divPrestamo =  document.querySelector("#divPrestamo");
     // const bt = document.querySelector("#kk");
     const divLugar = document.querySelector("#lugarD");
@@ -139,7 +140,7 @@ $datoID = json_encode($_SESSION['login']);
     const Agregar = document.querySelector("#Rguardarlibro");
     const des = document.querySelector("#descripcion");
     // const cuerpo = document.querySelector("tbody");
-    //const cantidad = document.querySelector("#cantidad");
+    const cantidad = document.querySelector("#cantidad");
     const tablalibro = document.querySelector("#tabla2")
     const Guardar = document.querySelector("#btguardar");
     const fecharegistar = document.querySelector("#fprestamo");
@@ -464,6 +465,16 @@ $datoID = json_encode($_SESSION['login']);
         .then(datos => {
             if(datos.status){
                 traerPrestamo();
+                biblioteca.value = ''
+                des.value = ''
+                fecharegistar.value = ''
+                filtroStudent.value = ''
+                // document.querySelector("#formk-prestamos").reset();
+                // tablareset.reset();
+                tablalibro.querySelector("tbody").innerHTML = '';
+                Condicionentrega.value = ''
+                fechadevolucion.value = ''
+                cantidad.value = ''
             }else{
                 console.log(datos.message);
             }
@@ -481,7 +492,6 @@ $datoID = json_encode($_SESSION['login']);
         parametros.append("descripcion", document.querySelector("#descripcion").value);
         parametros.append("enbiblioteca", biblioteca.value);
         parametros.append("lugardestino", lugarDesti.value);
-        parametros.append("cantidad", tablalibro.rows.length-1)
         fetch("../controller/prestamos.php", {
             method: 'POST',
             body: parametros
@@ -490,6 +500,16 @@ $datoID = json_encode($_SESSION['login']);
         .then(datos => {
             if(datos.status){
                 traerPrestamoAhora();
+                biblioteca.value = ''
+                des.value = ''
+                fecharegistar.value = ''
+                filtroStudent.value = ''
+                // document.querySelector("#formk-prestamos").reset();
+                // tablareset.reset();
+                tablalibro.querySelector("tbody").innerHTML = '';
+                Condicionentrega.value = ''
+                fechadevolucion.value = ''
+                cantidad.value = ''
             }else{
                 console.log(datos.message);
             }
@@ -519,12 +539,7 @@ $datoID = json_encode($_SESSION['login']);
                     .then(datos => {
                         // console.log(datos);
                         if(datos.status){
-                            biblioteca.value = ''
-                            des.value = ''
-                            fecharegistar.value = ''
-                            filtroStudent.value = ''
-                            // document.querySelector("#formk-prestamos").reset();
-                            tablalibro.reset();
+                            
                         }
                     })
                 }
@@ -568,6 +583,7 @@ $datoID = json_encode($_SESSION['login']);
                     });
                     promesas.push(fetchPromise);
                 }
+                tablalibro.querySelector("tbody").innerHTML = '';
             }
         });
     }

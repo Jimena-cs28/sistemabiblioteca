@@ -182,7 +182,7 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	WHERE prestamos.estado = 'T'
-	GROUP BY librosentregados.idejemplar
+	GROUP BY ejemplares.idlibro
 	ORDER BY totales DESC
 	LIMIT 7;
 END $$
@@ -211,11 +211,12 @@ BEGIN
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = 3 AND prestamos.estado = 'T'
-	GROUP BY librosentregados.idejemplar
+	WHERE usuarios.idrol = _idrol AND prestamos.estado = 'T'
+	GROUP BY ejemplares.idlibro
 	ORDER BY totales DESC
 	LIMIT 5;
 END $$
+
 
 CALL spu_grafico_rol(3);
 

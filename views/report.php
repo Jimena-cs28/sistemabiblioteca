@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <div class="col-md-7">
-                            <button class="btn btn-info">Exportar PDF</button>
+                            <button class="btn btn-info" id="btnexport">Exportar PDF</button>
                         </div>
     
                     </div>
@@ -56,6 +56,7 @@
 
     const descripcion = document.querySelector("#descripcion");
     const tabla = document.querySelector("tbody");
+    const btExportar = document.querySelector("#btnexport");
 
     function listarDescripcion(){
         const choiselistarStudent = new Choices(descripcion, {

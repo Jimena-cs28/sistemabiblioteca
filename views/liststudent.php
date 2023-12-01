@@ -83,6 +83,69 @@
     </div>
 </div>  
 
+<div> 
+    <div class="modal fade" id="editar">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">EDITAR ESTUDIANTE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-edit mt-4">
+                        <div class="ml-5 row">
+                            <div class="col-md-3">
+                                <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="Edatos">
+                            </div>
+                        </div>
+                        <div class="row ml-5 mt-4">
+                            <div class="col-md-3" id="divPrestamo">
+                                <label for="" style="color:#000000;">FECHA NACIMIENTO</label>
+                                <input type="date"  class="form-control" id="Efnacimiento">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="" style="color:#000000;">ROL</label>
+                                <input type="text" class="form-control" id="Erol">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="" style="color:#000000;">DNI</label>
+                                <input type="text" class="form-control" id="Edni" maxlength="8">
+                            </div>
+                            <div class="col-md-3" id="lugarD">
+                                <label for="" style="color:#000000;">TELEFONO</label>
+                                <input type="text" class="form-control" maxlength="9" id="Etelefono">
+                            </div>
+                        </div>
+                        <div class="row ml-5 mt-4">
+                            <div class="col-md-4">
+                                <label for="Libro" style="color:#000000;">CORREO</label>
+                                <input type="text" class="form-control" id="Ecorreo">
+                            </div>
+                            <div class="col-md-4">
+                                <label style="color:#000000;">DIRECCION</label>
+                                <input type="text" name="" id="Edireccion" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label style="color:#000000;">USUARIO</label>
+                                <input type="text" class="form-control" id="Eusuario">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script> 
     let idusuario = '';
     const cuerpo = document.querySelector("tbody");
@@ -116,7 +179,7 @@
                         <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
                     </td>
                     <td>
-                        <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Editar</a>
+                        <a href='#editar' type='button' data-toggle='modal' class='inactivo' data-idusuario='${element.idusuario}'>Editar</a>
                     </td>
                 </tr>
                 `;
@@ -147,7 +210,7 @@
                     <td>${element.nombreusuario}</td>
                     <td>${element.inactive_at}</td>
                     <td>
-                        <a href='#' type='button' class='inabilitar' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                        <a href='#' type='button' class='inabilitar' data-idusuario='${element.idusuario}'>Habilitar</a>
                     </td>
                 </tr>
                 `;
@@ -169,8 +232,10 @@
             }) 
             .then(response => response.json())
             .then(datos => {
-                listarEstudiante();
-                EstudianteInactivo();
+                if(datos.status){
+                    listarEstudiante();
+                    EstudianteInactivo();
+                }
             });
         }
     });
@@ -188,8 +253,10 @@
             }) 
             .then(response => response.json())
             .then(datos => {
-                listarEstudiante();
-                EstudianteInactivo();
+                if(datos.status){
+                    listarEstudiante();
+                }
+                
             });
         }
     });

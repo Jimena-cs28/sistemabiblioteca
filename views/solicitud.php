@@ -9,32 +9,72 @@
     </div>
 </div>
 
-<!-- Modal -->
-<!-- Button trigger modal -->
+<div> 
+    <div class="modal fade" id="registrarejemplares">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Registrar Ejemplares</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input id="condicionlibro" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <input id="fechadevolucion" type="date" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="aplicar" class="btn btn-primary">Aplicar a todo</button>
+                        </div>
+                    </div>
+                    <div id="listejemplares" class="mt-5">
 
-<!-- Modal -->
-<div class="modal fade" id="registrarejemplares" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar Ejemplares</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input id="condicionlibro" type="text">
-        <button id="aplicar">Aplicar a todo</button>
-        <input id="fechadevolucion" type="date">
-        <div id="listejemplares">
-
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id ="aceptarsolicitud" type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button id ="aceptarsolicitud" type="button" class="btn btn-primary">Guardar</button>
-      </div>
     </div>
-  </div>
 </div>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="registrarejemplares" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Ejemplares</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input id="condicionlibro" type="text" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <input id="fechadevolucion" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <button id="aplicar" class="btn btn-primary">Aplicar a todo</button>
+                    </div>
+                </div>
+                <div id="listejemplares" class="mt-5">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button id ="aceptarsolicitud" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 
 <!-- tablas -->
 <div class="card shadow mb-4">
@@ -75,9 +115,7 @@
     const fechadevolucion = document.querySelector("#fechadevolucion")
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
-    const modal = new bootstrap.Modal(
-          document.querySelector("#registrarejemplares")
-        );
+    const modal = new bootstrap.Modal(document.querySelector("#registrarejemplares"));
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
@@ -116,6 +154,9 @@
         const inputlist = document.querySelectorAll(".item-ejemplar input")
         inputlist.forEach(input=>{
             input.value = observacion
+        })
+        inputlist.forEach(input=>{
+            input.classList.add("form-control");
         })
     })
     cuerpo.addEventListener("click", (event) => {
