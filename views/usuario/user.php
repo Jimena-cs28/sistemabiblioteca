@@ -170,27 +170,25 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     datos.forEach(element => {
                         const libro = `
                         <div class="col-xl-3 mb-4">
-                            <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" width="200px" height="300px">                           
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <div class="col-md">
-                                        <h4 class="fw-semibold fs-4 text-center">${element.libro}</h4>             
-                                    </div>
-                                    <hr> 
+                            <div class="card overflow-hidden rounded-2" style="max-width: 18rem;">
+                            <div class="position-relative">
+                                <img src="../img/${element.imagenportada}" class="card-img-top rounded-0 img-fluid" alt="" style="width: 100%; height: 300px;">
+                            </div>
+                            <div class="card-body pt-2 pb-2">
+                                <h5 class="card-title fw-semibold fs-6 text-center">${element.libro}</h5>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group">Autor: ${element.autor}</li>
-                                        <li class="list-group">Editorial: ${element.editorial}</li>
-                                        <li class="mt-2 list-group">Cantidad: ${element.cantidad}</li>
+                                    <li class="list-group-item">Autor: ${element.autor}</li>
+                                    <li class="list-group-item">Editorial: ${element.editorial}</li>
+                                    <li class="mt-1 list-group-item">Cantidad: ${element.cantidad}</li>
                                     </ul>
-                                    
                                 </div>
-                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary">Ver más</a>
+                                <div class="text-center">
+                                    <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary btn-sm mt-2">Ver más</a>
+                                </div>
                             </div>
                         </div>
-                        
+                    </div> 
                         `;
                         card.innerHTML += libro;
                     });
@@ -211,26 +209,25 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     datos.forEach(element => {
                         const libro = `
                         <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                            <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <img src="../img/${element.imagenportada}" class="card-img-top rounded-0" alt="" style="width: 100%; height: 300px;">                           
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <div class="col-md">
-                                        <h4 class="fw-semibold fs-4 text-center">${element.libro}</h4>             
-                                    </div>
-                                    <hr> 
+                            <div class="card overflow-hidden rounded-2" style="max-width: 18rem;">
+                            <div class="position-relative">
+                                <img src="../img/${element.imagenportada}" class="card-img-top rounded-0 img-fluid" alt="" style="width: 100%; height: 300px;">
+                            </div>
+                            <div class="card-body pt-2 pb-2">
+                                <h5 class="card-title fw-semibold fs-6 text-center">${element.libro}</h5>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Autor: ${element.autor}</li>
-                                    <li class="list-group-item">Editorial: ${element.editorial}</li>
-                                    <li class="mt-2 list-group-item">Cantidad: ${element.cantidad}</li>
+                                        <li class="list-group-item">Autor: ${element.autor}</li>
+                                        <li class="list-group-item">Editorial: ${element.editorial}</li>
+                                        <li class="mt-1 list-group-item">Cantidad: ${element.cantidad}</li>
                                     </ul>
-                                    
                                 </div>
-                                <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary mt-3">Ver más</a>
+                                <div class="text-center">
+                                    <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary btn-sm mt-2">Ver más</a>
+                                </div>
                             </div>
                         </div>
+                    </div>
                         `;
                         card.innerHTML += libro;
                     });
