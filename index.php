@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 </head>
-<body class="bg-gradient-primary">
+<body style="background-color: rgb(248, 176, 176);">
   <div class="container">
         <!-- Outer Row -->
       <div class="row justify-content-center">
@@ -24,6 +24,7 @@
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image"></div> -->
+                    <div class="col-lg-6 d-none d-lg-block bg-login-image" style="background-image: url('./img/logo2.png');"></div>
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">

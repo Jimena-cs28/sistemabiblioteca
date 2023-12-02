@@ -348,7 +348,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     });
                 }
             }  
-        getURL(); 
+            getURL(); 
         });
     </script>
 

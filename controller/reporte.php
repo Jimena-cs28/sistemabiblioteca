@@ -14,11 +14,11 @@ if (isset($_POST['operacion'])){
     }
 
     if($_POST['operacion'] == 'reporteSolicitud'){
-        $datosGuardar = [
-            "fechasolicitud"        => $_POST['fechasolicitud'],
-            "fechasolicitud1"           => $_POST['fechasolicitud1']
+        $datos = [
+            "fechasolicitud"      => $_POST['fechasolicitud'],
+            "fechasolicitud1"      => $_POST['fechasolicitud1']
         ];
-        echo json_encode($reporte->reporteSolicitud($datosGuardar));
+        echo json_encode($reporte->reporteSolicitud($datos));
     }
 
     if($_POST['operacion'] == 'listarReporte'){
