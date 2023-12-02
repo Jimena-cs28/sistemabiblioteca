@@ -339,7 +339,7 @@ CREATE PROCEDURE spu_reporte_fechasolicitud
 	IN _fechasolicitud1 DATE
 )
 BEGIN
-	SELECT c.idcategoria, c.categoria, COUNT(p.idprestamo) AS 'CantidadPrestada'
+	SELECT c.idcategoria, c.categoria, c.codigo, COUNT(p.idprestamo) AS 'CantidadPrestada'
 	FROM categorias c
 	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
 	LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
@@ -349,14 +349,14 @@ BEGIN
 	WHERE DATE(p.fechasolicitud) BETWEEN _fechasolicitud AND _fechasolicitud1
 	GROUP BY c.idcategoria;
 END $$
-
-CALL spu_reporte_fechasolicitud('2023-11-23','2023-11-29')
+SELECT * FROM prestamos
+CALL spu_reporte_fechasolicitud('23-11-2023','29-11-2023')
 
 -- LOSLIBROS MAS PEDIDOS (POR DIA, MES,AÑO)-POR CATEGORIA
 DELIMITER $$
 CREATE PROCEDURE spu_listar_reporte()
 BEGIN
-	SELECT c.idcategoria, c.categoria, COUNT(p.idprestamo) AS 'CantidadPrestada', p.fechasolicitud
+	SELECT c.idcategoria, c.categoria, c.codigo, COUNT(p.idprestamo) AS 'CantidadPrestada'
 	FROM categorias c
 	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
 	LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
@@ -366,4 +366,4 @@ BEGIN
 	GROUP BY c.idcategoria;
 END $$
 
-
+CALL spu_listar_reporte()

@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<h5 id="customAlert" class="custom-alert"></h5>
+<!-- <h5 id="customAlert" class="custom-alert"></h5> -->
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -38,6 +38,7 @@
                     <tr>
                         <th style="color:#574E4E;">#</th>
                         <th style="color:#574E4E;">Categoria</th>
+                        <th style="color:#574E4E;">Codigo</th>
                         <th style="color:#574E4E;">Cantidad</th>
                     </tr>
                 </thead>
@@ -70,6 +71,7 @@
                 <tr>
                     <td>${element.idcategoria}</td>
                     <td>${element.categoria}</td>
+                    <td>${element.codigo}</td>
                     <td>${element.CantidadPrestada}</td>
                 </tr>
                 `;
@@ -91,25 +93,24 @@
         .then(datos => {
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
-                if(datos.status){
-                    const reporte = `
-                    <tr>
-                        <td>${element.idcategoria}</td>
-                        <td>${element.categoria}</td>
-                        <td>${element.CantidadPrestada}</td>
-                    </tr>
-                    `;
-                    cuerpo.innerHTML += reporte;
-                }
-                
+                const jaja = `
+                <tr>
+                    <td>${element.idcategoria}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.codigo}</td>
+                    <td>${element.CantidadPrestada}</td>
+                </tr>
+                `;
+                cuerpo.innerHTML += jaja;
             });
         })
     }
 
-    // Fsolicitud1.addEventListener("keypress", (evt) => {
-    //     if(evt.charCode == 13) listarSolicitud();
-    // });
+    Fsolicitud1.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) listarSolicitud();
+    });
 
     btGuardar.addEventListener("click", listarSolicitud);
+    // listarSolicitud();
     listarReporte();
 </script>
