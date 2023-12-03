@@ -54,7 +54,8 @@ if (isset($_POST['operacion'])){
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
       "imagenportada"     => $nombreGuardar,
-      "idautor"           => $_POST['idautor']
+      "idautor"           => $_POST['idautor'],
+      "condicion"         => $_POST['condicion']
     ];
 
     $respuesta = $libro->registrarLibro($datosGuardar);
@@ -109,7 +110,8 @@ if (isset($_POST['operacion'])){
   if($_POST['operacion'] == 'ActualizarLibro'){
     $datosGuardar = [
       "idlibro"             => $_POST['idlibro'],
-      "cantidad"            => $_POST['cantidad']
+      "cantidad"            => $_POST['cantidad'],
+      "condicion"            => $_POST['condicion']
     ];
     $respuesta = $libro->EditarLibro($datosGuardar);
     echo json_encode($respuesta);
@@ -138,6 +140,46 @@ if (isset($_POST['operacion'])){
     //$respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
     echo json_encode($libro->registrarCategoria($datosGuardar));
     // echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'UpdateBook'){
+    
+    $rutaDestino = '';
+    $nombreArchivo = '';
+    $nombreGuardara = '';
+
+    if(isset($_FILES['imagenportada'])){
+
+      $rutaDestino = '../views/img/';
+      //Nombre archivo (host)
+      $nombreArchivo = sha1(date('c')) . ".jpg";
+      //Ruta completa (ruta + nombre)
+      $rutaDestino .= $nombreArchivo;
+      
+      if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
+        $nombreGuardara = $nombreArchivo;
+      }
+    }
+
+    $datosGuardar = [
+      "idlibro"           => $_POST['idlibro'],
+      "idsubcategoria"     => $_POST['idsubcategoria'],
+      "ideditorial"       => $_POST['ideditorial'],
+      "libro"            => $_POST['libro'],
+      "tipo"              => $_POST['tipo'],
+      "numeropaginas"     => $_POST['numeropaginas'],
+      "codigo"            => $_POST['codigo'],
+      "edicion"           => $_POST['edicion'],
+      "formato"           => $_POST['formato'],
+      "anio"              => $_POST['anio'],
+      "idioma"            => $_POST['idioma'],
+      "descripcion"       => $_POST['descripcion'],
+      "imagenportada"     => $nombreGuardara,
+      "idautor"           => $_POST['idautor'],
+    ];
+
+    $respuesta = $libro->UpdateBook($datosGuardar);
+    echo json_encode($respuesta);
   }
 
 }

@@ -75,6 +75,7 @@
                                         <th style="color:#574E4E;">Codigo</th>
                                         <th style="color:#574E4E;">C. Entrega</th>
                                         <th style="color:#574E4E;">Ocupado</th> 
+                                        <th style="color:#574E4E;">C. Devolucion</th> 
                                         <th style="color:#574E4E;">F. Devolucion</th>
                                         <th style="color:#574E4E;">Recibir</th>
                                         <th style="color:#574E4E;">Recibir</th>
@@ -241,6 +242,7 @@
         })
     }
 
+    
     function listarEjemplare(){
         const parametros = new URLSearchParams();
         parametros.append("operacion", "traerEjemplar");
@@ -261,15 +263,16 @@
                 if (fechaPasada) {
                     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
-                const style = fechaPasada ? 'color: red;' : '';
+                const style = fechaPasada ? 'color: red;' : ''; 
                 idejemplar = element.idejemplar;
                 const Vopcion1 = `
                 <tr style='${style}'>
                     <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.condicionentrega}</td>
-                    <td>${element.ocupado}</td>
+                    <td>${element.ocupado}</td> 
+                    <td>${element.condiciondevolucion}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
                         <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>

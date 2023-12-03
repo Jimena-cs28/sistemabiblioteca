@@ -68,7 +68,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idsubcategoria"],
@@ -84,7 +84,8 @@ class Libro extends conexion{
           $datos["idioma"],
           $datos["descripcion"],
           $datos["imagenportada"],
-          $datos["idautor"]
+          $datos["idautor"],
+          $datos["condicion"]
         )
       );
     }
@@ -100,11 +101,12 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
-          $datos["cantidad"]
+          $datos["cantidad"],
+          $datos["condicion"]
         )
       );
     }
@@ -214,6 +216,38 @@ class Libro extends conexion{
           $datos["idcategoria"],
           $datos["subcategoria"],
           $datos["codigo"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
+
+  public function UpdateBook($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibro"],
+          $datos["idsubcategoria"],
+          $datos["ideditorial"],
+          $datos["libro"],
+          $datos["tipo"],
+          $datos["numeropaginas"],
+          $datos["codigo"],
+          $datos["edicion"],
+          $datos["formato"],
+          $datos["anio"],
+          $datos["idioma"],
+          $datos["descripcion"],
+          $datos["imagenportada"],
+          $datos["idautor"]
         )
       );
     }

@@ -11,7 +11,7 @@ CREATE PROCEDURE spu_traerEjemplar_libroentregado
 	IN _idprestamo INT
 )
 BEGIN
-	SELECT librosentregados.idlibroentregado, prestamos.idprestamo, ejemplares.idejemplar, ejemplares.codigo_libro, ejemplares.ocupado, libros.libro, 
+	SELECT librosentregados.idlibroentregado, prestamos.idprestamo, ejemplares.idejemplar,librosentregados.condiciondevolucion, ejemplares.codigo_libro, libros.codigo, ejemplares.ocupado, libros.libro, 
 	librosentregados.condicionentrega, DATE(librosentregados.fechadevolucion) AS 'fechadevolucion'
 	FROM librosentregados
 	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
@@ -21,10 +21,10 @@ BEGIN
 	ORDER BY ejemplares.idejemplar ASC;
 END $$
 
-CALL spu_traerEjemplar_libroentregado(6)
+CALL spu_traerEjemplar_libroentregado()
 
 SELECT * FROM usuarios
-SELECT * FROM ejemplares
+SELECT * FROM librosentregados
 
 DELIMITER $$ -- ejecutado
 CREATE PROCEDURE spu_obtener_prestamo
@@ -94,7 +94,7 @@ CREATE PROCEDURE spu_ejemplar_idlibro
 	IN _idlibro INT
 )
 BEGIN	
-	SELECT ejemplares.idejemplar, libros.libro, libros.codigo, ejemplares.codigo_libro, ejemplares.ocupado, ejemplares.estado
+	SELECT ejemplares.idejemplar, libros.libro, libros.codigo, ejemplares.condicion, ejemplares.codigo_libro, ejemplares.ocupado, ejemplares.estado
 	FROM ejemplares
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	WHERE ejemplares.idlibro = _idlibro

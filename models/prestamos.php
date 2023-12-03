@@ -304,4 +304,16 @@ class Prestamos extends conexion{
     }
   }
 
+  public function traerCondicion($idejemplar){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traercondicion_ejemplar(?)");
+      $consulta->execute(array($idejemplar));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
 }

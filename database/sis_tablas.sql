@@ -165,16 +165,17 @@ CREATE TABLE prestamos
 CREATE TABLE ejemplares
 (
 	idejemplar	INT AUTO_INCREMENT PRIMARY KEY,
-	idlibro		INT 	NOT NULL,
-	codigo_libro	INT 	NOT NULL,
-	ocupado 	CHAR(2) NOT NULL DEFAULT 'NO', -- por defecto el libro no estara ocupado
-	estado 		CHAR(1) NOT NULL DEFAULT '1', -- 1 si el libro esta en buen estado
-	creat_at  	DATETIME NOT NULL DEFAULT NOW(),	
-	update_at 	DATETIME NULL,
-	inactive_at	DATETIME NULL,
-	CONSTRAINT fk_idlibro_ejemplar FOREIGN KEY (idlibro) REFERENCES libros (idlibro),
-	CONSTRAINT uk_codigo_ejemplar UNIQUE(codigo_libro,idlibro)
+	idlibro		INT 		NOT NULL,
+	codigo_libro	INT 		NOT NULL,
+	ocupado 	CHAR(2) 	NOT NULL DEFAULT 'NO', -- por defecto el libro no estara ocupado
+	estado 		CHAR(1) 	NOT NULL DEFAULT '1', -- 1 si el libro esta en buen estado
+	condicion 	VARCHAR(100) 	NOT NULL,
+	creat_at  	DATETIME 	NOT NULL DEFAULT NOW(),	
+	update_at 	DATETIME 	NULL,
+	inactive_at	DATETIME 	NULL,
+	CONSTRAINT fk_idlibro_ejemplar FOREIGN KEY (idlibro) REFERENCES libros (idlibro)
 )ENGINE=INNODB;
+
 SELECT * FROM librosentregados
 
 CREATE TABLE librosentregados
@@ -182,10 +183,14 @@ CREATE TABLE librosentregados
 	idlibroentregado	INT AUTO_INCREMENT PRIMARY KEY,
 	idprestamo		INT 		NOT NULL,
 	idejemplar		INT 		NOT NULL,
-	condicionentrega	VARCHAR(50)	NULL,
+	motivoCancelar		VARCHAR(50)	NULL,
+	condicionentrega 	VARCHAR(100)	NOT NULL,
 	condiciondevolucion	VARCHAR(50)	NULL,
 	observaciones		VARCHAR(40)	NULL,
 	fechadevolucion		DATETIME 	NULL,
 	CONSTRAINT fk_idejemplar_libroentre FOREIGN KEY (idejemplar) REFERENCES ejemplares (idejemplar),
 	CONSTRAINT fk_prestamo_libentre FOREIGN KEY (idprestamo) REFERENCES prestamos (idprestamo)
 )ENGINE=INNODB;
+
+
+

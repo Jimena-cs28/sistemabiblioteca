@@ -310,7 +310,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script> -->
     <!-- <script src="../js/demo/datatables-demo.js"></script> -->
-
+    <script src="../js/datatable.min.js"></script>
     <!-- tablas -->
 
     <!-- <script src="./libs/datatables/dataTables.bootstrap4.js"></script>

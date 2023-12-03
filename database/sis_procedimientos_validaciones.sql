@@ -11,6 +11,28 @@ observaciones = 'bien'
 WHERE idejemplar = 1;
 
 SELECT * FROM libros
+DELIMITER $$
+CREATE PROCEDURE ActualizarCondicionEjemplar
+(
+    IN p_idlibroentregado INT
+    IN _condicion_devolucion VARCHAR(50);
+)
+BEGIN
+    DECLARE 
+
+    -- Obtener la condición de devolución
+    SELECT condiciondevolucion INTO _condicion_devolucion
+    FROM librosentregados
+    WHERE idlibroentregado = p_idlibroentregado;
+
+    -- Actualizar la condición en la tabla ejemplares solo si condiciondevolucion = 'bien'
+    IF v_condicion_devolucion IN ('Deteriorado','Mal')THEN
+        UPDATE ejemplares e
+        JOIN librosentregados le ON e.idejemplar = le.idejemplar
+        SET e.condicion = _condicion_devolucion
+        WHERE le.idlibroentregado = p_idlibroentregado;
+    END IF;
+END $$
 -- FUNCIONAAAAAAAAAAAAAAAAA - solo uno (BIEN)
 DELIMITER $$
 CREATE PROCEDURE spu_update_ejemplar
@@ -84,6 +106,13 @@ BEGIN
     observaciones = _observaciones
     WHERE idlibroentregado = _idlibroentregado;
 
+    IF _condiciondevoluciones IN ('Deteriorado','Mal')THEN
+        UPDATE ejemplares e
+        JOIN librosentregados le ON e.idejemplar = le.idejemplar
+        SET e.condicion = _condiciondevoluciones
+        WHERE le.idlibroentregado = _idlibroentregado;
+    END IF;
+    
     -- Contar los idejemplar asociados al idprestamo que tienen ocupado='SI'
     SELECT COUNT(*) INTO _count_ocupados
     FROM ejemplares ej
@@ -100,7 +129,7 @@ BEGIN
     END IF;
 END$$
 
-CALL spu_update_ejemplar(115,12)
+CALL spu_update_ejemplar_mal(3,16,'rayada','Mal')
 -- CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
 
 UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = 2 -- 7,9
@@ -112,7 +141,7 @@ SELECT * FROM librosentregados
 SELECT * FROM prestamos WHERE estado = 'T'
 
 CALL spu_update_devoluciones(10,4,'bien','bien');
-SELECT * FROM librosentregados
+SELECT * FROM librosentregados WHERE idprestamo = 6
 
 -- REPORTES
 SELECT * FROM prestamos WHERE fechasolicitud BETWEEN '2023-11-13' AND '2023-11-16' AND estado = 'T';
@@ -173,7 +202,14 @@ BEGIN
         le.condiciondevolucion = _condiciondevolucion,
         le.fechadevolucion = NOW()
     WHERE le.idprestamo = _idprestamo AND ej.ocupado = 'SI';
-
+    
+      IF _condiciondevolucion  IN ('Deteriorado','Mal')THEN
+        UPDATE ejemplares e
+        JOIN librosentregados le ON e.idejemplar = le.idejemplar
+        SET e.condicion = _condiciondevolucion
+        WHERE le.idprestamo = _idprestamo;
+    END IF;
+    
     -- Verificar si todos los idejemplar tienen ocupado='NO'
     SELECT COUNT(*) INTO _count_ocupados
     FROM ejemplares ej
@@ -186,8 +222,9 @@ BEGIN
     END IF;
 END$$
 
-SELECT * FROM personas
-SELECT * FROM librosentregados
+CALL spu_updateD_todo_prestamo(6,'Mal','sin pasta')
+SELECT * FROM prestamos
+SELECT * FROM librosentregados WHERE idprestamo = 6
 
 SELECT
     l.idlibro,
