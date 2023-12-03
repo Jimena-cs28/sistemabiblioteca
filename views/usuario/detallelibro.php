@@ -51,7 +51,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <form>
         <div class="form-row mt-2">
             <h4>Solicitud de Préstamo</h4>
-  
+
     <div class="form-group col-md-3 mt-3">
         <label for="fechaprestamo" >Fecha de préstamo</label>
         <input type="date" class="form-control" id="fechaprestamo">
@@ -78,8 +78,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </div>
 
     <div class="form-group col-md-6 mt-3">
-        <label for="descripcion" class="form-label bold">Descripción</label>
-        <input type="text" class="form-control" id="descripcion">
+        <label for="descripcion" class="form-label bold" id="des">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" placeholder = "Opcional">
     </div>
 
     <div class="mt-4 mb-4">
@@ -177,7 +177,12 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             if(nombrerol == 'Estudiante'){
                 document.querySelector('#contenedor-cantidad').style.display='none'
+                document.querySelector('#des').textContent = 'Grado y Sección';
 
+            }
+
+            if(nombrerol == 'Profesor'){
+                document.querySelector('#des').textContent = 'Curso';
             }
 
             const fechaActual = new Date(); 

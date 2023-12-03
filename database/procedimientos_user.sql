@@ -170,13 +170,13 @@ CREATE PROCEDURE spu_historial
 BEGIN
 	SELECT prestamos.idprestamo, libros.libro AS 'libro', libros.imagenportada, prestamos.descripcion,fechasolicitud, 
 	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.estado,
-	prestamos.cantidad
+	prestamos.cantidad, prestamos.motivorechazo
 	FROM prestamos
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE prestamos.idbeneficiario = _idusuario
-	ORDER BY fechaprestamo DESC;
+	ORDER BY idprestamo DESC;
 END $$
 
 
@@ -282,26 +282,36 @@ BEGIN
 END$$
 
 SELECT * FROM prestamos WHERE estado = 'S'
-	
+
+
 DELIMITER $$
 CREATE PROCEDURE spu_solicitud_listar()
 BEGIN
-	SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, ' ' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion, prestamos.fechasolicitud, 
-	DATE(fechaprestamo) AS 'fechaprestamo'
-	FROM librosentregados
-	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	SELECT prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.cantidad, libros.idlibro
+	FROM prestamos
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'S';
-END$$
+	WHERE prestamos.estado = 'S';
+END $$
 
+SELECT * FROM personas
+SELECT * FROM libros
+SELECT * FROM prestamos
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_rechazar_solicitud
+(
+	IN _idprestamo INT,
+	IN _motivo	VARCHAR(200)
+)
+BEGIN
+	UPDATE prestamos SET motivorechazo = _motivo, estado = 'C' WHERE idprestamo = _idprestamo;
+END$$
 
 SELECT * FROM prestamos WHERE idbeneficiario = 2
 SELECT * FROM librosentregados
-IF (prestamo.idlirbo = ' ')
-	-- listarhisto
-	
-ELSE
-	-- 
+
 	
