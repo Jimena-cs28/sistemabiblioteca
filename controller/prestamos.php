@@ -124,7 +124,7 @@
     $datosGuardar = [
       "idprestamo"      => $_POST['idprestamo'],
       "idejemplar"         => $_POST['idejemplar'],
-      "condicionentrega"  => $_POST['condicionentrega'],
+      "condicionentrega"         => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];
     $respuesta = $prestamo->registrarLibroentregado($datosGuardar);
@@ -147,7 +147,7 @@
     $datosGuardar = [
       "idprestamo"        => $_POST['idprestamo'],
       "idejemplar"           => $_POST['idejemplar'],
-      "condicionentrega"  => $_POST['condicionentrega'],
+      "condicionentrega"           => $_POST['condicionentrega'],
       "fechadevolucion"       => $_POST['fechadevolucion']
     ];
     //$respuesta = $prestamo->AddLibroentregadonow($datosGuardar);
@@ -178,6 +178,13 @@
 
   if($_POST['operacion'] == 'cancelarRevesva'){
     $datosActulizar = $prestamo->cancelarRevesva($_POST['idprestamo']);
+    if($datosActulizar){
+      echo json_encode($datosActulizar);
+    }
+  }
+
+  if($_POST['operacion'] == 'traerCondicion'){
+    $datosActulizar = $prestamo->traerCondicion($_POST['idejemplar']);
     if($datosActulizar){
       echo json_encode($datosActulizar);
     }

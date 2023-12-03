@@ -53,7 +53,7 @@ SELECT * FROM prestamos;
 UPDATE prestamos SET estado = 'D' WHERE
 UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = 1;
 
-SELECT * FROM usuarios
+SELECT * FROM libros
 SELECT * FROM librosentregados
 
 -- LISTAR TODO
@@ -80,7 +80,7 @@ BEGIN
 END $$
 
 SELECT * FROM libros
-CALL spu_listar_fichaprestamo(6);
+CALL spu_listar_fichaprestamo(5);
 
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
 

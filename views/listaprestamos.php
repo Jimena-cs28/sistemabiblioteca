@@ -87,8 +87,8 @@ $datoID = json_encode($_SESSION['login']);
                             <input type="number" class="form-control" id="cantidad" value="1" required>
                         </div>
                         <div class="col-md-2">
-                            <label>Condicion Entrega</label>
-                            <input type="text" value="bien" class="form-control mb-3" id="condicionentrega" required>
+                            <label>Condicion Libro</label>
+                            <input type="text" class="form-control mb-3" id="condicionentrega" required>
                         </div>
                         <div class="col-md-2">
                             <label>Fecha devolucion</label>
@@ -605,6 +605,23 @@ $datoID = json_encode($_SESSION['login']);
         });
     }
 
+    function traercondicion(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerCondicion");
+        parametros.append("idejemplar", filtroEjempla.value);
+        fetch("../controller/prestamos.php", {
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            console.log(datos);
+            datos.forEach(element => {
+                Condicionentrega.value = element.condicion; 
+            });
+        });
+    }
+
     // function TraerDescripcion() {
     //     const parametros = new URLSearchParams();
     //     parametros.append("operacion", "traerDescripcion");
@@ -635,4 +652,5 @@ $datoID = json_encode($_SESSION['login']);
     Guardar.addEventListener("click", ValidarRegistrar);
     libro.addEventListener("change", listarEjemplares);
     filtroStudent.addEventListener("change", TraerDescripcion);
+    filtroEjempla.addEventListener("change", traercondicion);
 </script>

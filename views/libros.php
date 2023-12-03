@@ -45,14 +45,21 @@
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
+                            <label for="">Condicion</label>
+                            <select name="" id="condicion" class="form-control">
+                                <option value="Nuevo">Nuevo</option>
+                                <option value="Usado">Usado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <label for="">CANTIDAD</label>
                             <input type="number" class="form-control" id="cantidad">
                         </div>
-                        <div class="col-md-3">
-                            <label for="">NUMERO DE PAGINA</label>
+                        <div class="col-md-2">
+                            <label for="">Nº DE PAGINA</label>
                             <input type="number" class="form-control" placeholder="55" id="paginas">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="">CODIGO</label>  
                             <input type="text" class="form-control" required="" id="codigo">
                         </div>
@@ -222,6 +229,7 @@
                 fd.append("descripcion",document.querySelector("#descripcion").value);
                 fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
                 fd.append("idautor",selectAutores.value);
+                fd.append("condicion", document.querySelector("#condicion").value)
                 
                 fetch("../controller/libros.php",{
                     method: "POST",

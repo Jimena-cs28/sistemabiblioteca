@@ -232,7 +232,7 @@
                 <tr>
                     <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
-                    <td>${element.codigo_libro}</td>
+                    <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.condicionentrega}</td>
                     <td>${element.fechadevolucion}</td>
                 </tr>`

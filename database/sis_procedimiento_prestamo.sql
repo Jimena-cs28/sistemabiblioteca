@@ -31,24 +31,19 @@ CREATE PROCEDURE spu_libroentregado_register
 (
 	IN _idprestamo INT,
 	IN _idejemplar INT,
-	IN _condicionEntrega VARCHAR(40),
 	IN _fechadevolución DATETIME
 )
 BEGIN
 	DECLARE _idbene INT;
-	IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
+	-- IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
 
-	
 	SELECT idbeneficiario INTO _idbene
 	FROM prestamos
 	WHERE idprestamo = _idprestamo;
-	-- select * from prestamos
-		
-	    -- Verifica si hay suficientes libros disponibles para restar
     
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega,fechadevolucion) VALUES
-			(_idprestamo,_idejemplar, _condicionEntrega,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar ,fechadevolucion) VALUES
+			(_idprestamo,_idejemplar,_fechadevolución);
         
         UPDATE prestamos SET
         estado = 'R'
@@ -57,14 +52,14 @@ BEGIN
         UPDATE ejemplares SET
         ocupado = 'SI'
         WHERE idejemplar = _idejemplar;
-        
+     
         UPDATE usuarios SET
         estado = '0',
         inactive_at = NOW()
         WHERE idusuario = _idbene;
 END $$
 
-CALL spu_libroentregado_register(44,6,'Nuevo','2023-11-23');
+CALL spu_libroentregado_register(2,1,'2023-11-30');
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
 SELECT * FROM ejemplares
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
@@ -111,7 +106,6 @@ CREATE PROCEDURE spu_libroentregado_AddAhora
 (
 	IN _idprestamo INT,
 	IN _idejemplar INT,
-	IN _condicionEntrega VARCHAR(40),
 	IN _fechadevolución DATETIME
 )
 BEGIN
@@ -123,11 +117,12 @@ BEGIN
 	WHERE idprestamo = _idprestamo;
 
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega,fechadevolucion) VALUES
-			(_idprestamo,_idejemplar, _condicionEntrega,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar,fechadevolucion) VALUES
+			(_idprestamo,_idejemplar,_fechadevolución);
         
         UPDATE prestamos SET
-        estado = 'D'
+        estado = 'D',
+        fechaentrega = NOW()
         WHERE idprestamo = _idprestamo;
         
         UPDATE ejemplares SET
@@ -139,7 +134,7 @@ BEGIN
         inactive_at = NOW()
         WHERE idusuario = _idbene;
 END $$
-
+CALL spu_libroentregado_AddAhora(1,1,'2023-11-30');
 -- CANCELAR RESERVA
 
 DELIMITER $$
@@ -535,9 +530,56 @@ END $$
 CALL spu_datos_personales(1)
 SELECT * FROM roles
 
+DELIMITER $$
+CREATE PROCEDURE updated
+(
+    IN p_idprestamo INT
+)
+BEGIN
+    DECLARE v_condicion_devolucion VARCHAR(50);
 
+    -- Obtener la condición de devolución
+    SELECT condiciondevolucion INTO v_condicion_devolucion
+    FROM librosentregados
+    WHERE idprestamo = p_idprestamo
+    AND condiciondevolucion = 'bien';
 
+    -- Actualizar la condición en la tabla ejemplares si condiciondevolucion = 'bien'
+    IF v_condicion_devolucion = 'bien' THEN
+        UPDATE ejemplares e
+        JOIN librosentregados le ON e.idejemplar = le.idejemplar
+        SET e.condicion = v_condicion_devolucion
+        WHERE le.idprestamo = p_idprestamo;
+    END IF;
+END $
 
+DELIMITER $$
+CREATE PROCEDURE ActualizarCondicionEjemplar
+(
+    IN p_idlibroentregado INT
+    IN _condicion_devolucion VARCHAR(50);
+)
+BEGIN
+    DECLARE 
+
+    -- Obtener la condición de devolución
+    SELECT condiciondevolucion INTO _condicion_devolucion
+    FROM librosentregados
+    WHERE idlibroentregado = p_idlibroentregado;
+
+    -- Actualizar la condición en la tabla ejemplares solo si condiciondevolucion = 'bien'
+    IF v_condicion_devolucion IN ('Deteriorado','Mal')THEN
+        UPDATE ejemplares e
+        JOIN librosentregados le ON e.idejemplar = le.idejemplar
+        SET e.condicion = _condicion_devolucion
+        WHERE le.idlibroentregado = p_idlibroentregado;
+    END IF;
+END $$
+
+CALL ActualizarCondicionEjemplar(12) -- 16
+SELECT * FROM ejemplares
+SELECT * FROM librosentregados
+SELECT * FROM prestamos
 
 
 
