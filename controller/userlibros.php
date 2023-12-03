@@ -133,5 +133,14 @@ if (isset($_POST['operacion'])){
     echo json_encode($datos);
   }
 
+  if($_POST['operacion'] == 'cancelarsolicitud'){
+    $respuesta=[
+      "estado" => false
+    ];
+    $respuesta["estado"]=$userlibro->cancelarsolicitud($_POST['idprestamo'],$_POST['motivo']);
+    echo json_encode($respuesta);
+
+  }
+
 
 }

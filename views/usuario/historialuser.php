@@ -67,7 +67,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 R: "Reservado",
                 E: "Entregado",
                 D: "Sin Devolver",
-                T: "Devuelto"
+                T: "Devuelto",
+                C: "Cancelado"
             }
             formData.append("operacion", "historialusuario")
             fetch("../../controller/userlibros.php", {
@@ -91,6 +92,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
                                     <li class="list-group-item">Estado: ${estados[el.estado]}</li>
                                     <li class="list-group-item">Cantidad: ${el.cantidad}</li>
+                                    ${
+                                        el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>`:''
+                                    }                                  
                                 </ul>
                             </div>
                         </div>

@@ -44,6 +44,28 @@
     </div>
 </div>
 
+<div> 
+    <div class="modal fade" id="rechazarsolicitud">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Rechazar Solicitud</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id ="btnrechazarsolicitud" type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <!-- <div class="modal fade" id="registrarejemplares" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
@@ -93,7 +115,7 @@
                         <th>F. Solicitud</th>
                         <th>F. Prestamo</th>
                         <th>Aceptar</th>
-                        <!-- <th>Rechazar</th> -->
+                        <th>Cancelar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +138,9 @@
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
     const modal = new bootstrap.Modal(document.querySelector("#registrarejemplares"));
+    const modalrechazarsolicitud = new bootstrap.Modal (document.querySelector("#rechazarsolicitud"));
+    const btnrechazarsolicitud = document.querySelector("#btnrechazarsolicitud");
+    const txtrechazarsolicitud = document.querySelector("#txt-rechazarsolicitud"); 
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
@@ -141,6 +166,9 @@
                     <td>${element.fechaprestamo}</td>
                     <td>
                     <a  class="btn btn-info btn-sm editar" data-fechasolicitud="${element.fechasolicitud}"data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
+                    </td>
+                    <td>
+                    <a  class="btn btn-danger btn-sm cancelar"  data-idprestamo="${element.idprestamo}">Rechazar</a>
                     </td>
                 </tr>
                 `;
@@ -224,6 +252,37 @@
     }
 });
 
+cuerpo.addEventListener('click', function(event){
+    const element = event.target.closest(".cancelar");
+    if(element){
+        modalrechazarsolicitud.toggle()
+        idprestamo = element.dataset.idprestamo;
+
+    }
+} )
+btnrechazarsolicitud.addEventListener('click', function(){
+    const motivo = txtrechazarsolicitud.value
+    if(motivo.trim()===''){
+        alert('Debe ingresar un motivo')
+    }
+    else{
+        const formData = new FormData()
+        formData.append("operacion", "cancelarsolicitud")
+        formData.append("idprestamo", idprestamo)
+        formData.append("motivo", motivo)
+        fetch("../controller/userlibros.php", {
+            method: 'POST',
+            body: formData
+        })
+        .then(res=>res.json())
+        .then(datos=>{
+            if(datos.estado){
+                location.reload()
+            }
+        })
+    }
+})
+
 btnaceptarsolicitud.addEventListener('click', function(){
     const listaejemplares = document.querySelectorAll(".item-ejemplar")
     const arrListejemplar = []
@@ -247,6 +306,8 @@ btnaceptarsolicitud.addEventListener('click', function(){
         location.reload()
     })
 })
+
+
 
     listarSolicitud();
 

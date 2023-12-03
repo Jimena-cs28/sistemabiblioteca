@@ -155,10 +155,11 @@ CREATE TABLE prestamos
 	lugardestino		VARCHAR(100) 	NULL,
 	estado			CHAR(1)		NOT NULL DEFAULT 'E',
 	activo			CHAR(1) 	NOT NULL DEFAULT '1',
+	motivorechazo		VARCHAR(200)	NULL,
 	CONSTRAINT fk_idbene_prestamo FOREIGN KEY (idbeneficiario) REFERENCES usuarios (idusuario),
 	CONSTRAINT fk_idbiblio_prestamo FOREIGN KEY (idbibliotecario) REFERENCES usuarios (idusuario),
 	CONSTRAINT ck_enbiblio_presta  CHECK(enbiblioteca IN ("SI","NO")),
-	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N")),
+	CONSTRAINT ck_estado_ore CHECK(estado IN ("E","S","R","D","T","N","C")),
 	CONSTRAINT fk_idlibro_prestamo FOREIGN KEY (idlibro) REFERENCES libros (idlibro)
 )ENGINE=INNODB;
 
