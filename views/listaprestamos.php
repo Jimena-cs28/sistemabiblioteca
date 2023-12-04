@@ -328,81 +328,16 @@ $datoID = json_encode($_SESSION['login']);
             choicesLibro.setChoices([], 'value','label',true);
             choicesLibro.setChoices(datos, 'idejemplar','Ejemplares', true);
         });
-    }
-
-    // function agregarLibros() {
-    //     const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-    //     const elementosSelect = Array.from(filtroEjempla.options);
-
-    //     // Iterar sobre la cantidad especificada de libros
-    //     for (let i = 0; i < cantidadLibros; i++) {
-    //         // Obtener el índice actual
-    //         const indiceActual = i % elementosSelect.length;
-
-    //         // Obtener el elemento del select en el índice actual
-    //         const idlejemplarSeleccionado = elementosSelect[indiceActual];
-    //         const idejemplar = idlejemplarSeleccionado.value;
-    //         const nombreLibro = idlejemplarSeleccionado.label;
-    //         const fechaDevolucion = fechadevolucion.value;
-    //         const condicion = Condicionentrega.value;
-
-    //         // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
-    //         if (libroAgregados.has(idejemplar)) {
-    //             alert("Este libro ya ha sido agregado");
-    //         } else {
-    //             let nuevaFila = `
-    //                 <tr>
-    //                     <td>${idejemplar}</td>
-    //                     <td>${nombreLibro}</td>
-    //                     <td>${fechaDevolucion}</td>
-    //                     <td>${condicion}</td>
-    //                     <td>
-    //                         <a href='#' class='eliminar'>Eliminar</a>
-    //                     </td>
-    //                 </tr>`;
-    //             tablalibro.innerHTML += nuevaFila;
-
-    //             libroAgregados.add(idejemplar);
-    //         }
-    //     }
-    // }
-
-    // Variable para rastrear los libros agregados
-    let librosAgregados = [];
-
-    function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
-        const nuevaFila = document.createElement('tr');
-
-        nuevaFila.innerHTML = `
-            <td>${idejemplar}</td>
-            <td>${nombreLibro}</td>
-            <td>${fechaDevolucion}</td>
-            <td>${condicion}</td>
-            <td>
-                <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
-            </td>
-        `;
-
-        // Agregar la nueva fila a la tabla
-        tablalibro.appendChild(nuevaFila);
-    }
+    } 
 
     function agregarLibros() {
         const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-        const elementosSelect = filtroEjempla.options;
-
-        // Obtener el último índice de libros agregados o 0 si no hay ninguno
-        const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
-
-        console.log("Cantidad de libros:", cantidadLibros);
-        console.log("Último índice:", ultimoIndice);
+        const elementosSelect = Array.from(filtroEjempla.options);
 
         // Iterar sobre la cantidad especificada de libros
         for (let i = 0; i < cantidadLibros; i++) {
             // Obtener el índice actual
-            const indiceActual = (i + ultimoIndice) % elementosSelect.length;
-
-            console.log("Índice actual:", indiceActual);
+            const indiceActual = i % elementosSelect.length;
 
             // Obtener el elemento del select en el índice actual
             const idlejemplarSeleccionado = elementosSelect[indiceActual];
@@ -411,19 +346,83 @@ $datoID = json_encode($_SESSION['login']);
             const fechaDevolucion = fechadevolucion.value;
             const condicion = Condicionentrega.value;
 
-            console.log("Idejemplar:", idejemplar);
-            console.log("Nombre del libro:", nombreLibro);
-
-            // No agregar el libro si ya ha sido agregado
-            if (librosAgregados.includes(idejemplar)) {
+            // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
+            if (libroAgregados.has(idejemplar)) {
                 alert("Este libro ya ha sido agregado");
             } else {
-                agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
-                librosAgregados.push(idejemplar);
-                console.log("Libro agregado:", idejemplar);
+                let nuevaFila = `
+                    <tr>
+                        <td>${idejemplar}</td>
+                        <td>${nombreLibro}</td>
+                        <td>${fechaDevolucion}</td>
+                        <td>${condicion}</td>
+                        <td>
+                            <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
+                        </td>
+                    </tr>`;
+                tablalibro.innerHTML += nuevaFila;
+                libroAgregados.add(idejemplar);
             }
         }
     }
+
+    // Variable para rastrear los libros agregados
+    let librosAgregados = [];
+
+    // function agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion) {
+    //     const nuevaFila = document.createElement('tr');
+
+    //     nuevaFila.innerHTML = `
+    //         <td>${idejemplar}</td>
+    //         <td>${nombreLibro}</td>
+    //         <td>${fechaDevolucion}</td>
+    //         <td>${condicion}</td>
+    //         <td>
+    //             <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
+    //         </td>
+    //     `;
+
+    //     // Agregar la nueva fila a la tabla
+    //     tablalibro.appendChild(nuevaFila);
+    // }
+
+    // function agregarLibros() {
+    //     const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
+    //     const elementosSelect = filtroEjempla.options;
+
+    //     // Obtener el último índice de libros agregados o 0 si no hay ninguno
+    //     const ultimoIndice = librosAgregados.length > 0 ? librosAgregados[librosAgregados.length - 1] : 0;
+
+    //     console.log("Cantidad de libros:", cantidadLibros);
+    //     console.log("Último índice:", ultimoIndice);
+
+    //     // Iterar sobre la cantidad especificada de libros
+    //     for (let i = 0; i < cantidadLibros; i++) {
+    //         // Obtener el índice actual
+    //         const indiceActual = (i + ultimoIndice) % elementosSelect.length;
+
+    //         // console.log("Índice actual:", indiceActual);
+
+    //         // Obtener el elemento del select en el índice actual
+    //         const idlejemplarSeleccionado = elementosSelect[indiceActual];
+    //         const idejemplar = idlejemplarSeleccionado.value;
+    //         const nombreLibro = idlejemplarSeleccionado.label;
+    //         const fechaDevolucion = fechadevolucion.value;
+    //         const condicion = Condicionentrega.value;
+
+    //         console.log("Idejemplar:", idejemplar);
+    //         console.log("Nombre del libro:", nombreLibro);
+
+    //         // No agregar el libro si ya ha sido agregado
+    //         if (librosAgregados.includes(idejemplar)) {
+    //             alert("Este libro ya ha sido agregado");
+    //         } else {
+    //             agregarFilaTabla(idejemplar, nombreLibro, fechaDevolucion, condicion);
+    //             librosAgregados.push(idejemplar);
+    //             console.log("Libro agregado:", idejemplar);
+    //         }
+    //     }
+    // }
 
     Agregar.addEventListener("click", agregarLibros);
 

@@ -262,8 +262,10 @@ BEGIN
 	WHERE DATE(p.fechasolicitud) BETWEEN _fechasolicitud AND _fechasolicitud1
 	GROUP BY c.idcategoria;
 END $$
+
 SELECT * FROM prestamos
-CALL spu_reporte_fechasolicitud('23-11-2023','29-11-2023')
+SELECT * FROM librosentregados
+CALL spu_reporte_fechasolicitud('2023-12-01','2023-12-04')
 
 -- LOSLIBROS MAS PEDIDOS (POR DIA, MES,AÑO)-POR CATEGORIA
 DELIMITER $$
@@ -279,4 +281,27 @@ BEGIN
 	GROUP BY c.idcategoria;
 END $$
 
-CALL spu_listar_reporte()
+DELIMITER $$
+CREATE PROCEDURE spu_reporte_idusuario
+(
+	IN _idusuario INT
+)
+BEGIN
+	SELECT c.idcategoria, c.categoria, c.codigo, COUNT(p.idprestamo) AS 'CantidadPrestada'
+	FROM categorias c
+	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
+	LEFT JOIN libros l ON sc.idsubcategoria = l.idsubcategoria
+	LEFT JOIN ejemplares e ON l.idlibro = e.idlibro
+	LEFT JOIN librosentregados le ON e.idejemplar = le.idejemplar
+	LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
+	LEFT JOIN usuarios u ON p.idbeneficiario = u.idusuario
+	LEFT JOIN roles r ON u.idrol = r.idrol
+	WHERE r.idrol = _idusuario 
+	GROUP BY c.idcategoria;
+END $$
+
+CALL spu_reporte_idusuario(3)
+SELECT * FROM roles
+
+
+

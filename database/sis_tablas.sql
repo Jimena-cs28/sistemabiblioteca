@@ -184,7 +184,6 @@ CREATE TABLE librosentregados
 	idlibroentregado	INT AUTO_INCREMENT PRIMARY KEY,
 	idprestamo		INT 		NOT NULL,
 	idejemplar		INT 		NOT NULL,
-	motivoCancelar		VARCHAR(50)	NULL,
 	condicionentrega 	VARCHAR(100)	NOT NULL,
 	condiciondevolucion	VARCHAR(50)	NULL,
 	observaciones		VARCHAR(40)	NULL,

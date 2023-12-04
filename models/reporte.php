@@ -5,12 +5,10 @@ class Reporte extends conexion{
 
     private $acesso;
 
-    public function __CONSTRUCT()
-    {
+    public function __CONSTRUCT(){
         $this->acesso = parent::getConexion();
     }
 
-    
     public function tablareporte($descripcion){
         try {
             $consulta = $this->acesso->prepare("CALL spu_reporte_descripcion(?)");
@@ -23,15 +21,12 @@ class Reporte extends conexion{
         }
     }
 
-    public function reporteSolicitud($datos = []){
+    public function reporteSolicitud($fecha1, $fecha2){
         try{
             $consulta = $this->acesso->prepare("CALL spu_reporte_fechasolicitud(?,?)");
-            $consulta->execute(
-                array(
-                    $datos["fechasolicitud"],
-                    $datos["fechasolicitud1"]
-                )
-            );
+            $consulta->execute(array($fecha1, $fecha2));
+            $data = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -43,7 +38,7 @@ class Reporte extends conexion{
             $consulta = $this->acesso->prepare("CALL spu_listar_reporte()");
             $consulta->execute();
     
-          $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
             return $datosObtenidos; 
         }
         catch(Exception $e){
@@ -51,4 +46,15 @@ class Reporte extends conexion{
         }
     }
 
+    public function reporteUsuario($idusuario){
+        try {
+            $consulta = $this->acesso->prepare("CALL spu_reporte_idusuario(?)");
+            $consulta->execute(array($idusuario));
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }

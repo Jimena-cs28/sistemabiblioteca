@@ -292,11 +292,15 @@ class Prestamos extends conexion{
     }
   }
 
-  public function cancelarRevesva($idprestamo){
+  public function cancelarRevesva($datos){
     try{
-      $consulta = $this->acesso->prepare("CALL spu_cancelar_reserva(?)");
-      $consulta->execute(array($idprestamo));
-
+      $consulta = $this->acesso->prepare("CALL spu_cancelar_reserva(?,?)");
+      $consulta->execute(
+        array(
+          $datos["idprestamo"],
+          $datos["motivo"]
+        )
+      );
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){

@@ -1,4 +1,3 @@
-    
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -53,7 +52,6 @@
 </div>
 
 <!-- modal -->
-
 <!-- modal ejemplar-->
 <div class="modal fade" id="ejemplar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -121,7 +119,12 @@
                                     <input type="text" class="form-control" id="lugardestino" disabled>
                                 </div>
                             </div>
-                            
+                            <div class="row mt-3" id="divcancelacion">
+                                <div class="col-sm-6">
+                                    <label>Motivo de Cancelacion</label>
+                                    <input type="text" class="form-control" id="motivocancel" disabled>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="content ml-3 mt-3">
@@ -200,7 +203,7 @@
                     <td>${element.fechaprestamo}</td>
                     <td>
                         <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
-                    <td>               
+                    </td>               
                 </tr>
                 `;
                 cuerpo.innerHTML += pres;
@@ -251,6 +254,11 @@
             .then(response => response.json())
             .then(datos => {
                 datos.forEach(element => {
+                    if(element.estado =='T'){
+                        document.querySelector("#divcancelacion").style.display='none'
+                    }else{
+                        document.querySelector("#divcancelacion").style.display='block'
+                    }
                     rol.value = element.nombrerol;
                     nombres.value = element.nombres;
                     descripcion.value = element.descripcion;
@@ -265,13 +273,12 @@
                     document.querySelector("#Frespuesta").value = element.fecharespuesta;
                     document.querySelector("#img").src = `./img/${element.imagenportada}`;
                     document.querySelector("#lugardestino").value = element.lugardestino;
-                    //document.querySelector("#observacion").value = element.observaciones;
+                    document.querySelector("#motivocancel").value = element.motivorechazo;
                 });
                 listarEjemplare();
             });
         }
     });
-
 
     function searchPrestamo(){
         const parametros = new URLSearchParams();
@@ -305,32 +312,8 @@
     }
 
     listarprestamo();
+
     secharP.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) searchPrestamo();
     });
-
-
-    const $btnExportar = document.querySelector("#excel");
-    const $tabla = document.querySelector("#dataTable");
-
-    $btnExportar.addEventListener("click", function() {
-        let tableExport = new TableExport($tabla, {
-            exportButtons: false, // No queremos botones
-            filename: "Reporte", // Nombre del archivo de Excel
-            sheetname: "Hoja1", // Título de la hoja
-        });
-
-        let datos = tableExport.getExportData();
-        let preferenciasDocumento = datos.tabla.xlsx;
-        tableExport.export2file(
-            preferenciasDocumento.data,
-            preferenciasDocumento.mimeType,
-            preferenciasDocumento.filename,
-            preferenciasDocumento.fileExtension,
-            preferenciasDocumento.merges,
-            preferenciasDocumento.RTL,
-            preferenciasDocumento.sheetname
-        );
-    });
-    
 </script>
