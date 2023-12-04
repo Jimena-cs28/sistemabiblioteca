@@ -21,10 +21,13 @@ class Reporte extends conexion{
         }
     }
 
-    public function reporteSolicitud($fecha1, $fecha2){
+    public function reporteSolicitud($datos = []){
         try{
             $consulta = $this->acesso->prepare("CALL spu_reporte_fechasolicitud(?,?)");
-            $consulta->execute(array($fecha1, $fecha2));
+            $consulta->execute(array(
+                $datos["fechasolicitud"],
+                $datos["fechasolicitud1"]
+            ));
             $data = $consulta->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }

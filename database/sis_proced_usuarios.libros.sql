@@ -122,7 +122,6 @@ CREATE PROCEDURE spu_update_libro
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
-    IN _imagenportada VARCHAR(200),
     IN _idautor  INT,
     IN _condicion VARCHAR(50)
 )
@@ -140,8 +139,7 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion,
-        imagenportada = _imagenportada
+        descripcion = _descripcion
         WHERE idlibro = _idlibro;
         
         UPDATE detalleautores SET
@@ -150,7 +148,7 @@ BEGIN
         
         UPDATE ejemplares SET
         condicion = _condicion
-        WHERE idlibro = _idlibro
+        WHERE idlibro = _idlibro;
 END $$
 
 CALL spu_update_libro(1,5,1,'fisica conceptual','text',142,'534','','','','español','','',2)
@@ -557,6 +555,21 @@ END $$
 CALL spu_traercondicion_ejemplar(1)
 
 SELECT * FROM prestamos
+
+
+--  filtro de subcategoria
+DELIMITER $$
+CREATE PROCEDURE spu_traer_subcategoria
+(
+	IN _idcategoria INT
+)
+BEGIN 
+	SELECT idsubcategoria, categorias.categoria, subcategorias.subcategoria, subcategorias.codigo
+	FROM subcategorias
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE subcategorias.idcategoria = _idcategoria
+	ORDER BY subcategorias.idsubcategoria DESC;
+END $$
 
 
 

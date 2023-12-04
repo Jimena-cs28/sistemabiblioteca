@@ -131,6 +131,7 @@ if (isset($_POST['operacion'])){
     }
   }
 
+
   if($_POST['operacion'] == 'RegistrarCategory'){
     $datosGuardar = [
       "idcategoria"         => $_POST['idcategoria'],
@@ -144,22 +145,22 @@ if (isset($_POST['operacion'])){
 
   if($_POST['operacion'] == 'UpdateBook'){
     
-    $rutaDestino = '';
-    $nombreArchivo = '';
-    $nombreGuardara = '';
+    // $rutaDestino = '';
+    // $nombreArchivo = '';
+    // $nombreGuardara = '';
 
-    if(isset($_FILES['imagenportada'])){
+    // if(isset($_FILES['imagenportada'])){
 
-      $rutaDestino = '../views/img/';
-      //Nombre archivo (host)
-      $nombreArchivo = sha1(date('c')) . ".jpg";
-      //Ruta completa (ruta + nombre)
-      $rutaDestino .= $nombreArchivo;
+    //   $rutaDestino = '../views/img/';
+    //   //Nombre archivo (host)
+    //   $nombreArchivo = sha1(date('c')) . ".jpg";
+    //   //Ruta completa (ruta + nombre)
+    //   $rutaDestino .= $nombreArchivo;
       
-      if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
-        $nombreGuardara = $nombreArchivo;
-      }
-    }
+    //   if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
+    //     $nombreGuardara = $nombreArchivo;
+    //   }
+    // }
 
     $datosGuardar = [
       "idlibro"           => $_POST['idlibro'],
@@ -174,7 +175,7 @@ if (isset($_POST['operacion'])){
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
-      "imagenportada"     => $nombreGuardara,
+      // "imagenportada"     => $nombreGuardara,
       "idautor"           => $_POST['idautor'],
     ];
 
@@ -182,4 +183,10 @@ if (isset($_POST['operacion'])){
     echo json_encode($respuesta);
   }
 
+  if($_POST['operacion'] == 'traerSibcategoria'){
+    $datos = $libro->traerSibcategoria($_POST['idcat']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
 }

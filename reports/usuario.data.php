@@ -1,6 +1,6 @@
-<div class="nav">
+<div class="">
     <img class="img" src="../img/logo2.png" alt="logo">
-    <h1 class="text-md text-center">Reporte de los libros mas pedidos por usuario</h1>
+    <h1 class="text-md text-center mb-3">REPORTE DE LOS LIBROS MAS PEDIDOS POR USUARIO</h1>
 </div>
 
 <table class="table table-border mt-3">

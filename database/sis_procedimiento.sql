@@ -1,5 +1,5 @@
 USE sistemabiblioteca
-
+DROP DATABASE sistemabiblioteca
 DELIMITER$$
 CREATE PROCEDURE spu_login 
 ( 
@@ -53,9 +53,9 @@ SELECT * FROM prestamos;
 UPDATE prestamos SET estado = 'D' WHERE
 UPDATE prestamos SET fecharespuesta = NOW() WHERE idprestamo = 1;
 
-SELECT * FROM prestamos
+SELECT * FROM usuarios
 SELECT * FROM librosentregados
- 
+
 -- LISTAR TODO
 DELIMITER $$
 CREATE PROCEDURE spu_listar_fichaprestamo
@@ -66,7 +66,7 @@ BEGIN
 	SELECT librosentregados.idlibroentregado, ejemplares.idejemplar, ejemplares.codigo_libro, libros.codigo, libros.imagenportada, roles.nombrerol, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres', 
 	prestamos.descripcion,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, categorias.categoria, 
 	subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, librosentregados.fechadevolucion, prestamos.lugardestino,
-	prestamos.fecharespuesta, prestamos.estado, prestamos.motivorechazo
+	prestamos.fecharespuesta
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
@@ -76,11 +76,11 @@ BEGIN
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usu1.idrol
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado IN ('T', 'C');
+	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado = 'T';
 END $$
 
 SELECT * FROM libros
-CALL spu_listar_fichaprestamo(9);
+CALL spu_listar_fichaprestamo(6);
 
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
 

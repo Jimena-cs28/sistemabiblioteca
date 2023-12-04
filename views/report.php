@@ -53,7 +53,6 @@
 </div>
 
 <script>
-
     const descripcion = document.querySelector("#descripcion");
     const tabla = document.querySelector("tbody");
     const btExportar = document.querySelector("#btnexport");
