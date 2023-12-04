@@ -101,7 +101,7 @@
             });
         });
     }
-
+    btGuardar.addEventListener("change", listarSolicitud);
     // document.querySelector("#idusuario").addEventListener("change", listarSolicitudUsu)
     Fsolicitud1.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) listarSolicitud();
@@ -114,7 +114,7 @@
         window.open(`../reports/tiempo.report.php?${parametros}`, '_blank');
     }  
 
-    btGuardar.addEventListener("click", PDFTiempo);
+    // btGuardar.addEventListener("click", PDFTiempo);
     // listarSolicitud();
     listarReporte();
 </script>

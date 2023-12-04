@@ -55,8 +55,6 @@
                                 <th>Categoria</th>
                                 <th>Sub Categoria</th>
                                 <th>Codigo</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +70,31 @@
     const cuerpo = document.querySelector("tbody");
     const selectcategoria = document.querySelector("#selectcategoria");
     const btGuardar = document.querySelector("#btguardar");
+
+    function traerSubcategoria(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","traerSibcategoria")
+        parametros.append("idcat",selectcategoria.value)
+        fetch("../controller/libros.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                const repor = `
+                <tr>
+                    <td>${element.idsubcategoria}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.subcategoria}</td>
+                    <td>${element.codigo}</td>
+                </tr>
+                `;
+                cuerpo.innerHTML += repor;
+            });
+        })
+    }
 
     function listarsubcategorias(){
         const parametros = new URLSearchParams();
@@ -92,12 +115,6 @@
                     <td>${element.categoria}</td>
                     <td>${element.subcategoria}</td>
                     <td>${element.codigo}</td>
-                    <td>
-                        <a href='#modal-nuevo' class='Rnuevo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Nuevo</a>
-                    </td>
-                    <td>
-                        <a href='#'  class='Rreservar' data-toggle='modal' type='button' data-idprestamo='${element.idprestamo}'>Reservar</a>
-                    </td>
                 </tr>
                 `;
                 cuerpo.innerHTML += pres;
@@ -158,6 +175,8 @@
 
     btGuardar.addEventListener("click", registrarCategory);
     listarCategoria();
+
+    selectcategoria.addEventListener("change", traerSubcategoria)
 
     listarsubcategorias();
 </script>

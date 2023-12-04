@@ -502,7 +502,7 @@
         })
     }
 
-    function UpdateBook(){
+    function UpdateBooks(){
         if(confirm("¿Esta seguro de guardar?")){
             //Para binarios
             const fd = new URLSearchParams();
@@ -519,7 +519,7 @@
             fd.append("anio",document.querySelector("#Eanio").value);
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
-            fd.append("imagenportada",document.querySelector("#Eimg").value);
+            // fd.append("imagenportada",document.querySelector("#Eimg").value); es .file
             fd.append("idautor",selectAutores.value);
 
             fetch("../controller/libros.php",{
@@ -716,7 +716,7 @@
                     selectAutores.value = element.Autor;
                     //traerEjemplar1();
                 });
-                guardarUpadte.addEventListener("click", UpdateBook);
+                guardarUpadte.addEventListener("click", UpdateBooks);
                 traerEjemplar1();
             })  
         }

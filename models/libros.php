@@ -231,7 +231,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -246,7 +246,7 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
-          $datos["imagenportada"],
+          // $datos["imagenportada"],
           $datos["idautor"]
         )
       );
@@ -255,6 +255,18 @@ class Libro extends conexion{
       $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
     return $respuesta;
+  }
+
+  public function traerSibcategoria($idcategoria){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_subcategoria(?)");
+      $consulta->execute(array($idcategoria));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
   }
 
 }
