@@ -21,15 +21,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <input id="condicionlibro" type="text" class="form-control">
-                        </div>
+                        
                         <div class="col-md-4">
                             <input id="fechadevolucion" type="date" class="form-control">
                         </div>
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <button id="aplicar" class="btn btn-primary">Aplicar a todo</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div id="listejemplares" class="mt-5">
 
@@ -55,7 +53,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud">
+                    <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud" style="width: 80%;">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -132,8 +130,7 @@
     let idlibro = '';
     let cantidad = '';
     const btnaceptarsolicitud = document.querySelector("#aceptarsolicitud")
-    const condicionlibro = document.querySelector("#condicionlibro")
-    const aplicar = document.querySelector("#aplicar")
+    // const aplicar = document.querySelector("#aplicar")
     const fechadevolucion = document.querySelector("#fechadevolucion")
     cuerpo = document.querySelector("tbody");
     listejemplares = document.querySelector("#listejemplares");
@@ -177,16 +174,9 @@
         })
     }
 
-    aplicar.addEventListener("click", (event) => {
-        const observacion = condicionlibro.value
-        const inputlist = document.querySelectorAll(".item-ejemplar input")
-        inputlist.forEach(input=>{
-            input.value = observacion
-        })
-        inputlist.forEach(input=>{
-            input.classList.add("form-control");
-        })
-    })
+    // aplicar.addEventListener("click", (event) => {
+    //     const inputlist = document.querySelectorAll(".item-ejemplar input")
+    // })
     cuerpo.addEventListener("click", (event) => {
     const element = event.target.closest(".editar");
     if (element) {
@@ -234,10 +224,8 @@
                     // Columna 2: Condición de Entrega
                     const condicionEntregaCell = row.insertCell(1);
 
-                    // Input debajo del texto
-                    const inputCondicion = document.createElement("input");
-                    inputCondicion.setAttribute("type", "text");
-                    condicionEntregaCell.appendChild(inputCondicion);
+                    // Input debajo del texto                   
+                    condicionEntregaCell.textContent = el.condicion;
                 });
 
                 // Limpiar el contenido anterior del listejemplares
@@ -263,7 +251,7 @@ cuerpo.addEventListener('click', function(event){
 btnrechazarsolicitud.addEventListener('click', function(){
     const motivo = txtrechazarsolicitud.value
     if(motivo.trim()===''){
-        alert('Debe ingresar un motivo')
+        alert('Debe ingresar el motivo')
     }
     else{
         const formData = new FormData()
@@ -286,9 +274,13 @@ btnrechazarsolicitud.addEventListener('click', function(){
 btnaceptarsolicitud.addEventListener('click', function(){
     const listaejemplares = document.querySelectorAll(".item-ejemplar")
     const arrListejemplar = []
+    if(fechadevolucion.value == ''){
+        alert('Debe colocar la fecha devolución')
+        return
+    }
     listaejemplares.forEach(el=>{
-        const idejemplar = el.querySelector("td").textContent
-        const observacion = el.querySelector("input").value
+        const idejemplar = el.querySelectorAll("td")[0].textContent
+        const observacion = el.querySelectorAll("td")[1].textContent
         arrListejemplar.push({idejemplar,observacion,fechadevolucion:fechadevolucion.value})
     })
     const formData = new FormData()

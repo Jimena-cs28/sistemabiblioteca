@@ -44,51 +44,51 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     </nav>
 
     <section class="grid mt-4">
-        <div id="infoLibro">
-            
-        </div>
-        <div>
+    <div id="infoLibro"></div>
+    <div>
         <form>
-        <div class="form-row mt-2">
-            <h4>Solicitud de Préstamo</h4>
+            <div class="form-row mt-2">
+                <h4>Solicitud de Préstamo</h4>
 
-    <div class="form-group col-md-3 mt-3">
-        <label for="fechaprestamo" >Fecha de préstamo</label>
-        <input type="date" class="form-control" id="fechaprestamo">
-    </div>
-    <input type="text" hidden id="rol" value="<?php echo $_SESSION['login']['nombrerol']?>">
+                <div class="form-group col-md-3 mt-3">
+                    <label for="fechaprestamo">Fecha de préstamo</label>
+                    <input type="date" class="form-control" id="fechaprestamo">
+                </div>
 
-    <div id="contenedor-cantidad" class="form-group col-md-3 mt-3">
-        <label for="cantidad">Cantidad</label>
-        <input type="number" class="form-control form-control-sm" id="cantidad">
-    </div>
+                <input type="text" hidden id="rol" value="<?php echo $_SESSION['login']['nombrerol']?>">
 
-    <div class="form-group col-md-3 mt-3">
-    <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
-    <select class="form-control" required="" data-placement="top" id="enbiblioteca">
-        <option value="">Seleccione</option>
-        <option value="SI">Sí</option>
-        <option value="NO">No</option>
-    </select>
-    </div>
+                <div id="contenedor-cantidad" class="form-group col-md-3 mt-3">
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" class="form-control form-control-sm" id="cantidad">
+                </div>
 
-    <div id="contenedor-lugar" class="form-group col-md-6 mt-3 d-none">
-        <label for="lugar" class="form-label bold">Lugar</label>
-        <input type="text" class="form-control" id="lugar">
-    </div>
+                <div class="form-group col-md-3 mt-3">
+                    <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
+                    <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+                        <option value="">Seleccione</option>
+                        <option value="SI">Sí</option>
+                        <option value="NO">No</option>
+                    </select>
+                </div>
 
-    <div class="form-group col-md-6 mt-3">
-        <label for="descripcion" class="form-label bold" id="des">Descripción</label>
-        <input type="text" class="form-control" id="descripcion" placeholder = "Opcional">
-    </div>
+                <div id="contenedor-lugar" class="form-group col-md-6 mt-3 d-none">
+                    <label for="lugar" class="form-label bold">Lugar</label>
+                    <input type="text" class="form-control" id="lugar">
+                </div>
 
-    <div class="mt-4 mb-4">
-    <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
+                <div class="form-group col-md-6 mt-3">
+                    <label for="descripcion" class="form-label bold" id="des">Descripción</label>
+                    <input type="text" class="form-control" id="descripcion" placeholder="Opcional">
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-    </div>
-    </div>
-    </section>
+</section>
+
     
     <footer id="foot">
         <div class="contenedor-footer">
@@ -173,6 +173,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             const contenedorlugar = document.querySelector("#contenedor-lugar")
             const nombrerol = document.querySelector("#rol").value
             const fechaprestamo = document.querySelector("#fechaprestamo")
+            const cantidad = document.querySelector("#cantidad")
+            let cantidadmaxima = 0
     
 
             if(nombrerol == 'Estudiante'){
@@ -202,6 +204,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 if(datos.cantidad == 0){
                     solicitar.style.display='none'
                 }
+                cantidadmaxima = datos.cantidad
                 containerLibro.innerHTML = `
                 <ul>
                 <div class="titulo" style="margin-bottom: 10px;">DATOS:</div>
@@ -229,15 +232,29 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             })
 
             function RegistrarPrestamo(){
+                const cantidad = nombrerol == 'Estudiante'?1:Number(document.querySelector("#cantidad").value)
+                const lugarvalue =document.querySelector("#lugar").value
+                console.log(cantidad)
+                if(cantidad <= 0 || cantidad>cantidadmaxima){
+                    alert('Debe ingresar la cantidad')
+                    return
+                }
+                if(enbiblioteca.value ==''){
+                    alert('Debe seleccionar en biblioteca')
+                    return
+                }
+                if(enbiblioteca.value =='NO' && lugarvalue == ''){
+                    alert('Debe completar el campo lugar')
+                    return
+                }
                 if(confirm("¿Está seguro de guardar?")){
-                const cantidad = nombrerol == 'Estudiante'?1:document.querySelector("#cantidad").value
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "prestamousuario");
                 parametros.append("idlibro", idlibro);     
                 parametros.append("cantidad", cantidad);
                 parametros.append("descripcion", document.querySelector("#descripcion").value);
                 parametros.append("enbiblioteca", enbiblioteca.value);
-                parametros.append("lugardestino", document.querySelector("#lugar").value);
+                parametros.append("lugardestino", lugarvalue);
                 parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value)
                 
                 fetch("../../controller/userlibros.php" ,{
