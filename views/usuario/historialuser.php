@@ -10,7 +10,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle</title>
+    <title>Historial</title>
     <link rel="stylesheet" href="">
     
 
@@ -18,6 +18,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/detalle.libro.css">
     <link rel="stylesheet" href="../css/historialuser.css">
+    <link rel="icon" href="../../img/logo2.png">
 </head>
 
 <body>
@@ -88,12 +89,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                         <h5 class="card-title">${el.libro}</h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
-                                        <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
-                                        <li class="list-group-item">Fecha devolución: ${el.fechadevolucion || "---"}</li>
-                                        <li class="list-group-item">Estado: ${estados[el.estado]}</li>
-                                        <li class="list-group-item">Cantidad: ${el.cantidad}</li>
-                                        ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
+                                    <li class="list-group-item">Código de libro: ${el.codigo}</li>
+                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
+                                    <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
+                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion || "---"}</li>
+                                    <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                                    <li class="list-group-item">Cantidad: ${el.cantidad}</li>
+                                    ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
                                     </ul>
                                 </div>
                             </div>

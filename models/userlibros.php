@@ -178,10 +178,12 @@ class userlibro extends conexion{
       $estado, $idprestamo
     ));
   }
-  public function cancelarsolicitud($idprestamo, $motivo){
-    $consulta = $this->acesso->prepare("CALL spu_rechazar_solicitud(?,?)");
+  public function cancelarsolicitud($datos){
+    $consulta = $this->acesso->prepare("CALL spu_rechazar_solicitud(?,?,?)");
     return $consulta->execute(array(
-      $idprestamo, $motivo
+      $datos["idprestamo"],
+      $datos["idejemplar"],
+      $datos["motivo"],
     ));
 
   }

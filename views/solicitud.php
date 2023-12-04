@@ -54,6 +54,9 @@
                 </div>
                 <div class="modal-body">
                     <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud" style="width: 80%;">
+                    <div id="listejemplaresrechazar" class="mt-5">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -138,6 +141,7 @@
     const modalrechazarsolicitud = new bootstrap.Modal (document.querySelector("#rechazarsolicitud"));
     const btnrechazarsolicitud = document.querySelector("#btnrechazarsolicitud");
     const txtrechazarsolicitud = document.querySelector("#txt-rechazarsolicitud"); 
+    const listejemplaresrechazar = document.querySelector("#listejemplaresrechazar");
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
@@ -162,10 +166,10 @@
                     <td>${element.fechasolicitud}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                    <a  class="btn btn-info btn-sm editar" data-fechasolicitud="${element.fechasolicitud}"data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
+                    <a  class="btn btn-info btn-sm editar" data-fechasolicitud="${element.fechaprestamo}"data-id="${element.idlibro}" data-idprestamo="${element.idprestamo}" data-cantidad="${element.cantidad}">Registrar</a>
                     </td>
                     <td>
-                    <a  class="btn btn-danger btn-sm cancelar"  data-idprestamo="${element.idprestamo}">Rechazar</a>
+                    <a  class="btn btn-danger btn-sm cancelar" data-id="${element.idlibro}" data-cantidad="${element.cantidad}" data-idprestamo="${element.idprestamo}">Rechazar</a>
                     </td>
                 </tr>
                 `;
@@ -180,11 +184,11 @@
     cuerpo.addEventListener("click", (event) => {
     const element = event.target.closest(".editar");
     if (element) {
-        // obtener el id de editar
+        //Validación fechas
         idlibro = element.dataset.id;
-        idprestamo = element.dataset.idprestamo;
         cantidad = element.dataset.cantidad;
-        console.log(idlibro, idprestamo, cantidad);
+        idprestamo = element.dataset.idprestamo;
+        console.log(element.dataset.fechasolicitud);
         fechadevolucion.min = new Date(element.dataset.fechasolicitud).toISOString().split('T')[0];
         const parametros = new URLSearchParams();
         parametros.append("operacion", "listarEjemplaresdisponibles");
@@ -243,20 +247,81 @@
 cuerpo.addEventListener('click', function(event){
     const element = event.target.closest(".cancelar");
     if(element){
-        modalrechazarsolicitud.toggle()
         idprestamo = element.dataset.idprestamo;
+        idejemplar = element.dataset.idejemplar;
+        idlibro = element.dataset.id;
+        cantidad = element.dataset.cantidad;
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "listarEjemplaresdisponibles");
+        parametros.append("idlibro", idlibro);
+        parametros.append("cantidad", cantidad);
+
+        fetch("../controller/userlibros.php", {
+            method: "POST",
+            body: parametros,
+        })
+            .then((res) => res.json())
+            .then((datos) => {
+                // Tabla en el modal
+                const table = document.createElement("table");
+                table.classList.add("table", "table-bordered");
+
+                // Agregar una fila de encabezado
+                const headerRow = table.createTHead().insertRow(0);
+
+                // Encabezado 1: Código del Libro
+                const codigoLibroHeader = headerRow.insertCell(0);
+                codigoLibroHeader.textContent = "Código del libro";
+
+                // Encabezado 2: Condición de Entrega
+                const condicionEntregaHeader = headerRow.insertCell(1);
+                condicionEntregaHeader.textContent = "Condición de entrega";
+
+                // Agregar datos a la tabla en dos columnas
+                datos.forEach((el) => {
+                    const row = table.insertRow(-1);
+                    row.classList.add("item-ejemplar-editar")
+
+                    // Columna 1: Código del Libro
+                    const codigoLibroCell = row.insertCell(0);
+                    codigoLibroCell.textContent = el.codigo_libro;
+
+                    // Columna 2: Condición de Entrega
+                    const condicionEntregaCell = row.insertCell(1);
+
+                    // Input debajo del texto                   
+                    condicionEntregaCell.textContent = el.condicion;
+                });
+
+                // Limpiar el contenido anterior del listejemplares
+                listejemplaresrechazar.innerHTML = "";
+
+                // Agregar la tabla al listejemplares
+                listejemplaresrechazar.appendChild(table);
+                modalrechazarsolicitud.toggle()
+            });
+
+        //apertura del modal
 
     }
 } )
 btnrechazarsolicitud.addEventListener('click', function(){
     const motivo = txtrechazarsolicitud.value
+    const listaejemplares = document.querySelectorAll(".item-ejemplar-editar")
+    //Validación para colocar el motivo de rechazo del libro
     if(motivo.trim()===''){
         alert('Debe ingresar el motivo')
     }
     else{
+        const arrListejemplar = []
+        listaejemplares.forEach(el=>{
+        const idejemplar = el.querySelectorAll("td")[0].textContent
+        arrListejemplar.push({idejemplar})
+    })
         const formData = new FormData()
         formData.append("operacion", "cancelarsolicitud")
         formData.append("idprestamo", idprestamo)
+        formData.append("listejemplar", JSON.stringify(arrListejemplar))
         formData.append("motivo", motivo)
         fetch("../controller/userlibros.php", {
             method: 'POST',
@@ -274,6 +339,7 @@ btnrechazarsolicitud.addEventListener('click', function(){
 btnaceptarsolicitud.addEventListener('click', function(){
     const listaejemplares = document.querySelectorAll(".item-ejemplar")
     const arrListejemplar = []
+    //Validación fechadevolucion
     if(fechadevolucion.value == ''){
         alert('Debe colocar la fecha devolución')
         return

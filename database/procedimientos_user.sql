@@ -14,7 +14,7 @@ SELECT * FROM ejemplares
 
 SELECT * FROM librosentregados
 
--- Botón buscar
+-- 3 FILTROS PARA BUSCAR
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro_user
 (
@@ -76,6 +76,7 @@ CALL spu_list_libro();
 SELECT * FROM ejemplares WHERE idlibro = 2 AND ocupado = 'NO'
 SELECT * FROM libros
 
+-- BUSCADOR
 DELIMITER $$
 CREATE PROCEDURE spu_buscar_libro
 (
@@ -103,7 +104,7 @@ SELECT * FROM prestamos
 
 UPDATE prestamos SET estado = 'D'
 
--- Historial Usuario
+-- HISTORIAL DEL USUARIO
 DELIMITER $$
 CREATE PROCEDURE spu_historial
 (
@@ -112,7 +113,7 @@ CREATE PROCEDURE spu_historial
 BEGIN
 	SELECT prestamos.idprestamo, libros.libro AS 'libro', libros.imagenportada, prestamos.descripcion,fechasolicitud, 
 	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.estado,
-	prestamos.cantidad, prestamos.motivorechazo, librosentregados.fechadevolucion
+	prestamos.cantidad, prestamos.motivorechazo, librosentregados.fechadevolucion, libros.codigo
 	FROM prestamos
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
@@ -143,7 +144,7 @@ END $$
 
 CALL spu_ejemplarlibro(2)
 
-
+-- REGISTRAR SOLICITUD USUARIO
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_solicitud_usuario
 (
@@ -184,7 +185,7 @@ CALL spu_registrar_solicitud_usuario(3,2,1,'4B','SI','','2023-11-30')
 
 SELECT * FROM roles
 
-	
+-- DATOS DEL USUARIO	
 DELIMITER $$
 CREATE PROCEDURE spu_datos_personales
 (
@@ -201,6 +202,7 @@ END $$
 
 CALL spu_datos_personales(2)
 
+-- LISTAR EJEMPLARES DE LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_ejemplares
 (
@@ -214,6 +216,7 @@ SELECT * FROM librosentregados
 CALL spu_listar_ejemplares(1,2)
 SELECT * FROM ejemplares
 
+-- REGISTRAR LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libros_entregados
 (
@@ -233,7 +236,7 @@ END $$
 SELECT * FROM librosentregados
 SELECT * FROM prestamos
 
-
+-- ACTUALIZAR ESTADOS DE LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_estados_librosentregados
 (
@@ -264,22 +267,26 @@ SELECT * FROM personas
 SELECT * FROM libros
 SELECT * FROM prestamos
 
--- Botón rechazar
+-- BOTÓN RECHAZAR
 DELIMITER $$
 CREATE PROCEDURE spu_rechazar_solicitud
 (
 	IN _idprestamo INT,
+	IN _idejemplar	INT,
 	IN _motivo	VARCHAR(200)
 )
 BEGIN
+	INSERT INTO librosentregados (idprestamo, idejemplar)
+	VALUE (_idprestamo, _idejemplar);
+	
 	UPDATE prestamos SET motivorechazo = _motivo, estado = 'C' WHERE idprestamo = _idprestamo;
 END$$
 
 SELECT * FROM prestamos WHERE idbeneficiario = 2
 SELECT * FROM librosentregados
+SELECT * FROM libros
 
-
--- Validación préstamo
+-- VALIDAR ESTADO USUARIOS(PRÉSTAMO)
 DELIMITER $$
 CREATE TRIGGER tg_validar_prestamo_usuario
 AFTER UPDATE ON prestamos 
