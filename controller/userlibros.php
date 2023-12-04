@@ -134,12 +134,20 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'cancelarsolicitud'){
+    $listejemplares= json_decode($_POST["listejemplar"]);
     $respuesta=[
       "estado" => false
     ];
-    $respuesta["estado"]=$userlibro->cancelarsolicitud($_POST['idprestamo'],$_POST['motivo']);
+    foreach($listejemplares as $ejemplar){
+    $ejemplarid = $ejemplar->idejemplar;
+    $datos = [
+      "idejemplar" => $ejemplarid,
+      "idprestamo" => $_POST["idprestamo"],
+      "motivo" => $_POST["motivo"]
+    ];
+    $respuesta["estado"] = $userlibro->cancelarsolicitud($datos);
+    }
     echo json_encode($respuesta);
-
   }
 
 

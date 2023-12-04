@@ -73,7 +73,12 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
                 <div id="contenedor-lugar" class="form-group col-md-6 mt-3 d-none">
                     <label for="lugar" class="form-label bold">Lugar</label>
-                    <input type="text" class="form-control" id="lugar">
+                    <select class="form-control" id="lugar">
+                        <option value="">Seleccione</option>
+                        <option value="aula">Aula</option>
+                        <option value="laboratorio">Laboratio</option>
+                        <option value="otros">Otros</option>
+                    </select>
                 </div>
 
                 <div class="form-group col-md-6 mt-3">
@@ -189,6 +194,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
             const fechaActual = new Date(); 
             const fechaMinima = fechaActual.toISOString().split('T')[0];
+            fechaActual.setDate(fechaActual.getDate()+3)
+            const fechamaxima = fechaActual.toISOString().split('T')[0]
+            fechaprestamo.max = fechamaxima
             fechaprestamo.min = fechaMinima
             fechaprestamo.value = fechaMinima
             
@@ -212,6 +220,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 <img src="../img/${datos.imagenportada}" width="250px" alt="Portada del libro" style="border-radius: 8px;"/>
                 </div>
                 <li class="descripcion">Nombre de libro: ${datos.libro}</li>
+                <li style="margin-left: 60px;">Descripción: ${datos.descripcion}</li>
                 <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
                 <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
                 <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
@@ -220,6 +229,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 </ul>
                 `
             })
+            //Campo de lugar disponible
             enbiblioteca.addEventListener("change", function(e){
             const value = e.target.value
             
@@ -230,11 +240,14 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 contenedorlugar.classList.add("d-none")
                 }
             })
-
+            
+            //Registrar préstamo de libros
             function RegistrarPrestamo(){
                 const cantidad = nombrerol == 'Estudiante'?1:Number(document.querySelector("#cantidad").value)
+                //Variables
                 const lugarvalue =document.querySelector("#lugar").value
                 console.log(cantidad)
+                //Validaciones
                 if(cantidad <= 0 || cantidad>cantidadmaxima){
                     alert('Debe ingresar la cantidad')
                     return
