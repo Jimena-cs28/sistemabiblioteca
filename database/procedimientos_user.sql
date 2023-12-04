@@ -10,6 +10,9 @@ SELECT * FROM subcategorias
 WHERE idcategoria = _idcat;
 END$$
 SELECT * FROM libros
+SELECT * FROM ejemplares
+
+SELECT * FROM librosentregados
 
 -- Botón buscar
 DELIMITER $$
@@ -49,7 +52,9 @@ END $$
 UPDATE prestamos SET estado = 'T'
 CALL spu_validar_libroprestado(2)
 SELECT * FROM prestamos
--- LISTAR LIBRO
+
+
+-- LISTAR LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_list_libro
 (	
@@ -95,73 +100,10 @@ CALL spu_buscar_libro(2);
 SELECT * FROM librosentregados
 SELECT * FROM libros
 SELECT * FROM prestamos
-SELECT * FROM librosentregados
 
-
-
-DELIMITER $$
-CREATE PROCEDURE spu_prestamo_usuario
-(
-	IN _idejemplar INT,
-	IN _idbeneficiario INT,
-	IN _cantidad INT,
-	IN _descripcion VARCHAR(20),
-	IN _enbiblioteca CHAR(2),
-	IN _lugardestino VARCHAR(100),
-	IN _fechaprestamo DATETIME,
-	IN _fechadevolución DATETIME
-)
-BEGIN
-	DECLARE cantidad_actual INT;
-	-- DECLARE lastinsert INT;	
-	INSERT INTO prestamos(idbeneficiario, fechaprestamo, descripcion, enbiblioteca, lugardestino, estado) 
-	VALUES (_idbeneficiario, _fechaprestamo, _descripcion, _enbiblioteca, _lugardestino, 'S');
-	
-	SET @idprestamo = LAST_INSERT_ID();
-
-    -- Obtiene la cantidad actual del libro
-    SELECT cantidad INTO cantidad_actual
-    FROM libros
-    
-    WHERE idlibro = _idlibro;
-
-    -- Verifica si hay suficientes libros disponibles para restar
-    IF cantidad_actual >= _cantidad THEN
-        -- Registra el libro entregado
-        INSERT INTO librosentregados (idprestamo, idejemplar, cantidad, fechadevolucion)
-	VALUES (@idprestamo, _idejemplar, _cantidad, _fechadevolucion);
-        
-        -- SE actualiza la cantidad del libro
-        UPDATE libros
-        SET cantidad = cantidad_actual - _cantidad
-        WHERE idlibro = _idlibro;
-
-        -- SELECT 'Libro entregado y cantidad actualizada correctamente.' AS mensaje;
-    ELSE
-        SELECT 'No hay suficientes libros disponibles para realizar la entrega.' AS mensaje;
-    END IF;
-END $$
-
-SELECT * FROM librosentregados
-	
-CALL spu_prestamo_usuario(1, 2, 1, '5A', 'no', 'salon2', '2023-11-10', '2023-11-11');
-
-SELECT* FROM prestamos
 UPDATE prestamos SET estado = 'D'
 
--- DELIMITER $$
--- CREATE PROCEDURE spu_solicitud_listar()
--- BEGIN
-	-- SELECT idlibroentregado,  prestamos.idprestamo, CONCAT(personas.nombres, '' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
-	-- DATE(fechaprestamo) AS 'fechaprestamo', DATE(fechadevolucion) AS 'fechadevolucion'
-	-- FROM librosentregados
-	-- INNER JOIN prestamos ON prestamos. idprestamo = librosentregados.idprestamo
-	-- INNER JOIN libros ON libros.idlibro = librosentregados.idlibro
-	-- INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
-	-- INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	-- WHERE prestamos.estado = 'S';
--- END $$
-
+-- Historial Usuario
 DELIMITER $$
 CREATE PROCEDURE spu_historial
 (
@@ -170,19 +112,20 @@ CREATE PROCEDURE spu_historial
 BEGIN
 	SELECT prestamos.idprestamo, libros.libro AS 'libro', libros.imagenportada, prestamos.descripcion,fechasolicitud, 
 	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.estado,
-	prestamos.cantidad, prestamos.motivorechazo
+	prestamos.cantidad, prestamos.motivorechazo, librosentregados.fechadevolucion
 	FROM prestamos
 	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
 	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	LEFT JOIN librosentregados ON librosentregados.idprestamo = prestamos.idprestamo
 	WHERE prestamos.idbeneficiario = _idusuario
-	ORDER BY idprestamo DESC;
+	GROUP BY prestamos.idprestamo ORDER BY idprestamo DESC;
 END $$
 
 
 UPDATE usuarios SET estado = 1
 UPDATE librosentregados SET fechadevolucion = NOW()
-SELECT * FROM usuarios
+SELECT * FROM librosentregados
 SELECT * FROM prestamos WHERE idlibro = NULL
 CALL spu_historial(2)
 
@@ -213,15 +156,33 @@ CREATE PROCEDURE spu_registrar_solicitud_usuario
 	IN _fechaprestamo DATETIME
 )
 BEGIN
+	DECLARE _cantidadusuario INT;
+	DECLARE _rolusuario INT;
 	INSERT INTO prestamos(idlibro, idbeneficiario, cantidad, descripcion, enbiblioteca, lugardestino, fechaprestamo, estado) VALUES 
 	(_idlibro, _idbeneficiario, _cantidad, _descripcion, _enbiblioteca, 
 	_lugardestino, _fechaprestamo, 'S');
+	
+	SET _cantidadusuario = (SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario = _idbeneficiario AND estado IN ('S', 'R', 'D'));
+	SET _rolusuario = (SELECT idrol FROM usuarios WHERE idusuario = _idbeneficiario);
+	
+
+	IF _rolusuario = 3 AND _cantidadusuario = 1 THEN
+		UPDATE usuarios SET estado = 0 WHERE idusuario = _idbeneficiario; 
+	END IF;
+	
+	IF _rolusuario = 2 AND _cantidadusuario = 2 THEN
+		UPDATE usuarios SET estado = 0 WHERE idusuario = _idbeneficiario; 
+	END IF;
 
 END $$
 
+UPDATE prestamos SET estado = 'T'
+
+UPDATE usuarios SET estado = 1
+
 CALL spu_registrar_solicitud_usuario(3,2,1,'4B','SI','','2023-11-30')
 
-SELECT * FROM prestamos
+SELECT * FROM roles
 
 	
 DELIMITER $$
@@ -247,10 +208,11 @@ CREATE PROCEDURE spu_listar_ejemplares
 	IN _cantidad INT
 )
 BEGIN
-	SELECT idejemplar, codigo_libro FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1 LIMIT _cantidad;
+	SELECT idejemplar, codigo_libro, condicion FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1 LIMIT _cantidad;
 END $$
 SELECT * FROM librosentregados
 CALL spu_listar_ejemplares(1,2)
+SELECT * FROM ejemplares
 
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libros_entregados
@@ -270,6 +232,8 @@ BEGIN
 END $$
 SELECT * FROM librosentregados
 SELECT * FROM prestamos
+
+
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_estados_librosentregados
 (
@@ -283,7 +247,7 @@ END$$
 
 SELECT * FROM prestamos WHERE estado = 'S'
 
-
+-- ADMIN
 DELIMITER $$
 CREATE PROCEDURE spu_solicitud_listar()
 BEGIN
@@ -300,7 +264,7 @@ SELECT * FROM personas
 SELECT * FROM libros
 SELECT * FROM prestamos
 
-
+-- Botón rechazar
 DELIMITER $$
 CREATE PROCEDURE spu_rechazar_solicitud
 (
@@ -314,4 +278,29 @@ END$$
 SELECT * FROM prestamos WHERE idbeneficiario = 2
 SELECT * FROM librosentregados
 
+
+-- Validación préstamo
+DELIMITER $$
+CREATE TRIGGER tg_validar_prestamo_usuario
+AFTER UPDATE ON prestamos 
+FOR EACH ROW 
+BEGIN
+	DECLARE _cantidadusuario INT;
+	DECLARE _rolusuario INT;
 	
+	SET _cantidadusuario = (SELECT COUNT(*) AS 'cantidad' FROM prestamos WHERE idbeneficiario =  new.idbeneficiario AND estado IN ('S', 'R', 'D'));
+	SET _rolusuario = (SELECT idrol FROM usuarios WHERE idusuario = new.idbeneficiario);
+	
+
+	IF _rolusuario = 3 AND _cantidadusuario = 0 THEN
+		UPDATE usuarios SET estado = 1 WHERE idusuario = new.idbeneficiario; 
+	END IF;
+	
+	IF _rolusuario = 2 AND _cantidadusuario < 2 THEN
+		UPDATE usuarios SET estado = 1 WHERE idusuario = new.idbeneficiario; 
+	END IF;
+END $$
+
+ SELECT * FROM prestamos
+ 
+  UPDATE usuarios SET estado = 1
