@@ -419,6 +419,7 @@
         })
     };
 
+    // FALTA ALERTA
     CuerpoP.addEventListener("click", (event) => {
         const elementoDetalle = event.target.closest(".detallitosBien");
         if(elementoDetalle){

@@ -177,10 +177,11 @@
   }
 
   if($_POST['operacion'] == 'cancelarRevesva'){
-    $datosActulizar = $prestamo->cancelarRevesva($_POST['idprestamo']);
-    if($datosActulizar){
-      echo json_encode($datosActulizar);
-    }
+    $datosActulizar = [
+      "idprestamo"      => $_POST["idprestamo"],
+      "motivo"          => $_POST["motivo"]
+    ];
+    echo json_encode($prestamo->cancelarRevesva($datosActulizar));
   }
 
   if($_POST['operacion'] == 'traerCondicion'){

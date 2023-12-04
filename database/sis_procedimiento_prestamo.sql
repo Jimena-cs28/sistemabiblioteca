@@ -140,7 +140,8 @@ CALL spu_libroentregado_AddAhora(1,1,'2023-11-30');
 DELIMITER $$
 CREATE PROCEDURE spu_cancelar_reserva
 (
-	IN _idprestamo INT
+	IN _idprestamo INT,
+	IN _motivo VARCHAR(10)
 )
 BEGIN
 	DECLARE _idbene INT;
@@ -158,15 +159,15 @@ BEGIN
     estado = '1'
     WHERE idusuario = _idbene;
     
-    UPDATE prestamos 
-    SET estado = 'N'
+    UPDATE prestamos SET 
+    estado = 'C',
+    motivorechazo = _motivo
     WHERE idprestamo = _idprestamo;
 END $$
 
 CALL spu_cancelar_reserva(4)
 
-
-SELECT * FROM ejemplares -- 4
+SELECT * FROM prestamos -- 4
 -- LISTAR LIBROS EN PRESTAMO
 SELECT * FROM librosentregados
 DELIMITER $$
@@ -179,6 +180,7 @@ BEGIN
 	WHERE estado = 1;
 END $$
 
+SELECT * FROM prestamos
 CALL spu_conseguir_libro();
 -- Nuevo prestamo
 DELIMITER $$
@@ -187,7 +189,7 @@ CREATE PROCEDURE spu_filtrar_ejemplares
 	IN _idlibro INT
 )
 BEGIN
-	SELECT ejemplares.idejemplar, CONCAT(libros.libro, ' ',codigo_libro) AS 'Ejemplares'
+	SELECT ejemplares.idejemplar, libros.libro,CONCAT( libros.codigo, '-',codigo_libro) AS 'Ejemplares', ejemplares.condicion
 	FROM ejemplares
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	WHERE libros.idlibro = _idlibro AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1;
@@ -251,34 +253,6 @@ END $$
 
 CALL spu_editar_Ependientes(9,3,'2023-10-24','2023-10-22');
 
-DELIMITER $$ -- FALTAAAAAAA
-CREATE PROCEDURE spu_cancelar_reserva
-(
-	IN _idprestamo INT,
-	IN _idlibro INT, -- estado N
-	IN _cantidad INT
-)
-BEGIN
-	 DECLARE cantidad_actual INT;
-	 DECLARE _cantidad SMALLINT;
-	 
-	 SELECT cantidad INTO _cantidad
-	 FROM libros WHERE idlibro = _idlibro;
-	 
-	 UPDATE prestamos SET
-	 estado = 'N'
-	 WHERE idprestamo = _idprestamo;
-	 
-	-- Obtiene la cantidad actual del libro
-	SELECT cantidad INTO cantidad_actual
-	FROM libros
-	WHERE idlibro = _idlibro;
-	
-        -- SE actualiza la cantidad del libro
-        UPDATE libros
-        SET cantidad = cantidad_actual + _cantidad
-        WHERE idlibro = _idlibro;
-END $$
 
 SELECT * FROM usuarios -- 78674219
 -- DEVOLUCIOOOOOOOOOOOOOOOOOOOOOOOON
@@ -295,72 +269,6 @@ END $$
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 27
 SELECT * FROM usuarios
 SELECT * FROM prestamos
--- FALTA EJECUTARM PARA ABAJOOO
-DELIMITER $$
-CREATE PROCEDURE spu_update_devoluciones
-(
-	IN _idlibroentregado INT,
-	-- IN _idprestamos INT,
-	IN _idejemplar INT,
-	IN _condiciondevolucion VARCHAR(50),
-	IN _observaciones   VARCHAR(50)	
-)
-BEGIN
-	 DECLARE cantidad_actual INT;
-	 DECLARE _idbene INT;
-	 DECLARE _idlibro INT;
-	 DECLARE _idprestamos INT;
-	 
-	 UPDATE librosentregados SET
-	 condiciondevolucion = _condiciondevolucion,
-	 observaciones = _observaciones,
-	 fechadevolucion = NOW()
-	 WHERE idlibroentregado = _idlibroentregado;
-	
-	 SELECT idprestamo INTO _idprestamos
-	 FROM librosentregados WHERE idlibroentregado = _idlibroentregado;
-	 
-	 SELECT idlibro INTO _idlibro
-	 FROM ejemplares WHERE idejemplar = _idejemplar;
-	 
-	 SELECT idbeneficiario INTO _idbene
-	 FROM prestamos WHERE idprestamo = _idprestamos;
-	 
-	 UPDATE usuarios SET estado = 1
-	 WHERE idusuario = _idbene;
-	 
-	 UPDATE prestamos SET
-	 estado = 'T'
-	 WHERE idprestamo = _idprestamos;
-	 
-	 UPDATE ejemplares SET ocupado = 'NO'
-	 WHERE idejemplar = _idejemplar;
-	
-	SELECT cantidad INTO cantidad_actual
-	FROM libros
-	WHERE idlibro = _idlibro;
-	
-        -- SE actualiza la cantidad del libro
-        UPDATE libros
-        SET cantidad = cantidad_actual + 1
-        WHERE idlibro = _idlibro;
-END $$
-
--- select * from usuarios
-
-SELECT * FROM prestamos
--- LISTAR TODOS LOS PRESTAMOS
-DELIMITER $$ -- ejecutado 
-CREATE PROCEDURE spu_listar_todoprestamos()
-BEGIN
-	SELECT idprestamo,prestamos.`fechasolicitud`, prestamos.descripcion, prestamos.enbiblioteca,
-	fechaprestamo, prestamos.fechaentrega, CONCAT(personas.nombres, ' ', personas.apellidos) AS 'Nombres'
-	FROM prestamos
-	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
-	INNER JOIN personas ON personas.`idpersona` = usuarios.`idpersona`
-	WHERE prestamos.estado = 'T'
-	ORDER BY idprestamo DESC;
-END $$
 
 SELECT * FROM UPDATE prestamos SET fechaprestamo= '2023-11-' WHERE idprestamo = 47
 SELECT librosentregados.idlibroentregado, libros.libro, ejemplares.codigo_libro, libros.tipo, prestamos.`fechasolicitud`, 
@@ -582,7 +490,17 @@ SELECT * FROM librosentregados
 SELECT * FROM prestamos
 
 
-
+DELIMITER $$
+CREATE PROCEDURE spu_solicitud_listar()
+BEGIN
+	SELECT prestamos.idprestamo, CONCAT(personas.nombres, ' ' , personas.apellidos) AS 'Nombres', libros.libro AS 'libro', prestamos.descripcion,fechasolicitud, 
+	DATE(fechaprestamo) AS 'fechaprestamo', prestamos.cantidad, libros.idlibro
+	FROM prestamos
+	INNER JOIN libros ON libros.idlibro = prestamos.idlibro
+	INNER JOIN usuarios  ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'S';
+END $$
 
 
 

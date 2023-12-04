@@ -150,8 +150,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
-                        <a class="collapse-item" href="index.php?view=report.php">Por grado</a>
-                        <a class="collapse-item" href="index.php?view=estudiante.php">Libros mas Pedidos</a>
+                        <a class="collapse-item" href="index.php?view=report.php">Por Usuario</a>
+                        <a class="collapse-item" href="index.php?view=reportes.php">Libros mas Pedidos</a>
+                        <a class="collapse-item" href="index.php?view=reportmes.php">Pedidos por Mes</a>
                     </div>
                 </div>
             </li>

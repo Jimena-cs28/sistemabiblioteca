@@ -129,6 +129,30 @@
     </div>
 </div>
 
+<!-- modal cancelar -->
+<div> 
+    <div class="modal fade" id="rechazareserva">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Cancelar Reserva</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="">Motivo de cancelacion</label>
+                    <input type="text" placeholder="Motivo" id="rechazarreserva" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="btnrechazareserva" type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     let idprestamo = '';
     let idlibroentregado = '';
@@ -143,6 +167,7 @@
     const fechadevolucion = document.querySelector("#fechadevolucion");
     const fechaprestamo = document.querySelector("#fechaprestamo");
     const btguardar = document.querySelector("#guardar");
+    const btcancelar = document.querySelector("#btnrechazareserva");
 
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
@@ -176,7 +201,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo < actual;
+                const fechapasada = FechaPrestamo > actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }
@@ -198,7 +223,7 @@
                                     <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
                                         <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-4"><a href='#' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
+                                        <div class="col-md-4"><a href='#rechazareserva' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
                                         <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
                                     </div>
                                 </ul>
@@ -270,24 +295,28 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'cancelar'){
-            mostrarPreguntaEliminar("ELIMINAR","¿Estas seguro de Cancelar la Reserva?").then((result)=>{
-                if(result.isConfirmed){
-                    idprestamo = parseInt(event.target.dataset.idprestamo);
-                    console.log(idprestamo);
-                    const parametros = new URLSearchParams();
-                    parametros.append("operacion","cancelarRevesva");
-                    parametros.append("idprestamo", idprestamo);
+            function ni(){
+                mostrarPreguntaEliminar("ELIMINAR","¿Estas seguro de Cancelar la Reserva?").then((result)=>{
+                    if(result.isConfirmed){
+                        idprestamo = parseInt(event.target.dataset.idprestamo);
+                        console.log(idprestamo);
+                        const parametros = new URLSearchParams();
+                        parametros.append("operacion","cancelarRevesva");
+                        parametros.append("idprestamo", idprestamo);
+                        parametros.append("motivo", document.querySelector("#rechazarreserva").value);
 
-                    fetch("../controller/prestamos.php",{
-                        method: 'POST',
-                        body: parametros
-                    })
-                    .then(response => response.json())
-                    .then(datos => {
-                        listarEntregas();
-                    })
-                }
-            })
+                        fetch("../controller/prestamos.php",{
+                                method: 'POST',
+                                body: parametros
+                            })
+                            .then(response => response.json())
+                            .then(datos => {
+                                listarEntregas();
+                            })
+                    }
+                })
+            }
+            btcancelar.addEventListener("click", ni);
         }
     });
 
@@ -310,36 +339,6 @@
                 listarEjemplare();
                 user.value = usuario;
             });
-        }
-    });
-
-    card.addEventListener("click", (event) => {
-        idlibro = parseInt(event.target.dataset.idlibro)
-        if(event.target.classList[0] === 'borrar'){
-            idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-            // console.log(idlibroentregado);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","CancelarReserva");
-            parametros.append("idprestamo", idprestamo);
-            parametros.append("idlibro" , idlibro)
-            const filaReserva = card.rows;
-            for (let i = 1; i < filaReserva.length; i++){
-                const stock = parseInt(filaReserva[i].cells[1].innerHTML);  // Ajusta el índice según tu estructura HTML
-                parametros.append("cantidad")
-                fetch("../controller/librosentregados.php",{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    listarEntregas();
-                    datos.forEach(element => {
-                    });
-                    // btguardar.addEventListener("click", EditarEpendiente);
-            
-                })
-            }
-            
         }
     });
 

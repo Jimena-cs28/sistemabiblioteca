@@ -27,4 +27,11 @@ if (isset($_POST['operacion'])){
             echo json_encode($datos);
         }
     }
+
+    if($_POST['operacion'] == 'reporteUsuario'){
+        $datos = $reporte->reporteUsuario($_POST['idusuario']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
 }
