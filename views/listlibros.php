@@ -19,7 +19,7 @@
                 <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
                 </label>
-                <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+                <button type="button" class="btn btn-success mb-3 ml-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
             </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -451,37 +451,38 @@
         })
     }
 
-    // function LibrosInactivo(){
-    //     const parametros = new URLSearchParams();
-    //     parametros.append("operacion","librosInactivo")
+    function LibrosInactivo(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","librosInactivo")
 
-    //     fetch("../controller/libros.php", {
-    //         method: 'POST',
-    //         body: parametros
-    //     })
-    //     .then(response => response.json())
-    //     .then(datos => {
-    //         cuerpoL.innerHTML = ``;
-    //         datos.forEach(element => {
-    //             const libro = `
-    //             <tr>
-    //                 <td>${element.iddetalleautor}</td>
-    //                 <td>${element.categoria}</td>
-    //                 <td>${element.libro}</td>
-    //                 <td>${element.autor}</td>
-    //                 <td>${element.cantidad}</td>
-    //                 <td>${element.numeropaginas}</td>
-    //                 <td>${element.codigo}</td>
-    //                 <td>${element.inactive_at}</td>
-    //                 <td>
-    //                     <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Activar</a>
-    //                 </td>
-    //             </tr>
-    //             `;
-    //             cuerpoL.innerHTML += libro;
-    //         });
-    //     })
-    // }
+        fetch("../controller/libros.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpoL.innerHTML = ``;
+            datos.forEach(element => {
+                const libro = `
+                <tr>
+                    <td>${element.iddetalleautor}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.autor}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.numeropaginas}</td>
+                    <td>${element.codigo}</td>
+                    <td>${element.inactive_at}</td>
+                    <td>
+                        <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Activar</a>
+                    </td>
+                </tr>
+                `;
+                cuerpoL.innerHTML += libro;
+            });
+        })
+    }
+
     function listarEditorial(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","selectEditorial");
@@ -842,7 +843,7 @@
     //     }
     // });
 
-    // LibrosInactivo();
+    LibrosInactivo();
     nombre.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) seachBook();
     });

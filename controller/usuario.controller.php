@@ -46,6 +46,17 @@ if(isset($_POST['operacion'])) {
     //enviando informacion de la sesion a la vista
     echo json_encode($resultado);
   }
+
+  if($_POST['operacion'] == 'registrarAutor'){
+    $datosGuardar = [
+      "nombres"     => $_POST['nombres'],
+      "apellidos"    => $_POST['apellidos'],
+      "seudonimio"      => $_POST['seudonimio'],
+      "nacionalidad"       => $_POST['nacionalidad']
+    ];
+    $respuesta = $usuario->registrarAutor($datosGuardar);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_GET['operacion']) == 'destroy'){

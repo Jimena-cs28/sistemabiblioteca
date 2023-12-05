@@ -236,14 +236,39 @@ BEGIN
 	JOIN detalleautores det ON lib.idlibro = det.idlibro
 	JOIN autores aut ON det.idautor = aut.idautor
 	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado = 1
+	WHERE ej.ocupado = 'NO' AND ej.estado = 1 
 	GROUP BY ej.idlibro
 	ORDER BY ej.idlibro DESC;
 END $$
 
+SELECT
+    lib.idlibro,
+    det.iddetalleautor,
+    cat.categoria,
+    sub.subcategoria,
+    lib.libro,
+    COUNT(ej.idejemplar) AS 'Disponible',
+    lib.cantidad AS 'cantidad',
+    lib.codigo,
+    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+FROM
+    subcategorias sub
+    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+    JOIN detalleautores det ON lib.idlibro = det.idlibro
+    JOIN autores aut ON det.idautor = aut.idautor
+    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
+WHERE
+    lib.estado = 1
+GROUP BY
+    ej.idlibro
+ORDER BY
+    ej.idlibro DESC;
+
+
 UPDATE libros SET cantidad =  21 WHERE idlibro = 7
 
-SELECT * FROM libros
+SELECT * FROM ejemplares
 -- LIBROS INACTIVOS
 DELIMITER $$
 CREATE PROCEDURE spu_inactivo_libros()

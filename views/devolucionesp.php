@@ -57,7 +57,12 @@
                             </div>
                             <!-- DESCRIPCION -->
                             <div class="col-md-4">
-                                <input type="text" class="form-control form-control-sm" id="condicion">
+                                <select name="" id="condicion" class="form-control form-control-sm">
+                                    <option value="Bien">Bien</option>
+                                    <option value="Deteriorado">Deteriorado</option>
+                                    <option value="Mal">Mal</option>
+                                </select>
+                                <!-- <input type="text" class="form-control form-control-sm" id="condicion"> -->
                             </div>
                             <div class="col-md-2">
                                 <label>Observaciones</label>
@@ -241,7 +246,6 @@
             });
         })
     }
-
     
     function listarEjemplare(){
         const parametros = new URLSearchParams();
@@ -272,7 +276,7 @@
                     <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.condicionentrega}</td>
                     <td>${element.ocupado}</td> 
-                    <td>${element.condiciondevolucion}</td>
+                    <td>${element.condiciondevolucion || "-------------"}</td>
                     <td>${element.fechadevolucion}</td>
                     <td>
                         <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>

@@ -16,5 +16,28 @@
         die($e->getMessage());
       }
     }
+
+    public function registrarAutor($datos = []){
+      $respuesta = [
+        "status" => false,
+        "message" =>""
+      ];
+      
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_register_autor(?,?,?,?)");
+        $respuesta["status"] = $consulta->execute(
+          array(
+            $datos["nombres"],
+            $datos["apellidos"],
+            $datos["seudonimio"],
+            $datos["nacionalidad"]
+          )
+        );
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "No se pudo completar". $e->getMessage();
+      }
+      return $respuesta;
+    }
   }
 ?>
