@@ -99,10 +99,29 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	WHERE ejemplares.idlibro = _idlibro
 	ORDER BY idejemplar ASC;
+
+    IF NOT EXISTS (
+    
+        SELECT 1
+        FROM ejemplares
+        WHERE idlibro = _idlibro AND estado <> 0
+    ) THEN
+        -- Actualizar el estado del libro a 0
+        UPDATE libros
+        SET estado = 0,
+        inactive_at = NOW()
+        WHERE idlibro = _idlibro;
+    END IF;
 END $$
 
+CALL spu_ejemplar_idlibro(1)
+SELECT * FROM libros
 
 SELECT * FROM ejemplares -- 11
+
+UPDATE ejemplares SET
+ocupado = 'NO'
+WHERE idejemplar = 1
 
 SELECT * FROM prestamos
 

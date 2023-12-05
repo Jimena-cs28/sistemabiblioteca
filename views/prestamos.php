@@ -199,7 +199,7 @@
                     <td>${element.descripcion}</td>
                     <td>${element.enbiblioteca}</td>
                     <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaentrega}</td>
+                    <td>${element.fechaentrega || "---------------"}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
                         <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
@@ -229,9 +229,9 @@
                     <td>${element.libro}</td>
                     <td>${element.condicionentrega}</td>
                     <td>${element.codigo} - ${element.codigo_libro}</td>
-                    <td>${element.observaciones}</td>
-                    <td>${element.fechadevolucion}</td>
-                    <td>${element.condiciondevolucion}</td>
+                    <td>${element.observaciones || "---------------"}</td>
+                    <td>${element.fechadevolucion || "---------------"}</td>
+                    <td>${element.condiciondevolucion || "---------------"}</td>
                 </tr>`
                 ;
                 CuerpoT.innerHTML +=Vopcion1;

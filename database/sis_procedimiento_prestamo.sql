@@ -503,6 +503,31 @@ BEGIN
 END $$
 
 
+SELECT * FROM editoriales
+
+UPDATE editoriales SET
+nombres = 'Mario Vagas Llosa',
+telefono = '963417283',
+paisorigen = 'Perú'
+WHERE ideditorial = 4
+
+DELIMITER $$
+CREATE PROCEDURE spu_register_autor
+(
+	IN _nombre VARCHAR(40),
+	IN _apellidos VARCHAR(40),
+	IN _seudonimio VARCHAR(40),
+	IN _nacionalidad VARCHAR(50)
+)
+BEGIN
+	IF _seudonimio = "" THEN SET _seudonimio = NULL; END IF; 
+	
+	INSERT INTO autores (autor,apellidos,pseudonimio, nacionalidad, creat_at) VALUES
+		(_nombre,_apellidos,_seudonimio,_nacionalidad,NOW());
+END $$
+
+
+
 
 
 

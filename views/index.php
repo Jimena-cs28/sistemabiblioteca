@@ -157,6 +157,12 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?view=config.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Configuracion</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

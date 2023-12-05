@@ -62,11 +62,11 @@ $datoID = json_encode($_SESSION['login']);
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DESCRIPCION</label>
-                            <input type="text" class="form-control" id="descripcion" required>
+                            <input type="text" class="form-control" id="descripcion" placeholder="Grado o curso" required>
                         </div>
                         <div class="col-md-3" id="lugarD">
                             <label for="" style="color:#574E4E;">DESTINO</label>
-                            <input type="text" class="form-control" maxlength="20" placeholder="Salon 1" id="lugardestino" required>
+                            <input type="text" class="form-control" maxlength="20" placeholder="ejemplo: laboratorio" id="lugardestino" required>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -155,6 +155,14 @@ $datoID = json_encode($_SESSION['login']);
     const ahora = document.querySelector("#ahora");
     const Reservar = document.querySelector("#reservar");
 
+    const fechaActual = new Date(); 
+    const fechaMinima = fechaActual.toISOString().split('T')[0];
+    fechaActual.setDate(fechaActual.getDate()+3)
+    const fechamaxima = fechaActual.toISOString().split('T')[0]
+    fecharegistar.max = fechamaxima
+    fecharegistar.min = fechaMinima
+    fecharegistar.value = fechaMinima
+            
 
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
