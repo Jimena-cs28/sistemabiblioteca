@@ -39,5 +39,50 @@
       }
       return $respuesta;
     }
+
+    public function registrarEditorial($datos = []){
+      $respuesta = [
+        "status" => false,
+        "message" =>""
+      ];
+      
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_register_editorial(?,?,?,?,?)");
+        $respuesta["status"] = $consulta->execute(
+          array(
+            $datos["nombres"],
+            $datos["telefono"],
+            $datos["web"],
+            $datos["email"],
+            $datos["paisorigen"]
+          )
+        );
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "No se pudo completar". $e->getMessage();
+      }
+      return $respuesta;
+    }
+
+    public function registrarCategoria($datos = []){
+      $respuesta = [
+        "status" => false,
+        "message" =>""
+      ];
+      
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_register_categoria(?,?)");
+        $respuesta["status"] = $consulta->execute(
+          array(
+            $datos["categoria"],
+            $datos["codigo"]
+          )
+        );
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "No se pudo completar". $e->getMessage();
+      }
+      return $respuesta;
+    }
   }
 ?>

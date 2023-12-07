@@ -175,8 +175,7 @@ if (isset($_POST['operacion'])){
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
-      // "imagenportada"     => $nombreGuardara,
-      "idautor"           => $_POST['idautor'],
+      "idautor"           => $_POST['idautor']
     ];
 
     $respuesta = $libro->UpdateBook($datosGuardar);

@@ -12,9 +12,18 @@ INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
 --	(7, 3, '76410258', 'Ari'),
 --	(15, 3,'73194180', '1234'),
 
-UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
-WHERE idusuario = 13;
+SELECT * FROM roles
+INSERT INTO roles (nombrerol, cantidadmax) VALUES
+('Subdirector', 1);
+SELECT * FROM personas
 
+INSERT INTO usuarios (idpersona, idrol, nombreusuario, claveacceso) VALUES
+(8,4,'73194188', '$2y$10$M0PnVKniA4vjKwavvC1m9O1YdwzNM.XQInVKho5PJr0GjA6Bbt9gO');
+
+
+UPDATE usuarios SET claveacceso = '$2y$10$M0PnVKniA4vjKwavvC1m9O1YdwzNM.XQInVKho5PJr0GjA6Bbt9gO'
+WHERE idusuario = 13;
+SELECT * FROM usuarios
 -- 1234
 -- 73129045
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'

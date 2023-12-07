@@ -122,8 +122,7 @@ CREATE PROCEDURE spu_update_libro
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
-    IN _idautor  INT,
-    IN _condicion VARCHAR(50)
+    IN _idautor  INT
 )
 BEGIN
 
@@ -144,10 +143,6 @@ BEGIN
         
         UPDATE detalleautores SET
         idautor = _idautor
-        WHERE idlibro = _idlibro;
-        
-        UPDATE ejemplares SET
-        condicion = _condicion
         WHERE idlibro = _idlibro;
 END $$
 

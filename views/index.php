@@ -1,8 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
+if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
+{
     header("Location:../");
 }
+
+$datoID = json_encode($_SESSION['login']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,11 +27,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!-- <link href="./libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
     <link rel="icon" href="../img/logo2.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
-    <!-- Exportar Excel -->
-    <!-- <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
-    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script> -->
+    <!-- Agrega esta línea en el encabezado de tu archivo HTML -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+    
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -55,8 +56,6 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <span>HOME</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -64,7 +63,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="bi bi-person-add"></i>
@@ -78,10 +77,10 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         <a class="collapse-item" href="index.php?view=liststudent.php">Estudiantes</a>
                     </div>
                 </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities" width="16" height="16">
                     <i class="bi bi-book" ></i>
@@ -90,26 +89,27 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
                         <a class="collapse-item" href="index.php?view=listlibros.php">Libros</a>
                         <a class="collapse-item" href="index.php?view=libros.php">Registro libro</a>
                         <a class="collapse-item" href="index.php?view=category.php">Registro categoria</a>
                     </div>
                 </div>
-            </li>
+            </li> -->
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!-- <hr class="sidebar-divider"> -->
 
+            <?php require_once './sidebaroption.php'; ?>
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!-- <div class="sidebar-heading">
                 PRESTAMOS
-            </div>
+            </div> -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.php?view=listaprestamos.php">
                     <i class="bi bi-patch-plus"></i>
                     <span>Nuevo Prestamo</span></a>
-            </li>
+            </li> -->
+            <!-- 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=reservas.php">
                     <i class="fas fa-fw fa-chart-area"></i>
@@ -123,24 +123,24 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.php?view=prestamos.php">
                 <i class="fas fa-fw fa-chart-area"></i>
                     <span>Prestamos</span></a>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.php?view=solicitud.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Solicitud</span></a>
-            </li>
-<!-- 
+            </li>  -->
+            <!-- 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?view=report.php">
                     <span>Reportes</span></a>
             </li> -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reporte"
                     aria-expanded="true" aria-controls="reporte">
                     <i class="fas fa-fw fa-wrench"></i>
@@ -150,21 +150,41 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
-                        <a class="collapse-item" href="index.php?view=report.php">Por Usuario</a>
+                        <!-- <a class="collapse-item" href="index.php?view=report.php">Por Usuario</a>
                         <a class="collapse-item" href="index.php?view=reportes.php">Libros mas Pedidos</a>
                         <a class="collapse-item" href="index.php?view=reportmes.php">Pedidos por Mes</a>
                     </div>
                 </div>
-            </li>
+            </li> -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#libro"
+                    aria-expanded="true" aria-controls="libro">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Historiales</span>
+                </a>
+                <div id="libro" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
+                        <!-- <a class="collapse-item" href="index.php?view=reportLibro.php">Libros</a>
+                        <a class="collapse-item" href="index.php?view=ReportStudent.php">Usuarios</a>
+                    </div>
+                </div>
+            </li> --> 
+
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.php?view=config.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Configuracion</span></a>
-            </li>
+            </li> -->
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- OPCIONES QUE DEBEN SER FILTRADAS DE ACUERDO AL PERFIL -->
+            
+            <!-- FIN OPCIONES DEL SIDEBAR -->
 
             <!-- Sidebar Toggler (Sidebar) -->
             <!-- <div class="text-center d-none d-md-inline">

@@ -246,7 +246,6 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
-          // $datos["imagenportada"],
           $datos["idautor"]
         )
       );

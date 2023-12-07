@@ -1,3 +1,4 @@
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-md-3">
@@ -368,6 +369,7 @@
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
             const CheckEjemplar = document.querySelector("#checkejemplar");
+            const CheckEstu = document.querySelector("#checkuser");
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -384,8 +386,12 @@
                     if (CheckEjemplar.checked){
                         cambiarEstado();
                     }
-
-                    validarUser();  updatedevolucionesTodo(); listarDevoluciones();
+                    if (CheckEstu.checked) {
+                        InavilitarUser();
+                    }else{
+                        AbilitarUser();
+                    }
+                    updatedevolucionesTodo();
                 });
             });
         }
@@ -472,14 +478,13 @@
         }
     });
 
-    function validarUser(){
-        const CheckEstu = document.querySelector("#checkuser");
-        if (CheckEstu.checked) {
-            InavilitarUser();
-        }else{
-            AbilitarUser();
-        }
-    }
+    // function validarUser(){
+    //     if (CheckEstu.checked) {
+    //         InavilitarUser();
+    //     }else{
+    //         AbilitarUser();
+    //     }
+    // }
 
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");

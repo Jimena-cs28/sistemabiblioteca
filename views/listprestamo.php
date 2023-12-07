@@ -1,12 +1,4 @@
-<?php
-session_start();
-if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
-{
-    header("Location:../");
-}
-
-$datoID = json_encode($_SESSION['login']);
-?>
+<?php require_once 'permisos.php'; ?>
 
 <div> 
     <div class="modal fade" id="modal-id">
@@ -136,12 +128,10 @@ $datoID = json_encode($_SESSION['login']);
 <script>
 
     function traerDatos(){
-        const respuesta = <?php echo $datoID;?>;
-        const idusuario = respuesta.idusuario;
         // console.log(idusuario);
         const parametros = new URLSearchParams();
         parametros.append("operacion","TraerDatos");
-        parametros.append("idusuario", idusuario);
+        parametros.append("idusuario", idUsuario);
         fetch("../controller/validacion.php", {
             method: 'POST',
             body: parametros

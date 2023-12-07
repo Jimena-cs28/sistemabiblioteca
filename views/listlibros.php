@@ -1,3 +1,4 @@
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -520,7 +521,6 @@
             fd.append("anio",document.querySelector("#Eanio").value);
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
-            // fd.append("imagenportada",document.querySelector("#Eimg").value); es .file
             fd.append("idautor",selectAutores.value);
 
             fetch("../controller/libros.php",{
@@ -714,8 +714,7 @@
                     document.querySelector("#Etipo").value = element.tipo;
                     document.querySelector("#Eimg").src = `./img/${element.imagenportada}`;
                     document.querySelector("#Eedicion").value = element.edicion;
-                    selectAutores.value = element.Autor;
-                    //traerEjemplar1();
+                    document.querySelector("#Eautor").value = element.Autor;
                 });
                 guardarUpadte.addEventListener("click", UpdateBooks);
                 traerEjemplar1();

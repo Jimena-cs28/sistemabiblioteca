@@ -1,3 +1,4 @@
+<?php require_once 'permisos.php'; ?>
 <h4 class="fw-semibold text-center mb-4" style="color:#0B5993 ;">CONFIGURACIONES</h4>
 
 <div class="row">

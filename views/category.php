@@ -1,3 +1,4 @@
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid border-0">
     <div class="card border-0">
         <div class="card-body border-0">

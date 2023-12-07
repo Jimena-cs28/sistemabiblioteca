@@ -1,12 +1,5 @@
-<?php
-session_start();
-if(!isset($_SESSION['login']) || (!$_SESSION['login']['status']))
-{
-    header("Location:../");
-}
+<?php require_once 'permisos.php'; ?>
 
-$datoID = json_encode($_SESSION['login']);
-?>
 <style>
     /* Estilo para ocultar el div inicialmente */
     #divPrestamo {
@@ -20,7 +13,7 @@ $datoID = json_encode($_SESSION['login']);
             <!-- fila del titulo -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO PRESTAMO</h3>
+                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO PRÉSTAMO</h3>
                 </div>
             </div>  
         </div>
@@ -49,7 +42,7 @@ $datoID = json_encode($_SESSION['login']);
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3" id="divPrestamo">
-                            <label for="" style="color:#574E4E;">FECHA PRESTAMO</label>
+                            <label for="" style="color:#574E4E;">FECHA PRÉSTAMO</label>
                             <input type="date"  class="form-control" id="fprestamo">
                         </div>
                         <div class="col-md-3">
@@ -61,7 +54,7 @@ $datoID = json_encode($_SESSION['login']);
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">DESCRIPCION</label>
+                            <label for="" style="color:#574E4E;">DESCRIPCIÓN</label>
                             <input type="text" class="form-control" id="descripcion" placeholder="Grado o curso" required>
                         </div>
                         <div class="col-md-3" id="lugarD">
@@ -77,7 +70,7 @@ $datoID = json_encode($_SESSION['login']);
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label>Ejemplar</label>
+                            <label>Codigo</label>
                             <select name="" id="filtroEjemplar" class="form-control mb-3">
                                 <!-- <option value="">Hola</option> -->
                             </select>
@@ -87,7 +80,7 @@ $datoID = json_encode($_SESSION['login']);
                             <input type="number" class="form-control" id="cantidad" value="1" required>
                         </div>
                         <div class="col-md-2">
-                            <label>Condicion Libro</label>
+                            <label>Condición Entrega</label>
                             <input type="text" class="form-control mb-3" id="condicionentrega" required>
                         </div>
                         <div class="col-md-2">
@@ -108,7 +101,7 @@ $datoID = json_encode($_SESSION['login']);
                                     <th>#</th>
                                     <th>Libro</th>
                                     <th>F.Devolucion</th>
-                                    <th>Condicion</th>
+                                    <th>Condición</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -158,12 +151,14 @@ $datoID = json_encode($_SESSION['login']);
     const fechaActual = new Date(); 
     const fechaMinima = fechaActual.toISOString().split('T')[0];
     fechaActual.setDate(fechaActual.getDate()+3)
-    const fechamaxima = fechaActual.toISOString().split('T')[0]
+    const fechamaxima = fechaActual.toISOString().split('T')[0];
     fecharegistar.max = fechamaxima
     fecharegistar.min = fechaMinima
     fecharegistar.value = fechaMinima
-            
-
+    const fecham = fechaActual
+    fechadevolucion.min = fechaMinima
+    fechadevolucion.max = fechamaxima
+    fechadevolucion.value = fecham
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
             divPrestamo.style.display = 'block';
@@ -302,8 +297,6 @@ $datoID = json_encode($_SESSION['login']);
             });
             choiselistarlibro.setChoices([], 'value','label',true);
             choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
-            
-            // listarEjemplares();
         });
     }
 
@@ -453,13 +446,11 @@ $datoID = json_encode($_SESSION['login']);
     });
 
     function AddPrestamoReservar(){
-        const respuesta = <?php echo $datoID;?>;
-        const idusuario = respuesta.idusuario;
         // console.log(idusuario);
         const parametros = new URLSearchParams();
         parametros.append("operacion","registrarSoloPrestamo");
         parametros.append("idbeneficiario", filtroStudent.value);
-        parametros.append("idbibliotecario", idusuario);
+        parametros.append("idbibliotecario", idUsuario);
         parametros.append("fechaprestamo", fecharegistar.value);
         parametros.append("descripcion", document.querySelector("#descripcion").value);
         parametros.append("enbiblioteca", biblioteca.value);
@@ -489,13 +480,20 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function AddPrestamoAhora(){
-        const respuesta = <?php echo $datoID;?>;
-        const idusuario = respuesta.idusuario;
         // console.log(idusuario);
+        if(fecharegistar.value ==''){
+            toastError('Debe seleccionar elegir fecha de prestamo')
+        }
+        if(filtroStudent.value ==''){
+            toastError('Debe elegir al estudiante')
+        }
+        if(biblioteca.value ==''){
+            toastError('Debe elegir el lugar')
+        }
         const parametros = new URLSearchParams();
         parametros.append("operacion","registrarAhora");
         parametros.append("idbeneficiario", filtroStudent.value);
-        parametros.append("idbibliotecario", idusuario);
+        parametros.append("idbibliotecario", idUsuario);
         parametros.append("descripcion", document.querySelector("#descripcion").value);
         parametros.append("enbiblioteca", biblioteca.value);
         parametros.append("lugardestino", lugarDesti.value);
@@ -524,6 +522,18 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function registrarLibroentregado(idprestamo){
+        if(fecharegistar.value ==''){
+            toastError('Debe seleccionar elegir fecha de prestamo')
+        }
+        if(filtroStudent.value ==''){
+            toastError('Debe elegir al estudiante')
+        }
+        if(biblioteca.value ==''){
+            toastError('Debe elegir el lugar')
+        }
+        if(fechadevolucion.value ==''){
+            toastError('Debe seleccionar la fecha devolucion')
+        }
         mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el Prestamo?").then((result)=>{
             if(result.isConfirmed){
                 const row = tablalibro.rows;
@@ -555,6 +565,9 @@ $datoID = json_encode($_SESSION['login']);
     }
 
     function registrarLibroentregado2(idprestamo){
+        if(fechadevolucion.value ==''){
+            toastError('Debe seleccionar la fecha devolucion')
+        }
         mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el prestamo?").then((result)=>{ 
             if(result.isConfirmed){
                 const filaAhora = tablalibro.rows;
@@ -629,28 +642,27 @@ $datoID = json_encode($_SESSION['login']);
         });
     }
 
-    // function TraerDescripcion() {
-    //     const parametros = new URLSearchParams();
-    //     parametros.append("operacion", "traerDescripcion");
-    //     parametros.append("idusuario", filtroStudent.value);
+    function TraerDescripcion() {
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerDescripcion");
+        parametros.append("idusuario", filtroStudent.value);
 
-    //     fetch("../controller/prestamos.php", {
-    //         method: 'POST',
-    //         body: parametros
-    //     })
-    //     .then(response => response.json())
-    //     .then(datos => {
-    //         console.log(datos);
-    //         // Check if datos array is empty
-    //         if (datos.length === 0) {
-    //             alert("No data available");
-    //         } else {
-    //             // Assuming you want to update 'des' with the first item in the array
-    //             des.value = datos[0].descripcion;
-    //         }
-    //     })
-    // }
-
+        fetch("../controller/prestamos.php", {
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            console.log(datos);
+            // Check if datos array is empty
+            if (datos.length === 0) {
+                alert("No data available");
+            } else {
+                // Assuming you want to update 'des' with the first item in the array
+                des.value = datos[0].descripcion;
+            }
+        })
+    }
 
     conseguirlibro();
     listarUsuario();
