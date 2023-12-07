@@ -9,8 +9,8 @@ BEGIN
 SELECT * FROM subcategorias 
 WHERE idcategoria = _idcat;
 END$$
-SELECT * FROM libros
-SELECT * FROM ejemplares
+SELECT * FROM libros 
+SELECT * FROM ejemplares WHERE idlibro = 6
 
 SELECT * FROM librosentregados
 
@@ -214,7 +214,7 @@ BEGIN
 END $$
 SELECT * FROM librosentregados
 CALL spu_listar_ejemplares(1,2)
-SELECT * FROM ejemplares
+SELECT * FROM ejemplares WHERE idlibro = 6
 
 -- REGISTRAR LIBROS
 DELIMITER $$
