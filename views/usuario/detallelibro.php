@@ -45,7 +45,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
     <section class="grid mt-4">
     <div id="infoLibro"></div>
-    <div>
+    <div style="margin-top: 50px;">
         <form>
             <div class="form-row mt-2">
                 <h4>Solicitud de Préstamo</h4>
@@ -95,7 +95,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 </section>
 
     
-    <footer id="foot">
+    <!-- <footer id="foot">
         <div class="contenedor-footer">
             <div class="content-footer">
                 <h4>Ubicación</h4>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 <p>(056)784813</p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     <style>
     .grid {
