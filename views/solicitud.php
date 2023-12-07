@@ -225,7 +225,7 @@
 
                     // Columna 1: Código del Libro
                     const codigoLibroCell = row.insertCell(0);
-                    codigoLibroCell.textContent = el.codigo_libro;
+                    codigoLibroCell.innerHTML = `${el.codigo_libro} <span class= "idejemplar" style= "display:none">${el.idejemplar}</span>`;
 
                     // Columna 2: Condición de Entrega
                     const condicionEntregaCell = row.insertCell(1);
@@ -286,7 +286,7 @@ cuerpo.addEventListener('click', function(event){
 
                     // Columna 1: Código del Libro
                     const codigoLibroCell = row.insertCell(0);
-                    codigoLibroCell.textContent = el.codigo_libro;
+                    codigoLibroCell.innerHTML = `${el.codigo_libro} <span class= "idejemplar" style= "display:none">${el.idejemplar}</span>`;
 
                     // Columna 2: Condición de Entrega
                     const condicionEntregaCell = row.insertCell(1);
@@ -317,7 +317,7 @@ btnrechazarsolicitud.addEventListener('click', function(){
     else{
         const arrListejemplar = []
         listaejemplares.forEach(el=>{
-        const idejemplar = el.querySelectorAll("td")[0].textContent
+        const idejemplar = el.querySelector(".idejemplar").textContent
         arrListejemplar.push({idejemplar})
     })
         const formData = new FormData()
@@ -347,10 +347,12 @@ btnaceptarsolicitud.addEventListener('click', function(){
         return
     }
     listaejemplares.forEach(el=>{
-        const idejemplar = el.querySelectorAll("td")[0].textContent
+        const idejemplar = el.querySelector(".idejemplar").textContent
         const observacion = el.querySelectorAll("td")[1].textContent
+        console.log(el) 
         arrListejemplar.push({idejemplar,observacion,fechadevolucion:fechadevolucion.value})
     })
+    console.log(arrListejemplar)
     const formData = new FormData()
     formData.append("operacion", "registrarlibrosentregados")
     formData.append("idprestamo", idprestamo)
