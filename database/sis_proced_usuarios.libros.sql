@@ -122,7 +122,8 @@ CREATE PROCEDURE spu_update_libro
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
-    IN _idautor  INT
+    IN _idautor  INT,
+    IN _condicion VARCHAR(50)
 )
 BEGIN
 
@@ -143,6 +144,10 @@ BEGIN
         
         UPDATE detalleautores SET
         idautor = _idautor
+        WHERE idlibro = _idlibro;
+        
+        UPDATE ejemplares SET
+        condicion = _condicion
         WHERE idlibro = _idlibro;
 END $$
 
@@ -214,6 +219,10 @@ SELECT * FROM libros
 SELECT * FROM detalleautores
 SELECT * FROM ejemplares
 
+UPDATE ejemplares SET
+estado = 0
+WHERE idlibro = 1
+
 SELECT ej.idlibro, COUNT(ej.idlibro) AS 'cantidad' , li.libro
 FROM ejemplares ej
 INNER JOIN libros li ON li.idlibro = ej.idlibro
@@ -231,39 +240,14 @@ BEGIN
 	JOIN detalleautores det ON lib.idlibro = det.idlibro
 	JOIN autores aut ON det.idautor = aut.idautor
 	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado = 1 
+	WHERE ej.ocupado = 'NO' AND ej.estado IN (1,0)
 	GROUP BY ej.idlibro
 	ORDER BY ej.idlibro DESC;
 END $$
-
-SELECT
-    lib.idlibro,
-    det.iddetalleautor,
-    cat.categoria,
-    sub.subcategoria,
-    lib.libro,
-    COUNT(ej.idejemplar) AS 'Disponible',
-    lib.cantidad AS 'cantidad',
-    lib.codigo,
-    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-FROM
-    subcategorias sub
-    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-    JOIN detalleautores det ON lib.idlibro = det.idlibro
-    JOIN autores aut ON det.idautor = aut.idautor
-    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
-WHERE
-    lib.estado = 1
-GROUP BY
-    ej.idlibro
-ORDER BY
-    ej.idlibro DESC;
-
-
+CALL spu_listado_libros()
 UPDATE libros SET cantidad =  21 WHERE idlibro = 7
 
-SELECT * FROM ejemplares
+SELECT * FROM libros
 -- LIBROS INACTIVOS
 DELIMITER $$
 CREATE PROCEDURE spu_inactivo_libros()
@@ -542,11 +526,11 @@ BEGIN
 	JOIN detalleautores det ON lib.idlibro = det.idlibro
 	JOIN autores aut ON det.idautor = aut.idautor
 	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado = 1 AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
+	WHERE ej.ocupado = 'NO' AND ej.estado IN (1,0) AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
 	GROUP BY ej.idlibro;
 END $$
 
-CALL spu_search_book('fisica')
+CALL spu_search_book('odi')
 
 DELIMITER $$
 CREATE PROCEDURE spu_search_user

@@ -25,7 +25,6 @@ SELECT * FROM ejemplares
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 38 -- 25
 
 SELECT * FROM librosentregados
-UPDATE libros SET estado = 1 WHERE idlibro = 1
 -- ejecutado RESERVAR
 DELIMITER $$
 CREATE PROCEDURE spu_libroentregado_register
@@ -62,9 +61,9 @@ END $$
 
 CALL spu_libroentregado_register(2,1,'2023-11-30');
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
-SELECT * FROM ejemplares WHERE idlibro = 7
+SELECT * FROM ejemplares
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
-SELECT * FROM prestamos
+SELECT * FROM librosentregados
 
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo
@@ -168,18 +167,15 @@ END $$
 
 CALL spu_cancelar_reserva(4)
 
-SELECT * FROM prestamos -- 4
+SELECT * FROM libros -- 4
 -- LISTAR LIBROS EN PRESTAMO
 SELECT * FROM librosentregados
-DELIMITER $$
-CREATE PROCEDURE spu_conseguir_libro()
-BEGIN 
-	SELECT idlibro, libro, subcategorias.subcategoria, categorias.categoria
-	FROM libros
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE estado = 1;
-END $$
+
+SELECT * FROM l
+
+UPDATE ejemplares SET
+estado = 1
+WHERE idlibro = 1
 
 SELECT * FROM prestamos
 CALL spu_conseguir_libro();
@@ -504,57 +500,8 @@ BEGIN
 END $$
 
 
-SELECT * FROM autores
 
-UPDATE editoriales SET
-nombres = 'Mario Vagas Llosa',
-telefono = '963417283',
-paisorigen = 'Perú'
-WHERE ideditorial = 4
 
--- REGISTRAR AUTORES - EDITORIALES
-DELIMITER $$
-CREATE PROCEDURE spu_register_autor
-(
-	IN _nombre VARCHAR(40),
-	IN _apellidos VARCHAR(40),
-	IN _seudonimio VARCHAR(40),
-	IN _nacionalidad VARCHAR(50)
-)
-BEGIN
-	INSERT INTO autores (autor,apellidos,pseudonimio, nacionalidad, create_at) VALUES
-		(_nombre,_apellidos,_seudonimio,_nacionalidad,NOW());
-END $$
-
-DELIMITER $$
-CREATE PROCEDURE spu_register_editorial
-(
-	IN _nombres VARCHAR(40),
-	IN _telefono CHAR(15),
-	IN _website VARCHAR(40),
-	IN _email VARCHAR(50),
-	IN _pais VARCHAR(40)
-)
-BEGIN
-	IF _website = "" THEN SET _website = NULL; END IF;       
-	IF _email = "" THEN SET _email = NULL; END IF;       
-
-	INSERT INTO editoriales (nombres,telefono,website, email, paisorigen) VALUES
-		(_nombres,_telefono,_website,_email,_pais);
-END $$
-
-DELIMITER $$
-CREATE PROCEDURE spu_register_categoria
-(
-	IN _categoria VARCHAR(40),
-	IN _codigo SMALLINT
-)
-BEGIN
-	INSERT INTO categorias (categoria, codigo) VALUES
-		(_categoria, _codigo);
-END $$
-
-SELECT * FROM editoriales
 
 
 
