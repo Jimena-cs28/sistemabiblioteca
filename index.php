@@ -103,7 +103,7 @@
             usuario.focus();
           } else {
             window.location.href = './views/index.php?view=dashboard.php';
-            if (datos.nombrerol==="Administrador"){
+            if (datos.nombrerol==="Administrador"|| datos.nombrerol==="Subdirector"){
               window.location.href = './views/index.php?view=dashboard.php';
             } else {
               window.location.href = './views/usuario/user.php'

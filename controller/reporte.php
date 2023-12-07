@@ -34,4 +34,32 @@ if (isset($_POST['operacion'])){
             echo json_encode($datos);
         }
     }
+
+    if($_POST['operacion'] == 'reporteDescripcion'){
+        $datos = $reporte->reporteDescripcion($_POST['descripcion']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
+
+    if($_POST['operacion'] == 'reporteDescripcionGroup'){
+        $datos = $reporte->reporteDescripcionGroup($_POST['descripcion']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
+
+    if($_POST['operacion'] == 'reporteLibro'){
+        $datos = $reporte->reporteLibro($_POST['idlibro']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
+
+    if($_POST['operacion'] == 'reporteLibroGroup'){
+        $datos = $reporte->reporteLibroGroup($_POST['idlibro']);
+        if($datos){
+            echo json_encode($datos);
+        }
+    }
 }

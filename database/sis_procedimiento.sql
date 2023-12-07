@@ -79,7 +79,10 @@ BEGIN
 	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado = 'T';
 END $$
 
-SELECT * FROM libros
+
+-- UNICO = NOMBRE, ROL,DESCRIPCION
+-- IDEEJMPLO =IKN
+SELECT * FROM personas
 CALL spu_listar_fichaprestamo(6);
 
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8

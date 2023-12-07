@@ -301,7 +301,81 @@ BEGIN
 END $$
 
 CALL spu_reporte_idusuario(3)
-SELECT * FROM roles
+SELECT * FROM prestamos
+
+DELIMITER $$
+CREATE PROCEDURE SPU_REPORT_USUARIO
+(
+	IN DESCRIPCION INT
+)
+BEGIN
+	SELECT librosentregados.idlibroentregado, ejemplares.idejemplar, CONCAT(personas.nombres , ' ',personas.apellidos) AS 'nombres' , prestamos.descripcion, roles.nombrerol, ejemplares.codigo_libro, libros.codigo,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, 
+	libros.libro, DATE(prestamos.fechasolicitud) AS 'fechasolicitud', DATE(prestamos.fechaentrega) AS 'fechaentrega', DATE(prestamos.fechaprestamo) AS 'fechaprestamo', DATE(librosentregados.fechadevolucion) AS 'fechadevolucion', prestamos.lugardestino,prestamos.fecharespuesta
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
+	INNER JOIN roles ON roles.idrol = usu1.idrol
+	INNER JOIN personas ON personas.idpersona = usu1.idpersona
+	WHERE prestamos.idbeneficiario = 6 AND prestamos.estado = 'T';
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_report_group_descripcion
+(
+	IN descripcion INT
+)
+BEGIN
+	SELECT idprestamo, CONCAT(personas.nombres , ' ',personas.apellidos) AS 'nombres' , prestamos.descripcion, roles.nombrerol
+	FROM prestamos
+	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
+	INNER JOIN roles ON roles.idrol = usu1.idrol
+	INNER JOIN personas ON personas.idpersona = usu1.idpersona
+	WHERE prestamos.idbeneficiario = descripcion AND prestamos.estado = 'T'
+	GROUP BY idbeneficiario;
+END $$
+SELECT * FROM ejemplares WHERE idlibro = 7
+CALL SPU_REPORT_USUARIO(6)
+
+DELIMITER $$
+CREATE PROCEDURE spu_reporte_libro
+( IN idlibro INT)
+BEGIN
+	SELECT librosentregados.idlibroentregado, ejemplares.idejemplar, CONCAT(personas.nombres , ' ',personas.apellidos) AS 'nombres' , prestamos.descripcion, roles.nombrerol, ejemplares.codigo_libro, libros.codigo,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, 
+	libros.libro,DATE(prestamos.fechaprestamo) AS 'fechaprestamo', DATE(librosentregados.fechadevolucion) AS 'fechadevolucion'
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
+	INNER JOIN roles ON roles.idrol = usu1.idrol
+	INNER JOIN personas ON personas.idpersona = usu1.idpersona
+	WHERE libros.idlibro = 3 AND prestamos.estado = 'T'
+	ORDER BY idlibroentregado ASC;
+END $$
+-- UNIQUE : LIBRO,CODIGO
+
+DELIMITER $$
+CREATE PROCEDURE spu_reporte_libro_group
+(
+	IN idlibro INT
+)
+BEGIN
+	SELECT libros.libro, libros.codigo
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	WHERE libros.idlibro = idlibro AND prestamos.estado = 'T'
+	GROUP BY libros.idlibro;
+END $$
+
+
 
 
 

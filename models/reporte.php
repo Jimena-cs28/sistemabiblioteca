@@ -60,4 +60,52 @@ class Reporte extends conexion{
             die($e->getMessage());
         }
     }
+
+    public function reporteDescripcion($descripcion){
+        try {
+            $consulta = $this->acesso->prepare("CALL SPU_REPORT_USUARIO(?)");
+            $consulta->execute(array($descripcion));
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function reporteDescripcionGroup($descripcion){
+        try {
+            $consulta = $this->acesso->prepare("CALL spu_report_group_descripcion(?)");
+            $consulta->execute(array($descripcion));
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function reporteLibro($idlibro){
+        try {
+            $consulta = $this->acesso->prepare("CALL spu_reporte_libro(?)");
+            $consulta->execute(array($idlibro));
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function reporteLibroGroup($idlibro){
+        try {
+            $consulta = $this->acesso->prepare("CALL spu_reporte_libro_group(?)");
+            $consulta->execute(array($idlibro));
+            $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+            return $datosObtenidos; 
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }

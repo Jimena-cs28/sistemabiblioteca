@@ -1,5 +1,6 @@
 <!-- REPORTES -->
 <!-- <h3 class="mb-4 text-center">REPORTES</h3> -->
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-sm-4 col-md-3">
@@ -20,6 +21,9 @@
         <div class="row mb-3">
             <div class="col-md-2">
                 <button class="btn btn-info" id="Traer">Exportar PDF</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-info" id="TraerE">Exportar EXCEL</button>
             </div>
         </div>
         <div class="table-responsive">
@@ -77,4 +81,18 @@
     btGuardar.addEventListener("click", PDF);
     // listarSolicitud();
     listarReporte();
+
+    const $btnExportar = document.querySelector("#TraerE"),
+        $tabla = document.querySelector("#tbody");
+
+    $btnExportar.addEventListener("click", function() {
+        let tableExport = new TableExport($tabla, {
+            exportButtons: false, // No queremos botones
+            filename: "Reporte de prueba", //Nombre del archivo de Excel
+            sheetname: "Reporte de prueba", //Título de la hoja
+        });
+        let datos = tableExport.getExportData();
+        let preferenciasDocumento = datos.tabla.xlsx;
+        tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
+    });
 </script>

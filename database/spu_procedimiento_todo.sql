@@ -126,3 +126,8 @@ WHERE idejemplar = 1
 SELECT * FROM prestamos
 
 
+
+SELECT idlibroentregado, p.fechaprestamo, p.fechasolicitud
+FROM librosentregados li
+INNER JOIN prestamos p ON p.idprestamo = li.idprestamo
+WHERE p.idbeneficiario = 4;

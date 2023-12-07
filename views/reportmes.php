@@ -1,5 +1,6 @@
 <!-- REPORTES -->
 <!-- <h3 class="mb-4 text-center">REPORTES</h3> -->
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-sm-4 col-md-3">

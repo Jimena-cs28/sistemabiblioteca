@@ -1,3 +1,4 @@
+<?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -161,6 +162,8 @@
     </div>
 </div>
 
+<button id="exportButton">Exportar a Excel</button>
+
 <script>
     let idlibroentregado = '';
     const secharP = document.querySelector("#PrestamoSearch");
@@ -316,4 +319,23 @@
     secharP.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) searchPrestamo();
     });
+
+    document.getElementById('exportButton').addEventListener('click', function () {
+        exportToExcel('#dataTable');
+    });
+
+    function exportToExcel(tableId) {
+        var table = document.getElementById(tableId);
+        var sheet = XLSX.utils.table_to_sheet(table);
+        var blob = XLSX.write(sheet, { bookType: 'xlsx', bookSST: true, type: 'blob' });
+
+        saveAs(blob, 'tabla_excel.xlsx');
+    }
+
+    function saveAs(blob, fileName) {
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+    }
 </script>
