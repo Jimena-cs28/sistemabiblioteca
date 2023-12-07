@@ -269,6 +269,7 @@
             choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
         })
     }
+    listarUsuario()
 
     function conseguirlibro(){
         const choiselistarlibro= new Choices(libro, {
@@ -300,6 +301,8 @@
         });
     }
 
+    conseguirlibro();
+    
     const choicesLibro= new Choices(filtroEjempla, {
         searchEnabled: true,
         itemSelectText: '',

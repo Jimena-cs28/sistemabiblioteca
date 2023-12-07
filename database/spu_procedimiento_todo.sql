@@ -99,6 +99,22 @@ BEGIN
 	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
 	WHERE ejemplares.idlibro = _idlibro
 	ORDER BY idejemplar ASC;
+END $$
+
+-- FALTA EJECUTAR
+DELIMITER $$
+DROP PROCEDURE spu_conseguir_libro()
+BEGIN 
+	SELECT libros.idlibro, libros.libro, subcategorias.subcategoria, categorias.categoria
+	FROM libros
+	LEFT JOIN ejemplares ON libros.idlibro = ejemplares.idejemplar
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE libros.estado = 1 AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1;
+END $$
+
+SELECT * FROM EJEMPLARES WHERE idlibro = 5
+
 
     IF NOT EXISTS (
     
@@ -112,8 +128,8 @@ BEGIN
         inactive_at = NOW()
         WHERE idlibro = _idlibro;
     END IF;
-END $$
-
+    
+CALL spu_conseguir_libro()
 CALL spu_ejemplar_idlibro(1)
 SELECT * FROM libros
 
