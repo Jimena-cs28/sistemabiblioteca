@@ -76,7 +76,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <select class="form-control" id="lugar">
                         <option value="">Seleccione</option>
                         <option value="aula">Aula</option>
-                        <option value="laboratorio">Laboratio</option>
+                        <option value="laboratorio">Laboratorio</option>
                         <option value="otros">Otros</option>
                     </select>
                 </div>
@@ -190,7 +190,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             }
 
             if(nombrerol == 'Profesor'){
-                document.querySelector('#des').textContent = 'Curso';
+                document.querySelector('#des').textContent = 'Cursos';
             }
 
             const fechaActual = new Date(); 
