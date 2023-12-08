@@ -129,7 +129,9 @@
     </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="../../js/sweetalert.js"></script>
 <script>
     let idprestamo = '';
     let idlibro = '';
@@ -246,128 +248,137 @@
     }
 });
 
-cuerpo.addEventListener('click', function(event){
-    const element = event.target.closest(".cancelar");
-    if(element){
-        idprestamo = element.dataset.idprestamo;
-        idejemplar = element.dataset.idejemplar;
-        idlibro = element.dataset.id;
-        cantidad = element.dataset.cantidad;
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "listarEjemplaresdisponibles");
-        parametros.append("idlibro", idlibro);
-        parametros.append("cantidad", cantidad);
+    cuerpo.addEventListener('click', function(event){
+        const element = event.target.closest(".cancelar");
+        if(element){
+            idprestamo = element.dataset.idprestamo;
+            idejemplar = element.dataset.idejemplar;
+            idlibro = element.dataset.id;
+            cantidad = element.dataset.cantidad;
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "listarEjemplaresdisponibles");
+            parametros.append("idlibro", idlibro);
+            parametros.append("cantidad", cantidad);
 
-        fetch("../controller/userlibros.php", {
-            method: "POST",
-            body: parametros,
-        })
-            .then((res) => res.json())
-            .then((datos) => {
-                // Tabla en el modal
-                const table = document.createElement("table");
-                table.classList.add("table", "table-bordered");
+            fetch("../controller/userlibros.php", {
+                method: "POST",
+                body: parametros,
+            })
+                .then((res) => res.json())
+                .then((datos) => {
+                    // Tabla en el modal
+                    const table = document.createElement("table");
+                    table.classList.add("table", "table-bordered");
 
-                // Agregar una fila de encabezado
-                const headerRow = table.createTHead().insertRow(0);
+                    // Agregar una fila de encabezado
+                    const headerRow = table.createTHead().insertRow(0);
 
-                // Encabezado 1: Código del Libro
-                const codigoLibroHeader = headerRow.insertCell(0);
-                codigoLibroHeader.textContent = "Código del libro";
+                    // Encabezado 1: Código del Libro
+                    const codigoLibroHeader = headerRow.insertCell(0);
+                    codigoLibroHeader.textContent = "Código del libro";
 
-                // Encabezado 2: Condición de Entrega
-                const condicionEntregaHeader = headerRow.insertCell(1);
-                condicionEntregaHeader.textContent = "Condición de entrega";
+                    // Encabezado 2: Condición de Entrega
+                    const condicionEntregaHeader = headerRow.insertCell(1);
+                    condicionEntregaHeader.textContent = "Condición de entrega";
 
-                // Agregar datos a la tabla en dos columnas
-                datos.forEach((el) => {
-                    const row = table.insertRow(-1);
-                    row.classList.add("item-ejemplar-editar")
+                    // Agregar datos a la tabla en dos columnas
+                    datos.forEach((el) => {
+                        const row = table.insertRow(-1);
+                        row.classList.add("item-ejemplar-editar")
 
-                    // Columna 1: Código del Libro
-                    const codigoLibroCell = row.insertCell(0);
-                    codigoLibroCell.innerHTML = `${el.codigo_libro} <span class= "idejemplar" style= "display:none">${el.idejemplar}</span>`;
+                        // Columna 1: Código del Libro
+                        const codigoLibroCell = row.insertCell(0);
+                        codigoLibroCell.innerHTML = `${el.codigo_libro} <span class= "idejemplar" style= "display:none">${el.idejemplar}</span>`;
 
-                    // Columna 2: Condición de Entrega
-                    const condicionEntregaCell = row.insertCell(1);
+                        // Columna 2: Condición de Entrega
+                        const condicionEntregaCell = row.insertCell(1);
 
-                    // Input debajo del texto                   
-                    condicionEntregaCell.textContent = el.condicion;
+                        // Input debajo del texto                   
+                        condicionEntregaCell.textContent = el.condicion;
+                    });
+
+                    // Limpiar el contenido anterior del listejemplares
+                    listejemplaresrechazar.innerHTML = "";
+
+                    // Agregar la tabla al listejemplares
+                    listejemplaresrechazar.appendChild(table);
+                    modalrechazarsolicitud.toggle()
                 });
 
-                // Limpiar el contenido anterior del listejemplares
-                listejemplaresrechazar.innerHTML = "";
+            //apertura del modal
 
-                // Agregar la tabla al listejemplares
-                listejemplaresrechazar.appendChild(table);
-                modalrechazarsolicitud.toggle()
-            });
-
-        //apertura del modal
-
-    }
-} )
-btnrechazarsolicitud.addEventListener('click', function(){
-    const motivo = txtrechazarsolicitud.value
-    const listaejemplares = document.querySelectorAll(".item-ejemplar-editar")
-    //Validación para colocar el motivo de rechazo del libro
-    if(motivo.trim()===''){
-        alert('Debe ingresar el motivo')
-    }
-    else{
-        const arrListejemplar = []
-        listaejemplares.forEach(el=>{
-        const idejemplar = el.querySelector(".idejemplar").textContent
-        arrListejemplar.push({idejemplar})
+        }
+    } )
+    btnrechazarsolicitud.addEventListener('click', function(){
+        
+        mostrarPreguntaEliminar("RECHAZAR", "¿Está seguro eliminar la solicitud?").then((result)=>{
+        if(result.isConfirmed){
+        const motivo = txtrechazarsolicitud.value
+        const listaejemplares = document.querySelectorAll(".item-ejemplar-editar")
+        //Validación para colocar el motivo de rechazo del libro
+        if(motivo.trim()===''){
+            toastError('Debe ingresar el motivo')
+        }
+        else{
+            const arrListejemplar = []
+            listaejemplares.forEach(el=>{
+            const idejemplar = el.querySelector(".idejemplar").textContent
+            arrListejemplar.push({idejemplar})
+        })
+            const formData = new FormData()
+            formData.append("operacion", "cancelarsolicitud")
+            formData.append("idprestamo", idprestamo)
+            formData.append("listejemplar", JSON.stringify(arrListejemplar))
+            formData.append("motivo", motivo)
+            fetch("../controller/userlibros.php", {
+                method: 'POST',
+                body: formData
+            })
+            .then(res=>res.json())
+            .then(datos=>{
+                if(datos.estado){
+                    location.reload()
+                }
+            })
+        }
+    }})
     })
+
+    btnaceptarsolicitud.addEventListener('click', function(){
+        if(fechadevolucion.value == ''){
+            toastError('Debe colocar la fecha de devolución')
+            return
+        }
+        mostrarPregunta("REGISTRAR", "¿Está seguro registrar el préstamo?").then((result)=>{
+        if(result.isConfirmed){
+        const listaejemplares = document.querySelectorAll(".item-ejemplar")
+        const arrListejemplar = []
+        //Validación fechadevolucion
+        
+        listaejemplares.forEach(el=>{
+            const idejemplar = el.querySelector(".idejemplar").textContent
+            const observacion = el.querySelectorAll("td")[1].textContent
+            console.log(el) 
+            arrListejemplar.push({idejemplar,observacion,fechadevolucion:fechadevolucion.value})
+        })
+        console.log(arrListejemplar)
         const formData = new FormData()
-        formData.append("operacion", "cancelarsolicitud")
+        formData.append("operacion", "registrarlibrosentregados")
         formData.append("idprestamo", idprestamo)
         formData.append("listejemplar", JSON.stringify(arrListejemplar))
-        formData.append("motivo", motivo)
+        btnaceptarsolicitud.setAttribute("disabled", "")
         fetch("../controller/userlibros.php", {
             method: 'POST',
             body: formData
-        })
-        .then(res=>res.json())
+        }).then(res=>res.json())
         .then(datos=>{
-            if(datos.estado){
-                location.reload()
-            }
+            btnaceptarsolicitud.removeAttribute("disabled")
+            modal.toggle();
+            location.reload()
         })
     }
-})
-
-btnaceptarsolicitud.addEventListener('click', function(){
-    const listaejemplares = document.querySelectorAll(".item-ejemplar")
-    const arrListejemplar = []
-    //Validación fechadevolucion
-    if(fechadevolucion.value == ''){
-        alert('Debe colocar la fecha devolución')
-        return
-    }
-    listaejemplares.forEach(el=>{
-        const idejemplar = el.querySelector(".idejemplar").textContent
-        const observacion = el.querySelectorAll("td")[1].textContent
-        console.log(el) 
-        arrListejemplar.push({idejemplar,observacion,fechadevolucion:fechadevolucion.value})
     })
-    console.log(arrListejemplar)
-    const formData = new FormData()
-    formData.append("operacion", "registrarlibrosentregados")
-    formData.append("idprestamo", idprestamo)
-    formData.append("listejemplar", JSON.stringify(arrListejemplar))
-    btnaceptarsolicitud.setAttribute("disabled", "")
-    fetch("../controller/userlibros.php", {
-        method: 'POST',
-        body: formData
-    }).then(res=>res.json())
-    .then(datos=>{
-        btnaceptarsolicitud.removeAttribute("disabled")
-        modal.toggle();
-        location.reload()
     })
-})
 
 
 

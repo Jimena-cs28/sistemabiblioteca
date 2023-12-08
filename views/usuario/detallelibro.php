@@ -160,9 +160,10 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     }
 </style>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../../js/sweetalert.js"></script>
 
 
 
@@ -249,18 +250,19 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 console.log(cantidad)
                 //Validaciones
                 if(cantidad <= 0 || cantidad>cantidadmaxima){
-                    alert('Debe ingresar la cantidad')
+                    toastError('Debe ingresar la cantidad')
                     return
                 }
                 if(enbiblioteca.value ==''){
-                    alert('Debe seleccionar en biblioteca')
+                    toastError('Debe seleccionar en biblioteca')
                     return
                 }
                 if(enbiblioteca.value =='NO' && lugarvalue == ''){
-                    alert('Debe completar el campo lugar')
+                    toastError('Debe completar el campo lugar')
                     return
                 }
-                if(confirm("¿Está seguro de guardar?")){
+                mostrarPregunta("REGISTRAR", "¿Está seguro(a) de registrar el préstamo?").then((result)=>{
+                if(result.isConfirmed){
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "prestamousuario");
                 parametros.append("idlibro", idlibro);     
@@ -283,10 +285,10 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                         document.querySelector("#lugar").value = ''
                         enbiblioteca.value =''
                     }else{
-                        alert('No puede solicitar más libros')
+                        notificar('No puede solicitar más libros')
                     }
                 })
-                }
+                }})
             }
 
             Solicitar.addEventListener("click", RegistrarPrestamo);
