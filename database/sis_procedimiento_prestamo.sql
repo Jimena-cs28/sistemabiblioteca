@@ -173,11 +173,11 @@ SELECT * FROM librosentregados
 
 SELECT * FROM l
 
-UPDATE ejemplares SET
-estado = 1
+UPDATE libros SET
+imagenportada = 'd1f9082eec58f538687959488d04d0b369e51e1c.jpg'
 WHERE idlibro = 1
 
-SELECT * FROM prestamos
+SELECT * FROM libros
 CALL spu_conseguir_libro();
 -- Nuevo prestamo
 DELIMITER $$

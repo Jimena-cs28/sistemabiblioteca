@@ -64,8 +64,8 @@
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
-                            <label for="Libro">Libro</label>
-                            <select name="" id="libro" class="form-control" required>
+                            <label for="libro">Libro</label>
+                            <select name="" id="selectlibro" class="form-control">
 
                             </select>
                         </div>
@@ -93,7 +93,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="row ml-5 mt-4">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
@@ -129,7 +128,7 @@
     const divLugar = document.querySelector("#lugarD");
     const lugarDesti = document.querySelector("#lugardestino");
     const filtroStudent = document.querySelector("#filtronombres");
-    const libro = document.querySelector("#libro");
+    const libro = document.querySelector("#selectlibro");
     const Agregar = document.querySelector("#Rguardarlibro");
     const des = document.querySelector("#descripcion");
     // const cuerpo = document.querySelector("tbody");
@@ -271,15 +270,14 @@
     }
     listarUsuario()
 
-    function conseguirlibro(){
-        const choiselistarlibro= new Choices(libro, {
+    function conseguirlibros(){
+        const choiselistarlibro = new Choices(libro, {
             searchEnabled: true,
             itemSelectText: '',
             allowHTML:true
         });
         const parametros = new URLSearchParams();
         parametros.append("operacion","conseguirlibro");
-
         fetch("../controller/prestamos.php",{
             method: 'POST',
             body: parametros
@@ -298,10 +296,10 @@
             });
             choiselistarlibro.setChoices([], 'value','label',true);
             choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
+            
+            // listarEjemplares();
         });
     }
-
-    conseguirlibro();
     
     const choicesLibro= new Choices(filtroEjempla, {
         searchEnabled: true,
@@ -311,7 +309,6 @@
     // choicesLibro.setChoices([], 'value','label',true);
 
     function listarEjemplares(){
-        
         const parametros = new URLSearchParams();
         parametros.append("operacion","filtroEjemplar");
         parametros.append("idlibro", libro.value);
@@ -322,12 +319,15 @@
         })
         .then(response => response.json())
         .then(datos => {
+            console.log(datos);
             filtroEjempla.innerHTML++;
             datos.forEach(element => {
-                let Select = `
-                    <option value='${element.idejemplar}'>${element.Ejemplares}</option> 
-                `
-                filtroEjempla.innerHTML +=Select;
+                const option = document.createElement("option");
+                option.value = element.idejemplar;
+                option.text = element.Ejemplares;
+                const jimena =  option.dataset.condicion = element.condicion;
+                // option.dataset.categoria = element.categoria;
+                filtroEjempla.appendChild(option);
             });
             choicesLibro.setChoices([], 'value','label',true);
             choicesLibro.setChoices(datos, 'idejemplar','Ejemplares', true);
@@ -348,7 +348,7 @@
             const idejemplar = idlejemplarSeleccionado.value;
             const nombreLibro = idlejemplarSeleccionado.label;
             const fechaDevolucion = fechadevolucion.value;
-            const condicion = Condicionentrega.value;
+            const condicion = idlejemplarSeleccionado.dataset.condicion || Condicionentrega.value;
 
             // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
             if (libroAgregados.has(idejemplar)) {
@@ -667,8 +667,7 @@
         })
     }
 
-    conseguirlibro();
-    listarUsuario();
+    conseguirlibros();
     // listarprestamo();
     
     Guardar.addEventListener("click", ValidarRegistrar);

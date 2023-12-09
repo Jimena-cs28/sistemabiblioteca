@@ -145,22 +145,22 @@ if (isset($_POST['operacion'])){
 
   if($_POST['operacion'] == 'UpdateBook'){
     
-    // $rutaDestino = '';
-    // $nombreArchivo = '';
-    // $nombreGuardara = '';
+    $rutaDestino = '';
+    $nombreArchivo = '';
+    $nombreGuardara = '';
 
-    // if(isset($_FILES['imagenportada'])){
+    if(isset($_FILES['imagenportada'])){
 
-    //   $rutaDestino = '../views/img/';
-    //   //Nombre archivo (host)
-    //   $nombreArchivo = sha1(date('c')) . ".jpg";
-    //   //Ruta completa (ruta + nombre)
-    //   $rutaDestino .= $nombreArchivo;
+      $rutaDestino = '../views/img/';
+      //Nombre archivo (host)
+      $nombreArchivo = sha1(date('c')) . ".jpg";
+      //Ruta completa (ruta + nombre)
+      $rutaDestino .= $nombreArchivo;
       
-    //   if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
-    //     $nombreGuardara = $nombreArchivo;
-    //   }
-    // }
+      if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
+        $nombreGuardara = $nombreArchivo;
+      }
+    }
 
     $datosGuardar = [
       "idlibro"           => $_POST['idlibro'],
@@ -175,7 +175,8 @@ if (isset($_POST['operacion'])){
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
-      "idautor"           => $_POST['idautor']
+      "idautor"           => $_POST['idautor'],
+      "imagenportada"       => $nombreGuardara
     ];
 
     $respuesta = $libro->UpdateBook($datosGuardar);

@@ -247,7 +247,7 @@
             });
         })
     }
-    
+
     function listarEjemplare(){
         const parametros = new URLSearchParams();
         parametros.append("operacion", "traerEjemplar");
@@ -369,7 +369,6 @@
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
             const CheckEjemplar = document.querySelector("#checkejemplar");
-            const CheckEstu = document.querySelector("#checkuser");
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -383,13 +382,9 @@
                 listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
+                    validarUser();
                     if (CheckEjemplar.checked){
                         cambiarEstado();
-                    }
-                    if (CheckEstu.checked) {
-                        InavilitarUser();
-                    }else{
-                        AbilitarUser();
                     }
                     updatedevolucionesTodo();
                 });
@@ -478,13 +473,14 @@
         }
     });
 
-    // function validarUser(){
-    //     if (CheckEstu.checked) {
-    //         InavilitarUser();
-    //     }else{
-    //         AbilitarUser();
-    //     }
-    // }
+    function validarUser(){
+        const CheckEstu = document.querySelector("#checkuser");
+        if (CheckEstu.checked) {
+            InavilitarUser();
+        }else{
+            AbilitarUser();
+        }
+    }
 
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");

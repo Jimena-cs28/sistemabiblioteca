@@ -32,11 +32,11 @@
                             </div>
                             <form class="user">
                                 <div class="form-group">
-                                  <input type="email" class="form-control form-control-user" id="nombreusuario" placeholder="Escriba su user">
+                                  <input type="number"  placeholder="Escriba su user" class="form-control form-control-user" id="nombreusuario">
                                 </div>
                                 <div class="form-group">
                                     <!-- <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña"> -->
-                                    <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña">
+                                    <input type="email" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña">
                                     <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
                                 </div>
                                 <button id="iniciar" class="btn btn-primary btn-user btn-block">

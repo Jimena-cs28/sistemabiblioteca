@@ -231,7 +231,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -246,7 +246,8 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
-          $datos["idautor"]
+          $datos["idautor"],
+          $datos["imagenportada"]
         )
       );
     }

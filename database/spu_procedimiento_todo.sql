@@ -103,47 +103,36 @@ END $$
 
 -- FALTA EJECUTAR
 DELIMITER $$
-DROP PROCEDURE spu_conseguir_libro()
+CREATE PROCEDURE spu_conseguir_libro()
 BEGIN 
 	SELECT libros.idlibro, libros.libro, subcategorias.subcategoria, categorias.categoria
 	FROM libros
 	LEFT JOIN ejemplares ON libros.idlibro = ejemplares.idejemplar
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE libros.estado = 1 AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1;
+	WHERE libros.estado = 1; -- AND ejemplares.estado IN (1,0);
 END $$
 
-SELECT * FROM EJEMPLARES WHERE idlibro = 5
+UPDATE ejemplares SET
+estado = 0
+WHERE idejemplar = 72
 
+SELECT * FROM EJEMPLARES WHERE idlibro = 7
 
-    IF NOT EXISTS (
-    
-        SELECT 1
-        FROM ejemplares
-        WHERE idlibro = _idlibro AND estado <> 0
-    ) THEN
-        -- Actualizar el estado del libro a 0
-        UPDATE libros
-        SET estado = 0,
-        inactive_at = NOW()
-        WHERE idlibro = _idlibro;
-    END IF;
-    
 CALL spu_conseguir_libro()
-CALL spu_ejemplar_idlibro(1)
+
 SELECT * FROM libros
 
-SELECT * FROM ejemplares -- 11
+IF NOT EXISTS (
 
-UPDATE ejemplares SET
-ocupado = 'NO'
-WHERE idejemplar = 1
+SELECT 1
+FROM ejemplares
+WHERE idlibro = _idlibro AND estado <> 0
+) THEN
+-- Actualizar el estado del libro a 0
+UPDATE libros
+SET estado = 0,
+inactive_at = NOW()
+WHERE idlibro = _idlibro;
+END IF;
 
-SELECT * FROM prestamos
-
-
-
-SELECT idlibroentregado, p.fechaprestamo, p.fechasolicitud
-FROM librosentregados li
-INNER JOIN prestamos p ON p.idprestamo = li.idprestamo
-WHERE p.idbeneficiario = 4;
