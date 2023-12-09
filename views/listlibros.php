@@ -522,6 +522,7 @@
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
             fd.append("idautor",selectAutores.value);
+            fd.append("imagenportada",inputFile.value);
 
             fetch("../controller/libros.php",{
                 method: "POST",
@@ -534,7 +535,7 @@
                     // notificar("LIBROS","Se Actualizo bien", 3)
                     toast("Se hizo bien")
                 }else{
-                    alert("no se guardo");
+                    toastError("No se guardo");
                 }
             });
         }
@@ -815,6 +816,9 @@
                     </td>
                     <td>
                         <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
+                    </td>
+                    <td>
+                        <a href='#modal' class='cantidad' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Cantidad</a>
                     </td>
                 </tr>
                 `;

@@ -32,9 +32,8 @@ if(isset($_POST['operacion'])) {
         $resultado["nrodocumento"]=$datosObtenidos["nrodocumento"];
         $resultado["fechanac"]=$datosObtenidos["fechanac"];
         $resultado["direccion"]=$datosObtenidos["direccion"];
-      } else {
-        //clave incorrecta
-        $resultado["mensaje"] = "contraseña incorrecta";
+      }else {
+        $resultado["mensaje"] = "Contraseña incorrecta";
       }
     } else {
       //usuario no encontrado
@@ -57,6 +56,28 @@ if(isset($_POST['operacion'])) {
     $respuesta = $usuario->registrarAutor($datosGuardar);
     echo json_encode($respuesta);
   }
+
+  if($_POST['operacion'] == 'registrarEditorial'){
+    $datosGuardar = [
+      "nombres"     => $_POST['nombres'],
+      "telefono"    => $_POST['telefono'],
+      "web"      => $_POST['web'],
+      "email"       => $_POST['email'],
+      "paisorigen"       => $_POST['paisorigen']
+    ];
+    $respuesta = $usuario->registrarEditorial($datosGuardar);
+    echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'registrarCategoria'){
+    $datosGuardar = [
+      "categoria"     => $_POST['categoria'],
+      "codigo"    => $_POST['codigo']
+    ];
+    $respuesta = $usuario->registrarCategoria($datosGuardar);
+    echo json_encode($respuesta);
+  }
+
 }
 
 if (isset($_GET['operacion']) == 'destroy'){

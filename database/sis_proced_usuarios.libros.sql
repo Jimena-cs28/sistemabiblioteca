@@ -107,7 +107,7 @@ BEGIN
 END $$
 
 
-DELIMITER $$
+DELIMITER $$   
 CREATE PROCEDURE spu_update_libro
 (
     IN _idlibro INT, 
@@ -123,10 +123,9 @@ CREATE PROCEDURE spu_update_libro
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
     IN _idautor  INT,
-    IN _condicion VARCHAR(50)
+    IN imagenportada_ VARCHAR(200)
 )
 BEGIN
-
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
         idsubcategoria = _idsubcategoria,
@@ -139,15 +138,12 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion
+        descripcion = _descripcion,
+        imagenportada = imagenportada_
         WHERE idlibro = _idlibro;
         
         UPDATE detalleautores SET
         idautor = _idautor
-        WHERE idlibro = _idlibro;
-        
-        UPDATE ejemplares SET
-        condicion = _condicion
         WHERE idlibro = _idlibro;
 END $$
 
@@ -229,24 +225,57 @@ INNER JOIN libros li ON li.idlibro = ej.idlibro
 WHERE ej.ocupado = 'NO' AND ej.estado = 1
 GROUP BY ej.idlibro;
 
+-- OFICIAL
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN
-	SELECT ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria, lib.libro, COUNT(ej.idlibro) AS 'Disponible' , 
-	lib.cantidad AS 'cantidad', lib.codigo, CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-	FROM subcategorias sub
-	JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-	JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-	JOIN detalleautores det ON lib.idlibro = det.idlibro
-	JOIN autores aut ON det.idautor = aut.idautor
-	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado IN (1,0)
-	GROUP BY ej.idlibro
-	ORDER BY ej.idlibro DESC;
-END $$
-CALL spu_listado_libros()
-UPDATE libros SET cantidad =  21 WHERE idlibro = 7
+SELECT 
+    ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
+    lib.codigo,
+    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+FROM 
+    subcategorias sub
+    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+    JOIN detalleautores det ON lib.idlibro = det.idlibro
+    JOIN autores aut ON det.idautor = aut.idautor
+    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
+WHERE 
+    lib.estado IN (1,0)
+GROUP BY 
+    ej.idlibro
+ORDER BY 
+    ej.idlibro DESC;
 
+-- Luego, la sentencia UPDATE
+UPDATE libros AS lib
+SET 
+    lib.estado = 
+        CASE
+            WHEN (
+                SELECT COUNT(*) 
+                FROM ejemplares ej
+                WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
+            ) > 0 THEN 1
+            ELSE 0
+        END
+WHERE 
+    EXISTS (
+        SELECT 1
+        FROM ejemplares ej
+        WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
+    );
+
+END $$
+
+UPDATE libros SET estado = 1 WHERE idlibro = 1
+
+SELECT * FROM libros
+	    
+CALL spu_listado_libros()
+UPDATE ejemplares SET estado =  0 WHERE idlibro = 7
+
+SELECT * FROM libros WHERE idlibro = 7
 SELECT * FROM libros
 -- LIBROS INACTIVOS
 DELIMITER $$
@@ -575,6 +604,5 @@ BEGIN
 	ORDER BY subcategorias.idsubcategoria DESC;
 END $$
 
-
-
+SELECT * FROM editoriales
 

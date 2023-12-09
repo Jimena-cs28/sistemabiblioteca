@@ -81,8 +81,6 @@
             });
             choiselistarlibro.setChoices([], 'value','label',true);
             choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
-            
-            // listarEjemplares();
         });
     }
 
