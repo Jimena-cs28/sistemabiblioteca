@@ -162,7 +162,7 @@
     </div>
 </div>
 
-<button id="exportButton">Exportar a Excel</button>
+<!-- <button id="exportButton">Exportar a Excel</button> -->
 
 <script>
     let idlibroentregado = '';

@@ -16,8 +16,10 @@ SELECT usuarios.idusuario, personas.nombres, personas.apellidos, usuarios.nombre
 END$$
 
 CALL spu_login ('75123489');
-SELECT * FROM personas
-
+UPDATE libros SET libro = 'La Ciudad de los perros' WHERE idlibro = 10
+UPDATE ejemplares SET estado = 0 WHERE idejemplar = 64
+-- 62 
+SELECT * FROM librosentregados
 -- delimiter $$
 -- create procedure spu_listar_subcategoria( in )
 -- SECCION LIBROS
@@ -132,7 +134,6 @@ SELECT * FROM libros
  -- para subcategoria
  SELECT * FROM autores
 
- -- REPORTES
  SELECT libros.nombre
  FROM librosentregados
  INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo

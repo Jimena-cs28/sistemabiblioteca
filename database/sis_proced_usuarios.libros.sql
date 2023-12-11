@@ -360,17 +360,17 @@ CALL spu_inactivo_estudiantes();
 DELIMITER $$ -- EJECUTADO
 CREATE PROCEDURE spu_inabilitar_usuario
 (
-	IN _idusuario	INT
+	IN _idusuario INT
 )
 BEGIN
 	UPDATE usuarios SET
-	estado = 0,
+	estado = '0',
 	inactive_at = NOW()
 	WHERE idusuario = _idusuario;
 END $$
 
-CALL spu_inabilitar_usuario(2);
-SELECT * FROM usuarios
+CALL spu_inabilitar_usuario(3);
+SELECT * FROM prestamos
 -- 
 DELIMITER $$
 CREATE PROCEDURE spu_abilitar_usuario
@@ -383,14 +383,14 @@ BEGIN
 	WHERE idusuario = _idusuario;
 END $$
 
-SELECT * FROM usuarios
-CALL spu_abilitar_usuario(6);
+SELECT * FROM personas
+CALL spu_abilitar_usuario(3);
 
 -- SECCION ESTUDIANTE Y PROFESOR
 DELIMITER $$
 CREATE PROCEDURE spu_listar_estudiantes()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario, personas.fechanac
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
@@ -404,14 +404,14 @@ CALL spu_listar_profesor();
 DELIMITER $$
 CREATE PROCEDURE spu_listar_profesor()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario,personas.fechanac
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE usuarios.idrol = 2 AND estado = 1;
 END$$
 
-CALL spu_listar_estudiantes();
+CALL spu_listar_profesor();
 
 -- REGISTRO ESTUDIANTE Y PROFESOR
 DELIMITER $$

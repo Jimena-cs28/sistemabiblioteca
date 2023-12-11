@@ -32,6 +32,7 @@
                         <th>Telefono</th>
                         <th>Email</th>
                         <th>Direccion</th>
+                        <th>F.Nacimiento</th>
                         <th>nombreusuario</th>
                         <th>operacion</th>
                         <th>Actualizar</th>
@@ -65,7 +66,7 @@
                                 <th>DNI</th>
                                 <th>Telefono</th>
                                 <th>Direccion</th>
-                                <th>nombreusuario</th>
+                                <th>Usuario</th>
                                 <th>Inactivo</th>
                                 <th>operacion</th>
                             </tr>
@@ -174,6 +175,7 @@
                     <td>${element.telefono}</td>
                     <td>${element.email}</td>
                     <td>${element.direccion}</td>
+                    <td>${element.fechanac}</td>
                     <td>${element.nombreusuario}</td>
                     <td>
                         <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>

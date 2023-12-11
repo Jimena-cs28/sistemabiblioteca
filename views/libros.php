@@ -77,8 +77,7 @@
                         <div class="col-md-3">
                             <label for="">IDIOMA</label>
                             <select class="form-control" id="idioma">
-                                <option value="" disabled="" selected="">Seleccione</option>
-                                <option value="Español">Español</option>
+                                <option value="Español" selected>Español</option>
                                 <option value="Ingles">Ingles</option>
                             </select>
                         </div>
@@ -211,7 +210,7 @@
     }
 
     function register(){
-        mostrarPregunta("PRESTAMO", "¿Estas seguro de guardar el libro").then((result)=>{
+        mostrarPregunta("LIBROS", "¿Estas seguro de guardar el libro").then((result)=>{
             if(result.isConfirmed){
                 //Para binarios
                 const fd = new FormData();
@@ -239,10 +238,10 @@
                 .then(response => response.json())
                 .then(datos => {
                     if(datos.status){
-                        notificar("Libros","Se guardo correctamente", 3);
+                        notificar("Libros","Se guardo correctamente", 2);
                         // alert("Se guardo el Libro correctamente")
                     }else{
-                        notificar("Libros","No se guardo", 3);
+                        notificar("Libros","No se guardo", 2);
                     }
                 })
             }

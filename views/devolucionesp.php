@@ -239,7 +239,8 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class="btn btn-info recibir" data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class="btn btn-info recibir" data-idprestamo='${element.idprestamo}' 
+                        data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
                     </td>
                 </tr>
                 `;
@@ -264,7 +265,7 @@
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion < actual;
+                const fechaPasada = fechadevolucion > actual;
                 if (fechaPasada) {
                     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
@@ -310,9 +311,9 @@
         });
     }
 
-    function InavilitarUser(){
+    function SancionarUser(){
         const parametros = new URLSearchParams();
-        parametros.append("operacion","SentenciarUser");
+        parametros.append("operacion","SentenciarUsuario");
         parametros.append("idusuario", idusuario);
         fetch("../controller/estudiantes.php",{
             method: 'POST',
@@ -320,7 +321,6 @@
         })
         .then(response => response.json())
         .then(datos => {
-            // btGuadar.addEventListener("click", updatedevoluciones);
             listarDevoluciones();
         });
     }
@@ -369,6 +369,7 @@
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idbeneficiario);
             const CheckEjemplar = document.querySelector("#checkejemplar");
+            const CheckEstu = document.querySelector("#checkuser");
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -382,9 +383,12 @@
                 listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
-                    validarUser();
-                    if (CheckEjemplar.checked){
+                    if (CheckEstu.checked){
+                        SancionarUser();
+                    }else if(CheckEjemplar.checked){
                         cambiarEstado();
+                    }else{
+                        AbilitarUser();
                     }
                     updatedevolucionesTodo();
                 });
@@ -402,7 +406,6 @@
         })
         .then(response => response.json())
         .then(datos => {
-            // btGuadar.addEventListener("click", updatedevoluciones);
             listarDevoluciones();
         });
     }
@@ -473,14 +476,7 @@
         }
     });
 
-    function validarUser(){
-        const CheckEstu = document.querySelector("#checkuser");
-        if (CheckEstu.checked) {
-            InavilitarUser();
-        }else{
-            AbilitarUser();
-        }
-    }
+    
 
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");

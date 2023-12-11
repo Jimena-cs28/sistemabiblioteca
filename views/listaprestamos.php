@@ -352,7 +352,7 @@
 
             // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
             if (libroAgregados.has(idejemplar)) {
-                alert("Este libro ya ha sido agregado");
+                toastError("Este libro ya ha sido agregado");
             } else {
                 let nuevaFila = `
                     <tr>

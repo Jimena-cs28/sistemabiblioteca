@@ -99,7 +99,6 @@
                                 <th>Paginas</th>
                                 <th>Codigo</th>
                                 <th>inactivo</th>
-                                <th>Activar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -474,9 +473,6 @@
                     <td>${element.numeropaginas}</td>
                     <td>${element.codigo}</td>
                     <td>${element.inactive_at}</td>
-                    <td>
-                        <a href='#' class='activar' type='button' data-idlibro='${element.idlibro}'>Activar</a>
-                    </td>
                 </tr>
                 `;
                 cuerpoL.innerHTML += libro;

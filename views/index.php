@@ -36,7 +36,7 @@ $datoID = json_encode($_SESSION['login']);
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #042840;">
+        <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #072436;">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php?view=dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -50,16 +50,16 @@ $datoID = json_encode($_SESSION['login']);
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item active mb-1">
                 <a class="nav-link" href="index.php?view=dashboard.php">
                     <i class="bi bi-house-door-fill"></i>
-                    <span>HOME</span></a>
+                    <span>INICIO</span></a>
             </li>
 
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Interfaces
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -180,7 +180,7 @@ $datoID = json_encode($_SESSION['login']);
             </li> -->
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
             <!-- OPCIONES QUE DEBEN SER FILTRADAS DE ACUERDO AL PERFIL -->
             
@@ -263,7 +263,7 @@ $datoID = json_encode($_SESSION['login']);
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="index.php?view=listprestamo.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Perfil
                                 </a>
                                 <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -276,7 +276,7 @@ $datoID = json_encode($_SESSION['login']);
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../controller/usuario.controller.php?operacion=destroy">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Session
                                 </a>
                             </div>
                         </li>
@@ -298,7 +298,7 @@ $datoID = json_encode($_SESSION['login']);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Jimena Cartagena Salazar &copy; SENATI 2023</span>
+                        <span>SANTA ANA &copy; SENATI 2023</span>
                     </div>
                 </div>
             </footer>
