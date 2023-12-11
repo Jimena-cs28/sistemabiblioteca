@@ -32,7 +32,7 @@
                             </div>
                             <form class="user">
                                 <div class="form-group">
-                                  <input type="number"  placeholder="Escriba su user" class="form-control form-control-user" id="nombreusuario">
+                                  <input type=""  placeholder="Escriba su user" class="form-control form-control-user" id="nombreusuario">
                                 </div>
                                 <div class="form-group">
                                     <!-- <input type="password" class="form-control form-control-user" id="claveacceso" placeholder="Contraseña"> -->

@@ -1,12 +1,13 @@
-<div class="">
+
+    <div class="">
     <img class="img" src="../img/logo2.png" alt="logo">
     <h1 class="text-md text-center mb-4">REPORTE DEL HISTORIAL DE LIBROS PEDIDOS</h1>
-</div>
+    </div>
 
-<?php foreach($datosGroup as $registros): ?>
-    <h3 class="text-end mt-2">Libro:    <?=$registros['libro']?></h3>
-    <h3 class="text-end mt-2">Codigo:    <?=$registros['codigo']?></h3>
-<?php endforeach?>
+    <?php foreach($datosGroup as $registros): ?>
+        <h3 class="text-start mt-2">Libro:    <?=$registros['libro']?></h3>
+        <h3 class="text-start mt-2 mb-2">Codigo:    <?=$registros['codigo']?></h3>
+    <?php endforeach?>
 
 <table class="table table-border mt-3">
     <colgroup>
@@ -22,7 +23,7 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>USUARIOS</th>
+            <th>Usuario</th>
             <th>CODIGO</th>
             <th>C.ENTREGA</th>
             <th>C.DEVOLUCION</th>
@@ -46,3 +47,5 @@
         <?php endforeach?>
     </tbody>
 </table>
+
+

@@ -21,10 +21,10 @@
     <tbody class="text-center">
         <?php foreach($datos as $registro): ?>
             <tr>
-            <td><?=$registro['idcategoria']?></td>
-            <td><?=$registro['categoria']?></td>
-            <td><?=$registro['codigo']?></td>
-            <td><?=$registro['CantidadPrestada']?></td>
+                <td><?=$registro['idcategoria']?></td>
+                <td><?=$registro['categoria']?></td>
+                <td><?=$registro['codigo']?></td>
+                <td><?=$registro['CantidadPrestada']?></td>
             </tr>
         <?php endforeach?>
     </tbody>

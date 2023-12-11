@@ -9,7 +9,7 @@ $permiso = $_SESSION['login']['nombrerol'];
 // $opciones = [];
 
 switch ($permiso){
-  case "Administrador":
+    case "Administrador":
     echo "    
     <li class='nav-item'>
         <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseTwo'
@@ -47,113 +47,115 @@ switch ($permiso){
 
     <li class='nav-item'>
     <a class='nav-link' href='index.php?view=listaprestamos.php'>
-        <i class='bi bi-patch-plus'></i>
-        <span>Nuevo Prestamo</span></a>
-  </li>
-  <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=reservas.php'>
-          <i class='fas fa-fw fa-chart-area'></i>
-          <span>Reservaciones</span></a>
-  </li>
-
-  <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=devolucionesp.php'>
-      <i class='fas fa-fw fa-table'></i>
-          <span>Devoluciones</span></a>
-  </li>
-
-  <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=prestamos.php'>
-      <i class='fas fa-fw fa-chart-area'></i>
-          <span>Prestamos</span></a>
-  </li> 
-
-  <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=solicitud.php'>
-          <i class='fas fa-fw fa-table'></i>
-          <span>Solicitud</span></a>
-  </li>
-
-  <li class='nav-item'>
-    <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#reporte'
-        aria-expanded='true' aria-controls='reporte'>
-        <i class='fas fa-fw fa-wrench'></i>
-        <span>Reportes</span>
-    </a>
-    <div id='reporte' class='collapse' aria-labelledby='headingUtilities'
-        data-parent='#accordionSidebar'>
-        <div class='bg-white py-2 collapse-inner rounded'>
-            <a class='collapse-item' href='index.php?view=report.php'>Por Usuario</a>
-            <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
-            <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
-        </div>
-    </div>
-  </li>
-
-  <li class='nav-item'>
-    <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#libro'
-        aria-expanded='true' aria-controls='libro'>
-        <i class='fas fa-fw fa-wrench'></i>
-        <span>Historiales</span>
-    </a>
-    <div id='libro' class='collapse' aria-labelledby='headingUtilities'
-        data-parent='#accordionSidebar'>
-        <div class='bg-white py-2 collapse-inner rounded'>
-            <a class='collapse-item' href='index.php?view=reportLibro.php'>Libros</a>
-            <a class='collapse-item' href='index.php?view=ReportStudent.php'>Usuarios</a>
-        </div>
-    </div>
-  </li>
-
-  <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=config.php'>
-          <i class='fas fa-fw fa-table'></i>
-          <span>Configuracion</span></a>
-  </li>
-
-    ";
-  break;
-  case "Subdirector":
-    echo "
+        <i class='bi bi-bookmark-plus'></i>        
+        <span>Nuevo Préstamo</span></a>
+    </li>
     <li class='nav-item'>
-      <a class='nav-link' href='index.php?view=prestamos.php'>
-      <i class='fas fa-fw fa-chart-area'></i>
-          <span>Prestamos</span></a>
+        <a class='nav-link' href='index.php?view=reservas.php'>
+            <i class='fas fa-fw fa-chart-area'></i>
+            <span>Reservaciones</span></a>
+    </li>
+
+    <li class='nav-item'>
+        <a class='nav-link' href='index.php?view=devolucionesp.php'>
+        <i class='fas fa-fw fa-table'></i>
+            <span>Devoluciones</span></a>
+    </li>
+
+    <li class='nav-item'>
+        <a class='nav-link' href='index.php?view=prestamos.php'>
+        <i class='fas fa-fw fa-chart-area'></i>
+            <span>Prestamos</span></a>
     </li> 
 
     <li class='nav-item'>
-      <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#reporte'
-          aria-expanded='true' aria-controls='reporte'>
-          <i class='fas fa-fw fa-wrench'></i>
-          <span>Reportes</span>
-      </a>
-      <div id='reporte' class='collapse' aria-labelledby='headingUtilities'
-          data-parent='#accordionSidebar'>
-          <div class='bg-white py-2 collapse-inner rounded'>
-              <a class='collapse-item' href='index.php?view=report.php'>Por Usuario</a>
-              <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
-              <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
-          </div>
-      </div>
+        <a class='nav-link' href='index.php?view=solicitud.php'>
+            <i class='fas fa-fw fa-table'></i>
+            <span>Solicitudes</span></a>
+    </li>
+
+    <hr class='sidebar-divider'>
+
+    <li class='nav-item'>
+        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#reporte'
+            aria-expanded='true' aria-controls='reporte'>
+            <i class='bi bi-filetype-pdf'></i>
+            <span>Reportes</span>
+        </a>
+        <div id='reporte' class='collapse' aria-labelledby='headingUtilities'
+            data-parent='#accordionSidebar'>
+            <div class='bg-white py-2 collapse-inner rounded'>
+                <a class='collapse-item' href='index.php?view=report.php'>Usuarios</a>
+                <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
+                <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
+            </div>
+        </div>
     </li>
 
     <li class='nav-item'>
-      <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#libro'
-          aria-expanded='true' aria-controls='libro'>
-          <i class='fas fa-fw fa-wrench'></i>
-          <span>Historiales</span>
-      </a>
-      <div id='libro' class='collapse' aria-labelledby='headingUtilities'
-          data-parent='#accordionSidebar'>
-          <div class='bg-white py-2 collapse-inner rounded'>
-              <a class='collapse-item' href='index.php?view=reportLibro.php'>Libros</a>
-              <a class='collapse-item' href='index.php?view=ReportStudent.php'>Usuarios</a>
-          </div>
-      </div>
+        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#libro'
+            aria-expanded='true' aria-controls='libro'>
+            <i class='bi bi-box2-fill'></i>
+            <span>Historiales</span>
+        </a>
+        <div id='libro' class='collapse' aria-labelledby='headingUtilities'
+            data-parent='#accordionSidebar'>
+            <div class='bg-white py-2 collapse-inner rounded'>
+                <a class='collapse-item' href='index.php?view=reportLibro.php'>Libros</a>
+                <a class='collapse-item' href='index.php?view=ReportStudent.php'>Usuarios</a>
+            </div>
+        </div>
     </li>
-    
+
+    <li class='nav-item'>
+        <a class='nav-link' href='index.php?view=config.php'>
+            <i class='fas fa-fw fa-table'></i>
+            <span>Configuracion</span></a>
+    </li>
+
     ";
-  break;
+    break;
+    case "Subdirector":
+        echo "
+        <li class='nav-item'>
+        <a class='nav-link' href='index.php?view=prestamos.php'>
+        <i class='fas fa-fw fa-chart-area'></i>
+            <span>Prestamos</span></a>
+        </li> 
+
+        <li class='nav-item'>
+        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#reporte'
+            aria-expanded='true' aria-controls='reporte'>
+            <i class='bi bi-box2-fill'></i>
+            <span>Reportes</span>
+        </a>
+        <div id='reporte' class='collapse' aria-labelledby='headingUtilities'
+            data-parent='#accordionSidebar'>
+            <div class='bg-white py-2 collapse-inner rounded'>
+                <a class='collapse-item' href='index.php?view=report.php'>Por Usuario</a>
+                <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
+                <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
+            </div>
+        </div>
+        </li>
+
+        <li class='nav-item'>
+        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#libro'
+            aria-expanded='true' aria-controls='libro'>
+            <i class='bi bi-box2-fill'></i>
+            <span>Historiales</span>
+        </a>
+        <div id='libro' class='collapse' aria-labelledby='headingUtilities'
+            data-parent='#accordionSidebar'>
+            <div class='bg-white py-2 collapse-inner rounded'>
+                <a class='collapse-item' href='index.php?view=reportLibro.php'>Libros</a>
+                <a class='collapse-item' href='index.php?view=ReportStudent.php'>Usuarios</a>
+            </div>
+        </div>
+        </li>
+        
+        ";
+    break;
 }
 
 //Renderizar los ítems del SIDEBAR
