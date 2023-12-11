@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="libro" class="form-control" required="" maxlength="70">
+                            <input type="text" id="nombre" class="form-control">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -125,6 +125,7 @@
     const selectEditorial = document.querySelector("#selecteditorial");
     const selectAutores  = document.querySelector("#autor");
     const img = document.querySelector("#img");
+    const nombre = document.querySelector("#nombre");
     const inputFile = document.querySelector("#fotografia");
     const btGuardar = document.querySelector("#btguardar");
 
@@ -217,7 +218,7 @@
                 fd.append("operacion","registrarLibro");
                 fd.append("idsubcategoria",selectsubcategoria.value);
                 fd.append("ideditorial",selectEditorial.value);
-                fd.append("nombre",document.querySelector("#libro").value);
+                fd.append("nombre",nombre.value);
                 fd.append("tipo",document.querySelector("#tipo").value);
                 fd.append("cantidad",document.querySelector("#cantidad").value);
                 fd.append("numeropaginas",document.querySelector("#paginas").value);

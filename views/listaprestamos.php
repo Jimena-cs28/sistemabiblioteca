@@ -63,34 +63,37 @@
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <label for="libro">Libro</label>
                             <select name="" id="selectlibro" class="form-control">
 
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Codigo</label>
                             <select name="" id="filtroEjemplar" class="form-control mb-3">
                                 <!-- <option value="">Hola</option> -->
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label>Cantidad</label>
                             <input type="number" class="form-control" id="cantidad" value="1" required>
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-4">
                             <label>Condición Entrega</label>
                             <input type="text" class="form-control mb-3" id="condicionentrega" required>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label>Fecha devolucion</label>
                             <div class="input-group mb-4">
                                 <input type="date" class="form-control" id="fechadevolucion" required>
-                                <div class="input-group-append" id="a">
-                                    <button class="btn btn-outline-success" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
-                                </div>
+                                
                             </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                        <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
@@ -110,7 +113,6 @@
                         </table>
                     </div>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                     </p>
                 </form>
