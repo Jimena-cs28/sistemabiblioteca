@@ -90,9 +90,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     </div>
                                     <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Código de libro: ${el.codigo}</li>
-                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud}</li>
+                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud.split(" ")[0]}</li>
                                     <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
-                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion || "---"}</li>
+                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion?.split(" ")[0] || "---"}</li>
                                     <li class="list-group-item">Estado: ${estados[el.estado]}</li>
                                     <li class="list-group-item">Cantidad: ${el.cantidad}</li>
                                     ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
