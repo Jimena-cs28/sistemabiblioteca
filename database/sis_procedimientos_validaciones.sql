@@ -132,62 +132,11 @@ END$$
 CALL spu_update_ejemplar_mal(3,16,'rayada','Mal')
 -- CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
 
-UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = 2 -- 7,9
-UPDATE usuarios SET estado = 0 WHERE idusuario = 2
-
-SELECT * FROM usuarios
-SELECT * FROM ejemplares
-SELECT * FROM librosentregados
-SELECT * FROM prestamos WHERE estado = 'T'
-
-CALL spu_update_devoluciones(10,4,'bien','bien');
-SELECT * FROM librosentregados WHERE idprestamo = 6
-
--- REPORTES
-SELECT * FROM prestamos WHERE fechasolicitud BETWEEN '2023-11-13' AND '2023-11-16' AND estado = 'T';
--- esta funcionanado este es para todos los prestamos
-DELIMITER $$
-CREATE PROCEDURE spu_updateD_todo_prestamo
-(
-    IN _idprestamo INT,
-    -- IN _idlibroentregado INT,
-    IN _condiciondevolucion VARCHAR(50),
-    IN _observaciones  VARCHAR(50)
-)
-BEGIN
-    DECLARE _count_ocupados INT;
-
-    -- Actualizar ejemplares a 'NO' para los idejemplar asociados al idprestamo
-    UPDATE ejemplares ej
-    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
-    SET ej.ocupado = 'NO'
-    WHERE le.idprestamo = _idprestamo;
-
-    -- Actualizar observaciones para los idlibroentregado que coincidan con el idprestamo
-    UPDATE librosentregados SET 
-    observaciones = _observaciones,
-    condiciondevolucion = _condiciondevolucion,
-    fechadevolucion = NOW()
-    WHERE idprestamo = _idprestamo;
-
-    -- Verificar si todos los idejemplar tienen ocupado='NO'
-    SELECT COUNT(*) INTO _count_ocupados
-    FROM ejemplares ej
-    JOIN librosentregados le ON ej.idejemplar = le.idejemplar
-    WHERE le.idprestamo = _idprestamo AND ej.ocupado = 'NO';
-
-    -- Si todos los idejemplar tienen ocupado='NO', actualizar el estado del préstamo a 'T'
-    IF _count_ocupados > 0 THEN
-        UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
-    END IF;
-END$$
-SELECT * FROM librosentregados
 
 DELIMITER $$
-CREATE PROCEDURE spu_updateD_todo_prestamo
+CREATE PROCEDURE updateD_todo_prestamo
 (
     IN _idprestamo INT,
-    -- IN _idlibroentregado INT,
     IN _condiciondevolucion VARCHAR(50),
     IN _observaciones  VARCHAR(50)
 )
@@ -222,9 +171,9 @@ BEGIN
     END IF;
 END$$
 
-CALL spu_updateD_todo_prestamo(6,'Mal','sin pasta')
-SELECT * FROM prestamos
-SELECT * FROM librosentregados WHERE idprestamo = 6
+CALL updateD_todo_prestamo(70,'Bien','Bien')
+SELECT * FROM libros
+SELECT * FROM prestamos WHERE idprestamo = 6
 
 SELECT
     l.idlibro,
@@ -245,7 +194,7 @@ GROUP BY
 ORDER BY
     cantidad_prestamos DESC
 LIMIT 5;
-
+UPDATE libros SET imagenportada = 'd6ce6ed8edfb40bcaee8671f91012b2f4a175597.jpg' WHERE idlibro = 12
 
 
 

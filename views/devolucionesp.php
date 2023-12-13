@@ -239,8 +239,8 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class="btn btn-info recibir" data-idprestamo='${element.idprestamo}' 
-                        data-idlibroentregado='${element.idlibroentregado}' data-idbeneficiario='${element.idbeneficiario}'>recibir</a>
+                        <a href='#modal-id' type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
+                        data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
                     </td>
                 </tr>
                 `;
@@ -367,8 +367,7 @@
         if(element){
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
-            idusuario = parseInt(event.target.dataset.idbeneficiario);
-            const CheckEjemplar = document.querySelector("#checkejemplar");
+            idusuario = parseInt(event.target.dataset.idusuario);
             const CheckEstu = document.querySelector("#checkuser");
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
@@ -383,19 +382,27 @@
                 listarDevoluciones();
                 listarEjemplare();
                 btGuadar.addEventListener("click", () => {
-                    if (CheckEstu.checked){
+                    if(CheckEstu.checked){
                         SancionarUser();
-                    }else if(CheckEjemplar.checked){
-                        cambiarEstado();
-                    }else{
-                        AbilitarUser();
                     }
+                    ChangeState();
                     updatedevolucionesTodo();
                 });
             });
         }
     });
 
+    // function validarUser(){
+    //     const checkuserr = document.querySelector("#checkuser");
+        
+    // }
+
+    function ChangeState(){
+        const CheckEjemplar = document.querySelector("#checkejemplar");
+        if(CheckEjemplar.checked){
+            cambiarEstado()
+        }
+    }
     function cambiarEstado(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","CambiarEstado");
@@ -475,8 +482,6 @@
             });
         }
     });
-
-    
 
     function validarRecibirlibro(){
         const CheckLibro = document.querySelector("#checklibro");

@@ -518,7 +518,11 @@
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
             fd.append("idautor",selectAutores.value);
-            fd.append("imagenportada",inputFile.value);
+            
+            const nuevaImagen = document.querySelector("#Efotografia").files[0];
+            if(nuevaImagen){
+                fd.append("imagenportada",nuevaImagen);
+            }
 
             fetch("../controller/libros.php",{
                 method: "POST",
@@ -634,7 +638,7 @@
             selectAutores.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let selectAutor = `
-                    <option value='${element.idautor}'>${element.autor}-${element.apellidos}-${element.nacionalidad} </option> 
+                    <option value='${element.idautor}'>${element.autor}-${element.apellidos}-${element.nacionalidad}</option> 
                 `;
                 selectAutores.innerHTML += selectAutor;
             });
@@ -697,11 +701,10 @@
             .then(datos => {
                 //console.log(idlibro)
                 datos.forEach(element => {
-                    selectcategoria.value = element.categoria;
-                    selectsubcategoria.value = element.subcategoria;
-                    selectEditorial.value = element.Editorial;
+                    selectcategoria.value = element.idcategoria;
+                    document.querySelector("#Eeditorial").value = element.idsubcategoria;
+                    selectEditorial.value = element.ideditorial;
                     document.querySelector("#Elibro").value = element.libro;
-                    // document.querySelector("#Ecantidad").value = element.cantidad;
                     document.querySelector("#Epaginas").value = element.numeropaginas;
                     document.querySelector("#Ecodigo").value = element.codigo;
                     document.querySelector("#Eformato").value = element.formato;
@@ -711,7 +714,7 @@
                     document.querySelector("#Etipo").value = element.tipo;
                     document.querySelector("#Eimg").src = `./img/${element.imagenportada}`;
                     document.querySelector("#Eedicion").value = element.edicion;
-                    document.querySelector("#Eautor").value = element.Autor;
+                    selectAutores.value = element.idautor;
                 });
                 guardarUpadte.addEventListener("click", UpdateBooks);
                 traerEjemplar1();

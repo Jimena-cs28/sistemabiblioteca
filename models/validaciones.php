@@ -93,7 +93,7 @@ class Validacion extends conexion{
             "message" => ""
         ];
         try{
-            $consulta = $this->acesso->prepare("CALL spu_updateD_todo_prestamo(?,?,?)");
+            $consulta = $this->acesso->prepare("CALL updateD_todo_prestamo(?,?,?)");
             $respuesta["status"] = $consulta->execute(
                 array(
                     $datos["idprestamo"],
@@ -104,7 +104,7 @@ class Validacion extends conexion{
             );
         }
         catch(Exception $e){
-            $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getMessage();
+            $respuesta["message"] = "No se ha podido completar el proceso. Codigo error: " . $e->getMessage();
         }
         return $respuesta;
     }

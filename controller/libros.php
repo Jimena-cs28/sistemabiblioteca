@@ -159,6 +159,9 @@ if (isset($_POST['operacion'])){
       
       if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
         $nombreGuardara = $nombreArchivo;
+        echo "bien";
+      }else {
+        echo "error";
       }
     }
 
