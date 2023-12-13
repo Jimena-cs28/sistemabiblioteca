@@ -11,10 +11,8 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial</title>
-    <link rel="stylesheet" href="">
     
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/detalle.libro.css">
     <link rel="stylesheet" href="../css/historialuser.css">
@@ -41,9 +39,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <h5>"Una santanina, una señorita de éxito"</h5>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
-			</p>
 
     </nav>
+    
     <h4>LIBROS SOLICITADOS</h4>
     <style>
     h4 {
@@ -58,6 +56,9 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <div class="row" id="contenedor">
 
     </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -78,29 +79,30 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             }).then(res=>res.json())
             .then(data=>{
                 data.forEach(el=>{
-                    contenedor.innerHTML += `<div class="col-md-4 card-deck">
-                        <div class="card mb-3" style="max-width: 500px;">
+                    contenedor.innerHTML += `<div class="col-md-4">
+                        <div class="card mb-3" style="max-width: 700px;">
                             <div class="row g-0">
-                                <div class="col-md-5 d-flex align-items-center justify-content-center">
-                                    <img class="img-fluid rounded-start" src="../img/${el.imagenportada}" alt="imagenLibro" style="width: 100%; object-fit: fill;">
+                                <div class="col-md-5 d-flex align-items-stretch">
+                                    <img class="img-fluid rounded-start h-100" src="../img/${el.imagenportada}" alt="imagenLibro" style="width: 100%; object-fit: fill;">
                                 </div>
                                 <div class="col-md-7">
                                     <div class="card-body">
                                         <h5 class="card-title">${el.libro}</h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Código de libro: ${el.codigo}</li>
-                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud.split(" ")[0]}</li>
-                                    <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
-                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion?.split(" ")[0] || "---"}</li>
-                                    <li class="list-group-item">Estado: ${estados[el.estado]}</li>
-                                    <li class="list-group-item">Cantidad: ${el.cantidad}</li>
-                                    ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
+                                        <li class="list-group-item">Código de libro: ${el.codigo}</li>
+                                        <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud.split(" ")[0]}</li>
+                                        <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
+                                        <li class="list-group-item">Fecha devolución: ${el.fechadevolucion?.split(" ")[0] || "---"}</li>
+                                        <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                                        <li class="list-group-item">Cantidad: ${el.cantidad}</li>
+                                        ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     `
                 })
             })
