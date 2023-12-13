@@ -78,29 +78,29 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             }).then(res=>res.json())
             .then(data=>{
                 data.forEach(el=>{
-                    contenedor.innerHTML += `<div class="col-md-4 card-deck">
-                        <div class="card mb-3" style="max-width: 500px;">
-                            <div class="row g-0">
-                                <div class="col-md-5 d-flex align-items-center justify-content-center">
-                                    <img class="img-fluid rounded-start" src="../img/${el.imagenportada}" alt="imagenLibro" style="width: 100%; object-fit: fill;">
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${el.libro}</h5>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Código de libro: ${el.codigo}</li>
-                                    <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud.split(" ")[0]}</li>
-                                    <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
-                                    <li class="list-group-item">Fecha devolución: ${el.fechadevolucion?.split(" ")[0] || "---"}</li>
-                                    <li class="list-group-item">Estado: ${estados[el.estado]}</li>
-                                    <li class="list-group-item">Cantidad: ${el.cantidad}</li>
-                                    ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
-                                    </ul>
-                                </div>
+                    contenedor.innerHTML += `<div class="col-md-4">
+                <div class="card mb-3" style="max-width: 700px;">
+                    <div class="row g-0">
+                        <div class="col-md-5 d-flex align-items-stretch">
+                            <img class="img-fluid rounded-start h-100" src="../img/${el.imagenportada}" alt="imagenLibro" style="width: 100%; object-fit: fill;">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h5 class="card-title">${el.libro}</h5>
                             </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Código del libro: ${el.codigo}</li>
+                                <li class="list-group-item">Fecha solicitud: ${el.fechasolicitud.split(" ")[0]}</li>
+                                <li class="list-group-item">Fecha préstamo: ${el.fechaprestamo}</li>
+                                <li class="list-group-item">Fecha devolución: ${el.fechadevolucion?.split(" ")[0] || "---"}</li>
+                                <li class="list-group-item">Estado: ${estados[el.estado]}</li>
+                                <li class="list-group-item">Cantidad: ${el.cantidad}</li>
+                                ${el.estado=='C'? `<li class="list-group-item">Motivo Rechazo: ${el.motivorechazo}</li>` : ''}
+                            </ul>
                         </div>
                     </div>
+                </div>
+            </div>
                     `
                 })
             })
