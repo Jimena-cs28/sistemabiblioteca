@@ -71,7 +71,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     </select>
                 </div>
 
-                <div id="contenedor-lugar" class="form-group col-md-6 mt-3 d-none">
+                <div id="contenedor-lugar" class="form-group col-md-3 mt-3 d-none">
                     <label for="lugar" class="form-label bold">Lugar</label>
                     <select class="form-control" id="lugar">
                         <option value="">Seleccione</option>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     </select>
                 </div>
 
-                <div class="form-group col-md-6 mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label for="descripcion" class="form-label bold" id="des">Descripción</label>
                     <input type="text" class="form-control" id="descripcion" placeholder="Opcional">
                 </div>
@@ -218,15 +218,15 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 <ul>
                 <div class="titulo" style="margin-bottom: 10px;">DATOS:</div>
                 <div style="text-align: center;">
-                <img src="../img/${datos.imagenportada}" width="250px" alt="Portada del libro" style="border-radius: 8px;"/>
+                    <img src="../img/${datos.imagenportada}" width="250px" alt="Portada del libro" style="border-radius: 8px;"/>
                 </div>
-                <li class="descripcion">Nombre de libro: ${datos.libro}</li>
-                <li style="margin-left: 60px;">Descripción: ${datos.descripcion}</li>
-                <li style="margin-left: 60px;">Autor: ${datos.autor}</li>
-                <li style="margin-left: 60px;">Editorial: ${datos.editorial}</li>
-                <li style="margin-left: 60px;">Categoría: ${datos.categoria}</li>
-                <li style="margin-left: 60px;">Subcategoría: ${datos.subcategoria}</li>
-                <li style="margin-left: 60px;">Cantidad: ${datos.cantidad}</li>
+                <li class="descripcion"><strong>Nombre del libro:</strong> ${datos.libro}</li>
+                <li style="margin-left: 60px;"><strong>Descripción:</strong> ${datos.descripcion}</li>
+                <li style="margin-left: 60px;"><strong>Autor:</strong> ${datos.autor}</li>
+                <li style="margin-left: 60px;"><strong>Editorial:</strong> ${datos.editorial}</li>
+                <li style="margin-left: 60px;"><strong>Categoría:</strong> ${datos.categoria}</li>
+                <li style="margin-left: 60px;"><strong>Subcategoría:</strong> ${datos.subcategoria}</li>
+                <li style="margin-left: 60px;"><strong>Cantidad:</strong> ${datos.cantidad}</li>
                 </ul>
                 `
             })
@@ -250,7 +250,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                 console.log(cantidad)
                 //Validaciones
                 if(cantidad <= 0 || cantidad>cantidadmaxima){
-                    toastError('Debe ingresar la cantidad')
+                    toastError('Verifique la cantidad')
                     return
                 }
                 if(enbiblioteca.value ==''){
@@ -261,7 +261,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     toastError('Debe completar el campo lugar')
                     return
                 }
-                mostrarPregunta("REGISTRAR", "¿Está seguro(a) de registrar el préstamo?").then((result)=>{
+                mostrarPregunta("SOLICITAR", "¿Está seguro(a) de solicitar el préstamo?").then((result)=>{
                 if(result.isConfirmed){
                 const parametros = new URLSearchParams();
                 parametros.append("operacion", "prestamousuario");
