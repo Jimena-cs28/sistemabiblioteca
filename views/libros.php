@@ -118,7 +118,7 @@
             </div>
         </div>
     </div>
-</div>        
+</div>
 <script>
     const selectcategoria = document.querySelector("#selectcategoria");
     const selectsubcategoria = document.querySelector("#selectsubcategoria");
@@ -128,7 +128,6 @@
     const nombre = document.querySelector("#nombre");
     const inputFile = document.querySelector("#fotografia");
     const btGuardar = document.querySelector("#btguardar");
-
 
     function listarCategoria(){
         const parametros = new URLSearchParams();
@@ -213,7 +212,6 @@
     function register(){
         mostrarPregunta("LIBROS", "¿Estas seguro de guardar el libro").then((result)=>{
             if(result.isConfirmed){
-                //Para binarios
                 const fd = new FormData();
                 fd.append("operacion","registrarLibro");
                 fd.append("idsubcategoria",selectsubcategoria.value);
@@ -231,20 +229,21 @@
                 fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
                 fd.append("idautor",selectAutores.value);
                 fd.append("condicion", document.querySelector("#condicion").value)
-                
+
                 fetch("../controller/libros.php",{
                     method: "POST",
                     body: fd
                 })
                 .then(response => response.json())
                 .then(datos => {
+                    
                     if(datos.status){
                         notificar("Libros","Se guardo correctamente", 2);
-                        // alert("Se guardo el Libro correctamente")
                     }else{
                         notificar("Libros","No se guardo", 2);
                     }
                 })
+                
             }
         });
     }

@@ -1,6 +1,6 @@
 DROP DATABASE sistemabiblioteca;
 --  LIBROS Y USUARIOS
-
+SELECT * FROM libros
 -- REGISTRAR LIBRO
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libro

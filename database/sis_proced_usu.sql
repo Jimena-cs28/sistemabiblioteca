@@ -3,8 +3,8 @@ USE sistemabiblioteca
 DELIMITER $$
 CREATE PROCEDURE spu_listar_devolucionpendientes()
 BEGIN
-	SELECT idlibroentregado,prestamos.idprestamo, libros.idlibro, ejemplares.codigo_libro, libros.libro,usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
-	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(fechadevolucion) AS 'fechadevolucion'
+	SELECT idlibroentregado,prestamos.idprestamo, prestamos.descripcion, libros.idlibro, ejemplares.codigo_libro, libros.libro, usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(prestamos.fechaprestamo) AS 'fechaprestamo'
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
@@ -19,7 +19,7 @@ SELECT * FROM usuarios
 
 CALL spu_obtener_libroentregado(1);
 
-CALL spu_update_devoluciones()
+CALL spu_listar_devolucionpendientes()
 SELECT * FROM libros -- 9 for default
 -- FALTA EJECUTAR-se ejecuto
 DELIMITER $$
