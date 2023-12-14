@@ -3,6 +3,13 @@ session_start();
 if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     header("Location:../");
 }
+require_once '../../config/conexion.php';
+$acceso = new conexion();
+$conexion = $acceso->getConexion();
+$sql = "SELECT estado FROM usuarios WHERE idusuario = ".$_SESSION['login']['idusuario'];
+$result = $conexion->query($sql)->fetchAll();
+$estado = $result[0]['estado'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -85,9 +92,16 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                     <label for="descripcion" class="form-label bold" id="des">Descripción</label>
                     <input type="text" class="form-control" id="descripcion" placeholder="Opcional">
                 </div>
-
+                <!--Validación sentenciar usuarios-->
                 <div class="mt-4 mb-4">
-                    <button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>
+                    <?php 
+                    if($estado==1){
+                        echo '<button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>';
+                    }
+                    else{
+                        echo '<span style="color:red ">Usted no puede solicitar porque está inhabilitado</span>';
+                    }
+                    ?>
                 </div>
             </div>
         </form>
