@@ -123,37 +123,23 @@ switch ($permiso){
             <span>Prestamos</span></a>
         </li> 
 
-        <li class='nav-item'>
-        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#reporte'
-            aria-expanded='true' aria-controls='reporte'>
-            <i class='bi bi-box2-fill'></i>
-            <span>Reportes</span>
-        </a>
-        <div id='reporte' class='collapse' aria-labelledby='headingUtilities'
-            data-parent='#accordionSidebar'>
-            <div class='bg-white py-2 collapse-inner rounded'>
-                <a class='collapse-item' href='index.php?view=report.php'>Por Usuario</a>
-                <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
-                <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
-            </div>
+
+        <!-- Heading -->
+        <div class='sidebar-heading'>
+            HISTORIALES
         </div>
+
+        <li class='nav-item'>
+        <a class='nav-link' href='index.php?view=reportLibro.php'>
+            <i class='fas fa-fw fa-table'></i>
+            <span>Libros</span></a>
         </li>
 
         <li class='nav-item'>
-        <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#libro'
-            aria-expanded='true' aria-controls='libro'>
-            <i class='bi bi-box2-fill'></i>
-            <span>Historiales</span>
-        </a>
-        <div id='libro' class='collapse' aria-labelledby='headingUtilities'
-            data-parent='#accordionSidebar'>
-            <div class='bg-white py-2 collapse-inner rounded'>
-                <a class='collapse-item' href='index.php?view=reportLibro.php'>Libros</a>
-                <a class='collapse-item' href='index.php?view=ReportStudent.php'>Usuarios</a>
-            </div>
-        </div>
+        <a class='nav-link' href='index.php?view=ReportStudent.php'>
+            <i class='fas fa-fw fa-table'></i>
+            <span>Usuarios</span></a>
         </li>
-        
         ";
     break;
 }

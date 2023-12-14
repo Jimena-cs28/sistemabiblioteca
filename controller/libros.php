@@ -147,7 +147,7 @@ if (isset($_POST['operacion'])){
     
     $rutaDestino = '';
     $nombreArchivo = '';
-    $nombreGuardara = '';
+    $nombreGuardara = 'NULL2';
 
     if(isset($_FILES['imagenportada'])){
 
@@ -159,9 +159,6 @@ if (isset($_POST['operacion'])){
       
       if(move_uploaded_file($_FILES['imagenportada']['tmp_name'], $rutaDestino)){
         $nombreGuardara = $nombreArchivo;
-        echo "bien";
-      }else {
-        echo "error";
       }
     }
 
