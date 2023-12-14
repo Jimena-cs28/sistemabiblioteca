@@ -132,9 +132,8 @@ END$$
 CALL spu_update_ejemplar_mal(3,16,'rayada','Mal')
 -- CALL spu_actualizar_estado_prestamo(4,'nuevo','bien',20);
 
-
 DELIMITER $$
-CREATE PROCEDURE updateD_todo_prestamo
+CREATE PROCEDURE spu_updateD_todo_prestamo
 (
     IN _idprestamo INT,
     IN _condiciondevolucion VARCHAR(50),
@@ -142,7 +141,6 @@ CREATE PROCEDURE updateD_todo_prestamo
 )
 BEGIN
     DECLARE _count_ocupados INT;
-
     -- Actualizar ejemplares a 'NO' y registrar observaciones y fecha de devolución para los idejemplar asociados al idprestamo
     UPDATE ejemplares ej
     JOIN librosentregados le ON ej.idejemplar = le.idejemplar
@@ -151,29 +149,39 @@ BEGIN
         le.condiciondevolucion = _condiciondevolucion,
         le.fechadevolucion = NOW()
     WHERE le.idprestamo = _idprestamo AND ej.ocupado = 'SI';
-    
+
       IF _condiciondevolucion  IN ('Deteriorado','Mal')THEN
         UPDATE ejemplares e
         JOIN librosentregados le ON e.idejemplar = le.idejemplar
         SET e.condicion = _condiciondevolucion
         WHERE le.idprestamo = _idprestamo;
     END IF;
-    
+
     -- Verificar si todos los idejemplar tienen ocupado='NO'
     SELECT COUNT(*) INTO _count_ocupados
     FROM ejemplares ej
     JOIN librosentregados le ON ej.idejemplar = le.idejemplar
     WHERE le.idprestamo = _idprestamo AND ej.ocupado = 'NO';
 
-    -- Si todos los idejemplar tienen ocupado='NO', actualizar el estado del préstamo a 'T'
-    IF _count_ocupados > 0 THEN
-        UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
-    END IF;
+    UPDATE prestamos SET estado = 'T' WHERE idprestamo = _idprestamo;
 END$$
 
-CALL updateD_todo_prestamo(70,'Bien','Bien')
-SELECT * FROM libros
-SELECT * FROM prestamos WHERE idprestamo = 6
+DELIMITER $$
+CREATE PROCEDURE spu_inabilitar_usuario
+(
+	IN _idusuario	INT
+)
+BEGIN
+	UPDATE usuarios SET
+	estado = '0',
+	inactive_at = NOW()
+	WHERE idusuario = _idusuario;
+END $$
+
+CALL spu_updateD_todo_prestamo(81,'Deteriorado','sin pasta');
+SELECT * FROM usuarios -- 14
+SELECT * FROM prestamos WHERE estado = 'D'
+UPDATE usuarios SET estado = 0 WHERE idusuario = 15
 
 SELECT
     l.idlibro,

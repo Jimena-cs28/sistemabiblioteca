@@ -666,7 +666,7 @@
                 datos.forEach(element => {
                     document.querySelector("#categoria").value = element.categoria;
                     document.querySelector("#subcategoria").value = element.subcategoria;
-                    document.querySelector("#editorial").value = element.Editorial;
+                    document.querySelector("#editorial").value = element.nombres + " "+ element.paisorigen;
                     //document.querySelector("#libro").value = element.libro;
                     document.querySelector("#cantidad").value = element.cantidad;
                     document.querySelector("#paginas").value = element.numeropaginas;
@@ -678,7 +678,7 @@
                     document.querySelector("#tipo").value = element.tipo;
                     document.querySelector("#img").src = `./img/${element.imagenportada}`;
                     document.querySelector("#edicion").value = element.edicion;
-                    document.querySelector("#autor").value = element.Autor;
+                    document.querySelector("#autor").value = element.apellidos + " " + element.autor + " " + element.nacionalidad;
                     // traerEjemplar();
                 });
                 traerEjemplar();
@@ -702,7 +702,7 @@
                 //console.log(idlibro)
                 datos.forEach(element => {
                     selectcategoria.value = element.idcategoria;
-                    document.querySelector("#Eeditorial").value = element.idsubcategoria;
+                    document.querySelector("#Esubcategoria").value = element.idsubcategoria;
                     selectEditorial.value = element.ideditorial;
                     document.querySelector("#Elibro").value = element.libro;
                     document.querySelector("#Epaginas").value = element.numeropaginas;

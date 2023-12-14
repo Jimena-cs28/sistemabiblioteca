@@ -40,80 +40,80 @@
 </div>
 
 <!-- modalejemplar -->
-<div> 
-    <div class="modal fade" id="modal-id">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form autocomplete="off" id="form-devolucion" class="p-3">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label>Condicion: </label>
-                            </div>
-                            <!-- DESCRIPCION -->
-                            <div class="col-md-4">
-                                <select name="" id="condicion" class="form-control form-control-sm">
-                                    <option value="Bien">Bien</option>
-                                    <option value="Deteriorado">Deteriorado</option>
-                                    <option value="Mal">Mal</option>
-                                </select>
-                                <!-- <input type="text" class="form-control form-control-sm" id="condicion"> -->
-                            </div>
-                            <div class="col-md-2">
-                                <label>Observaciones</label>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control form-control-sm"  id="observacion">
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th style="color:#574E4E;">#</th>
-                                        <th style="color:#574E4E;">Libro</th>
-                                        <th style="color:#574E4E;">Codigo</th>
-                                        <th style="color:#574E4E;">C. Entrega</th>
-                                        <th style="color:#574E4E;">Ocupado</th> 
-                                        <th style="color:#574E4E;">C. Devolucion</th> 
-                                        <th style="color:#574E4E;">F. Devolucion</th>
-                                        <th style="color:#574E4E;">Recibir</th>
-                                        <th style="color:#574E4E;">Recibir</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
 
-                                </tbody>
-                            </table>
+<div class="modal fade" id="modal-id" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Condicion de devolucion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" id="form-devolucion" class="p-3">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Condicion: </label>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class=" form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="checkuser">
-                                    <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
-                                </div>
-                                <div class=" form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="checkejemplar">
-                                    <label class="form-check-label" for="inlineCheckbox2">Dar de baja</label>
-                                </div>
+                        <!-- DESCRIPCION -->
+                        <div class="col-md-4">
+                            <select name="" id="condicion" class="form-control form-control-sm">
+                                <option value="Bien">Bien</option>
+                                <option value="Deteriorado">Deteriorado</option>
+                                <option value="Mal">Mal</option>
+                            </select>
+                            <!-- <input type="text" class="form-control form-control-sm" id="condicion"> -->
+                        </div>
+                        <div class="col-md-2">
+                            <label>Observaciones</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm"  id="observacion">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="color:#574E4E;">#</th>
+                                    <th style="color:#574E4E;">Libro</th>
+                                    <th style="color:#574E4E;">Codigo</th>
+                                    <th style="color:#574E4E;">C. Entrega</th>
+                                    <th style="color:#574E4E;">Ocupado</th> 
+                                    <th style="color:#574E4E;">C. Devolucion</th> 
+                                    <th style="color:#574E4E;">F. Devolucion</th>
+                                    <th style="color:#574E4E;">Recibir</th>
+                                    <th style="color:#574E4E;">Recibir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class=" form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkuser">
+                                <label class="form-check-label" for="inlineCheckbox2">Sancionar Usuario</label>
+                            </div>
+                            <div class=" form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkejemplar">
+                                <label class="form-check-label" for="inlineCheckbox2">Dar de baja</label>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- detallado -->
 <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -191,7 +191,7 @@
     let idusuario = '';
     let idejemplar = '';
     const cuerpo = document.querySelector("tbody");
-    // const modal = new bootstrap.Modal(document.querySelector("#modal-id"));
+    const modaltodo = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
@@ -239,7 +239,7 @@
                     <td>${element.fechaentrega}</td>
                     <td>${element.fechaprestamo}</td>
                     <td>
-                        <a href='#modal-id' type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
+                        <a type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
                         data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
                     </td>
                 </tr>
@@ -265,7 +265,7 @@
             if(datos){
                 datos.forEach(element => {
                 const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion < actual;
+                const fechaPasada = fechadevolucion > actual;
                 if (fechaPasada) {
                     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
                 }
@@ -354,6 +354,15 @@
                 .then(respuesta => respuesta.json())
                 .then(datos => {
                     if(datos.status){
+                        if(CheckEstu.checked){
+                            SancionarUser();
+                            modaltodo.toggle();
+                            listarDevoluciones();
+                        }else{
+                            AbilitarUser();
+                            modaltodo.toggle();
+                            listarDevoluciones();
+                        }
                         listarDevoluciones();
                         document.querySelector("#form-devolucion").reset();
                     }
@@ -368,7 +377,7 @@
             idprestamo = parseInt(event.target.dataset.idprestamo);
             idlibroentregado = parseInt(event.target.dataset.idlibroentregado);
             idusuario = parseInt(event.target.dataset.idusuario);
-            const CheckEstu = document.querySelector("#checkuser");
+            modaltodo.toggle();
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerprestamo");
             parametros.append("idprestamo", idprestamo);
@@ -378,24 +387,17 @@
             }) // console.log(idlibroentregado)
             .then(response => response.json())
             .then(datos => {
-                //console.log(idlibroentregado)
-                listarDevoluciones();
                 listarEjemplare();
-                btGuadar.addEventListener("click", () => {
-                    if(CheckEstu.checked){
-                        SancionarUser();
-                    }
-                    ChangeState();
-                    updatedevolucionesTodo();
-                });
             });
         }
     });
 
-    // function validarUser(){
-    //     const checkuserr = document.querySelector("#checkuser");
-        
-    // }
+    const CheckEstu = document.querySelector("#checkuser");
+    btGuadar.addEventListener("click", () => {
+        updatedevolucionesTodo();
+        ChangeState();
+    });
+
 
     function ChangeState(){
         const CheckEjemplar = document.querySelector("#checkejemplar");

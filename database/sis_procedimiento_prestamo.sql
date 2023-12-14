@@ -457,7 +457,7 @@ BEGIN
         WHERE le.idprestamo = p_idprestamo;
     END IF;
 END $
-
+-- NO FUNCIONA
 DELIMITER $$
 CREATE PROCEDURE ActualizarCondicionEjemplar
 (

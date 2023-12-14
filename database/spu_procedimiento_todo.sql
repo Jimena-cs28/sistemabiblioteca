@@ -71,7 +71,8 @@ CREATE PROCEDURE spu_obtener_detalleautores
 	IN _idlibro INT
 )
 BEGIN
-	SELECT detalleautores.iddetalleautor, libros.idlibro, libros.libro,categorias.idcategoria, categorias.categoria, subcategorias.idsubcategoria, editoriales.ideditorial,
+	SELECT detalleautores.iddetalleautor, libros.idlibro, libros.libro,categorias.idcategoria, subcategorias.subcategoria, editoriales.nombres, editoriales.paisorigen,autores.apellidos, autores.autor, autores.nacionalidad,
+	 categorias.categoria, subcategorias.idsubcategoria, editoriales.ideditorial,
 	libros.cantidad, libros.numeropaginas, libros.codigo, libros.formato,
 	libros.descripcion, libros.idioma, libros.anio, libros.tipo, libros.imagenportada, libros.edicion, autores.idautor
 	FROM detalleautores
@@ -82,10 +83,10 @@ BEGIN
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	WHERE detalleautores.idlibro = _idlibro;
 END $$
-SELECT * FROM libros
+SELECT * FROM autores
 CALL spu_obtener_detalleautores(2);
 
-SELECT * FROM prestamos
+SELECT * FROM editoriales
 SELECT * FROM librosentregados
 -- TRAER EJEMPLAR (LIST  LIBROS)
 DELIMITER $$
@@ -111,6 +112,17 @@ BEGIN
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	WHERE libros.estado = 1; -- AND ejemplares.estado IN (1,0);
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_conseguir_libro_historial()
+BEGIN 
+	SELECT libros.idlibro, libros.libro, subcategorias.subcategoria, categorias.categoria
+	FROM libros
+	LEFT JOIN ejemplares ON libros.idlibro = ejemplares.idejemplar
+	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+	WHERE libros.estado IN( 1,0); -- AND ejemplares.estado IN (1,0);
 END $$
 
 UPDATE ejemplares SET
