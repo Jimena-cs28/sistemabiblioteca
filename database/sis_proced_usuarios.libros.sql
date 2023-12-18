@@ -123,7 +123,7 @@ CREATE PROCEDURE spu_update_libro
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
     IN _idautor  INT,
-    IN _condicion VARCHAR(50)
+    IN _imagenportada VARCHAR(100)
 )
 BEGIN
 
@@ -139,15 +139,12 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion
+        descripcion = _descripcion,
+        imagenportada = _imagenportada
         WHERE idlibro = _idlibro;
         
         UPDATE detalleautores SET
         idautor = _idautor
-        WHERE idlibro = _idlibro;
-        
-        UPDATE ejemplares SET
-        condicion = _condicion
         WHERE idlibro = _idlibro;
 END $$
 
@@ -214,36 +211,49 @@ CALL spu_actualizar_libro(4,2);
 
 CALL spu_registrar_libro(4,2,'prueba','texto',4,23,23.2,'','mediano','','','','',2);
 -- ejecutado LIBROS ACTIVOS
-INSERT INTO detalleautores(idlibro, idautor) VALUES (3,3);
-SELECT * FROM libros
-SELECT * FROM detalleautores
-SELECT * FROM ejemplares
-
-UPDATE ejemplares SET
-estado = 0
-WHERE idlibro = 1
-
-SELECT ej.idlibro, COUNT(ej.idlibro) AS 'cantidad' , li.libro
-FROM ejemplares ej
-INNER JOIN libros li ON li.idlibro = ej.idlibro
-WHERE ej.ocupado = 'NO' AND ej.estado = 1
-GROUP BY ej.idlibro;
 
 DELIMITER $$
 CREATE PROCEDURE spu_listado_libros()
 BEGIN
-	SELECT ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria, lib.libro, COUNT(ej.idlibro) AS 'Disponible' , 
-	lib.cantidad AS 'cantidad', lib.codigo, CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-	FROM subcategorias sub
-	JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-	JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-	JOIN detalleautores det ON lib.idlibro = det.idlibro
-	JOIN autores aut ON det.idautor = aut.idautor
-	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado IN (1,0)
-	GROUP BY ej.idlibro
-	ORDER BY ej.idlibro DESC;
+
+SELECT 
+    ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
+    lib.codigo,
+    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+FROM 
+    subcategorias sub
+    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+    JOIN detalleautores det ON lib.idlibro = det.idlibro
+    JOIN autores aut ON det.idautor = aut.idautor
+    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
+WHERE 
+    lib.estado IN (1,0)
+GROUP BY 
+    ej.idlibro
+ORDER BY 
+    ej.idlibro DESC;
+
+-- Luego, la sentencia UPDATE
+UPDATE libros AS lib
+SET 
+    lib.estado = 
+        CASE
+            WHEN (
+                SELECT COUNT(*) 
+                FROM ejemplares ej
+                WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
+            ) > 0 THEN 1
+            ELSE 0
+        END
+WHERE 
+    EXISTS (
+        SELECT 1
+        FROM ejemplares ej
+        WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
+    );
 END $$
+
 CALL spu_listado_libros()
 UPDATE libros SET cantidad =  21 WHERE idlibro = 7
 
@@ -361,21 +371,21 @@ CALL spu_abilitar_usuario(6);
 DELIMITER $$
 CREATE PROCEDURE spu_listar_estudiantes()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	SELECT idusuario,personas.idpersona, roles.nombrerol, personas.nombres, personas.apellidos, personas.fechanac, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE usuarios.idrol = 3 AND estado = 1;
 END$$
 
-SELECT * FROM usuarios
+SELECT * FROM personas
 
 CALL spu_listar_profesor();
 -- ejecutado
 DELIMITER $$
 CREATE PROCEDURE spu_listar_profesor()
 BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
+	SELECT idusuario,personas.idpersona, roles.nombrerol, personas.nombres, personas.apellidos,personas.fechanac, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
@@ -383,7 +393,7 @@ BEGIN
 END$$
 
 CALL spu_listar_estudiantes();
-
+SELECT * FROM personas WHERE nrodocumento = '73194181'
 -- REGISTRO ESTUDIANTE Y PROFESOR
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_estudiante
@@ -418,6 +428,7 @@ CALL spu_registrar_estudiante('Lopez García', 'Elizabeth', '78290181','DNI','',
 
 CALL spu_listar_estudiantes();
 SELECT * FROM usuarios
+
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_profesor
 (
@@ -445,8 +456,8 @@ BEGIN
     VALUES (@idpersona, 2, _nombreusuario, _claveacceso);
 END$$
 
-CALL spu_registrar_profesor('Tasayco Gomez', 'Raúl','72890192','DNI','1990-10-10','Chincha Alta',
-'938789282','','72890192','4321');
+CALL spu_registrar_profesor('Tasayco Cardenas', 'Juan','72890123','DNI','2006-10-10','Chincha Alta',
+'938789282','','72890123','4321');
  
 DELIMITER $$
 CREATE PROCEDURE spu_listar_subcategoria
@@ -497,11 +508,13 @@ SELECT * FROM ejemplares
 DELIMITER $$
 CREATE PROCEDURE spu_activar_estado_ejem
 (
-	IN _idejemplar INT
+	IN _idejemplar INT,
+	IN _condicion VARCHAR(10)
 )
 BEGIN
 	UPDATE ejemplares SET
 	estado = 1,
+	condicion = _condicion,
 	update_at = NOW()
 	WHERE idejemplar = _idejemplar;
 	
@@ -511,27 +524,53 @@ CALL spu_activar_estado(24)
 SELECT * FROM ejemplares
 SELECT * FROM libros
 
-
 DELIMITER $$
 CREATE PROCEDURE spu_search_book
 (
 	IN _nombre VARCHAR(50)
 )
 BEGIN
-	SELECT ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria, lib.libro, COUNT(ej.idlibro) AS 'Disponible' , 
-	lib.cantidad AS 'cantidad', lib.codigo, CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-	FROM subcategorias sub
-	JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-	JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-	JOIN detalleautores det ON lib.idlibro = det.idlibro
-	JOIN autores aut ON det.idautor = aut.idautor
-	LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE ej.ocupado = 'NO' AND ej.estado IN (1,0) AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
-	GROUP BY ej.idlibro;
+	SELECT 
+	    ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
+	    lib.codigo,
+	    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
+	FROM 
+	    subcategorias sub
+	    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
+	    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
+	    JOIN detalleautores det ON lib.idlibro = det.idlibro
+	    JOIN autores aut ON det.idautor = aut.idautor
+	    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
+	WHERE 
+	    lib.estado IN (1,0) AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
+	GROUP BY 
+	    ej.idlibro
+	ORDER BY 
+	    ej.idlibro DESC;
+
+	-- Luego, la sentencia UPDATE
+	UPDATE libros AS lib
+	SET 
+	    lib.estado = 
+		CASE
+		    WHEN (
+			SELECT COUNT(*) 
+			FROM ejemplares ej
+			WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
+		    ) > 0 THEN 1
+		    ELSE 0
+		END
+	WHERE 
+	    EXISTS (
+		SELECT 1
+		FROM ejemplares ej
+		WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
+	    );
 END $$
 
-CALL spu_search_book('odi')
 
+CALL spu_search_book('odi')
+SELECT * FROM usuarios
 DELIMITER $$
 CREATE PROCEDURE spu_search_user
 (
@@ -544,6 +583,10 @@ BEGIN
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	WHERE usuarios.idrol = 3 AND estado = 1 AND (_nombre ="" OR personas.nombres LIKE CONCAT("%", _nombre , "%"));
 END $$
+
+UPDATE ejemplares SET condicion = 'Deteriorado' WHERE idejemplar = 99
+
+SELECT * FROM ejemplares
 
 DELIMITER $$
 CREATE PROCEDURE spu_traercondicion_ejemplar

@@ -36,9 +36,22 @@ class Prestamos extends conexion{
     }
   }
 
-  public function filtrobeneficiario(){
+  public function filtroStudent(){
     try {
       $consulta = $this->acesso->prepare("CALL spu_filtro_student()");
+      $consulta->execute();
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  } 
+
+  public function filtroTeacher(){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_filtro_teacher()");
       $consulta->execute();
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
@@ -320,4 +333,15 @@ class Prestamos extends conexion{
     }
   }
 
+  public function conseguirlibroH(){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_conseguir_libro_historial()");
+      $consulta->execute();
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 }

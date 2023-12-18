@@ -125,26 +125,4 @@ BEGIN
 	WHERE libros.estado IN( 1,0); -- AND ejemplares.estado IN (1,0);
 END $$
 
-UPDATE ejemplares SET
-estado = 0
-WHERE idejemplar = 72
-
-SELECT * FROM EJEMPLARES WHERE idlibro = 7
-
-CALL spu_conseguir_libro()
-
-SELECT * FROM libros
-
-IF NOT EXISTS (
-
-SELECT 1
-FROM ejemplares
-WHERE idlibro = _idlibro AND estado <> 0
-) THEN
--- Actualizar el estado del libro a 0
-UPDATE libros
-SET estado = 0,
-inactive_at = NOW()
-WHERE idlibro = _idlibro;
-END IF;
-
+CALL spu_conseguir_libro_historial();

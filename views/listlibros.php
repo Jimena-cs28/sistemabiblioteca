@@ -20,14 +20,15 @@
                 <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
                 </label>
-                <button type="button" class="btn btn-success mb-3 ml-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+                <button type="button" class="btn btn-success mb-2 ml-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+                <button class="btn btn-primary mb-2 ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
             </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th width="2%">#</th>
                         <th width="15%">Categoria</th>
-                        <th width="15%">SubCategoria</th>
+                        <th width="20%">SubCategoria</th>
                         <th width="20%">Libro</th>
                         <th width="5%">Codigo</th>
                         <th width="2%">Cantidad</th>
@@ -35,7 +36,6 @@
                         <th width="2%">Disponible</th>
                         <th width="2%">Ver</th>
                         <th width="5%">Editar</th>
-                        <th width="5%">cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,8 +44,8 @@
         </div>
     </div>
 </div>
-<!-- detallado -->
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- cantidad-->
+<div class="modal fade" id="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,13 +57,24 @@
             <div class="modal-body">
                 <form autocomplete="off" id="form-detallito" class="p-3">
                     <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Libro</label>
+                            <select name="" id="libroCantidad" class="form-control mb-4">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
                         <div class="col-sm-6">
                             <label for="">CANTIDAD</label>
                             <input type="number" class="form-control"  id="Ecantidad">
                         </div>
                         <div class="col-sm-6">
                             <label for="">CONDICION</label>
-                            <input type="text" class="form-control"  id="Econdicion">
+                            <select name="" id="Econdicion" class="form-control">
+                                <option value="Nuevo">Nuevo</option>
+                                <option value="Usado">Usado</option>
+                            </select>
                         </div>
                     </div>
                 </form>
@@ -114,7 +125,7 @@
     </div>
 </div>  
 
-<!-- modal ejemplar-->
+<!-- modal ejemplar detallado-->
 <div class="modal fade" id="ejemplar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -312,7 +323,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="content ml-3 mt-3">
-                                <img class="visor" alt="" id="Eimg" width="300px" src="">
+                                <img class="visor" alt="" id="Eimg" width="300px">
                             </div>
                         </div>
                     </div>
@@ -345,6 +356,38 @@
     </div>
 </div>
 
+<!-- modal editar ejemplar -->
+<div class="modal fade" id="editarEjemplar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #2e4edf;">LIBROS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" id="form-devolucion" class="p-3">
+                    <div class="row">
+                        <!-- DESCRIPCION -->
+                        <div class="col-md-12">
+                            <label>Condicion: </label>
+                            <select name="" id="condicionEdi" class="form-control">
+                                <option value="Nuevo">Nuevo</option>
+                                <option value="Usado">Usado</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" id="GuadEditarEjem">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .estado-rojo {
         background-color: rgb(242, 201, 201);
@@ -353,6 +396,9 @@
 </style>
 
 <script>
+    const guardarEjem = document.querySelector("#GuadEditarEjem");
+    const modalEditarE = new bootstrap.Modal(document.querySelector("#editarEjemplar"));
+    const modalCantidad = new bootstrap.Modal(document.querySelector("#modal"));
     const nombre = document.querySelector("#bookSearch");
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
@@ -368,8 +414,39 @@
     const inputFile = document.querySelector("#Efotografia");
     const selectEditorial = document.querySelector("#Eeditorial");
     const guardarUpadte = document.querySelector("#GuadarE");
+    const librocantidad = document.querySelector("#libroCantidad")
     let iddetalleautor = '';
     let idlibro = '';
+
+    function Selectlibro(){
+        const choiceLibro= new Choices(librocantidad, {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML:true
+        });
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","conseguirlibrohistorial");
+
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            librocantidad.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                const optionTag = document.createElement("option");
+                optionTag.value = element.idlibro;
+                optionTag.text = element.libro;
+                optionTag.dataset.subcategoria = element.subcategoria;
+                optionTag.dataset.categoria = element.categoria;
+
+                librocantidad.appendChild(optionTag);
+            });
+            choiceLibro.setChoices([], 'value','label',true);
+            choiceLibro.setChoices(datos, 'idlibro','libro', true);
+        });
+    }
 
     function listarCategoria(){
         const parametros = new URLSearchParams();
@@ -441,9 +518,6 @@
                     <td>
                         <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
                     </td>
-                    <td>
-                        <a href='#modal' class='cantidad' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Cantidad</a>
-                    </td>
                 </tr>
                 `;
                 cuerpo.innerHTML += libro;
@@ -503,7 +577,7 @@
     function UpdateBooks(){
         if(confirm("¿Esta seguro de guardar?")){
             //Para binarios
-            const fd = new URLSearchParams();
+            const fd = new FormData();
             fd.append("operacion","UpdateBook");
             fd.append("idlibro", idlibro);
             fd.append("idsubcategoria",selectsubcategoria.value);
@@ -518,11 +592,8 @@
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
             fd.append("idautor",selectAutores.value);
+            fd.append("imagenportada",inputFile.files[0]);
             
-            const nuevaImagen = document.querySelector("#Efotografia").files[0];
-            if(nuevaImagen){
-                fd.append("imagenportada",nuevaImagen);
-            }
 
             fetch("../controller/libros.php",{
                 method: "POST",
@@ -530,12 +601,17 @@
             })
             .then(response => response.json())
             .then(datos => {
-                if(datos.status){
-                    // document.querySelector("#form-editar").resert();
-                    // notificar("LIBROS","Se Actualizo bien", 3)
-                    toast("Se hizo bien")
+                if(inputFile == ""){
+                    toastError("error en archivo");
                 }else{
-                    toastError("No se guardo");
+                    
+                    if(datos.status){
+                        // document.querySelector("#form-editar").resert();
+                        // notificar("LIBROS","Se Actualizo bien", 3)
+                        toast("Se hizo bien");
+                    }else{
+                        toastError("Seleccione la subcategoria");
+                    }
                 }
             });
         }
@@ -546,7 +622,7 @@
             //Para binarios
             const fd = new URLSearchParams();
             fd.append("operacion","ActualizarLibro");
-            fd.append("idlibro", idlibro);
+            fd.append("idlibro", librocantidad.value);
             fd.append("cantidad",document.querySelector("#Ecantidad").value);
             fd.append("condicion",document.querySelector("#Econdicion").value);
             
@@ -557,11 +633,13 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    // document.querySelector("#form-editar").resert();
-                    // notificar("LIBROS","Se Actualizo bien", 3)
                     toast("Se hizo bien")
+                    modalCantidad.toggle();
+                    listadoLibro();
+                    traerEjemplar();
+                    traerEjemplar1();
                 }else{
-                    alert("no se guardo");
+                    toastError("no se guardo");
                 }
             });
         }
@@ -716,38 +794,19 @@
                     document.querySelector("#Eedicion").value = element.edicion;
                     selectAutores.value = element.idautor;
                 });
-                guardarUpadte.addEventListener("click", UpdateBooks);
                 traerEjemplar1();
             })  
         }
     });
 
-    cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'cantidad'){
-            iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
-            idlibro = parseInt(event.target.dataset.idlibro);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","obtenerDetalleautores");
-            parametros.append("idlibro", idlibro);
-            fetch("../controller/librosentregados.php",{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                //console.log(idlibro)
-                datos.forEach(element => {
-                    document.querySelector("#Ecantidad").value = element.cantidad;
-                });
-                GuardarEditar.addEventListener("click", UpdateCantidad);
-            })  
-        }
-    });
+    guardarUpadte.addEventListener("click", UpdateBooks);
+    GuardarEditar.addEventListener("click", UpdateCantidad);
 
     cuerpoL.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'activar'){
             idlibro = parseInt(event.target.dataset.idlibro);
             // console.log(idlibro);
+            // modalEditarE.toggle();
             const parametros = new URLSearchParams();
             parametros.append("operacion","ActivarLibro");
             parametros.append("idlibro", idlibro);
@@ -764,29 +823,36 @@
         }
     });
 
+    function activarejemplar(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","ActivarEstado");
+        parametros.append("idejemplar", idejemplar);
+        parametros.append("condicion", document.querySelector("#condicionEdi").value);
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            if(datos.status){
+                modalEditarE.toggle();
+                traerEjemplar1();
+                listadoLibro();
+            }
+        });
+    }
+
     cuerpoA.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'activar'){
-            if(confirm("¿estas seguro de activar el estado?")){
-                idlibro = parseInt(event.target.dataset.idlibro);
-                idejemplar = parseInt(event.target.dataset.idejemplar);
-                // console.log(idlibro);
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","ActivarEstado");
-                parametros.append("idejemplar", idejemplar);
-
-                fetch("../controller/libros.php",{
-                    method: 'POST',
-                    body: parametros
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    if(datos.estatus){
-                        traerEjemplar1();
-                    }
-                })  
-            }
+            idlibro = parseInt(event.target.dataset.idlibro);
+            idejemplar = parseInt(event.target.dataset.idejemplar);
+            modalEditarE.toggle();
+            
         }
     });
+
+    guardarEjem.addEventListener("click",activarejemplar);
 
     function seachBook(){
         const parametros = new URLSearchParams();
@@ -816,34 +882,12 @@
                     <td>
                         <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
                     </td>
-                    <td>
-                        <a href='#modal' class='cantidad' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Cantidad</a>
-                    </td>
                 </tr>
                 `;
                 cuerpo.innerHTML += libro;
             });
         })
     }
-
-    // cuerpo.addEventListener("click", (event) => {
-    //     if(event.target.classList[0] === 'inabilitar'){
-    //         idlibro = parseInt(event.target.dataset.idlibro);
-    //         // console.log(idlibro);
-    //         const parametros = new URLSearchParams();
-    //         parametros.append("operacion","SentenciaLibro");
-    //         parametros.append("idlibro", idlibro);
-
-    //         fetch("../controller/librosentregados.php",{
-    //             method: 'POST',
-    //             body: parametros
-    //         })
-    //         .then(response => response.json())
-    //         .then(datos => {
-    //             listadoLibro();
-    //         })  
-    //     }
-    // });
 
     LibrosInactivo();
     nombre.addEventListener("keypress", (evt) => {
@@ -857,6 +901,8 @@
             // console.log(img.src);
         }
     });
+
+    Selectlibro();
     listarEditorial();
     listadoLibro();
     selectcategoria.addEventListener("change", selectsubCategoria);
