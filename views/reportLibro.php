@@ -61,7 +61,7 @@
             allowHTML:true
         });
         const parametros = new URLSearchParams();
-        parametros.append("operacion","conseguirlibro");
+        parametros.append("operacion","conseguirlibrohistorial");
 
         fetch("../controller/prestamos.php",{
             method: 'POST',

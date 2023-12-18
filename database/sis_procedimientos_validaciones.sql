@@ -205,13 +205,28 @@ LIMIT 5;
 UPDATE libros SET imagenportada = 'd6ce6ed8edfb40bcaee8671f91012b2f4a175597.jpg' WHERE idlibro = 12
 
 
+-- CAMBIAR CONTRASEÑA
 
 
 
+DELIMITER $$
+CREATE PROCEDURE spu_olvidar_contraseña
+(
+	IN _user VARCHAR(20),
+	IN _clave VARCHAR(100)
+)
+BEGIN
+	UPDATE usuarios SET
+	claveacceso = _clave,
+	update_at = NOW()
+	WHERE nombreusuario = _user;
+END $$
 
 
+SELECT * FROM usuarios -- 78290181
 
+UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
+WHERE idusuario = 3;
 
-
-
+SELECT * FROM personas
 

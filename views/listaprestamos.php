@@ -6,6 +6,15 @@
         display: none;
         /* display: block; */
     }
+    #prestamo-div {
+        display: none;
+        /* display: block; */
+    }
+
+    .error-input {
+        border: 1px solid red;
+    }
+
 </style>
 <div class="container-fluid border-0">
     <div class="card border-0">
@@ -13,7 +22,7 @@
             <!-- fila del titulo -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR UN NUEVO PRÉSTAMO</h3>
+                    <h3 class="fw-lighter text-center" style="color:#08426e ;">REGISTRAR UN NUEVO PRÉSTAMO</h3>
                 </div>
             </div>  
         </div>
@@ -22,79 +31,98 @@
                 <form id="form-prestamos">
                     <div class="ml-5 row">
                         <div class="col-md-3">
-                            <label style="color:#574E4E;">NOMBRES Y APELLIDOS :</label>
+                            <label style="color:#000000;" class="fw-bold">NOMBRES Y APELLIDOS :</label>
                         </div>
                         <div class="col-md-7">
-                            <select class="form-control" id="filtronombres" required>
+                            <select class="form-control" id="filtroUser">
                             
                             </select>
                         </div>
                         <div class="col-md-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora" checked>
-                                <label class="form-check-label" for="flexRadioDefault1">AHORA</label>
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filstudent">
+                                <label class="form-check-label" for="flexRadioDefault1">ESTUDIANTE</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="reservar">
-                                <label class="form-check-label" for="flexRadioDefault2">RESERVAR</label>
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filtteacher">
+                                <label class="form-check-label" for="flexRadioDefault2">PROFESOR</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3" id="divPrestamo">
-                            <label for="" style="color:#574E4E;">FECHA PRÉSTAMO</label>
-                            <input type="date"  class="form-control" id="fprestamo">
+                    <!-- aqui va lo que dijo irene -->
+                    <div class="ml-5 row mt-3">
+                        <div>
+                            <label style="color:#000000;" class="fw-bold">TIPO DE PRÉSTAMOS</label>
                         </div>
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">EN BIBLIOTECA</label>
-                            <select class="form-control" id="enbiblioteca">
-                                <option value="">Eliga</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                            </select>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora">
+                            <label class="form-check-label" for="flexRadioDefault1">PRESTAR</label>
+                            <input class="form-check-input ml-4" type="radio" name="flexRadioDefault" id="reservar">
+                            <label class="form-check-label ml-5" for="flexRadioDefault2">RESERVAR</label>
+                            
                         </div>
-                        <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">DESCRIPCIÓN</label>
-                            <input type="text" class="form-control" id="descripcion" placeholder="Grado o curso" required>
-                        </div>
-                        <div class="col-md-3" id="lugarD">
-                            <label for="" style="color:#574E4E;">DESTINO</label>
-                            <input type="text" class="form-control" maxlength="20" placeholder="ejemplo: laboratorio" id="lugardestino" required>
+                        <div class="ml-4">
+                            <h6>---------------------------------------------------------------------------------------------------------------</h6>
                         </div>
                     </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-5">
-                            <label for="libro">Libro</label>
-                            <select name="" id="selectlibro" class="form-control">
+                    <div id="prestamo-div">
+                        <div class="row ml-5 mt-4">
+                            <div class="col-md-3" id="divPrestamo">
+                                <label for="" style="color:#000000;" class="fw-bolder">FECHA PRÉSTAMO</label>
+                                <input type="date"  class="form-control" id="fprestamo">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="" style="color:#000000;" class="fw-bolder">EN BIBLIOTECA</label>
+                                <select class="form-control" id="enbiblioteca">
+                                    <option value="">Eliga</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="" style="color:#000000;" class="fw-bolder">DESCRIPCIÓN</label>
+                                <input type="text" class="form-control" id="descripcion" placeholder="Grado o curso" required>
+                            </div>
+                            <div class="col-md-3" id="lugarD">
+                                <label for="" style="color:#000000;" class="fw-bolder">DESTINO</label>
+                                <input type="text" class="form-control" maxlength="20" placeholder="ejemplo: laboratorio" id="lugardestino" required>
+                            </div>
+                        </div>
+                        <div class="row ml-5 mt-4">
+                            <div class="col-md-5">
+                                <label for="libro" class="fw-bolder" style="color:#000000;">Libro</label>
+                                <select name="" id="selectlibro" class="form-control">
 
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Codigo</label>
-                            <select name="" id="filtroEjemplar" class="form-control mb-3">
-                                <!-- <option value="">Hola</option> -->
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label>Cantidad</label>
-                            <input type="number" class="form-control" id="cantidad" value="1" required>
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-4">
-                            <label>Condición Entrega</label>
-                            <input type="text" class="form-control mb-3" id="condicionentrega" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Fecha devolucion</label>
-                            <div class="input-group mb-4">
-                                <input type="date" class="form-control" id="fechadevolucion" required>
-                                
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fw-bolder" style="color:#000000;">Codigo</label>
+                                <select name="" id="filtroEjemplar" class="form-control mb-3">
+                                    <!-- <option value="">Hola</option> -->
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fw-bolder" style="color:#000000;">Cantidad</label>
+                                <input type="number" class="form-control" id="cantidad" value="1" required>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
-                        <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
+                        <div class="row ml-5 mt-4">
+                            <div class="col-md-4">
+                                <label class="fw-bolder" style="color:#000000;">Condición Entrega</label>
+                                <input type="text" class="form-control mb-3" id="condicionentrega" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fw-bolder" style="color:#000000;">Fecha devolucion</label>
+                                <div class="input-group mb-4">
+                                    <input type="date" class="form-control" id="fechadevolucion" required>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-4">
+                            <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
+                            </div>
                         </div>
+                        
                     </div>
                     <div class="row ml-5 mt-4">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
@@ -122,14 +150,14 @@
 </div>
 <script>
     let idprestamo = '';
-    
     const biblioteca = document.querySelector("#enbiblioteca");
     // const tablareset = document.querySelector("#tbody1");
     const divPrestamo =  document.querySelector("#divPrestamo");
+    const prestamoDiv = document.querySelector("#prestamo-div");
     // const bt = document.querySelector("#kk");
     const divLugar = document.querySelector("#lugarD");
     const lugarDesti = document.querySelector("#lugardestino");
-    const filtroStudent = document.querySelector("#filtronombres");
+    const filtroStudent = document.querySelector("#filtroUser");
     const libro = document.querySelector("#selectlibro");
     const Agregar = document.querySelector("#Rguardarlibro");
     const des = document.querySelector("#descripcion");
@@ -160,16 +188,23 @@
     fechadevolucion.min = fechaMinima
     fechadevolucion.max = fechamaxima
     fechadevolucion.value = fecham
+
+    function Reseteartabla(){
+        const row = tablalibro.querySelectorAll('tbody tr');
+        row.forEach((fila) => {
+            fila.remove();
+        })
+    }
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
+            prestamoDiv.style.display = 'block';
             divPrestamo.style.display = 'block';
-        }else{
-            
         }
     });
 
     ahora.addEventListener("change", function() {
         if(ahora.checked){
+            prestamoDiv.style.display = 'block';
             divPrestamo.style.display = 'none';
         }
     });
@@ -232,6 +267,71 @@
             }
         })
     }
+    const Fstudent = document.querySelector("#filstudent");
+    const Fteacher = document.querySelector("#filtteacher");
+    Fstudent.addEventListener("change", function() {
+        if(Fstudent.checked){
+            // const choiselistarStudent = new Choices(filtroStudent, {
+            //     searchEnabled: true,
+            //     itemSelectText: '',
+            //     allowHTML:true
+            // });
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","filtrobeneficiario");
+
+            fetch("../controller/prestamos.php",{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                // console.log(datos);
+                filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
+                datos.forEach(element => {
+                    const optionE = document.createElement("option");
+                    optionE.value = element.idusuario;
+                    optionE.text = element.nombres;
+                    // optionE.setAttribute('data-nombrerol', element.nombrerol);
+                    // const nombrerols =  optionE.dataset.nombrerol;
+                    filtroStudent.appendChild(optionE);
+                });
+                // choiselistarStudent.setChoices([], 'value','label',true);
+                // choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
+            })
+        }
+    })
+
+    Fteacher.addEventListener("change", function() {
+        if(Fteacher.checked){
+            // const choiserTeacher = new Choices(filtroStudent, {
+            // searchEnabled: true,
+            // itemSelectText: '',
+            // allowHTML:true
+            // });
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","filtroTeacher");
+
+            fetch("../controller/prestamos.php",{
+                method: 'POST',
+                body: parametros
+            })
+            .then(response => response.json())
+            .then(datos => {
+                // console.log(datos);
+                filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
+                datos.forEach(element => {
+                    const optionE = document.createElement("option");
+                    optionE.value = element.idusuario;
+                    optionE.text = element.nombres;
+                    // optionE.setAttribute('data-nombrerol', element.nombrerol);
+                    // const nombrerols =  optionE.dataset.nombrerol;
+                    filtroStudent.appendChild(optionE);
+                });
+                // choiserTeacher.setChoices([], 'value','label',true);
+                // choiserTeacher.setChoices(datos, 'idusuario','nombres', true);
+            })
+        }
+    })
 
     biblioteca.addEventListener("change", function(event){
         const valor = event.target.value
@@ -243,35 +343,11 @@
         }
     })
 
-    function listarUsuario(){
-        const choiselistarStudent = new Choices(filtroStudent, {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML:true
-        });
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","filtrobeneficiario");
-
-        fetch("../controller/prestamos.php",{
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            // console.log(datos);
-            filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
-            datos.forEach(element => {
-                const optionE = document.createElement("option");
-                optionE.value = element.idusuario;
-                optionE.text = element.nombres;
-                const nombrerols =  optionE.dataset.nombrerol = element.nombrerol;
-                filtroStudent.appendChild(optionE);
-            });
-            choiselistarStudent.setChoices([], 'value','label',true);
-            choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
-        })
-    }
-    listarUsuario()
+    // filtroStudent.addEventListener("change", function () {
+    //     const optionSeleccionada = this.options[this.selectedIndex];
+    //     const nombrerol = optionSeleccionada.getAttribute('data-nombrerol');
+    //     console.log(nombrerol);
+    // });
 
     function conseguirlibros(){
         const choiselistarlibro = new Choices(libro, {
@@ -337,50 +413,8 @@
         });
     } 
 
-    // function agregarLibros() {
-    //     const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
-    //     const elementosSelect = Array.from(filtroEjempla.options);
-
-    //     // Verificar si el estudiante ya ha seleccionado un libro
-    //     if (filtroStudent.dataset.nombrerol = 'Estudiante' && libroAgregados.size > 0) {
-    //         toastError("Los estudiantes solo pueden agregar un libro a la vez.");
-    //         return;
-    //     }
-
-    //     // Iterar sobre la cantidad especificada de libros
-    //     for (let i = 0; i < cantidadLibros; i++) {
-    //         // Obtener el índice actual
-    //         const indiceActual = i % elementosSelect.length;
-
-    //         // Obtener el elemento del select en el índice actual
-    //         const idlejemplarSeleccionado = elementosSelect[indiceActual];
-    //         const idejemplar = idlejemplarSeleccionado.value;
-    //         const nombreLibro = idlejemplarSeleccionado.label;
-    //         const fechaDevolucion = fechadevolucion.value;
-    //         const condicion = idlejemplarSeleccionado.dataset.condicion || Condicionentrega.value;
-
-    //         // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
-    //         if (libroAgregados.has(idejemplar)) {
-    //             toastError("Este libro ya ha sido agregado");
-    //         } else {
-    //             let nuevaFila = `
-    //                 <tr>
-    //                     <td>${idejemplar}</td>
-    //                     <td>${nombreLibro}</td>
-    //                     <td>${fechaDevolucion}</td>
-    //                     <td>${condicion}</td>
-    //                     <td>
-    //                         <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
-    //                     </td>
-    //                 </tr>`;
-    //             tablalibro.innerHTML += nuevaFila;
-    //             libroAgregados.add(idejemplar);
-    //         }
-    //     }
-    // }
-
     function agregarLibros() {
-        const cantidadLibros = parseInt(document.getElementById('cantidad').value, 10);
+        const cantidadLibros = parseInt(document.getElementById('cantidad').value);
         const elementosSelect = Array.from(filtroEjempla.options);
 
         // Verificar si el estudiante ya ha seleccionado un libro
@@ -389,6 +423,11 @@
         //     return;
         // }
         // Iterar sobre la cantidad especificada de libros
+        if (filtroStudent.dataset.nombrerol === 'Estudiante' && libroAgregados.size > 1) {
+            toastError("Los estudiantes solo pueden agregar un libro a la vez.");
+            return;
+        }
+
         for (let i = 0; i < cantidadLibros; i++) {
             // Obtener el índice actual
             const indiceActual = i % elementosSelect.length;
@@ -399,6 +438,39 @@
             const nombreLibro = idlejemplarSeleccionado.label;
             const fechaDevolucion = fechadevolucion.value;
             const condicion = idlejemplarSeleccionado.dataset.condicion || Condicionentrega.value;
+
+            if (!fechaDevolucion) {
+                marcarErrorInput(fechadevolucion);
+                toastError("Complete la fecha de devolucion");
+                return;
+            } else{
+                quitarErrorInput(fechadevolucion)
+            }
+
+            const fechaHoy = new Date();
+            const fechaAyer = new Date();
+            const fechaLimite = new Date();
+            fechaAyer.setDate(fechaHoy.getDate() - 1); // Obtener la fecha de ayer
+            fechaLimite.setDate(fechaHoy.getDate() + 3); 
+
+            const fechaDevolucionDate = new Date(fechaDevolucion);
+
+            if (fechaDevolucionDate <= fechaAyer) {
+                toastError("La fecha de devolución no puede ser anterior al día de ayer");
+                return;
+            }
+
+            if (fechaDevolucionDate > fechaLimite) {
+                toastError("Solo se permiten devoluciones hasta cuatro días después de mañana");
+                return;
+            }
+
+            // const fechaHoy = new Date();
+            // const fechaDevolucionDate = new Date(fechaDevolucion);
+            // if (fechaDevolucionDate > fechaHoy) {
+            //     toastError("La fecha de devolución no puede ser anterior al día de hoy");
+            //     return;
+            // }
 
             // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
             if (libroAgregados.has(idejemplar)) {
@@ -440,7 +512,38 @@
         }
     });
 
+    function marcarErrorInput(inputElement) {
+        inputElement.classList.add('error-input');
+    }
+
+    // Función para quitar el marcado de error del input
+    function quitarErrorInput(inputElement) {
+        inputElement.classList.remove('error-input');
+    }
+
     function AddPrestamoReservar(){
+        if(fecharegistar.value ==''){
+            marcarErrorInput(fecharegistar);
+            toastError('Debe seleccionar elegir fecha de prestamo');
+        }else{
+            quitarErrorInput(fecharegistar);
+        }
+
+        if(filtroStudent.value ==''){
+            // marcarErrorInput(filtroStudent);
+            toastError('Debes elegir al estudiante')
+        }
+        // else{
+        //     quitarErrorInput(filtroStudent);
+        // }
+
+        if(biblioteca.value ==''){
+            marcarErrorInput(biblioteca);
+            toastError('Debes elegir el lugar');
+        }else{
+            quitarErrorInput(biblioteca);
+        }
+
         // console.log(idusuario);
         const parametros = new URLSearchParams();
         parametros.append("operacion","registrarSoloPrestamo");
@@ -462,9 +565,6 @@
                 des.value = ''
                 fecharegistar.value = ''
                 filtroStudent.value = ''
-                // document.querySelector("#formk-prestamos").reset();
-                // tablareset.reset();
-                tablalibro.querySelector("tbody").innerHTML = '';
                 Condicionentrega.value = ''
                 fechadevolucion.value = ''
                 cantidad.value = ''
@@ -475,16 +575,21 @@
     }
 
     function AddPrestamoAhora(){
-        // console.log(idusuario);
-        if(fecharegistar.value ==''){
-            toastError('Debe seleccionar elegir fecha de prestamo')
-        }
         if(filtroStudent.value ==''){
-            toastError('Debe elegir al estudiante')
+            marcarErrorInput(filtroStudent);
+            toastError('Debes elegir al estudiante')
+        }else{
+            quitarErrorInput(filtroStudent);
         }
-        if(biblioteca.value ==''){
-            toastError('Debe elegir el lugar')
+
+        if(biblioteca.value == ''){
+            toastError('Debes elegir el lugar');
         }
+
+        if(document.querySelector("#selectlibro").value == ''){
+            toastError('Escoga el libro');
+        }
+
         const parametros = new URLSearchParams();
         parametros.append("operacion","registrarAhora");
         parametros.append("idbeneficiario", filtroStudent.value);
@@ -506,7 +611,6 @@
                 filtroStudent.value = ''
                 // document.querySelector("#formk-prestamos").reset();
                 // tablareset.reset();
-                tablalibro.querySelector("tbody").innerHTML = '';
                 Condicionentrega.value = ''
                 fechadevolucion.value = ''
                 cantidad.value = ''
@@ -517,18 +621,6 @@
     }
 
     function registrarLibroentregado(idprestamo){
-        if(fecharegistar.value ==''){
-            toastError('Debe seleccionar elegir fecha de prestamo')
-        }
-        if(filtroStudent.value ==''){
-            toastError('Debe elegir al estudiante')
-        }
-        if(biblioteca.value ==''){
-            toastError('Debe elegir el lugar')
-        }
-        if(fechadevolucion.value ==''){
-            toastError('Debe seleccionar la fecha devolucion')
-        }
         mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el Prestamo?").then((result)=>{
             if(result.isConfirmed){
                 const row = tablalibro.rows;
@@ -551,7 +643,7 @@
                     .then(datos => {
                         // console.log(datos);
                         if(datos.status){
-                            
+                            Reseteartabla();
                         }
                     })
                 }
@@ -560,9 +652,6 @@
     }
 
     function registrarLibroentregado2(idprestamo){
-        if(fechadevolucion.value ==''){
-            toastError('Debe seleccionar la fecha devolucion')
-        }
         mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el prestamo?").then((result)=>{ 
             if(result.isConfirmed){
                 const filaAhora = tablalibro.rows;
@@ -587,6 +676,10 @@
                         if (response.ok) {
                         // Si la respuesta es exitosa, puedes realizar acciones adicionales aquí si es necesario.
                         console.log(`Detalle ${idejemplo} registrado con éxito.`);
+                        filtroEjempla.value = ''
+                        libro.value = ''
+                        filtroStudent.value = ''
+                        Reseteartabla();
                         } else {
                         // Manejar errores de solicitud aquí
                         console.error(`Error al registrar el detalle ${idejemplo}.`);
@@ -598,7 +691,6 @@
                     });
                     promesas.push(fetchPromise);
                 }
-                tablalibro.querySelector("tbody").innerHTML = '';
             }
         });
     }

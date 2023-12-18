@@ -1,10 +1,10 @@
 <?php require_once 'permisos.php'; ?>
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
-        <div class="col-md-3">
-            <img src="../img/clock.png" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
+        <div class="col-md-2">
+            <img src="../img/reloj.PNG" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
         </div>
-        <div class="col-md-9 text-justify lead">
+        <div class="col-md-10 text-justify lead">
             Bienvenido a esta sección, aquí se muestran los libros que faltan regresar y podra registrar el libro para que se pueda completar el prestamo
         </div>
     </div>
@@ -23,12 +23,12 @@
                 <thead>
                     <tr>
                         <th style="color:#574E4E;" width="2%">#</th>
-                        <th style="color:#574E4E;">Usuario</th>
+                        <th style="color:#574E4E;">Usuarios</th>
                         <th style="color:#574E4E;">Datos</th>
-                        <th style="color:#574E4E;">F.Solicitud</th>
-                        <th style="color:#574E4E;">F.Entrega</th>
-                        <th style="color:#574E4E;">F.Prestamo</th>
-                        <th style="color:#574E4E;">Operacion</th>
+                        <th style="color:#574E4E;">F.Entregas</th>
+                        <th style="color:#574E4E;">F.Prestamos</th>
+                        <th style="color:#574E4E;">F.Devoluciones</th>
+                        <th style="color:#574E4E;">Operaciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -172,14 +172,14 @@
     }
     .fechaPasada {
         /* Estilo para las fechas que son mayores que la fecha actual */
-        color: red;
+        color: rgb(243, 79, 79);
     }
     .aviso-flotante {
         position: fixed;
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        background-color: rgb(238, 47, 47); /* Color de fondo rojo, ajusta según tus preferencias */
+        background-color: rgb(218, 121, 121); /* Color de fondo rojo, ajusta según tus preferencias */
         color: #090404; /* Color del texto blanco, ajusta según tus preferencias */
         padding: 10px;
         border-radius: 5px;
@@ -195,6 +195,7 @@
     //const modal = $('#modal-id').modal();
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
+    const observacion = document.querySelector("#observacion");
     const condicion = document.querySelector("#condicionD");
     const btGuadar = document.querySelector("#guadarlibro");
     const observaciones = document.querySelector("#observacionD");
@@ -204,11 +205,14 @@
 
     const modaldetallitos = new bootstrap.Modal(document.querySelector("#modal"));
 
-    function mostrarAvisoFlotante(mensaje) {
+    function mostrarAvisoFlotante(mensaje, indice) {
         // Crear un elemento div para el aviso flotante
         const avisoFlotante = document.createElement('div');
         avisoFlotante.className = 'aviso-flotante';
         avisoFlotante.textContent = mensaje;
+
+        avisoFlotante.style.position = 'flex';
+        avisoFlotante.style.marginLeft = `${indice * 400}px`;
 
         // Agregar el aviso flotante al cuerpo del documento
         document.body.appendChild(avisoFlotante);
@@ -216,7 +220,7 @@
         // Después de un tiempo, eliminar el aviso flotante
         setTimeout(() => {
             avisoFlotante.remove();
-        }, 5000); // 5000 milisegundos (5 segundos)
+        }, 3000); // 5000 milisegundos (5 segundos)
     }
 
     function listarDevoluciones(){
@@ -228,24 +232,47 @@
         })
         .then(response => response.json())
         .then(datos => {
+            const Factual = new Date();
             cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const recibir = `
-                <tr>
-                    <td>${element.idprestamo}</td>
-                    <td>${element.nombres }</td>
-                    <td>${element.descripcion}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaentrega}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>
-                        <a type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
-                        data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += recibir;
-            });
+            if (datos) {
+                // Variable para almacenar mensajes de avisos flotantes
+                let mensajesAvisosFlotantes = [];
+
+                datos.forEach(element => {
+                    const fechadevolucion = new Date(element.fechadevolucion);
+                    const fechapasadas = fechadevolucion < Factual;
+
+                    if (fechapasadas) {
+                        // Agregar mensaje de aviso flotante al acumulador
+                        mensajesAvisosFlotantes.push(element.nombres);
+                    }
+                    const style = fechapasadas ? 'color: red;' : '';                 
+                    const recibir = `
+                    <tr style='${style}'>
+                        <td>${element.idprestamo}</td>
+                        <td>${element.nombres}</td>
+                        <td>${element.descripcion}</td>
+                        <td>${element.fechaentrega}</td>
+                        <td>${element.fechaprestamo}</td>
+                        <td>${element.fechadevolucion}</td>
+                        <td>
+                            <a type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
+                            data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
+                        </td>
+                    </tr>
+                    `;
+
+                    cuerpo.innerHTML += recibir;
+                });
+
+                // Mostrar los mensajes de avisos flotantes
+                if (mensajesAvisosFlotantes.length > 0){
+                    mensajesAvisosFlotantes.forEach((nombre, indice) => {
+                        mostrarAvisoFlotante(`${nombre} no ha devuelto el libro`, indice);
+                    })
+                    
+                }
+            }
         })
     }
 
@@ -264,34 +291,32 @@
             
             if(datos){
                 datos.forEach(element => {
-                const fechadevolucion = new Date(element.fechadevolucion);
-                const fechaPasada = fechadevolucion > actual;
-                if (fechaPasada) {
-                    mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
-                }
-                const style = fechaPasada ? 'color: red;' : ''; 
-                idejemplar = element.idejemplar;
-                const Vopcion1 = `
-                <tr style='${style}'>
-                    <td>${element.idejemplar}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.codigo} - ${element.codigo_libro}</td>
-                    <td>${element.condicionentrega}</td>
-                    <td>${element.ocupado}</td> 
-                    <td>${element.condiciondevolucion || "-------------"}</td>
-                    <td>${element.fechadevolucion}</td>
-                    <td>
-                        <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
-                    </td>
-                    <td>
-                        <a href='' type='button' class='btn btn-success btn-sm detallitosBien' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
-                    </td>
-                </tr>`
+                    const fechadevolucion = new Date(element.fechadevolucion);
+                    const fechaPasada = fechadevolucion < actual;
+                    // if (fechaPasada) {
+                    //     mostrarAvisoFlotante(`No ha devuelto a tiempo el libro`);
+                    // }
+                    const style = fechaPasada ? 'color: red;' : ''; 
+                    idejemplar = element.idejemplar;
+                    const Vopcion1 = `
+                    <tr style='${style}'>
+                        <td>${element.idejemplar}</td>
+                        <td>${element.libro}</td>
+                        <td>${element.codigo} - ${element.codigo_libro}</td>
+                        <td>${element.condicionentrega}</td>
+                        <td>${element.ocupado}</td> 
+                        <td>${element.condiciondevolucion || "-------------"}</td>
+                        <td>${element.fechadevolucion}</td>
+                        <td>
+                            <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        </td>
+                        <td>
+                            <a href='' type='button' class='btn btn-success btn-sm detallitosBien' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
+                        </td>
+                    </tr>`
                 ;
                 CuerpoP.innerHTML +=Vopcion1;
                 });
-            }else{
-                table.reset();
             }
         });
     }
@@ -340,13 +365,17 @@
     }
 
     function updatedevolucionesTodo(){
+        if(observacion.value ==''){
+            toastError("No deje nada vacio");
+        }
+
         mostrarPregunta("DEVOLUCION", "¿Estas seguro de devolver el libro?").then((result)=>{
             if(result.isConfirmed){
                 const parametros = new URLSearchParams();
                 parametros.append("operacion","updatedevolucionesTodos");
                 parametros.append("idprestamo", idprestamo);
                 parametros.append("condiciondevolucion",document.querySelector("#condicion").value);
-                parametros.append("observaciones", document.querySelector("#observacion").value);
+                parametros.append("observaciones", observacion.value);
                 fetch("../controller/validacion.php",{
                     method:'POST',
                     body: parametros
@@ -398,13 +427,13 @@
         ChangeState();
     });
 
-
     function ChangeState(){
         const CheckEjemplar = document.querySelector("#checkejemplar");
         if(CheckEjemplar.checked){
             cambiarEstado()
         }
     }
+
     function cambiarEstado(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","CambiarEstado");

@@ -38,14 +38,24 @@ END$$
 
 -- ---------------------------------------------------------------------------------------------------------------------------
 
-DELIMITER $$ -- ejecutado
+DELIMITER $$ -- ejecutado ESTUDIANTES
 CREATE PROCEDURE spu_filtro_student()
 BEGIN
-	SELECT usuarios.idusuario, CONCAT(personas.nombres,' ', personas.apellidos, ' - ',roles.nombrerol) AS 'nombres', usuarios.estado
+	SELECT usuarios.idusuario, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres' , usuarios.estado, roles.nombrerol
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol IN(2,3) AND usuarios.estado = 1;
+	WHERE usuarios.idrol = 3 AND usuarios.estado = 1;
+END $$
+
+DELIMITER $$ -- ejecutado ESTUDIANTES
+CREATE PROCEDURE spu_filtro_teacher()
+BEGIN
+	SELECT usuarios.idusuario, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres' , usuarios.estado, roles.nombrerol
+	FROM usuarios
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idrol = 2 AND usuarios.estado = 1;
 END $$
 
 CALL spu_filtro_student();
@@ -68,7 +78,7 @@ BEGIN
 	SELECT librosentregados.idlibroentregado, ejemplares.idejemplar, ejemplares.codigo_libro, libros.codigo, libros.imagenportada, roles.nombrerol, CONCAT(personas.nombres, ' ',personas.apellidos) AS 'nombres', 
 	prestamos.descripcion,librosentregados.condicionentrega,librosentregados.condiciondevolucion, librosentregados.observaciones, categorias.categoria, 
 	subcategorias.subcategoria, libros.libro, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo, librosentregados.fechadevolucion, prestamos.lugardestino,
-	prestamos.fecharespuesta
+	prestamos.fecharespuesta, prestamos.lugardestino, prestamos.motivorechazo, prestamos.estado
 	FROM librosentregados
 	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
 	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar 
@@ -78,14 +88,14 @@ BEGIN
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usu1.idrol
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado = 'T';
+	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado IN ('T','C');
 END $$
-
+UPDATE prestamos SET descripcion = '4B'WHERE idprestamo = 55
 
 -- UNICO = NOMBRE, ROL,DESCRIPCION
 -- IDEEJMPLO =IKN
-SELECT * FROM personas
-CALL spu_listar_fichaprestamo(6);
+SELECT * FROM prestamos
+CALL spu_listar_fichaprestamo(90);
 
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
 
@@ -181,3 +191,85 @@ END $$
 CALL spu_traer_grado(11)
 
 SELECT * FROM libros
+
+-- DATOS DEL USUARIO	
+DELIMITER $$
+CREATE PROCEDURE spu_datos_personales_user
+(
+	IN _idusuario INT
+)
+BEGIN
+	SELECT idusuario, personas.apellidos, personas.nombres, personas.nrodocumento, personas.fechanac, personas.direccion,
+	personas.telefono, personas.email, usuarios.nombreusuario, roles.nombrerol
+	FROM usuarios
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idusuario = _idusuario;
+END$$
+
+DELIMITER ;
+CALL spu_datos_personales_user(4)
+
+DELIMITER $$
+CREATE PROCEDURE spu_update_user
+(
+    IN _idpersona INT,
+    IN _apellidos VARCHAR(50), 
+    IN _nombres VARCHAR(30),
+    IN _nrodocumento CHAR(8),
+    IN _fechanac DATE,
+    IN _direccion VARCHAR(100),
+    IN _telefono CHAR(9),
+    IN _email VARCHAR(100),
+    IN _nombreusuario VARCHAR(50)
+)
+BEGIN
+    -- Inserta el registro en la tabla "personas"
+    UPDATE personas SET 
+    apellidos = _apellidos,
+    nombres = _nombres,
+    nrodocumento = _nrodocumento,
+    fechanac = _fechanac,
+    direccion = _direccion,
+    telefono = _telefono,
+    email = _email
+    WHERE idpersona = _idpersona;
+    
+    UPDATE usuarios SET
+    nombreusuario = _nombreusuario
+    WHERE idpersona = _idpersona;
+END$$
+
+SELECT * FROM personas
+
+DELIMITER $$
+CREATE PROCEDURE spu_update_admin 
+(
+	IN _idusu INT,
+    IN _apellidos VARCHAR(50), 
+    IN _nombres VARCHAR(30),
+    IN _nrodocumento CHAR(8),
+    IN _fechanac DATE,
+    IN _direccion VARCHAR(100),
+    IN _telefono CHAR(9),
+    IN _email VARCHAR(100),
+    IN _nombreusuario VARCHAR(50)
+)
+BEGIN
+	-- Actualizar la tabla personas
+    UPDATE personas SET 
+    apellidos = _apellidos,
+    nombres = _nombres,
+    nrodocumento = _nrodocumento,
+    fechanac = _fechanac,
+    direccion = _direccion,
+    telefono = _telefono,	
+    email = _email
+    WHERE idpersona = (SELECT idpersona FROM usuarios WHERE idusuario = _idusu);
+
+	-- Actualizar la tabla usuarios
+	UPDATE usuarios
+	SET nombreusuario = _nombreusuario
+	WHERE idusuario = _idusu;
+END $$
+

@@ -93,10 +93,6 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-4">
-                                    <label>Libro</label>
-                                    <input type="text" class="form-control" id="libro" disabled>
-                                </div>
-                                <div class="col-sm-4">
                                     <label>F.Solicitud</label>
                                     <input type="text" class="form-control" id="Fsolicitud" disabled>
                                 </div>
@@ -104,13 +100,12 @@
                                     <label>F.Prestamo</label>
                                     <input type="text" class="form-control" id="Fprestamo" disabled>
                                 </div>
-                                
-                            </div>
-                            <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label>F.Entrega</label>
                                     <input type="text" class="form-control" id="Fentrega" disabled>
                                 </div>
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label>F.Aceptacion</label>
                                     <input type="text" class="form-control" id="Frespuesta" disabled>
@@ -119,9 +114,7 @@
                                     <label>Lugar Destino</label>
                                     <input type="text" class="form-control" id="lugardestino" disabled>
                                 </div>
-                            </div>
-                            <div class="row mt-3" id="divcancelacion">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4" id="divcancelacion">
                                     <label>Motivo de Cancelacion</label>
                                     <input type="text" class="form-control" id="motivocancel" disabled>
                                 </div>
@@ -129,7 +122,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="content ml-3 mt-3">
-                                <img class="visor" alt="" id="img" width="200px" src="">
+                                <img class="visor" alt="" id="img" width="250px" src="">
                             </div>
                         </div>
                     </div>
@@ -167,6 +160,7 @@
 <script>
     let idlibroentregado = '';
     const secharP = document.querySelector("#PrestamoSearch");
+    const divmotivo = document.querySelector("#divcancelacion");
     // const tablasExcel = document.querySelector("#dataTable");
     const cuerpo = document.querySelector("tbody");
     const tabla = document.querySelector("#tabla");
@@ -258,9 +252,9 @@
             .then(datos => {
                 datos.forEach(element => {
                     if(element.estado =='T'){
-                        document.querySelector("#divcancelacion").style.display='none'
+                        divmotivo.style.display='none'
                     }else{
-                        document.querySelector("#divcancelacion").style.display='block'
+                        divmotivo.style.display='block'
                     }
                     rol.value = element.nombrerol;
                     nombres.value = element.nombres;
@@ -268,7 +262,7 @@
                     categoria.value = element.categoria;
                     //document.querySelector("#entrega").value = element.condicionentrega;
                     subcategoria.value = element.subcategoria;
-                    libro.value = element.libro;
+                    // libro.value = element.libro;
                     fsolicitud.value = element.fechasolicitud;
                     fprestamo.value = element.fechaprestamo;
                     fentrega.value = element.fechaentrega;

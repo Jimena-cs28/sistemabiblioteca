@@ -250,40 +250,6 @@ END $$
 
 CALL spu_editar_Ependientes(9,3,'2023-10-24','2023-10-22');
 
-
-SELECT * FROM usuarios -- 78674219
--- DEVOLUCIOOOOOOOOOOOOOOOOOOOOOOOON
-DELIMITER $$
-CREATE PROCEDURE spu_listar_devolucionpendientes()
-BEGIN
-	SELECT prestamos.idprestamo, prestamos.idbeneficiario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', prestamos.descripcion, prestamos.fechasolicitud, prestamos.fechaentrega, prestamos.fechaprestamo
-	FROM prestamos
-	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE prestamos.estado = 'D'
-	ORDER BY idprestamo DESC;
-END $$
-UPDATE prestamos SET estado = 'D' WHERE idprestamo = 27
-SELECT * FROM usuarios
-SELECT * FROM prestamos
-
-SELECT * FROM UPDATE prestamos SET fechaprestamo= '2023-11-' WHERE idprestamo = 47
-SELECT librosentregados.idlibroentregado, libros.libro, ejemplares.codigo_libro, libros.tipo, prestamos.`fechasolicitud`, 
-prestamos.fechaentrega, librosentregados.fechadevolucion, personas.nombres
-FROM librosentregados
-INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
-INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
-INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
-INNER JOIN usuarios usu2 ON usu2.idusuario = prestamos.idbeneficiario
-INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.`idbibliotecario`
-INNER JOIN personas ON personas.`idpersona` = usu2.`idpersona`
-WHERE prestamos.estado = 'T'
-ORDER BY idlibroentregado ASC;
-
-SELECT * FROM usuarios
-SELECT * FROM librosentregados
-CALL spu_listar_prestamos();
-
 -- Contadores 
 DELIMITER $$
 CREATE PROCEDURE spu_cantidad_Administrador()

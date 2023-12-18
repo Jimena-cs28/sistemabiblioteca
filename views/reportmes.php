@@ -110,12 +110,13 @@
 
     function PDFTiempo(){
         const parametros = new URLSearchParams();
-        parametros.append("titulo", Fsolicitud.value);
-        parametros.append("titulo1", Fsolicitud1.value);
+        parametros.append("fechasolicitud", String(Fsolicitud.value));
+        parametros.append("fechasolicitud1", String(Fsolicitud1.value));
+        parametros.append("titulo", Fsolicitud.text)
         window.open(`../reports/tiempo.report.php?${parametros}`, '_blank');
     }  
 
-    // btGuardar.addEventListener("click", PDFTiempo);
+    btGuardar.addEventListener("click", PDFTiempo);
     // listarSolicitud();
     listarReporte();
 </script>

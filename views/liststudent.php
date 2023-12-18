@@ -20,7 +20,7 @@
                 <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable">
                 </label>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-id">Estudiantes</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
             </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -47,7 +47,7 @@
 </div>
 
 <!-- modal -->
-<div class="modal fade" id="modal-id">
+<div class="modal fade" id="Inactivos"  data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,80 +78,82 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-success" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>  
 
-<div> 
-    <div class="modal fade" id="editar">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">EDITAR ESTUDIANTE</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="form-edit mt-4">
-                        <div class="ml-5 row">
-                            <div class="col-md-3">
-                                <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
-                            </div>
-                            <div class="col-md-7">
-                                <input type="text" class="form-control" id="Edatos">
-                            </div>
+<div class="modal fade" id="editar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">EDITAR ESTUDIANTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-edit mt-4">
+                    <div class="ml-5 row">
+                        <div class="col-md-3">
+                            <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
                         </div>
-                        <div class="row ml-5 mt-4">
-                            <div class="col-md-3" id="divPrestamo">
-                                <label for="" style="color:#000000;">FECHA NACIMIENTO</label>
-                                <input type="date"  class="form-control" id="Efnacimiento">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" style="color:#000000;">ROL</label>
-                                <input type="text" class="form-control" id="Erol">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" style="color:#000000;">DNI</label>
-                                <input type="text" class="form-control" id="Edni" maxlength="8">
-                            </div>
-                            <div class="col-md-3" id="lugarD">
-                                <label for="" style="color:#000000;">TELEFONO</label>
-                                <input type="text" class="form-control" maxlength="9" id="Etelefono">
-                            </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="nombres">
                         </div>
-                        <div class="row ml-5 mt-4">
-                            <div class="col-md-4">
-                                <label for="Libro" style="color:#000000;">CORREO</label>
-                                <input type="text" class="form-control" id="Ecorreo">
-                            </div>
-                            <div class="col-md-4">
-                                <label style="color:#000000;">DIRECCION</label>
-                                <input type="text" name="" id="Edireccion" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label style="color:#000000;">USUARIO</label>
-                                <input type="text" class="form-control" id="Eusuario">
-                            </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="apellidos">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guadarlibro">Guardar</button>
-                </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-4" id="divPrestamo">
+                            <label for="" style="color:#000000;">FECHA NACIMIENTO</label>
+                            <input type="date"  class="form-control" id="fnacimiento">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="" style="color:#000000;">DNI</label>
+                            <input type="text" class="form-control" id="dni" maxlength="8">
+                        </div>
+                        <div class="col-md-4" id="lugarD">
+                            <label for="" style="color:#000000;">TELEFONO</label>
+                            <input type="text" class="form-control" maxlength="9" id="telefono">
+                        </div>
+                    </div>
+                    <div class="row ml-5 mt-4">
+                        <div class="col-md-4">
+                            <label for="Libro" style="color:#000000;">CORREO</label>
+                            <input type="text" class="form-control" id="correo">
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color:#000000;">DIRECCION</label>
+                            <input type="text" name="" id="direccion" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color:#000000;">USUARIO</label>
+                            <input type="text" class="form-control" id="usuario">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
+                <button type="button" class="btn btn-info" id="guadarEditar">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
 <script> 
+    // const modalInactivos = new bootstrap.Modal(document.querySelector("#Inactivos"));
     let idusuario = '';
+    let idpersona = '';
     const cuerpo = document.querySelector("tbody");
     const Tabla = document.querySelector("#tablaInactivo");
     const cuerpo2 = Tabla.querySelector("tbody");
+    const btGuardarE = document.querySelector("#guadarEditar");
+    const Editar = new bootstrap.Modal(document.querySelector("#editar"));
+
     
     function listarEstudiante(){
         const parametros = new URLSearchParams();
@@ -181,7 +183,7 @@
                         <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
                     </td>
                     <td>
-                        <a href='#editar' type='button' data-toggle='modal' class='inactivo' data-idusuario='${element.idusuario}'>Editar</a>
+                        <a href='#editar' type='button' data-toggle='modal' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
                     </td>
                 </tr>
                 `;
@@ -216,6 +218,7 @@
                     </td>
                 </tr>
                 `;
+                listarEstudiante();
                 cuerpo2.innerHTML += estudiante;
             });
         })
@@ -224,7 +227,8 @@
     cuerpo.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'inactivo'){
             idusuarios = parseInt(event.target.dataset.idusuario);
-            console.log(idusuarios);
+            //console.log(idusuarios);
+            
             const parametros = new URLSearchParams();
             parametros.append("operacion","SentenciarUser");
             parametros.append("idusuario", idusuarios);
@@ -235,6 +239,7 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
+                    // modalInactivos.toggle();
                     listarEstudiante();
                     EstudianteInactivo();
                 }
@@ -263,6 +268,70 @@
         }
     });
 
+    cuerpo.addEventListener("click", (event) => {
+        if(event.target.classList[0] === 'editar'){
+            idusuario = parseInt(event.target.dataset.idusuario);
+            idpersona = parseInt(event.target.dataset.idpersona);
+            //console.log(idusuarios);
+            
+            const parametros = new URLSearchParams();
+            parametros.append("operacion","traerUser");
+            parametros.append("idusuario", idusuario);
+            fetch("../controller/estudiantes.php",{
+                method: 'POST',
+                body: parametros
+            }) 
+            .then(response => response.json())
+            .then(datos => {
+                datos.forEach(element => {
+                    document.querySelector("#nombres").value = element.nombres; 
+                    document.querySelector("#apellidos").value = element.apellidos; 
+                    document.querySelector("#fnacimiento").value = element.fechanac; 
+                    document.querySelector("#dni").value = element.nrodocumento; 
+                    document.querySelector("#telefono").value = element.telefono; 
+                    document.querySelector("#correo").value = element.email; 
+                    document.querySelector("#direccion").value = element.direccion; 
+                    document.querySelector("#usuario").value = element.nombreusuario; 
+                });
+            });
+        }
+    });
+
+    function UpdateUser(){
+        if(confirm("¿Esta seguro de guardar?")){
+            //Para binarios
+            const fd = new URLSearchParams();
+            fd.append("operacion","updateUser");
+            fd.append("idpersona", idpersona);
+            fd.append("apellidos",document.querySelector("#apellidos").value);
+            fd.append("nombres",document.querySelector("#nombres").value);
+            fd.append("dni", document.querySelector("#dni").value);
+            fd.append("fecha",document.querySelector("#fnacimiento").value);
+            fd.append("direccion",document.querySelector("#direccion").value);
+            fd.append("telefono",document.querySelector("#telefono").value);
+            fd.append("email",document.querySelector("#correo").value);
+            fd.append("nombreusuario",document.querySelector("#usuario").value);
+            
+            fetch("../controller/estudiantes.php",{
+                method: "POST",
+                body: fd
+            }) 
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    console.log("echo")
+                    toast("Actualizado");
+                    listarEstudiante();
+                    Editar.toggle();
+                }else{
+                    console.log("no echo")
+                    toastError("Error de Actualización");
+                }
+            });
+        }
+    }
+
+    btGuardarE.addEventListener("click", UpdateUser);
     listarEstudiante();
     EstudianteInactivo();
 </script>

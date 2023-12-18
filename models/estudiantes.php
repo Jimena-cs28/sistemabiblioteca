@@ -153,4 +153,46 @@ class Estudiantes extends conexion{
       die($e->getMessage());
     }
   }
+
+  public function traerUser($idusuario){
+    try {
+      $consulta = $this->acesso->prepare("CALL spu_datos_personales_user(?)");
+      $consulta->execute(array($idusuario));
+
+      $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
+      return $datosObtenidos; 
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  
+  public function updateUser($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" => ""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_update_user(?,?,?,?,?,?,?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idpersona"],
+          $datos["apellidos"],
+          $datos["nombres"],
+          $datos["dni"],
+          $datos["fecha"],
+          $datos["direccion"],
+          $datos["telefono"],
+          $datos["email"],
+          $datos["nombreuser"],
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se ha podido completar el proceso. Codigo error: " . $e->getMessage();
+    }
+    return $respuesta;
+  }
+
 }

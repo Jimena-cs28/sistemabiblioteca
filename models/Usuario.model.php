@@ -84,5 +84,52 @@
       }
       return $respuesta;
     }
+
+    public function NuevaContraseña($datos = []){
+      $respuesta = [
+        "status" => false,
+        "message" => ""
+      ];
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_olvidar_contraseña(?,?)");
+        $respuesta["status"] = $consulta->execute(
+          array(
+            $datos["usuario"],
+            $datos["clave"]
+          )
+        );
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
+      }
+      return $respuesta;
+    } 
+
+    public function updateAdmin($datos = []){
+      $respuesta = [
+        "status" => false,
+        "message" => ""
+      ];
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_update_admin(?,?,?,?,?,?,?,?,?)");
+        $respuesta["status"] = $consulta->execute(
+          array(
+            $datos["idusuario"],
+            $datos["apellidos"],
+            $datos["nombres"],
+            $datos["dni"],
+            $datos["fechanc"],
+            $datos["direccion"],
+            $datos["telefono"],
+            $datos["email"],
+            $datos["usuario"],
+          )
+        );
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "No se ah podido completar el proceso. Codigo error: " . $e->getCode();
+      }
+      return $respuesta;
+    } 
   }
 ?>

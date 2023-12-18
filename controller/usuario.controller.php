@@ -78,6 +78,32 @@ if(isset($_POST['operacion'])) {
     echo json_encode($respuesta);
   }
 
+  if($_POST['operacion'] == 'nuevaclave'){
+    $nuevo = [
+      "usuario"     => $_POST['usuario'],
+      "clave"       => password_hash($_POST['clave'], PASSWORD_BCRYPT)
+    ];
+    $respuesta = $usuario->NuevaContraseña($nuevo);
+    echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'updateAdmin'){
+    $nuevo = [
+      "idusuario"     => $_POST['idusuario'],
+      "apellidos"       =>   $_POST['apellidos'],
+      "nombres"       =>   $_POST['nombres'],
+      "dni"       =>   $_POST['dni'],
+      "fechan"       =>   $_POST['fechan'],
+      "direccion"       =>   $_POST['direccion'],
+      "telefono"       =>   $_POST['telefono'],
+      "email"       =>   $_POST['email'],
+      "usuario"       =>   $_POST['usuario']
+    ];
+    $respuesta = $usuario->updateAdmin($nuevo);
+    echo json_encode($respuesta);
+  }
+  
+
 }
 
 if (isset($_GET['operacion']) == 'destroy'){

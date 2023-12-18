@@ -119,7 +119,7 @@ class Validacion extends conexion{
             die($e->getMessage());
         }
     }
-
+// sis_procedimiento
     public function TraerDatos($idusuario){
         try{
             $consulta = $this->acesso->prepare("CALL spu_datos_personales(?)");

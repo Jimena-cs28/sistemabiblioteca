@@ -87,4 +87,28 @@ if (isset($_POST['operacion'])){
       echo json_encode($datos);
     }
   }
+
+  if($_POST['operacion'] == 'traerUser'){
+    $datos = $estudiantes->traerUser($_POST['idusuario']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'updateUser'){
+    $datosGuardar = [
+      "idpersona"     => $_POST['idpersona'],
+      "apellidos"     => $_POST['apellidos'],
+      "nombres"       => $_POST['nombres'],
+      "dni"           => $_POST['dni'],
+      "fecha"         => $_POST['fecha'],
+      "direccion"     => $_POST['direccion'],
+      "telefono"      => $_POST['telefono'],
+      "email"         => $_POST['email'],
+      "nombreusuario" => $_POST['nombreusuario']    
+    ];
+
+    $respuesta = $estudiantes->updateUser($datosGuardar);
+    echo json_encode($respuesta);
+  }
 }

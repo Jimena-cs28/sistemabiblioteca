@@ -192,16 +192,25 @@ class Libro extends conexion{
     }
   }
 
-  public function ActivarEstado($idejemplar){
+  public function ActivarEstado($dato = []){
+    $respuesta = [
+      "status" => false,
+      "message" => ""
+    ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_activar_estado_ejem(?)");
-      $consulta->execute(array($idejemplar));
-
+      $consulta = $this->acesso->prepare("CALL spu_activar_estado_ejem(?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $dato["idejemplar"],
+          $dato["condicion"]
+        )
+      );
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
-      die($e->getMessage());
+      $respuesta["message"] = "No se ha podido completar el proceso. Codigo error: " . $e->getMessage();
     }
+    return $respuesta;
   }
 
   public function registrarCategoria($datos = []){

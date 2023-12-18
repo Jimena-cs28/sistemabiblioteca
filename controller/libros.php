@@ -125,12 +125,13 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'ActivarEstado'){
-    $datos = $libro->ActivarEstado($_POST['idejemplar']);
-    if($datos){
-      echo json_encode($datos);
-    }
+    $dato = [
+      "idejemplar"  => $_POST["idejemplar"],
+      "condicion"  => $_POST["condicion"],
+    ];
+    $respuesta = $libro->ActivarEstado($dato);
+    echo json_encode($respuesta);
   }
-
 
   if($_POST['operacion'] == 'RegistrarCategory'){
     $datosGuardar = [
@@ -147,7 +148,7 @@ if (isset($_POST['operacion'])){
     
     $rutaDestino = '';
     $nombreArchivo = '';
-    $nombreGuardara = 'NULL2';
+    $nombreGuardara = '';
 
     if(isset($_FILES['imagenportada'])){
 

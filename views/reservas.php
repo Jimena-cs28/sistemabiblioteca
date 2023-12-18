@@ -1,11 +1,11 @@
 <?php require_once 'permisos.php'; ?>
-<div class="container-fluid">
+<div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
             <img src="../img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran las reservas echas por estudiantes y profesores, estas reservas faltan recojer por parte de los usuario y se podra ver detalladamente que cantidad de libro de pidio
+        Bienvenido a esta sección, aquí se muestran las reservas echas por estudiantes y profesores, estas reservas faltan recojer por parte de los usuario y se podra ver detalladamente que cantidad de libro de pidio
         </div>
     </div>
 </div>
@@ -17,7 +17,6 @@
                 <h6 class="m-0 font-weight-bold text-primary text-center">LISTADO DE RESERVAS</h6>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -202,7 +201,7 @@
             card.innerHTML = ``;
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
-                const fechapasada = FechaPrestamo > actual;
+                const fechapasada = FechaPrestamo < actual;
                 if(fechapasada){
                     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
                 }

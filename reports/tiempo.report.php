@@ -10,9 +10,9 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 try {
     //instanciar clase 
     $report = new Reporte();
-    $datos = $report->reporteSolicitud($_GET['fecha1'],$_GET['fecha2']);
+    $datos = $report->reporteSolicitud($_GET['fechasolicitud'],['fechasolicitud1']);
     $titulo = $_GET['titulo'];
-    $titulo1 = $_GET['titulo1'];
+    // $titulo1 = $_GET['fechasolicitud1'];
     ob_start();
 
     //hoJa de estilos

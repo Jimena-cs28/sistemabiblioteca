@@ -1,6 +1,6 @@
 <div class="nav">
     <img class="img" src="../img/logo2.png" alt="logo">
-    <h1 class="text-md text-center">Reporte de los libros de <?=$titulo?> hasta <?=$titulo1?></h1>
+    <h1 class="text-md text-center">Reporte de los libros de  hasta <?=$titulo?></h1>
 </div>
 
 <table class="table table-border mt-3">
