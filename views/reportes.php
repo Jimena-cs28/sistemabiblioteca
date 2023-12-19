@@ -82,17 +82,27 @@
     // listarSolicitud();
     listarReporte();
 
-    const $btnExportar = document.querySelector("#TraerE"),
-        $tabla = document.querySelector("#tbody");
+    const btnExportar = document.querySelector("#TraerE");
+    //     $tabla = document.querySelector("#tbody");
 
-    $btnExportar.addEventListener("click", function() {
-        let tableExport = new TableExport($tabla, {
-            exportButtons: false, // No queremos botones
-            filename: "Reporte de prueba", //Nombre del archivo de Excel
-            sheetname: "Reporte de prueba", //Título de la hoja
+    // $btnExportar.addEventListener("click", function() {
+    //     let tableExport = new TableExport($tabla, {
+    //         exportButtons: false, // No queremos botones
+    //         filename: "Reporte de prueba", //Nombre del archivo de Excel
+    //         sheetname: "Reporte de prueba", //Título de la hoja
+    //     });
+    //     let datos = tableExport.getExportData();
+    //     let preferenciasDocumento = datos.tabla.xlsx;
+    //     tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
+    // });
+
+    function exportarExcel() {
+      // Utiliza la función table2excel de la biblioteca
+        $("#tablareporte").table2excel({
+            exclude: ".noExl",  // Clases a excluir (opcional)
+            name: "Worksheet Name",
+            filename: "NombreDelArchivo" // Nombre del archivo Excel
         });
-        let datos = tableExport.getExportData();
-        let preferenciasDocumento = datos.tabla.xlsx;
-        tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
-    });
+    }
+    btnExportar.addEventListener("click", exportarExcel);
 </script>

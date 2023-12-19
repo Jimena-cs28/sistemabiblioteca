@@ -62,6 +62,7 @@ if (isset($_POST['operacion'])){
     echo json_encode($respuesta);
   }
 
+  
   if($_POST['operacion'] == 'listadolibro'){
 
     $datos = $libro->listadolibro();
@@ -144,7 +145,7 @@ if (isset($_POST['operacion'])){
     // echo json_encode($respuesta);
   }
 
-  if($_POST['operacion'] == 'UpdateBook'){
+  if($_POST['operacion'] == 'UpdateImg'){
     
     $rutaDestino = '';
     $nombreArchivo = '';
@@ -162,7 +163,23 @@ if (isset($_POST['operacion'])){
         $nombreGuardara = $nombreArchivo;
       }
     }
+    $datosGuardar = [
+      "idlibro"           => $_POST['idlibro'],
+      "imagenportada"       => $nombreGuardara
+    ];
 
+    $respuesta = $libro->UpdateImg($datosGuardar);
+    echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'traerSibcategoria'){
+    $datos = $libro->traerSibcategoria($_POST['idcat']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'UpdateBook'){
     $datosGuardar = [
       "idlibro"           => $_POST['idlibro'],
       "idsubcategoria"     => $_POST['idsubcategoria'],
@@ -176,18 +193,10 @@ if (isset($_POST['operacion'])){
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
-      "idautor"           => $_POST['idautor'],
-      "imagenportada"       => $nombreGuardara
+      "idautor"           => $_POST['idautor']
     ];
 
     $respuesta = $libro->UpdateBook($datosGuardar);
     echo json_encode($respuesta);
-  }
-
-  if($_POST['operacion'] == 'traerSibcategoria'){
-    $datos = $libro->traerSibcategoria($_POST['idcat']);
-    if($datos){
-      echo json_encode($datos);
-    }
   }
 }

@@ -26,12 +26,12 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <div id="dataTable_filter" class="dataTables_filter">
-                <label for="">Search
+            <div >
+                <!-- <label for="">Search
                     <input type="search" class="form-control form-control-sm" id="PrestamoSearch">
-                </label>
+                </label> -->
             </div>
-            <table class="table table-bordered" id="dataTable">
+            <table style="font-size: 12pt;"id="dataTable" class="table" >
                 <thead>
                     <tr>
                         <th>#</th>
@@ -205,8 +205,44 @@
                 `;
                 cuerpo.innerHTML += pres;
             });
+
+            mostrarEmpleados();
         })
     }
+
+    function mostrarEmpleados() {
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                //Referencia al objeto DT
+                const tabla = document.getElementById('dataTable').DataTable();
+
+                //Destruirlo
+                tabla.destroy();
+
+                //Poblar el cuerpo de la tabla
+                document.getElementById('dataTable').getElementsByTagName('tbody')[0].innerHTML = xhr.responseText;
+
+                //Reconstruimos la tabla
+                new DataTable(document.getElementById('dataTable'), {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: { columns: [0, 1, 2, 3, 4] }
+                        }
+                    ],
+                    language: {
+                        url: 'js/Spanish.json'
+                    }
+                });
+            }
+        };
+
+        xhr.open('POST', '../controller/prestamos.php?operacion=listarcasiprestamo', true);
+        xhr.send();
+    }    
 
     function listarEjemplare(){
         const parametros = new URLSearchParams();
@@ -310,26 +346,26 @@
 
     listarprestamo();
 
-    secharP.addEventListener("keypress", (evt) => {
-        if(evt.charCode == 13) searchPrestamo();
-    });
+    // secharP.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode == 13) searchPrestamo();
+    // });
 
-    document.getElementById('exportButton').addEventListener('click', function () {
-        exportToExcel('#dataTable');
-    });
+    // document.getElementById('exportButton').addEventListener('click', function () {
+    //     exportToExcel('#dataTable');
+    // });
 
-    function exportToExcel(tableId) {
-        var table = document.getElementById(tableId);
-        var sheet = XLSX.utils.table_to_sheet(table);
-        var blob = XLSX.write(sheet, { bookType: 'xlsx', bookSST: true, type: 'blob' });
+    // function exportToExcel(tableId) {
+    //     var table = document.getElementById(tableId);
+    //     var sheet = XLSX.utils.table_to_sheet(table);
+    //     var blob = XLSX.write(sheet, { bookType: 'xlsx', bookSST: true, type: 'blob' });
 
-        saveAs(blob, 'tabla_excel.xlsx');
-    }
+    //     saveAs(blob, 'tabla_excel.xlsx');
+    // }
 
-    function saveAs(blob, fileName) {
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-    }
+    // function saveAs(blob, fileName) {
+    //     var link = document.createElement('a');
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.download = fileName;
+    //     link.click();
+    // }
 </script>

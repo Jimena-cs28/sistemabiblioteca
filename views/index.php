@@ -29,7 +29,13 @@ $datoID = json_encode($_SESSION['login']);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <!-- Agrega esta línea en el encabezado de tu archivo HTML -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
-    
+    <link rel="stylesheet" href="../views/css/datatable.min.css" />
+    <script src="../js/table2excel.jquery.json"></script>
+
+    <!-- DataTable -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -348,11 +354,20 @@ $datoID = json_encode($_SESSION['login']);
     <script src="../js/datatable.min.js"></script>
     <script src="./libs/jquery/datatable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/sweetalert.js"></script>
+
+        <!-- DataTable -->
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Opcional -->
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+
     <script>
         
         document.addEventListener("DOMContentLoaded", () => {

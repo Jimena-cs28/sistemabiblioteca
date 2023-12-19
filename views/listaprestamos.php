@@ -29,7 +29,7 @@
         <div class="card border-0">
             <div class="card-body">            
                 <form id="form-prestamos">
-                    <div class="ml-5 row">
+                    <div class="ml-5  row">
                         <div class="col-md-3">
                             <label style="color:#000000;" class="fw-bold">NOMBRES Y APELLIDOS :</label>
                         </div>
@@ -40,20 +40,18 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filstudent">
-                                <label class="form-check-label" for="flexRadioDefault1">ESTUDIANTE</label>
+                                <input class="form-check-input" type="checkbox" id="filstudent">
+                                <label class="form-check-label" for="inlineCheckbox1">ESTUDIANTES</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filtteacher">
-                                <label class="form-check-label" for="flexRadioDefault2">PROFESOR</label>
+                                <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="filtteacher">
+                                <label class="form-check-label" for="flexRadioDefault2">PROFESORES</label>
                             </div>
                         </div>
                     </div>
                     <!-- aqui va lo que dijo irene -->
                     <div class="ml-5 row mt-3">
-                        <div>
-                            <label style="color:#000000;" class="fw-bold">TIPO DE PRÉSTAMOS</label>
-                        </div>
+                        <label style="color:#000000;" class="fw-bold">TIPO DE PRÉSTAMOS</label>
                         <div class="form-check ml-3">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora">
                             <label class="form-check-label" for="flexRadioDefault1">PRESTAR</label>
@@ -416,6 +414,7 @@
     function agregarLibros() {
         const cantidadLibros = parseInt(document.getElementById('cantidad').value);
         const elementosSelect = Array.from(filtroEjempla.options);
+        // const cantidadAgregada = 0;
 
         // Verificar si el estudiante ya ha seleccionado un libro
         // if (filtroStudent.dataset.nombrerol = 'Estudiante' && libroAgregados.size > 0) {
@@ -423,15 +422,19 @@
         //     return;
         // }
         // Iterar sobre la cantidad especificada de libros
-        if (filtroStudent.dataset.nombrerol === 'Estudiante' && libroAgregados.size > 1) {
-            toastError("Los estudiantes solo pueden agregar un libro a la vez.");
-            return;
-        }
-
+        
         for (let i = 0; i < cantidadLibros; i++) {
             // Obtener el índice actual
-            const indiceActual = i % elementosSelect.length;
+            // if(){
+            //     alert("jajaja");
+            //     return
+            // }
+            // if (Fstudent.checked && libroAgregados.size > 0 && cantidadAgregada >= 1) {
+            //     toastError("Los estudiantes solo pueden agregar un libro a la vez.");
+            //     return;
+            // }
 
+            const indiceActual = i % elementosSelect.length;
             // Obtener el elemento del select en el índice actual
             const idlejemplarSeleccionado = elementosSelect[indiceActual];
             const idejemplar = idlejemplarSeleccionado.value;
@@ -488,6 +491,7 @@
                     </tr>`;
                 tablalibro.innerHTML += nuevaFila;
                 libroAgregados.add(idejemplar);
+                // cantidadAgregada++;
             }
         }
     }

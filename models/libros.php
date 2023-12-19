@@ -240,7 +240,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -255,8 +255,7 @@ class Libro extends conexion{
           $datos["anio"],
           $datos["idioma"],
           $datos["descripcion"],
-          $datos["idautor"],
-          $datos["imagenportada"]
+          $datos["idautor"]
         )
       );
     }
@@ -278,4 +277,23 @@ class Libro extends conexion{
     }
   }
 
+  public function UpdateImg($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_update_img(?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibro"],
+          $datos["imagenportada"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
 }

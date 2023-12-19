@@ -99,6 +99,19 @@
         
         const checkP = document.querySelector("#c-profesor");
         const checkE = document.querySelector("#c-estudiante")
+        const fechaInput = document.getElementById('fechanacimiento');
+
+        // Calcular la fecha actual
+        const fechaActual = new Date();
+
+        // Restar 10 años a la fecha actual
+        fechaActual.setFullYear(fechaActual.getFullYear() - 10);
+
+        // Formatear la fecha en el formato YYYY-MM-DD (compatible con el tipo date)
+        const fechaLimite = fechaActual.toISOString().split('T')[0];
+
+        // Establecer el atributo min en el input de fecha
+        fechaInput.setAttribute('min', fechaLimite);
         if(checkP.checked){
             profesor();
         }else{
