@@ -18,29 +18,29 @@
         <h6 class="m-0 font-weight-bold text-primary">LISTADO DE CATEGORIAS</h6>
     </div>
     <div class="card-body">
-        <div class="row mb-3">
+        <!-- <div class="row mb-3">
             <div class="col-md-2">
                 <button class="btn btn-info" id="Traer">Exportar PDF</button>
             </div>
             <div class="col-md-2">
                 <button class="btn btn-info" id="TraerE">Exportar EXCEL</button>
             </div>
-        </div>
+        </div> -->
         <div class="table-responsive">
-            <table class="table table-bordered" id="tablareporte" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th style="color:#574E4E;">#</th>
-                        <th style="color:#574E4E;">Categoria</th>
-                        <th style="color:#574E4E;">Codigo</th>
-                        <th style="color:#574E4E;">Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table table-bordered me-3" id="tablareporte" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="color:#574E4E; width: 5%;">#</th>
+                    <th style="color:#574E4E; width: 5%;">Categoria</th>
+                    <th style="color:#574E4E; width: 5%;">Codigo</th>
+                    <th style="color:#574E4E; width: 5%;">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
     </div>
 </div>
 
@@ -48,29 +48,65 @@
     const cuerpo = document.querySelector("tbody");
     const btGuardar = document.querySelector("#Traer");
 
-    function listarReporte(){
+    function listarReporte() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion","listarReporte")
+        parametros.append("operacion", "listarReporte");
+
         fetch("../controller/reporte.php", {
             method: 'POST',
             body: parametros
         })
         .then(response => response.json())
         .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const recibir = `
-                <tr>
-                    <td>${element.idcategoria}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.CantidadPrestada}</td>
-                </tr>
-                `;
-                cuerpo.innerHTML += recibir;
+            // Destruir la tabla existente antes de agregar nuevas filas
+            if ($.fn.DataTable.isDataTable('#tablareporte')) {
+                $('#tablareporte').DataTable().destroy();
+            }
+
+            // Crear la tabla nuevamente con los nuevos datos
+            tablaP = $('#tablareporte').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'print','excel', 'pdf', 'copy'],
+                language: {
+                    url: '../js/Spanish.json'
+                },
+                order: [[0, "desc"]],
+                columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true,
+                        serverSide: true,
+                        pageLength: 10
+                    }
+                ],
+                data: datos, // Utilizar el arreglo de datos directamente
+                columns: [
+                    { data: 'idcategoria' },
+                    { data: 'categoria' },
+                    { data: 'codigo' },
+                    { data: 'CantidadPrestada' }
+                ]
             });
-        })
+        });
     }
+
+    // Inicializar la tabla vacía al principio
+    // $('#tablareporte').DataTable({
+    //     dom: 'Bfrtip',
+    //     buttons: ['excel', 'pdf', 'copy'],
+    //     language: {
+    //         url: '../js/Spanish.json'
+    //     },
+    //     order: [[0, "desc"]],
+    //     columnDefs: [
+    //         {
+    //             visible: true,
+    //             searchable: true,
+    //             serverSide: true,
+    //             pageLength: 10
+    //         }
+    //     ]
+    // });
 
     function PDF(){
         const parametros = new URLSearchParams();
@@ -78,31 +114,6 @@
         window.open(`../reports/categoria.report.php?${parametros}`, '_blank');
     }  
 
-    btGuardar.addEventListener("click", PDF);
-    // listarSolicitud();
-    listarReporte();
-
-    const btnExportar = document.querySelector("#TraerE");
-    //     $tabla = document.querySelector("#tbody");
-
-    // $btnExportar.addEventListener("click", function() {
-    //     let tableExport = new TableExport($tabla, {
-    //         exportButtons: false, // No queremos botones
-    //         filename: "Reporte de prueba", //Nombre del archivo de Excel
-    //         sheetname: "Reporte de prueba", //Título de la hoja
-    //     });
-    //     let datos = tableExport.getExportData();
-    //     let preferenciasDocumento = datos.tabla.xlsx;
-    //     tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
-    // });
-
-    function exportarExcel() {
-      // Utiliza la función table2excel de la biblioteca
-        $("#tablareporte").table2excel({
-            exclude: ".noExl",  // Clases a excluir (opcional)
-            name: "Worksheet Name",
-            filename: "NombreDelArchivo" // Nombre del archivo Excel
-        });
-    }
-    btnExportar.addEventListener("click", exportarExcel);
+    // btGuardar.addEventListener("click", PDF);
+    listarReporte()
 </script>

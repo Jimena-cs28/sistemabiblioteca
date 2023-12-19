@@ -26,12 +26,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <div >
-                <!-- <label for="">Search
-                    <input type="search" class="form-control form-control-sm" id="PrestamoSearch">
-                </label> -->
-            </div>
-            <table style="font-size: 12pt;"id="dataTable" class="table" >
+            <table id="dataTable" class="table" >
                 <thead>
                     <tr>
                         <th>#</th>
@@ -44,7 +39,7 @@
                         <th>Operacion</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="cuerpoTabla">
 
                 </tbody>
             </table>
@@ -161,7 +156,7 @@
     let idlibroentregado = '';
     const secharP = document.querySelector("#PrestamoSearch");
     const divmotivo = document.querySelector("#divcancelacion");
-    // const tablasExcel = document.querySelector("#dataTable");
+    // 
     const cuerpo = document.querySelector("tbody");
     const tabla = document.querySelector("#tabla");
     const CuerpoT = tabla.querySelector("tbody");
@@ -177,9 +172,21 @@
     const fentrega = document.querySelector("#Fentrega");
     const fdevolucion = document.querySelector("#Fdevolucion");
 
-    function listarprestamo(){
+    function inicializarDataTables() {
+        $('#dataTable').DataTable({
+            // Personaliza según tus necesidades
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            },
+            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
+            pageLength: 10  // Número de filas por página
+        });
+    }
+
+        // Tu función existente para cargar los datos
+    function listarprestamo() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion","listarcasiprestamo")
+        parametros.append("operacion", "listarcasiprestamo");
 
         fetch("../controller/prestamos.php", {
             method: 'POST',
@@ -187,6 +194,7 @@
         })
         .then(response => response.json())
         .then(datos => {
+            const cuerpo = document.getElementById('cuerpoTabla');
             cuerpo.innerHTML = ``;
             datos.forEach(element => {
                 const pres = `
@@ -206,70 +214,38 @@
                 cuerpo.innerHTML += pres;
             });
 
-            mostrarEmpleados();
-        })
+            // Después de cargar los datos, inicializa DataTables
+            inicializarDataTables();
+        });
     }
 
-    function mostrarEmpleados() {
-        const xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                //Referencia al objeto DT
-                const tabla = document.getElementById('dataTable').DataTable();
-
-                //Destruirlo
-                tabla.destroy();
-
-                //Poblar el cuerpo de la tabla
-                document.getElementById('dataTable').getElementsByTagName('tbody')[0].innerHTML = xhr.responseText;
-
-                //Reconstruimos la tabla
-                new DataTable(document.getElementById('dataTable'), {
-                    dom: 'Bfrtip',
-                    buttons: [
-                        {
-                            extend: 'print',
-                            exportOptions: { columns: [0, 1, 2, 3, 4] }
-                        }
-                    ],
-                    language: {
-                        url: 'js/Spanish.json'
-                    }
-                });
-            }
-        };
-
-        xhr.open('POST', '../controller/prestamos.php?operacion=listarcasiprestamo', true);
-        xhr.send();
-    }    
-
+    
     function listarEjemplare(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "fichaprestamo");
-        parametros.append("idprestamo", idprestamo);
-        fetch("../controller/prestamos.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            CuerpoT.innerHTML = ``;
-            datos.forEach(element => {
-                const Vopcion1 = `
-                <tr>
-                    <td>${element.idejemplar}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.condicionentrega}</td>
-                    <td>${element.codigo} - ${element.codigo_libro}</td>
-                    <td>${element.observaciones || "---------------"}</td>
-                    <td>${element.fechadevolucion || "---------------"}</td>
-                    <td>${element.condiciondevolucion || "---------------"}</td>
-                </tr>`
-                ;
-                CuerpoT.innerHTML +=Vopcion1;
-            });
+    const parametros = new URLSearchParams();
+    parametros.append("operacion", "fichaprestamo");
+    parametros.append("idprestamo", idprestamo);
+    fetch("../controller/prestamos.php",{
+        method : 'POST',
+        body:parametros
+    })
+    .then(response => response.json())
+    .then(datos => {
+        CuerpoT.innerHTML = ``;
+        datos.forEach(element => {
+            const Vopcion1 = `
+            <tr>
+                <td>${element.idejemplar}</td>
+                <td>${element.libro}</td>
+                <td>${element.condicionentrega}</td>
+                <td>${element.codigo} - ${element.codigo_libro}</td>
+                <td>${element.observaciones || "---------------"}</td>
+                <td>${element.fechadevolucion || "---------------"}</td>
+                <td>${element.condiciondevolucion || "---------------"}</td>
+            </tr>`
+            ;
+            CuerpoT.innerHTML +=Vopcion1;
         });
+    });
     }
 
     cuerpo.addEventListener("click", (event) => {
@@ -346,9 +322,9 @@
 
     listarprestamo();
 
-    // secharP.addEventListener("keypress", (evt) => {
-    //     if(evt.charCode == 13) searchPrestamo();
-    // });
+    secharP.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) searchPrestamo();
+    });
 
     // document.getElementById('exportButton').addEventListener('click', function () {
     //     exportToExcel('#dataTable');

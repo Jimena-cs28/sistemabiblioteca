@@ -17,13 +17,10 @@
     <div class="card-body">
         <div class="table-responsive">
             <div class="col-md-6">
-                <label for="">Search
-                    <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
-                </label>
-                <button type="button" class="btn btn-success mb-2 ml-3" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+                <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
                 <button class="btn btn-primary mb-2 ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
             </div>
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="tablalibros" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th width="2%">#</th>
@@ -504,6 +501,17 @@
         });
     }
 
+    function inicializarDataTablesL() {
+        $('#tablalibros').DataTable({
+            // Personaliza según tus necesidades
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            },
+            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
+            pageLength: 10  // Número de filas por página
+        });
+    }
+
     function listadoLibro(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listadolibro")
@@ -536,6 +544,7 @@
                 `;
                 cuerpo.innerHTML += libro;
             });
+            inicializarDataTablesL();
         })
     }
 
@@ -898,45 +907,7 @@
 
     guardarEjem.addEventListener("click",activarejemplar);
 
-    function seachBook(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "buscarBook");
-        parametros.append("nombre", nombre.value);
-        fetch("../controller/libros.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const libro = `
-                <tr>
-                    <td>${element.idlibro}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.subcategoria}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.cantidad}</td>
-                    <td>${element.autor}</td>
-                    <td>${element.Disponible}</td>
-                    <td>
-                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
-                    </td>
-                    <td>
-                        <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += libro;
-            });
-        })
-    }
-
     LibrosInactivo();
-    nombre.addEventListener("keypress", (evt) => {
-        if(evt.charCode == 13) seachBook();
-    });
 
     inputFile.addEventListener("change", (e) => {
         if(inputFile.files.length > 0) {  
