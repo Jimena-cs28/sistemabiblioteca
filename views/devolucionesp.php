@@ -223,6 +223,17 @@
         }, 3000); // 5000 milisegundos (5 segundos)
     }
 
+    function inicializarDataTables() {
+        $('#tablaD').DataTable({
+            // Personaliza según tus necesidades
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            },
+            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
+            pageLength: 10  // Número de filas por página
+        });
+    }
+
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarDpendientes")
@@ -273,6 +284,7 @@
                     
                 }
             }
+            inicializarDataTables();
         })
     }
 

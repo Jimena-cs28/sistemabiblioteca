@@ -49,7 +49,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="tablasub" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>id</th>
@@ -71,6 +71,18 @@
     const cuerpo = document.querySelector("tbody");
     const selectcategoria = document.querySelector("#selectcategoria");
     const btGuardar = document.querySelector("#btguardar");
+
+    
+    function inicializarDataTablesL() {
+        $('#tablasub').DataTable({
+            // Personaliza según tus necesidades
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            },
+            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
+            pageLength: 10  // Número de filas por página
+        });
+    }
 
     function traerSubcategoria(){
         const parametros = new URLSearchParams();
@@ -120,6 +132,7 @@
                 `;
                 cuerpo.innerHTML += pres;
             });
+            inicializarDataTablesL();
         })
     }
 
