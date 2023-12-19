@@ -273,7 +273,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="">Imagen</label>
-                                    <input type="file" id="Efotografia" class="form-control" placeholder="imagen del libro">
+                                    <input type="file" id="Efotografia" class="form-control" placeholder="imagen del libro" disabled>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -316,13 +316,22 @@
                                     <input type="text" class="form-control"  id="Etipo">
                                 </div>
                             </div>
-                            <div class="content mt-3">
-                                <label for="">DESCRIPCION</label>
-                                <textarea name="" id="Edescripcion" class="form-control" cols="0" rows="0"></textarea>
+                            <div class="row mt-3">
+                                <div class="col-md-10">
+                                    <label for="">DESCRIPCION</label>
+                                    <textarea name="" id="Edescripcion" class="form-control" cols="0" rows="0"></textarea>
+                                </div>
+                                <div class="col-md-2 mt-4">
+                                    <button type="button" class="btn btn-success" id="GuadarE">Guardar</button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="content ml-3 mt-3">
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="changeimg" value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">CAMBIAR IMAGEN</label>
+                                </div>
                                 <img class="visor" alt="" id="Eimg" width="300px">
                             </div>
                         </div>
@@ -350,7 +359,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" id="GuadarE">Guardar</button>
             </div>
         </div>
     </div>
@@ -396,6 +404,7 @@
 </style>
 
 <script>
+    const checkImg = document.querySelector("#changeimg")
     const guardarEjem = document.querySelector("#GuadEditarEjem");
     const modalEditarE = new bootstrap.Modal(document.querySelector("#editarEjemplar"));
     const modalCantidad = new bootstrap.Modal(document.querySelector("#modal"));
@@ -414,9 +423,14 @@
     const inputFile = document.querySelector("#Efotografia");
     const selectEditorial = document.querySelector("#Eeditorial");
     const guardarUpadte = document.querySelector("#GuadarE");
-    const librocantidad = document.querySelector("#libroCantidad")
+    const librocantidad = document.querySelector("#libroCantidad");
+    const imgE = document.querySelector("#Efotografia");
     let iddetalleautor = '';
     let idlibro = '';
+
+    checkImg.addEventListener('change', function() {
+        imgE.disabled = !checkImg.checked;
+    });
 
     function Selectlibro(){
         const choiceLibro= new Choices(librocantidad, {
@@ -592,8 +606,30 @@
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
             fd.append("idautor",selectAutores.value);
-            fd.append("imagenportada",inputFile.files[0]);
             
+
+            fetch("../controller/libros.php",{
+                method: "POST",
+                body: fd
+            })
+            .then(response => response.json())
+            .then(datos => {
+                if(datos.status){
+                    toast("Se hizo bien");
+                }else{
+                    toastError("Seleccione la subcategoria");
+                }
+            });
+        }
+    }
+
+    function UpdateImg(){
+        if(confirm("¿Esta seguro de guardar la imagen?")){
+            //Para binarios
+            const fd = new FormData();
+            fd.append("operacion","UpdateImg");
+            fd.append("idlibro", idlibro);
+            fd.append("imagenportada",inputFile.files[0]);
 
             fetch("../controller/libros.php",{
                 method: "POST",
@@ -604,7 +640,6 @@
                 if(inputFile == ""){
                     toastError("error en archivo");
                 }else{
-                    
                     if(datos.status){
                         // document.querySelector("#form-editar").resert();
                         // notificar("LIBROS","Se Actualizo bien", 3)
@@ -614,6 +649,14 @@
                     }
                 }
             });
+        }
+    }
+
+    function ValidaImg(){
+        if(checkImg.checked){
+            UpdateImg();
+        }else{
+            UpdateBooks();
         }
     }
 
@@ -799,7 +842,8 @@
         }
     });
 
-    guardarUpadte.addEventListener("click", UpdateBooks);
+    // guardarUpadte.addEventListener("click", UpdateBooks);
+    guardarUpadte.addEventListener("click", ValidaImg);
     GuardarEditar.addEventListener("click", UpdateCantidad);
 
     cuerpoL.addEventListener("click", (event) => {

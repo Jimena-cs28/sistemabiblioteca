@@ -242,7 +242,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (84,7,82,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (85,7,83,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (86,1,50,'NO','1','Usado','2023-12-04 19:32:34','2023-12-17 20:43:07',NULL),
-(87,8,84,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
+(87,8,84,'SI','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (88,8,85,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (89,8,86,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (90,8,87,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
@@ -358,8 +358,8 @@ insert  into `libros`(`idlibro`,`idsubcategoria`,`ideditorial`,`libro`,`tipo`,`c
 (9,8,5,'Dracula','comic',21,120,820.008,'','Pequeño','2010-03-04','Español','Un texto inquietante y una dinámica distribución de planos y viñetas llenas de atractivos personajes, bien identificados y diferenciados, crean el ambiente adecuado para que el niño se sumerja en una ','ea56ead04647442a6f7662064151c69e298f2396.jpg','2023-12-10 20:47:41',NULL,NULL,'1'),
 (10,11,1,'La Ciudad de los perros','texo',30,121,869.056,'','Mediano','2011-04-13','Español','','62ff7ae3c091ba1df6bfb37d4c2c71b6320ab13f.jpg','2023-12-10 20:56:57',NULL,NULL,'1'),
 (11,4,1,'sssssPrueba','texto',5,144,531.000,'nada','mediano','2000-12-12','español','nada','','2023-12-10 21:00:03',NULL,'2023-12-15 23:36:17','1'),
-(12,19,3,'Dracula ','texto',1,121,58.000,'','Mediano','2010-04-24','Español','11111111111111111111111111111111111111111','d6ce6ed8edfb40bcaee8671f91012b2f4a175597.jpg','2023-12-12 19:49:41',NULL,NULL,'1'),
-(14,3,1,'Prueba2','texto',1,144,531.000,'nada','mediano','2000-12-12','español','nada','1089b2d92e54a7f684358e33c78860e35c8b0540.jpg','2023-12-16 23:59:48',NULL,NULL,'1');
+(12,3,3,'Dracula ','texto',1,121,58.000,'','Mediano','2010-04-24','Español','11111111111111111111111111111111111111111','','2023-12-12 19:49:41',NULL,NULL,'1'),
+(14,7,1,'Prueba2','texto',1,144,531.000,'nada','mediano','2000-12-12','español','prueba','167c62eb348a3ff263c3ef106c2950d04e0c309e.jpg','2023-12-16 23:59:48',NULL,NULL,'1');
 
 /*Table structure for table `librosentregados` */
 
@@ -378,7 +378,7 @@ CREATE TABLE `librosentregados` (
   KEY `fk_prestamo_libentre` (`idprestamo`),
   CONSTRAINT `fk_idejemplar_libroentre` FOREIGN KEY (`idejemplar`) REFERENCES `ejemplares` (`idejemplar`),
   CONSTRAINT `fk_prestamo_libentre` FOREIGN KEY (`idprestamo`) REFERENCES `prestamos` (`idprestamo`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `librosentregados` */
 
@@ -607,7 +607,8 @@ insert  into `librosentregados`(`idlibroentregado`,`idprestamo`,`idejemplar`,`co
 (222,126,52,'Nuevo','Bien','bien','2023-12-17 22:57:45'),
 (223,127,15,'Usado','Bien','bien','2023-12-17 22:57:39'),
 (224,128,100,'Usado',NULL,NULL,'2023-12-19 00:00:00'),
-(225,129,122,'Usado','Bien','bien','2023-12-17 22:58:15');
+(225,129,122,'Usado','Bien','bien','2023-12-17 22:58:15'),
+(226,130,87,'Usado',NULL,NULL,'2023-12-19 00:00:00');
 
 /*Table structure for table `personas` */
 
@@ -628,12 +629,12 @@ CREATE TABLE `personas` (
   `inactive_at` datetime DEFAULT NULL,
   PRIMARY KEY (`idpersona`),
   UNIQUE KEY `ukDNI` (`nrodocumento`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `personas` */
 
 insert  into `personas`(`idpersona`,`apellidos`,`nombres`,`nrodocumento`,`tipodocumento`,`fechanac`,`direccion`,`telefono`,`email`,`create_at`,`update_at`,`inactive_at`) values 
-(1,'Berrocal paima','Luis Fernando','76543003','DNI',NULL,'Sunampe','964513274','','2023-11-14 20:04:43',NULL,NULL),
+(1,'Berrocal paima','Luis Fernando','76543000','DNI','0000-00-00','Sunampe','964513274','','2023-11-14 20:04:43',NULL,NULL),
 (2,'Cartagena Salazar','Jimena Adriana','73194180','DNI','0000-00-00','El carmen','','95107563','2023-11-14 20:04:43',NULL,NULL),
 (3,'Cardenas Martinez','Maria Luisa','88678671','DNI','2010-05-06','','961770778','','2023-11-15 17:34:31',NULL,NULL),
 (4,'Cartagena Salazar','Adriana Jimena','68754574','DNI','0000-00-00','Grocio Prado','950478703','','2023-11-17 22:10:26',NULL,NULL),
@@ -657,7 +658,9 @@ insert  into `personas`(`idpersona`,`apellidos`,`nombres`,`nrodocumento`,`tipodo
 (24,'Sanchez Flores','Luisa','72089808','DNI','1980-03-09','','','','2023-12-17 21:47:56',NULL,NULL),
 (25,'Alcca Herrera','Viviana Luisa','56268787','DNI','2010-05-04','Grocio Prado','950680746','54514@gmail.com','2023-12-17 21:49:00',NULL,NULL),
 (26,'Garcia Monayco','Ursula','7654321','DNI','2010-06-04','Sunampe','925456406','Sunampe','2023-12-17 21:51:55',NULL,NULL),
-(28,'Cabrera Luque','Irene','73194181','DNI','0000-00-00','','','','2023-12-17 22:53:51',NULL,NULL);
+(28,'Cabrera Luque','Irene','73194181','DNI','0000-00-00','','','','2023-12-17 22:53:51',NULL,NULL),
+(29,'Campos De la cruz','Alexia','52787186','DNI','2023-10-10','Sunampe','','','2023-12-18 18:59:02',NULL,NULL),
+(30,'Campos De la cruz','Alexia','36734727','DNI','2023-12-14','Sunampe','903257468','','2023-12-18 19:00:12',NULL,NULL);
 
 /*Table structure for table `prestamos` */
 
@@ -688,7 +691,7 @@ CREATE TABLE `prestamos` (
   CONSTRAINT `fk_idlibro_prestamo` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`),
   CONSTRAINT `ck_enbiblio_presta` CHECK (`enbiblioteca` in ('SI','NO')),
   CONSTRAINT `ck_estado_ore` CHECK (`estado` in ('E','S','R','D','T','N','C'))
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `prestamos` */
 
@@ -811,7 +814,8 @@ insert  into `prestamos`(`idprestamo`,`idbeneficiario`,`idbibliotecario`,`idlibr
 (126,4,1,NULL,NULL,'2023-12-17 21:39:47','2023-12-17 21:39:47',NULL,'2023-12-17 21:39:47','3M','SI',NULL,'T','1',NULL),
 (127,17,1,NULL,NULL,'2023-12-17 21:42:15','2023-12-17 21:42:15',NULL,'2023-12-17 21:42:15','Quimica','SI',NULL,'T','1',NULL),
 (128,14,1,NULL,NULL,'2023-12-17 21:44:07','2023-12-19 00:00:00',NULL,NULL,'4A','SI',NULL,'R','1',NULL),
-(129,2,NULL,10,1,'2023-12-17 21:56:31','2023-12-18 00:00:00','2023-12-17 21:57:23','2023-12-17 22:58:06','','NO','aula','T','1',NULL);
+(129,2,NULL,10,1,'2023-12-17 21:56:31','2023-12-18 00:00:00','2023-12-17 21:57:23','2023-12-17 22:58:06','','NO','aula','T','1',NULL),
+(130,20,1,NULL,NULL,'2023-12-18 17:36:41','2023-12-18 17:36:41',NULL,'2023-12-18 17:36:41','3A','SI',NULL,'D','1',NULL);
 
 /*Table structure for table `roles` */
 
@@ -897,7 +901,7 @@ CREATE TABLE `usuarios` (
   KEY `fk_idrol` (`idrol`),
   CONSTRAINT `fk_idpersona` FOREIGN KEY (`idpersona`) REFERENCES `personas` (`idpersona`),
   CONSTRAINT `fk_idrol` FOREIGN KEY (`idrol`) REFERENCES `roles` (`idrol`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `usuarios` */
 
@@ -918,13 +922,14 @@ insert  into `usuarios`(`idusuario`,`idpersona`,`idrol`,`nombreusuario`,`claveac
 (17,17,2,'79602857','$2y$10$a7KStvb08eV1c9PyS8PReOjjEiF7FfCdh8EwmiheLCuCVyFTNJKki','2023-12-16 21:54:16',NULL,'2023-12-17 21:42:17','1'),
 (18,18,2,'62578726','$2y$10$ez444zmhg4SzVdk35k/0W.QcA3bWt4W09C6.Pag26HkACSf7ZsoWa','2023-12-16 21:55:57',NULL,NULL,'1'),
 (19,20,2,'72890123','4321','2023-12-16 21:59:20',NULL,NULL,'1'),
-(20,21,3,'70056460','$2y$10$v.3w9UOJlIJMnXVODL7iF.47eZ6RDWl7pAi5hMk46Wo2ffnAzBmJa','2023-12-16 22:06:23',NULL,NULL,'1'),
+(20,21,3,'70056460','$2y$10$v.3w9UOJlIJMnXVODL7iF.47eZ6RDWl7pAi5hMk46Wo2ffnAzBmJa','2023-12-16 22:06:23',NULL,'2023-12-18 17:36:42','0'),
 (21,22,2,'65247872','$2y$10$za35/IWlsOy5Vb93DTpcfOwsF7KofQvqPNJEXty.lYNvcMSjmWQjG','2023-12-16 22:07:18',NULL,NULL,'1'),
 (22,23,3,'52687268','$2y$10$uauysBK41DWsuuoIm/7cGeWwXduyl9yXL7/Ny8eQ.tI2tOnk.JQ6C','2023-12-17 21:46:35',NULL,NULL,'1'),
 (23,24,2,'72089808','$2y$10$UKTTfZx.q.T/4p3FzPNiYORp51padIo2brBwgvUziAmajFlKOZvM2','2023-12-17 21:47:56',NULL,NULL,'1'),
 (24,25,3,'56268787','$2y$10$XOJiHWnq5sfLQXhJw9FdXud1WwOZDv4jIQPns4NuqahrfSH8GeejS','2023-12-17 21:49:00',NULL,NULL,'1'),
 (25,26,3,'','$2y$10$Ej/6Z4Kr1ZWdBDN/RG26ieTvDX1VBzqGtmKx1oCSKjC/5Vw.w5OXm','2023-12-17 21:51:55',NULL,NULL,'1'),
-(26,28,3,'73194180','$2y$10$bPkn7xtfsjnJy5cYJ8q2TePbwjch8IUdF.AtGRiU3FcxqC.YZqGgS','2023-12-17 22:53:51','2023-12-17 22:54:44',NULL,'1');
+(26,28,3,'73194180','$2y$10$bPkn7xtfsjnJy5cYJ8q2TePbwjch8IUdF.AtGRiU3FcxqC.YZqGgS','2023-12-17 22:53:51','2023-12-17 22:54:44',NULL,'1'),
+(28,30,2,'36734727','$2y$10$pIv56NspMr2sFq1s9uHkzeOarKL545nfNTADnHwmQ8qy.0w7qZxGy','2023-12-18 19:00:12',NULL,NULL,'1');
 
 /* Trigger structure for table `prestamos` */
 
@@ -3195,6 +3200,25 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_update_img` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_update_img` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_update_img`(
+    IN _idlibro INT, 
+    IN _imagenportada VARCHAR(100)
+)
+BEGIN
+
+        -- Actualizar la cantidad del libro          
+        UPDATE libros SET 
+        imagenportada = _imagenportada
+        WHERE idlibro = _idlibro;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_update_libro` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_update_libro` */;
@@ -3214,8 +3238,7 @@ DELIMITER $$
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
-    IN _idautor  INT,
-    IN _imagenportada VARCHAR(100)
+    IN _idautor  INT
 )
 BEGIN
 
@@ -3231,8 +3254,7 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion,
-        imagenportada = _imagenportada
+        descripcion = _descripcion
         WHERE idlibro = _idlibro;
         
         UPDATE detalleautores SET

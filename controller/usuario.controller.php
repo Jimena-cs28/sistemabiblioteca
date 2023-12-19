@@ -93,7 +93,7 @@ if(isset($_POST['operacion'])) {
       "apellidos"       =>   $_POST['apellidos'],
       "nombres"       =>   $_POST['nombres'],
       "dni"       =>   $_POST['dni'],
-      "fechan"       =>   $_POST['fechan'],
+      "fechanc"       =>   $_POST['fechanc'],
       "direccion"       =>   $_POST['direccion'],
       "telefono"       =>   $_POST['telefono'],
       "email"       =>   $_POST['email'],

@@ -106,7 +106,6 @@ BEGIN
 
 END $$
 
-
 DELIMITER $$
 CREATE PROCEDURE spu_update_libro
 (
@@ -122,8 +121,7 @@ CREATE PROCEDURE spu_update_libro
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
     IN _descripcion VARCHAR(200),
-    IN _idautor  INT,
-    IN _imagenportada VARCHAR(100)
+    IN _idautor  INT
 )
 BEGIN
 
@@ -139,12 +137,26 @@ BEGIN
         formato = _formato,
         anio = _anio,
         idioma = _idioma,
-        descripcion = _descripcion,
-        imagenportada = _imagenportada
+        descripcion = _descripcion
         WHERE idlibro = _idlibro;
         
         UPDATE detalleautores SET
         idautor = _idautor
+        WHERE idlibro = _idlibro;
+END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_update_img
+(
+    IN _idlibro INT, 
+    IN _imagenportada VARCHAR(100)
+)
+BEGIN
+
+        -- Actualizar la cantidad del libro          
+        UPDATE libros SET 
+        imagenportada = _imagenportada
         WHERE idlibro = _idlibro;
 END $$
 
