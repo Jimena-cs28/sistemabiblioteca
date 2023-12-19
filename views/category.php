@@ -27,11 +27,11 @@
                                 
                             </select>    
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="">SUBCATEGORIA</label>
                             <input type="text" class="form-control" required id="subcategoria">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label for="">CODIGO</label>
                             <input type="text" class="form-control" required="" id="codigo">
                         </div>
@@ -167,7 +167,11 @@
             .then(datos => {
                 // console.log(datos);
                 if(datos.status){
-                    document.querySelector("#form-categori").reset();
+                    document.querySelector("#subcategoria").value = '';
+                    document.querySelector("#codigo").value = '';
+                    traerSubcategoria();
+                }else{
+                    toastError("Este codigo ya ha sido registrado");
                 }
             });
             

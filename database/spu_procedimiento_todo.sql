@@ -64,6 +64,7 @@ END $$
 SELECT * FROM prestamos
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 12
 
+UPDATE subcategorias SET subcategoria ='Historia general de oceania, otras areas', codigo = '990' WHERE idsubcategoria = 99
 -- listar libros, ejemplar
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_detalleautores

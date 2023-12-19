@@ -48,6 +48,7 @@
                     <p class="text-center mt-4">
                         <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
                         <button type="button" class="btn btn-success" id="btAutor">Guardar</button>
+                        <a href="index.php?view=libros.php" class="btn btn-danger" >libros</a>
                     </p>
                 </div>
             </div>
