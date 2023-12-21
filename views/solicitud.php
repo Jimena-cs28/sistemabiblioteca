@@ -55,7 +55,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud" style="width: 80%;">
+                    <input type="text" placeholder="Motivo" id="txt-rechazarsolicitud" style="width: 80%;" class="form-control">
                     <div id="listejemplaresrechazar" class="mt-5">
 
                     </div>

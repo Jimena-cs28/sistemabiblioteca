@@ -62,13 +62,14 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
 
 <nav>
     <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
-    <h6>"Una santanina, una señorita de éxito"</h6>
+    <h5>"Una santanina, una señorita de éxito"</h5>
+    <a class="btn btn-outline-dark" href="../usuario/user.php">Inicio</a>        
+    <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
     <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
     <?php echo $_SESSION["login"]["nombres"] ?>
 </nav>
 
-
-<div class="container mt-5">
+<div class="container" id="div">
     <div class="col-md-6 offset-md-3">
         <div class="card p-4">
             <h4 class="text-center mb-4">Datos Personales</h4>
@@ -98,6 +99,11 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
     </div>
 </div>
 
+<style>
+    #div {
+      margin-top: 130px; /* Ajusta este valor según tus preferencias */
+    }
+</style>
 
 </body>
 </html>

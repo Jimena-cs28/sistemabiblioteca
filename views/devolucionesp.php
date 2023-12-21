@@ -223,16 +223,6 @@
         }, 3000); // 5000 milisegundos (5 segundos)
     }
 
-    function inicializarDataTables() {
-        $('#tablaD').DataTable({
-            // Personaliza según tus necesidades
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            },
-            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
-            pageLength: 10  // Número de filas por página
-        });
-    }
 
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
@@ -277,14 +267,13 @@
                 });
 
                 // Mostrar los mensajes de avisos flotantes
-                if (mensajesAvisosFlotantes.length > 0){
-                    mensajesAvisosFlotantes.forEach((nombre, indice) => {
-                        mostrarAvisoFlotante(`${nombre} no ha devuelto el libro`, indice);
-                    })
+                // if (mensajesAvisosFlotantes.length > 0){
+                    // mensajesAvisosFlotantes.forEach((nombre, indice) => {
+                        // mostrarAvisoFlotante(`${nombre} no ha devuelto el libro`, indice);
+                    // })
                     
-                }
+                // }
             }
-            inicializarDataTables();
         })
     }
 
@@ -311,14 +300,14 @@
                     const style = fechaPasada ? 'color: red;' : ''; 
                     idejemplar = element.idejemplar;
                     const Vopcion1 = `
-                    <tr style='${style}'>
+                    <tr>
                         <td>${element.idejemplar}</td>
                         <td>${element.libro}</td>
                         <td>${element.codigo} - ${element.codigo_libro}</td>
                         <td>${element.condicionentrega}</td>
                         <td>${element.ocupado}</td> 
                         <td>${element.condiciondevolucion || "-------------"}</td>
-                        <td>${element.fechadevolucion}</td>
+                        <td style='${style}'>${element.fechadevolucion}</td>
                         <td>
                             <a href='#modal' type='button' class='btn btn-danger btn-sm detallitosMala' data-toggle='modal' data-idejemplar='${element.idejemplar}' data-idlibroentregado='${element.idlibroentregado}' data-idprestamo='${element.idprestamo}'>recibir</a>
                         </td>

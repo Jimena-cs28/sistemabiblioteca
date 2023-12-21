@@ -674,7 +674,7 @@
             //Para binarios
             const fd = new URLSearchParams();
             fd.append("operacion","ActualizarLibro");
-            fd.append("idlibro", librocantidad.value);
+            fd.append("idlibro", librocantidad);
             fd.append("cantidad",document.querySelector("#Ecantidad").value);
             fd.append("condicion",document.querySelector("#Econdicion").value);
             
@@ -685,11 +685,11 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    toast("Se hizo bien")
-                    modalCantidad.toggle();
+                    // modalCantidad.toggle();
                     listadoLibro();
-                    traerEjemplar();
-                    traerEjemplar1();
+                    document.querySelector("#Ecantidad").value = ' '
+                    document.querySelector("#Econdicion").value = ' '
+                    toast("Se hizo bien")
                 }else{
                     toastError("no se guardo");
                 }
@@ -828,11 +828,11 @@
                 body: parametros
             })
             .then(response => response.json())
-            .then(datos => {
+            .then(result => {
                 //console.log(idlibro)
-                datos.forEach(element => {
+                result.forEach(element => {
                     selectcategoria.value = element.idcategoria;
-                    document.querySelector("#Esubcategoria").value = element.idsubcategoria;
+                    selectsubcategoria.value = element.idsubcategoria;
                     selectEditorial.value = element.ideditorial;
                     document.querySelector("#Elibro").value = element.libro;
                     document.querySelector("#Epaginas").value = element.numeropaginas;

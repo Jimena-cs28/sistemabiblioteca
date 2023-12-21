@@ -7,17 +7,18 @@
 }
 
 nav {
-    width: 100%;
     background: rgba(240, 95, 95, 0.966);
     display: flex;
     align-items: center;
     justify-content: space-around;
-
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-nav img {
-    height: 100px;
-}
 
 /* figure div div div div p{
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -111,7 +112,7 @@ figure {
 
 
 footer {
-    background: #4e4040;
+    background: #312929;
     padding: 60px 0 30px 0;
     margin: auto;
     overflow: hidden;

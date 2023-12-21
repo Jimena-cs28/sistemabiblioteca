@@ -130,28 +130,27 @@
 </div>
 
 <!-- modal cancelar -->
-<div> 
-    <div class="modal fade" id="rechazareserva">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Cancelar Reserva</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label for="">Motivo de cancelacion</label>
-                    <input type="text" placeholder="Motivo" id="rechazarreserva" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="btnrechazareserva" type="button" class="btn btn-primary">Guardar</button>
-                </div>
+<div class="modal fade" id="rechazareserva">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Cancelar Reserva</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Motivo de cancelacion</label>
+                <input type="text" placeholder="Motivo" id="rechazarreserva" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button id="btnrechazareserva" type="button" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     let idprestamo = '';
@@ -202,12 +201,12 @@
             datos.forEach(element => {
                 const FechaPrestamo = new Date(element.fechaprestamo);
                 const fechapasada = FechaPrestamo < actual;
-                if(fechapasada){
-                    mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
-                }
+                // if(fechapasada){
+                //     mostrarAvisoFlotante(`${element.nombres} no ha recogido su libro`);
+                // }
                 const style = fechapasada ? 'color: red;' : '';
                 const reserva = `
-                <div class="col-md-6 card-deck">
+                <div class="col-md-4 card-deck">
                     <div class="card mb-3 overflow-hidden rounded-2" style="max-width: 500px;" >
                         <div class="row g-0">
                             <div class="col-md-5">

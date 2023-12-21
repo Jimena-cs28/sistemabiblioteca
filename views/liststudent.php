@@ -22,7 +22,7 @@
                 </label>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
             </div>
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table" id="tablasub" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -154,7 +154,7 @@
     const btGuardarE = document.querySelector("#guadarEditar");
     const Editar = new bootstrap.Modal(document.querySelector("#editar"));
 
-    
+
     function listarEstudiante(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarestudiantes")
@@ -189,6 +189,7 @@
                 `;
                 cuerpo.innerHTML += estu;
             });
+            // inicializarDataTablesL();
         })
     }
 

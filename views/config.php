@@ -46,8 +46,8 @@
                         </div>
                     </form>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
-                        <button type="button" class="btn btn-success" id="btAutor">Guardar</button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 20px;" id="">Ver</button>
+                        <button type="button" class="btn btn-info" id="btAutor" >Guardar</button>
                     </p>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 
                     </form>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
+                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Ver</button>
                         <button type="button" class="btn btn-primary" id="btguardarE">Guardar</button>
                     </p>
                 </div>
@@ -151,7 +151,7 @@
                         </div>
                     </form>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-info" style="margin-right: 20px;">Limpiar</button>
+                        <button type="button" class="btn btn-info" style="margin-right: 20px;">Ver</button>
                         <button type="button" class="btn btn-primary" id="btguardarC">Guardar</button>
                     </p>
                 </div>

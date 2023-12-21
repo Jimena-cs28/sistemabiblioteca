@@ -36,27 +36,32 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         }
     </style>
 
-    <nav>
+    <nav class="fixed-top mb-4">
         <a href="./user.php"><img class="img" src="../../img/logo2.png" alt="logo"></a>
         <h5>"Una santanina, una señorita de éxito"</h5>
+        <a class="btn btn-outline-dark" href="../usuario/user.php">Inicio</a>
+        <a class="btn btn-outline-dark" href="../usuario/datospersonales.php">Ver Perfil</a>
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
 			</p>
-
     </nav>
-    <h4>LIBROS SOLICITADOS</h4>
+
+    <h4 >LIBROS SOLICITADOS</h4>
+
     <style>
-    h4 {
-            text-align: center;
-            margin-top: 0;
-            background-color: #4e4040;/*color de fondo*/
-            padding: 10px;
-            color: white; /* Color del texto en el título */
-        }
-</style>
+        h4 {
+                text-align: center;
+                margin-top: 120px;
+                background-color: #4e4040;/*color de fondo*/
+                padding: 10px;
+                color: white; /* Color del texto en el título */
+            }
+    </style>
 
-    <div class="row" id="contenedor">
-
+    <div class="container-fluid">
+        <div class="row" id="contenedor">
+            
+        </div>
     </div>
 
     <script>
