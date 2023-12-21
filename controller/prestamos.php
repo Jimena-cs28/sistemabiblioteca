@@ -202,7 +202,12 @@
         echo json_encode($datos);
       }
     }
-
+    if($_POST['operacion'] == 'traerRol'){
+      $datos = $prestamo->traerRol($_POST['idrol']);
+      if($datos){
+        echo json_encode($datos);
+      }
+    }
   }
   
 

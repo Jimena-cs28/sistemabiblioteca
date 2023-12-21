@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if (isset($_SESSION['login']) && $_SESSION['login']['nombrerol']){
+  header("Location:../");
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -344,4 +344,17 @@ class Prestamos extends conexion{
       die($e->getMessage());
     }
   }
+
+  public function traerRol($idrol){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_rol(?)");
+      $consulta->execute(array($idrol));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
 }

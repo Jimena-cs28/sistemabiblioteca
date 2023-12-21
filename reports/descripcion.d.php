@@ -1,6 +1,6 @@
 <div class="">
     <img class="img" src="../img/logo2.png" alt="logo">
-    <h1 class="text-md text-center mb-4">REPORTE DEL HISTORIAL DE LIBROS PEDIDOS</h1>
+    <h1 class="text-md text-center">REPORTE DEL HISTORIAL DE LOS USUARIOS</h1>
 </div>
 <?php foreach($datosGroup as $registros): ?>
     <h3 class="text-end mt-2">Nombres:    <?=$registros['nombres']?></h3>

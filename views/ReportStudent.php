@@ -115,6 +115,7 @@
     function PDFdescripcion(){
         const parametros = new URLSearchParams();
         parametros.append("descripcion", parseInt(document.querySelector("#selectUser").value));
+        parametros.append("titulo", selectUser.options[selectUser.selectedIndex].text);
         window.open(`../reports/descripcion.r.php?${parametros}`,'_blank');
     }
     TraerD.addEventListener("click", PDFdescripcion);

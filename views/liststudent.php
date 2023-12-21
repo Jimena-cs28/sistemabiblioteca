@@ -17,10 +17,10 @@
     <div class="card-body">
         <div class="table-responsive">
             <div id="dataTable_filter" class="dataTables_filter">
-                <label for="">Search
+                <!-- <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable">
-                </label>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
+                </label> -->
+                <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
             </div>
             <table class="table" id="tablasub" width="100%" cellspacing="0">
                 <thead>
@@ -189,7 +189,6 @@
                 `;
                 cuerpo.innerHTML += estu;
             });
-            // inicializarDataTablesL();
         })
     }
 

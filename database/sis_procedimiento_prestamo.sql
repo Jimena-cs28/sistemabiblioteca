@@ -73,14 +73,14 @@ BEGIN
     DECLARE _rolusuario VARCHAR(50);
 
     -- Obtiene el rol del usuario del préstamo
-    SELECT r.nombrerol INTO _rolusuario
+    SELECT r.idrol INTO _rolusuario
     FROM prestamos p
     JOIN usuarios u ON p.idbeneficiario = u.idusuario
     JOIN roles r ON u.idrol = r.idrol
     WHERE p.idprestamo = _idprestamo;
 
     -- Verifica si el rol del usuario es "Estudiante"
-    IF _rolusuario = 'Estudiante' THEN
+    IF _rolusuario = 3 THEN
         -- Verifica si ya hay un ejemplar registrado para el préstamo
         IF EXISTS (SELECT 1 FROM librosentregados WHERE idprestamo = _idprestamo) THEN
             SIGNAL SQLSTATE '45000'
@@ -108,9 +108,21 @@ BEGIN
     END IF;
 END $$
 
-SELECT * FROM usuarios
+SELECT * FROM roles
 CALL spu_libroentregado_register(136,2,'Usado','2023-12-20');
 CALL spu_libroentregado_register(136,3,'Usado','2023-12-20');
+
+DELIMITER $$
+CREATE PROCEDURE spu_traer_rol
+(
+	IN _idrol INT
+) 
+BEGIN
+	SELECT idusuario, roles.idrol, roles.nombrerol
+	FROM usuarios 
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idusuario = _idrol;
+END $$
 
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
 SELECT * FROM roles

@@ -47,66 +47,100 @@
 <script>
     const cuerpo = document.querySelector("tbody");
     const btGuardar = document.querySelector("#Traer");
+    
+    const tablaP = new DataTable('#tablareporte', {        
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Excel',
+                className: 'btn btn-dark'
+            }
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
 
     function listarReporte() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion", "listarReporte");
+        parametros.append('operacion', 'listarReporte');
 
         fetch("../controller/reporte.php", {
             method: 'POST',
             body: parametros
         })
         .then(response => response.json())
-        .then(datos => {
-            // Destruir la tabla existente antes de agregar nuevas filas
-            if ($.fn.DataTable.isDataTable('#tablareporte')) {
-                $('#tablareporte').DataTable().destroy();
-            }
-
-            // Crear la tabla nuevamente con los nuevos datos
-            tablaP = $('#tablareporte').DataTable({
-                dom: 'Bfrtip',
-                buttons: [ 'print','excel', 'pdf', 'copy'],
-                language: {
-                    url: '../js/Spanish.json'
-                },
-                order: [[0, "desc"]],
-                columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true,
-                        serverSide: true,
-                        pageLength: 10
-                    }
-                ],
-                data: datos, // Utilizar el arreglo de datos directamente
-                columns: [
-                    { data: 'idcategoria' },
-                    { data: 'categoria' },
-                    { data: 'codigo' },
-                    { data: 'CantidadPrestada' }
-                ]
+        .then(result => {
+            // Limpiar la tabla antes de agregar nuevas filas
+            tablaP.clear();
+            // Agregar filas a la tabla
+            result.forEach(element => {
+                // const filaoperaciones =`<td>da${elemen}</td>`;
+                tablaP.row.add([
+                    element.idcategoria,
+                    element.categoria,
+                    element.codigo,
+                    element.CantidadPrestada,
+                    // filaoperaciones
+                ]);
             });
-        });
+            // Dibujar la tabla
+            tablaP.draw();
+        })
+        .catch(error => console.error('Error en la solicitud fetch:', error));
     }
 
-    // Inicializar la tabla vacía al principio
-    // $('#tablareporte').DataTable({
-    //     dom: 'Bfrtip',
-    //     buttons: ['excel', 'pdf', 'copy'],
-    //     language: {
-    //         url: '../js/Spanish.json'
-    //     },
-    //     order: [[0, "desc"]],
-    //     columnDefs: [
-    //         {
-    //             visible: true,
-    //             searchable: true,
-    //             serverSide: true,
-    //             pageLength: 10
+    // function listarReporte() {
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "listarReporte");
+
+    //     fetch("../controller/reporte.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         // Destruir la tabla existente antes de agregar nuevas filas
+    //         if ($.fn.DataTable.isDataTable('#tablareporte')) {
+    //             $('#tablareporte').DataTable().destroy();
     //         }
-    //     ]
-    // });
+
+    //         // Crear la tabla nuevamente con los nuevos datos
+    //         tablaP = $('#tablareporte').DataTable({
+    //             dom: 'Bfrtip',
+    //             buttons: [ 'print','excel', 'pdf', 'copy'],
+    //             language: {
+    //                 url: '../js/Spanish.json'
+    //             },
+    //             order: [[0, "desc"]],
+    //             columnDefs: [
+    //                 {
+    //                     visible: true,
+    //                     searchable: true,
+    //                     serverSide: true,
+    //                     pageLength: 10
+    //                 }
+    //             ],
+    //             data: datos, // Utilizar el arreglo de datos directamente
+    //             columns: [
+    //                 { data: 'idcategoria' },
+    //                 { data: 'categoria' },
+    //                 { data: 'codigo' },
+    //                 { data: 'CantidadPrestada' }
+    //             ]
+    //         });
+    //     });
+    // }
 
     function PDF(){
         const parametros = new URLSearchParams();

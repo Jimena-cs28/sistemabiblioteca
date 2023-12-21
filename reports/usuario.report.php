@@ -11,6 +11,8 @@ try {
   //instanciar clase 
     $report = new Reporte();
     $datos = $report->reporteUsuario($_GET['idusuario']);
+    $titulo1 = $_GET['titulo'];
+
     ob_start();
 
 
