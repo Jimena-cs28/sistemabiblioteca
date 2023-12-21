@@ -12,7 +12,7 @@ class Libro extends conexion{
   
   public function selectcategoria(){
     try {
-      $consulta = $this->acesso->prepare("SELECT idcategoria, categoria FROM categorias");
+      $consulta = $this->acesso->prepare("SELECT *  FROM categorias");
       $consulta->execute();
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo

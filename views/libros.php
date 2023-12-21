@@ -142,7 +142,7 @@
         selectcategoria.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let select = `
-                    <option value='${element.idcategoria}'>${element.categoria}</option> 
+                    <option value='${element.idcategoria}'>${element.categoria} - ${element.codigo}</option> 
                 `;
                 selectcategoria.innerHTML += select;
             });
@@ -162,7 +162,7 @@
         selectsubcategoria.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let opcion1 = `
-                    <option value='${element.idsubcategoria}'>${element.subcategoria}</option>`;
+                    <option value='${element.idsubcategoria}'>${element.subcategoria} - ${element.codigo}</option>`;
                     selectsubcategoria.innerHTML += opcion1;  
             });
                 

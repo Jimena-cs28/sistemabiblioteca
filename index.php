@@ -1,9 +1,9 @@
 <?php
-session_start();
+// session_start();
 
-if (isset($_SESSION['login']) && $_SESSION['login']['nombrerol']){
-  header("Location:../");
-}
+// if (isset($_SESSION['login']) && $_SESSION['login']['nombrerol']){
+  // header("Location:../");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="es">

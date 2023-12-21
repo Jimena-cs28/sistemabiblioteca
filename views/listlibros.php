@@ -17,6 +17,9 @@
     <div class="card-body">
         <div class="table-responsive">
             <div class="col-md-6">
+                <label for="">Search
+                    <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
+                </label>
                 <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
                 <button class="btn btn-primary mb-2 ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
             </div>
@@ -424,7 +427,6 @@
     const imgE = document.querySelector("#Efotografia");
     let iddetalleautor = '';
     let idlibro = '';
-
     checkImg.addEventListener('change', function() {
         imgE.disabled = !checkImg.checked;
     });
@@ -917,8 +919,46 @@
         }
     });
 
+    function seachBook(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "buscarBook");
+        parametros.append("nombre", nombre.value);
+        fetch("../controller/libros.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpo.innerHTML = ``;
+            datos.forEach(element => {
+                const libro = `
+                <tr>
+                    <td>${element.idlibro}</td>
+                    <td>${element.categoria}</td>
+                    <td>${element.subcategoria}</td>
+                    <td>${element.libro}</td>
+                    <td>${element.codigo}</td>
+                    <td>${element.cantidad}</td>
+                    <td>${element.autor}</td>
+                    <td>${element.Disponible}</td>
+                    <td>
+                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
+                    </td>
+                    <td>
+                        <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
+                    </td>
+                </tr>
+                `;
+                cuerpo.innerHTML += libro;
+            });
+        })
+    }
+
     Selectlibro();
     listarEditorial();
     listadoLibro();
     selectcategoria.addEventListener("change", selectsubCategoria);
+    nombre.addEventListener("keypress", (evt) => {
+        if(evt.charCode == 13) seachBook();
+    });
 </script>
