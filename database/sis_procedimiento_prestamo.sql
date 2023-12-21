@@ -18,15 +18,16 @@ BEGIN
 			(_idbeneficiario, _idbibliotecario,_fechaprestamo,_descripcion,_enbiblioteca,_lugardestino, 'E');
 END $$
 
-CALL spu_registrar_prestamo_reservar(2,1,'2023-11-22',"2A","SI","");
+CALL spu_registrar_prestamo_reservar(5,1,'2023-12-20',"Ciencia","SI","");
+
 SELECT * FROM prestamos;
 
-SELECT * FROM ejemplares
+SELECT * FROM usuarios
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 38 -- 25
 
 SELECT * FROM librosentregados
 -- ejecutado RESERVAR
-DELIMITER $$
+DELIMITER $$ -- NO LISTO
 CREATE PROCEDURE spu_libroentregado_register
 (
 	IN _idprestamo INT,
@@ -59,11 +60,63 @@ BEGIN
         WHERE idusuario = _idbene;
 END $$
 
-CALL spu_libroentregado_register(2,1,'2023-11-30');
+-- LISTO
+DELIMITER $$
+CREATE PROCEDURE spu_libroentregado_register
+(
+	IN _idprestamo INT,
+	IN _idejemplar INT,
+	IN _condicionentrega VARCHAR(30),
+	IN _fechadevolución DATETIME
+)
+BEGIN
+    DECLARE _rolusuario VARCHAR(50);
+
+    -- Obtiene el rol del usuario del préstamo
+    SELECT r.nombrerol INTO _rolusuario
+    FROM prestamos p
+    JOIN usuarios u ON p.idbeneficiario = u.idusuario
+    JOIN roles r ON u.idrol = r.idrol
+    WHERE p.idprestamo = _idprestamo;
+
+    -- Verifica si el rol del usuario es "Estudiante"
+    IF _rolusuario = 'Estudiante' THEN
+        -- Verifica si ya hay un ejemplar registrado para el préstamo
+        IF EXISTS (SELECT 1 FROM librosentregados WHERE idprestamo = _idprestamo) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Los estudiantes solo pueden registrar un ejemplar por préstamo.';
+        END IF;
+    END IF;
+
+    -- Registra el libro entregado
+    INSERT INTO librosentregados (idprestamo, idejemplar,condicionentrega, fechadevolucion)
+    VALUES (_idprestamo, _idejemplar,_condicionentrega, _fechadevolución);
+
+    -- Actualiza el estado del préstamo y del ejemplar
+    UPDATE prestamos SET estado = 'R' WHERE idprestamo = _idprestamo;
+    UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = _idejemplar;
+
+    -- Desactiva al usuario si es estudiante y ha entregado un ejemplar
+    IF _rolusuario = 'Estudiante' THEN
+        UPDATE usuarios
+        SET estado = '0', inactive_at = NOW()
+        WHERE idusuario = (SELECT idbeneficiario FROM prestamos WHERE idprestamo = _idprestamo);
+    ELSE
+	UPDATE usuarios
+        SET estado = '0', inactive_at = NOW()
+        WHERE idusuario = (SELECT idbeneficiario FROM prestamos WHERE idprestamo = _idprestamo);
+    END IF;
+END $$
+
+SELECT * FROM usuarios
+CALL spu_libroentregado_register(136,2,'Usado','2023-12-20');
+CALL spu_libroentregado_register(136,3,'Usado','2023-12-20');
+
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
-SELECT * FROM ejemplares
+SELECT * FROM roles
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
 SELECT * FROM librosentregados
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo
@@ -106,6 +159,7 @@ CREATE PROCEDURE spu_libroentregado_AddAhora
 (
 	IN _idprestamo INT,
 	IN _idejemplar INT,
+	IN _condicionentrega VARCHAR(50),
 	IN _fechadevolución DATETIME
 )
 BEGIN
@@ -117,8 +171,8 @@ BEGIN
 	WHERE idprestamo = _idprestamo;
 
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idejemplar,fechadevolucion) VALUES
-			(_idprestamo,_idejemplar,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega, fechadevolucion) VALUES
+			(_idprestamo,_idejemplar,_condicionentrega,_fechadevolución);
         
         UPDATE prestamos SET
         estado = 'D',
@@ -167,11 +221,11 @@ END $$
 
 CALL spu_cancelar_reserva(4)
 
-SELECT * FROM libros -- 4
+SELECT * FROM prestamos -- 4
 -- LISTAR LIBROS EN PRESTAMO
 SELECT * FROM librosentregados
 
-SELECT * FROM l
+SELECT * FROM usuarios
 
 UPDATE libros SET
 imagenportada = 'cee4cdd14588a258d38a114810164b887a053492.jpg'
@@ -212,7 +266,7 @@ BEGIN
 	GROUP BY prestamos.idprestamo DESC;
 END $$
 
-SELECT * FROM prestamos
+SELECT * FROM ejemplares
 
 CALL spu_listar_entregaspendiente();
 DELIMITER $$ -- ejecutado
@@ -228,26 +282,6 @@ BEGIN
 END $$
 -- QUEDE----------------------------------
 SELECT * FROM libros
--- ACTUALIZAR F PRESTA,P Y DEVOLUCION
-DELIMITER $$
-CREATE PROCEDURE spu_editar_Ependientes
-(
-	IN _idlibroentregado INT,
-	IN _idprestamo INT,
-	IN _fechadevolucion DATETIME,
-	IN _fechaprestamo DATETIME
-)
-BEGIN
-	UPDATE librosentregados SET
-	fechadevolucion = _fechadevolucion
-	WHERE idlibroentregado = _idlibroentregado;
-	
-	UPDATE prestamos SET
-	fechaprestamo = _fechaprestamo,
-	estado = 'R'
-	WHERE idprestamo = _idprestamo;
-END $$
-
 CALL spu_editar_Ependientes(9,3,'2023-10-24','2023-10-22');
 
 -- Contadores 

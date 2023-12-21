@@ -123,48 +123,48 @@
         })
     }
 
-    function UpdateUsers(){
-        if(confirm("¿Esta seguro de guardar?")){
-            //Para binarios
-            const fd = new URLSearchParams();
-            fd.append("operacion","updateAdmin");
-            fd.append("idusuario", idUsuario);
-            fd.append("apellidos",apellidos.value);
-            fd.append("nombres",datosN.value);
-            fd.append("dni", dni.value);
-            fd.append("fechanc",fechanac.value);
-            fd.append("direccion",direccion.value);
-            fd.append("telefono",telefono.value);
-            fd.append("email",correo.value);
-            fd.append("usuario",user.value);
+    // function UpdateUsers(){
+    //     if(confirm("¿Esta seguro de guardar?")){
+    //         //Para binarios
+    //         const fd = new URLSearchParams();
+    //         fd.append("operacion","updateAdmin");
+    //         fd.append("idusuario", idUsuario);
+    //         fd.append("apellidos",apellidos.value);
+    //         fd.append("nombres",datosN.value);
+    //         fd.append("dni", dni.value);
+    //         fd.append("fechanc",fechanac.value);
+    //         fd.append("direccion",direccion.value);
+    //         fd.append("telefono",telefono.value);
+    //         fd.append("email",correo.value);
+    //         fd.append("usuario",user.value);
             
-            fetch("../controller/usuario.controller.php",{
-                method: "POST",
-                body: fd
-            }) 
-            .then(response => response.json())
-            .then(datos => {
-                if(datos.status){
-                    console.log("echo")
-                    toast("Actualizado");
-                    datosN.disabled = ckEditar.checked;
-                    fechanac.disabled = ckEditar.checked;
-                    dni.disabled = ckEditar.checked;
-                    correo.disabled = ckEditar.checked;
-                    direc.disabled = ckEditar.checked;
-                    user.disabled = ckEditar.checked;
-                    telefono.disabled = ckEditar.checked;
-                    apellidos.disabled = ckEditar.checked;
-                    btEditar.style.display = ckEditar.checked ? 'inline-none' : 'block';
-                    // Editar.toggle();
-                }else{
-                    console.log("no echo")
-                    toastError("Error de Actualización");
-                }
-            });
-        }
-    }
+    //         fetch("../controller/usuario.controller.php",{
+    //             method: "POST",
+    //             body: fd
+    //         }) 
+    //         .then(response => response.json())
+    //         .then(datos => {
+    //             if(datos.status){
+    //                 console.log("echo")
+    //                 toast("Actualizado");
+    //                 datosN.disabled = ckEditar.checked;
+    //                 fechanac.disabled = ckEditar.checked;
+    //                 dni.disabled = ckEditar.checked;
+    //                 correo.disabled = ckEditar.checked;
+    //                 direc.disabled = ckEditar.checked;
+    //                 user.disabled = ckEditar.checked;
+    //                 telefono.disabled = ckEditar.checked;
+    //                 apellidos.disabled = ckEditar.checked;
+    //                 btEditar.style.display = ckEditar.checked ? 'inline-none' : 'block';
+    //                 // Editar.toggle();
+    //             }else{
+    //                 console.log("no echo")
+    //                 toastError("Error de Actualización");
+    //             }
+    //         });
+    //     }
+    // }
 
-    btEditar.addEventListener("click", UpdateUsers);
+    // btEditar.addEventListener("click", UpdateUsers);
     traerDatos();
 </script>

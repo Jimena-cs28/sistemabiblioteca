@@ -38,16 +38,16 @@
                             
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="form-check col-md-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="filstudent">
-                                <label class="form-check-label" for="inlineCheckbox1">ESTUDIANTES</label>
+                                <input class="form-check-input" type="radio" id="filstudent" name="flexRadioDefault">
+                                <label class="form-check-label" for="flexRadioDefault1">ESTUDIANTES</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="filtteacher">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filtteacher">
                                 <label class="form-check-label" for="flexRadioDefault2">PROFESORES</label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- aqui va lo que dijo irene -->
                     <div class="ml-5 row mt-3">
@@ -193,6 +193,7 @@
             fila.remove();
         })
     }
+
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
             prestamoDiv.style.display = 'block';
@@ -265,71 +266,38 @@
             }
         })
     }
-    const Fstudent = document.querySelector("#filstudent");
-    const Fteacher = document.querySelector("#filtteacher");
-    Fstudent.addEventListener("change", function() {
-        if(Fstudent.checked){
-            // const choiselistarStudent = new Choices(filtroStudent, {
-            //     searchEnabled: true,
-            //     itemSelectText: '',
-            //     allowHTML:true
-            // });
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","filtrobeneficiario");
 
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                // console.log(datos);
-                filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
-                datos.forEach(element => {
-                    const optionE = document.createElement("option");
-                    optionE.value = element.idusuario;
-                    optionE.text = element.nombres;
-                    // optionE.setAttribute('data-nombrerol', element.nombrerol);
-                    // const nombrerols =  optionE.dataset.nombrerol;
-                    filtroStudent.appendChild(optionE);
-                });
-                // choiselistarStudent.setChoices([], 'value','label',true);
-                // choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
-            })
-        }
-    })
+    function listarUser(){
+        const choiselistarStudent = new Choices(filtroStudent, {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML:true
+        });
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","filtrobeneficiario");
 
-    Fteacher.addEventListener("change", function() {
-        if(Fteacher.checked){
-            // const choiserTeacher = new Choices(filtroStudent, {
-            // searchEnabled: true,
-            // itemSelectText: '',
-            // allowHTML:true
-            // });
-            const parametros = new URLSearchParams();
-            parametros.append("operacion","filtroTeacher");
+        fetch("../controller/prestamos.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            // console.log(datos);
+            filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                const optionE = document.createElement("option");
+                optionE.value = element.idusuario;
+                optionE.text = element.nombres;
+                optionE.setAttribute('data-nombrerol', element.nombrerol);
+                // const nombrerols =  optionE.dataset.nombrerol;
+                filtroStudent.appendChild(optionE);
+            });
+            choiselistarStudent.setChoices([], 'value','label',true);
+            choiselistarStudent.setChoices(datos, 'idusuario','nombres', true);
+        })
+    }
 
-            fetch("../controller/prestamos.php",{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                // console.log(datos);
-                filtroStudent.innerHTML = "<option value=''>Seleccione</option>";
-                datos.forEach(element => {
-                    const optionE = document.createElement("option");
-                    optionE.value = element.idusuario;
-                    optionE.text = element.nombres;
-                    // optionE.setAttribute('data-nombrerol', element.nombrerol);
-                    // const nombrerols =  optionE.dataset.nombrerol;
-                    filtroStudent.appendChild(optionE);
-                });
-                // choiserTeacher.setChoices([], 'value','label',true);
-                // choiserTeacher.setChoices(datos, 'idusuario','nombres', true);
-            })
-        }
-    })
+    listarUser();
 
     biblioteca.addEventListener("change", function(event){
         const valor = event.target.value
@@ -340,12 +308,6 @@
             divLugar.classList.add("d-none")
         }
     })
-
-    // filtroStudent.addEventListener("change", function () {
-    //     const optionSeleccionada = this.options[this.selectedIndex];
-    //     const nombrerol = optionSeleccionada.getAttribute('data-nombrerol');
-    //     console.log(nombrerol);
-    // });
 
     function conseguirlibros(){
         const choiselistarlibro = new Choices(libro, {
@@ -373,8 +335,6 @@
             });
             choiselistarlibro.setChoices([], 'value','label',true);
             choiselistarlibro.setChoices(datos, 'idlibro','libro', true);
-            
-            // listarEjemplares();
         });
     }
 
@@ -414,26 +374,15 @@
     function agregarLibros() {
         const cantidadLibros = parseInt(document.getElementById('cantidad').value);
         const elementosSelect = Array.from(filtroEjempla.options);
-        // const cantidadAgregada = 0;
+        const usuarioSeleccionado = filtroStudent.value;
+        const rolUsuario = filtroStudent.selectedOptions[0].dataset.nombrerol;
 
-        // Verificar si el estudiante ya ha seleccionado un libro
-        // if (filtroStudent.dataset.nombrerol = 'Estudiante' && libroAgregados.size > 0) {
-        //     toastError("Los estudiantes solo pueden agregar un libro a la vez.");
-        //     return;
-        // }
-        // Iterar sobre la cantidad especificada de libros
-        
         for (let i = 0; i < cantidadLibros; i++) {
-            // Obtener el índice actual
-            // if(){
-            //     alert("jajaja");
-            //     return
-            // }
-            // if (Fstudent.checked && libroAgregados.size > 0 && cantidadAgregada >= 1) {
-            //     toastError("Los estudiantes solo pueden agregar un libro a la vez.");
-            //     return;
-            // }
 
+            if (rolUsuario === 'Estudiante' && tablalibro.rows.length > 0) {
+                toastError("Los estudiantes solo pueden agregar un ejemplar.");
+                return;
+            }
             const indiceActual = i % elementosSelect.length;
             // Obtener el elemento del select en el índice actual
             const idlejemplarSeleccionado = elementosSelect[indiceActual];

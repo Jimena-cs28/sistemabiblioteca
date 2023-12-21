@@ -27,9 +27,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         .img1{
             margin-left: 70%;
         }
+        #featured{
+            margin-left: 10%;
+            margin-right: 10%;
+        }
     </style>
 
-    <nav>
+    <nav class="fixed-top mb-4">
         <img class="img" src="../../img/logo2.png" alt="logo">
         <h5>"Una santanina, una señorita de éxito"</h5>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
@@ -37,21 +41,20 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
         <a class="btn btn-outline-dark" href="../../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
         <?php echo $_SESSION["login"]["nombres"]?>
 			</p>
-
     </nav>
     <!-- fondo de portada-->
-    <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-        <img src="../../img/fondo.jpg" class="d-block w-100" alt="banner 1">
+    <div id="carouselExampleControlsNoTouching" class="carousel slide mt-5" data-bs-touch="false">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../../img/fondo.jpg" class="d-block w-100 mt-5" alt="banner 1">
+            </div>
+        </div>
     </div>
-    </div>
-</div>
     
     <!--Section Libros-->
     <!-- Filtra categorías y subcategorías -->
 
-    <section class="featured" id="featured">
+    <section class="featured mt-5 ml-4" id="featured">
         <div class="row mb-4">
             <div class="col-md-4">
                 <label for="categoria" class="form-label form-label text-center">CATEGORÍA</label>
@@ -69,11 +72,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <!-- Buscar por nombre del libro -->
             <div class="mt-4">
                 <input placeholder="Buscar libro" type="text" id="buscador" name="buscador" class="campo-busqueda">
-            </div>
-
-            <!-- Botón buscar -->
-            <div class="col-md-3 mt-4">
-                <button class="btn btn-primary" id= "buscarlibro">Buscar</button>
+                <button class="btn btn-dark ml-4" id= "buscarlibro">Buscar</button>
             </div>
 
     
@@ -184,7 +183,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
                                     </ul>
                                 </div>
                                 <div class="text-center">
-                                    <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-primary btn-sm mt-2">Ver más</a>
+                                    <a href="../../views/usuario/detallelibro.php?idlibro=${element.idlibro}" class="btn btn-dark btn-sm mt-2">Ver más</a>
                                 </div>
                             </div>
                         </div>

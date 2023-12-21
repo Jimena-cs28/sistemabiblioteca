@@ -19,7 +19,7 @@
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#docente">Docentes</button>
 
         <div class="table-responsive">
-            <table class="table table-bordered" id="" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="tablateacher" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -148,6 +148,17 @@
         const cuerpoI = tabla.querySelector("tbody");
         const bte = document.querySelector("#guadarlibro");
         
+        function inicializarDataTablesTeacher() {
+            $('#tablateacher').DataTable({
+                // Personaliza según tus necesidades
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                },
+                order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
+                pageLength: 10  // Número de filas por página
+            });
+        }
+
         function listarDocente(){
             const parametros = new URLSearchParams();
             parametros.append("operacion","listarDocente")
@@ -181,6 +192,7 @@
                     `;
                     cuerpo.innerHTML += estu;
                 });
+                inicializarDataTablesTeacher();
             })
         }
 

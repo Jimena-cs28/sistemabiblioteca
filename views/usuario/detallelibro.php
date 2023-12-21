@@ -50,66 +50,66 @@ $estado = $result[0]['estado'];
         
     </nav>
 
-    <section class="grid mt-4">
-    <div id="infoLibro"></div>
-    <div style="margin-top: 50px;">
-        <form>
-            <div class="form-row mt-2">
-                <h4>Solicitud de Préstamo</h4>
+        <section class="grid">
+            <div id="infoLibro"></div>
+            <div style="margin-top: 50px;">
+                <form>
+                    <div class="form-row mt-2">
+                        <h4>Solicitud de Préstamo</h4>
 
-                <div class="form-group col-md-3 mt-3">
-                    <label for="fechaprestamo">Fecha de préstamo</label>
-                    <input type="date" class="form-control" id="fechaprestamo">
-                </div>
+                        <div class="form-group col-md-3 mt-3">
+                            <label for="fechaprestamo">Fecha de préstamo</label>
+                            <input type="date" class="form-control" id="fechaprestamo">
+                        </div>
 
-                <input type="text" hidden id="rol" value="<?php echo $_SESSION['login']['nombrerol']?>">
+                        <input type="text" hidden id="rol" value="<?php echo $_SESSION['login']['nombrerol']?>">
 
-                <div id="contenedor-cantidad" class="form-group col-md-3 mt-3">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" class="form-control form-control-sm" id="cantidad">
-                </div>
+                        <div id="contenedor-cantidad" class="form-group col-md-3 mt-3">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="number" class="form-control form-control-sm" id="cantidad">
+                        </div>
 
-                <div class="form-group col-md-3 mt-3">
-                    <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
-                    <select class="form-control" required="" data-placement="top" id="enbiblioteca">
-                        <option value="">Seleccione</option>
-                        <option value="SI">Sí</option>
-                        <option value="NO">No</option>
-                    </select>
-                </div>
+                        <div class="form-group col-md-3 mt-3">
+                            <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
+                            <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+                                <option value="">Seleccione</option>
+                                <option value="SI">Sí</option>
+                                <option value="NO">No</option>
+                            </select>
+                        </div>
 
-                <div id="contenedor-lugar" class="form-group col-md-3 mt-3 d-none">
-                    <label for="lugar" class="form-label bold">Lugar</label>
-                    <select class="form-control" id="lugar">
-                        <option value="">Seleccione</option>
-                        <option value="aula">Aula</option>
-                        <option value="laboratorio">Laboratorio</option>
-                        <option value="otros">Otros</option>
-                    </select>
-                </div>
+                        <div id="contenedor-lugar" class="form-group col-md-3 mt-3 d-none">
+                            <label for="lugar" class="form-label bold">Lugar</label>
+                            <select class="form-control" id="lugar">
+                                <option value="">Seleccione</option>
+                                <option value="aula">Aula</option>
+                                <option value="laboratorio">Laboratorio</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
 
-                <div class="form-group col-md-4 mt-3">
-                    <label for="descripcion" class="form-label bold" id="des">Descripción</label>
-                    <input type="text" class="form-control" id="descripcion" placeholder="Opcional">
-                </div>
-                <!--Validación sentenciar usuarios-->
-                <div class="mt-4 mb-4">
-                    <?php 
-                    if($estado==1){
-                        echo '<button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>';
-                    }
-                    else{
-                        echo '<span style="color:red ">Usted no puede solicitar porque está inhabilitado</span>';
-                    }
-                    ?>
-                </div>
+                        <div class="form-group col-md-4 mt-3">
+                            <label for="descripcion" class="form-label bold" id="des">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" placeholder="Opcional">
+                        </div>
+                        <!--Validación sentenciar usuarios-->
+                        <div class="mt-4 mb-4">
+                            <?php 
+                            if($estado==1){
+                                echo '<button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>';
+                            }
+                            else{
+                                echo '<span style="color:red ">Usted no puede solicitar porque está Sanciona@</span>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-</section>
+        </section>
 
     
-    <!-- <footer id="foot">
+    <footer id="foot">
         <div class="contenedor-footer">
             <div class="content-footer">
                 <h4>Ubicación</h4>
@@ -128,14 +128,14 @@ $estado = $result[0]['estado'];
                 <p>(056)784813</p>
             </div>
         </div>
-    </footer> -->
+    </footer> 
 
     <style>
     .grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
-        margin-top: 20px;
+        margin-top: 120px;
     }
 
     form {
@@ -304,11 +304,10 @@ $estado = $result[0]['estado'];
                 })
                 }})
             }
-
             Solicitar.addEventListener("click", RegistrarPrestamo);
 
             
-    });
+        });
     </script>
 </body>
 
