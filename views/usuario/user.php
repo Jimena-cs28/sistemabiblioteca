@@ -28,12 +28,12 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             margin-left: 70%;
         }
         #featured{
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 7%;
+            margin-right: 7%;
         }
     </style>
 
-    <nav class="fixed-top mb-4">
+    <nav class="fixed-top">
         <img class="img" src="../../img/logo2.png" alt="logo">
         <h5>"Una santanina, una señorita de éxito"</h5>
         <a class="btn btn-outline-dark" href="../../views/usuario/historialuser.php">Historial</a>
@@ -54,7 +54,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <!--Section Libros-->
     <!-- Filtra categorías y subcategorías -->
 
-    <section class="featured mt-5 ml-4" id="featured">
+    <section class="featured ml-4" id="featured">
         <div class="row mb-4">
             <div class="col-md-4">
                 <label for="categoria" class="form-label form-label text-center">CATEGORÍA</label>
@@ -72,7 +72,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
             <!-- Buscar por nombre del libro -->
             <div class="mt-4">
                 <input placeholder="Buscar libro" type="text" id="buscador" name="buscador" class="campo-busqueda">
-                <button class="btn btn-dark ml-4" id= "buscarlibro">Buscar</button>
+                <button class="btn btn-dark ml-2" id= "buscarlibro">Buscar</button>
             </div>
 
     

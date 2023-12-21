@@ -54,7 +54,7 @@
             </div>
             <div class="modal-body">
                 <form action="">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="tablaInactivoT" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -144,9 +144,11 @@
     <script> 
         let idpersona = '';
         const cuerpo = document.querySelector("tbody");
-        const tabla = document.querySelector("#dataTable");
+        const tabla = document.querySelector("#tablaInactivoT");
         const cuerpoI = tabla.querySelector("tbody");
         const bte = document.querySelector("#guadarlibro");
+        let idusuario = '';
+        const modalInactivoT = new bootstrap.Modal(document.querySelector("#editar"));
         
         function inicializarDataTablesTeacher() {
             $('#tablateacher').DataTable({
@@ -186,7 +188,7 @@
                             <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inhabilitar</a>
                         </td>
                         <td>
-                            <a href='#editar' type='button' class='editar' data-toggle='modal' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+                            <a href='#' type='button' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
                         </td>
                     </tr>
                     `;
@@ -230,30 +232,33 @@
 
         cuerpo.addEventListener("click", (event) => {
             if(event.target.classList[0] === 'inactivo'){
-                idusuarios = parseInt(event.target.dataset.idusuario);
-                console.log(idusuarios);
+                idusuario = parseInt(event.target.dataset.idusuario);
+                console.log(idusuario);
                 const parametros = new URLSearchParams();
-                parametros.append("operacion","SentenciarUser");
-                parametros.append("idusuario", idusuarios);
+                parametros.append("operacion","SentenciarUsuario");
+                parametros.append("idusuario", idusuario);
                 fetch("../controller/estudiantes.php",{
                     method: 'POST',
                     body: parametros
                 }) 
                 .then(response => response.json())
                 .then(datos => {
-                    listarDocente();
-                    ProfesorInactivo();
+                    if(datos.status){
+                        listarDocente();
+                        ProfesorInactivo();
+                        document.querySelector("#tablateacher").innerHTML = ``;
+                    }
                 });
             }
         });
 
         cuerpoI.addEventListener("click", (event) => {
             if(event.target.classList[0] === 'inactivo'){
-                idusuarios = parseInt(event.target.dataset.idusuario);
+                idusuario = parseInt(event.target.dataset.idusuario);
                 // console.log(idusuarios);
                 const parametros = new URLSearchParams();
                 parametros.append("operacion","HabilitarUser");
-                parametros.append("idusuario", idusuarios);
+                parametros.append("idusuario", idusuario);
                 fetch("../controller/estudiantes.php",{
                     method: 'POST',
                     body: parametros
@@ -291,6 +296,7 @@
                         document.querySelector("#direccion").value = element.direccion; 
                         document.querySelector("#usuario").value = element.nombreusuario; 
                     });
+                    modalInactivoT.toggle();
                 });
             }
         });
@@ -317,13 +323,9 @@
                 .then(response => response.json())
                 .then(datos => {
                     if(datos.status){
-                        console.log("echo")
                         toast("Actualizado");
-                        listarEstudiante();
-                        // Editar.toggle();
-                    }else{
-                        console.log("no echo")
-                        toastError("Error de Actualización");
+                        listarDocente();
+                        modalInactivoT.toggle();
                     }
                 });
             }

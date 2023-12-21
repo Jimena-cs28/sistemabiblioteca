@@ -175,6 +175,8 @@
     const ahora = document.querySelector("#ahora");
     const Reservar = document.querySelector("#reservar");
 
+    //validacionCalor
+    const cantidarol = '';
     const fechaActual = new Date(); 
     const fechaMinima = fechaActual.toISOString().split('T')[0];
     fechaActual.setDate(fechaActual.getDate()+3)
@@ -187,6 +189,11 @@
     fechadevolucion.max = fechamaxima
     fechadevolucion.value = fecham
 
+    filtroStudent.addEventListener("change", function() {
+        traerRol();
+    })
+
+    
     function Reseteartabla(){
         const row = tablalibro.querySelectorAll('tbody tr');
         row.forEach((fila) => {
@@ -267,6 +274,7 @@
         })
     }
 
+    let nombrerolUser = 0;
     function listarUser(){
         const choiselistarStudent = new Choices(filtroStudent, {
             searchEnabled: true,
@@ -290,6 +298,9 @@
                 optionE.text = element.nombres;
                 optionE.setAttribute('data-nombrerol', element.nombrerol);
                 // const nombrerols =  optionE.dataset.nombrerol;
+                nombrerolUser = element.nombrerol;
+                // console.log(optionE);
+                
                 filtroStudent.appendChild(optionE);
             });
             choiselistarStudent.setChoices([], 'value','label',true);
@@ -376,10 +387,10 @@
         const elementosSelect = Array.from(filtroEjempla.options);
         const usuarioSeleccionado = filtroStudent.value;
         const rolUsuario = filtroStudent.selectedOptions[0].dataset.nombrerol;
-
+        
         for (let i = 0; i < cantidadLibros; i++) {
 
-            if (rolUsuario === 'Estudiante' && tablalibro.rows.length > 0) {
+            if (nombrerolUser == 'Estudiante' && tablalibro.rows.length > 1) {
                 toastError("Los estudiantes solo pueden agregar un ejemplar.");
                 return;
             }
@@ -658,9 +669,26 @@
         })
         .then(response => response.json())
         .then(datos => {
-            console.log(datos);
+            // console.log(datos);
             datos.forEach(element => {
                 des.value = element.descripcion; 
+            });
+        });
+    }
+
+    function traerRol(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerRol");
+        parametros.append("idrol", filtroStudent.value);
+        fetch("../controller/prestamos.php", {
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            // console.log(datos);
+            datos.forEach(element => {
+                nombrerolUser = element.nombrerol;
             });
         });
     }
@@ -682,27 +710,27 @@
         });
     }
 
-    function TraerDescripcion() {
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "traerDescripcion");
-        parametros.append("idusuario", filtroStudent.value);
+    // function TraerDescripcion() {
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "traerDescripcion");
+    //     parametros.append("idusuario", filtroStudent.value);
 
-        fetch("../controller/prestamos.php", {
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            console.log(datos);
-            // Check if datos array is empty
-            if (datos.length === 0) {
-                alert("No data available");
-            } else {
-                // Assuming you want to update 'des' with the first item in the array
-                des.value = datos[0].descripcion;
-            }
-        })
-    }
+    //     fetch("../controller/prestamos.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         console.log(datos);
+    //         // Check if datos array is empty
+    //         if (datos.length === 0) {
+    //             alert("No data available");
+    //         } else {
+    //             // Assuming you want to update 'des' with the first item in the array
+    //             des.value = datos[0].descripcion;
+    //         }
+    //     })
+    // }
 
     conseguirlibros();
     // listarprestamo();

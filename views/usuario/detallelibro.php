@@ -71,7 +71,7 @@ $estado = $result[0]['estado'];
 
                         <div class="form-group col-md-3 mt-3">
                             <label for="enbiblioteca" style="color:#574E4E;">En Biblioteca</label>
-                            <select class="form-control" required="" data-placement="top" id="enbiblioteca">
+                            <select class="form-select" required="" data-placement="top" id="enbiblioteca">
                                 <option value="">Seleccione</option>
                                 <option value="SI">Sí</option>
                                 <option value="NO">No</option>
@@ -135,7 +135,7 @@ $estado = $result[0]['estado'];
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
-        margin-top: 120px;
+        margin-top: 20px;
     }
 
     form {
@@ -143,7 +143,7 @@ $estado = $result[0]['estado'];
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px; /*Pie de página*/
+        margin-bottom: 30px; /*Pie de página*/
     }
     
     form label {

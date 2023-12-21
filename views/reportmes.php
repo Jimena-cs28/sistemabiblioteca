@@ -53,29 +53,29 @@
     const Fsolicitud1 = document.querySelector("#fechasolicitud1");
     const btGuardar = document.querySelector("#exportT");
 
-    function listarReporte(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion","listarReporte")
-        fetch("../controller/reporte.php", {
-            method: 'POST',
-            body: parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const recibir = `
-                <tr>
-                    <td>${element.idcategoria}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.CantidadPrestada}</td>
-                </tr>
-                `;
-                cuerpo.innerHTML += recibir;
-            });
-        })
-    }
+    // function listarReporte(){
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion","listarReporte")
+    //     fetch("../controller/reporte.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         cuerpo.innerHTML = ``;
+    //         datos.forEach(element => {
+    //             const recibir = `
+    //             <tr>
+    //                 <td>${element.idcategoria}</td>
+    //                 <td>${element.categoria}</td>
+    //                 <td>${element.codigo}</td>
+    //                 <td>${element.CantidadPrestada}</td>
+    //             </tr>
+    //             `;
+    //             cuerpo.innerHTML += recibir;
+    //         });
+    //     })
+    // }
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
@@ -102,7 +102,7 @@
             });
         });
     }
-    btGuardar.addEventListener("change", listarSolicitud);
+    // btGuardar.addEventListener("change", listarSolicitud);
     // document.querySelector("#idusuario").addEventListener("change", listarSolicitudUsu)
     Fsolicitud1.addEventListener("keypress", (evt) => {
         if(evt.charCode == 13) listarSolicitud();
@@ -110,13 +110,15 @@
 
     function PDFTiempo(){
         const parametros = new URLSearchParams();
-        parametros.append("fechasolicitud", String(Fsolicitud.value));
-        parametros.append("fechasolicitud1", String(Fsolicitud1.value));
-        parametros.append("titulo", Fsolicitud.text)
+        parametros.append("fechasolicitud", Fsolicitud.value);
+        parametros.append("fechasolicitud1", Fsolicitud1.value);
+        parametros.append("titulo", Fsolicitud.value)
+        parametros.append("operacion", "reporteSolicitud");
         window.open(`../reports/tiempo.report.php?${parametros}`, '_blank');
     }  
+    // parametros.append("titulo", olimpiada.options[olimpiada.selectedIndex].text);
 
     btGuardar.addEventListener("click", PDFTiempo);
     // listarSolicitud();
-    listarReporte();
+    // listarReporte();
 </script>

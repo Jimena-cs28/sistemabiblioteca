@@ -101,7 +101,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']) {
 
 <style>
     #div {
-      margin-top: 130px; /* Ajusta este valor según tus preferencias */
+      margin-top: 50px; /* Ajusta este valor según tus preferencias */
     }
 </style>
 

@@ -51,7 +51,7 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
     <style>
         h4 {
                 text-align: center;
-                margin-top: 120px;
+                margin-top: 100px;
                 background-color: #4e4040;/*color de fondo*/
                 padding: 10px;
                 color: white; /* Color del texto en el título */

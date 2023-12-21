@@ -129,16 +129,21 @@ class Estudiantes extends conexion{
   }
 
   public function SentenciarUser($idusuario){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
     try {
       $consulta = $this->acesso->prepare("CALL spu_inabilitar_usuario(?)");
-      $consulta->execute(array($idusuario));
+      $respuesta["status"] = $consulta->execute(array($idusuario));
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
       return $datosObtenidos; 
     }
     catch(Exception $e){
-      die($e->getMessage());
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
+    return $respuesta;
   }
 
   public function HabilitarUser($idusuario){
@@ -167,7 +172,6 @@ class Estudiantes extends conexion{
     }
   }
 
-  
   public function updateUser($datos = []){
     $respuesta = [
       "status" => false,
@@ -185,7 +189,7 @@ class Estudiantes extends conexion{
           $datos["direccion"],
           $datos["telefono"],
           $datos["email"],
-          $datos["nombreuser"],
+          $datos["nombreusuario"],
         )
       );
     }
@@ -194,5 +198,4 @@ class Estudiantes extends conexion{
     }
     return $respuesta;
   }
-
 }

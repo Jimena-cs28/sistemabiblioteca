@@ -27,24 +27,26 @@ $datoID = json_encode($_SESSION['login']);
     <link rel="icon" href="../img/logo2.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <!-- Agrega esta línea en el encabezado de tu archivo HTML -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script> -->
     <!-- <link rel="stylesheet" href="../views/css/datatable.min.css" /> -->
     <!-- <script src="../js/table2excel.jquery.json"></script> -->
 
-<!-- Incluye jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.css">
+  
+  <!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Incluye DataTables -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-<!-- Incluye Buttons para DataTables -->
- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<!-- DataTables Buttons Extension -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
-
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
 
 </head>
 <body id="page-top">
@@ -353,7 +355,7 @@ $datoID = json_encode($_SESSION['login']);
     <!-- <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script> -->
     <!-- <script src="../js/demo/datatables-demo.js"></script> -->
-    <script src="../js/datatable.min.js"></script>
+    <!-- <script src="../js/datatable.min.js"></script> -->
     <!-- tablas -->
 
     <!-- <script src="./libs/datatables/dataTables.bootstrap4.js"></script>
@@ -361,8 +363,8 @@ $datoID = json_encode($_SESSION['login']);
     <script src="./libs/datatables/jquery.dataTables.min.js"></script> -->
     <!-- <script src="../js/prestamos.js"></script> -->
     <!-- choices -->
-    <script src="../js/datatable.min.js"></script>
-    <script src="./libs/jquery/datatable.js"></script>
+    <!-- <script src="../js/datatable.min.js"></script> -->
+    <!-- <script src="./libs/jquery/datatable.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
@@ -371,12 +373,12 @@ $datoID = json_encode($_SESSION['login']);
     <script src="../js/sweetalert.js"></script>
 
         <!-- DataTable -->
-        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+        <!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
 
-    <!-- Opcional -->
+    <!-- Opcional
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script> -->
 
     <script>
         
