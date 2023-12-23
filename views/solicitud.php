@@ -344,9 +344,38 @@
     }})
     })
 
+    const validarFechaNoAnterior = (fechaIngresada) => {
+    try {
+        // Obtiene la fecha actual sin horas, minutos, segundos ni milisegundos
+        const fechaActual = new Date();
+        fechaActual.setHours(0, 0, 0, 0);
+
+        // Convierte la fecha ingresada a un objeto Date
+        const fechaIngresadaObj = new Date(fechaIngresada);
+
+        // Elimina las horas, minutos, segundos y milisegundos de la fecha ingresada
+        fechaIngresadaObj.setHours(0, 0, 0, 0);
+
+        // Valida si la fecha ingresada es igual o posterior a la fecha actual
+        if (fechaIngresadaObj >= fechaActual) {
+            return true;
+        }
+    } catch (error) {
+        // Maneja una excepción si la fecha ingresada no es válida
+    }
+
+    // Si no se cumple alguna condición, la fecha es anterior o inválida
+    return false;
+};
     btnaceptarsolicitud.addEventListener('click', function(){
+        
         if(fechadevolucion.value == ''){
             toastError('Debe colocar la fecha de devolución')
+            return
+        }
+        const parsetDate = new Date(fechadevolucion.value).toISOString().replace("Z", "")
+        if(!validarFechaNoAnterior(parsetDate)){
+            toastError('Verificar fecha')
             return
         }
         mostrarPregunta("REGISTRAR", "¿Está seguro registrar el préstamo?").then((result)=>{

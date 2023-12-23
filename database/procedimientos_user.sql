@@ -24,7 +24,7 @@ CREATE PROCEDURE spu_listar_libro_user
 )
 BEGIN
 	SELECT libros.idlibro,libros.imagenportada,libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	CONCAT(autores.autor, ' ', autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
+	GROUP_CONCAT(CONCAT(autores.autor, ' ', autores.apellidos)) AS "autor", editoriales.nombres AS "editorial",
 	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
@@ -34,7 +34,8 @@ BEGIN
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
 	WHERE (_idsubcategoria ="" OR libros.idsubcategoria = _idsubcategoria) 
 	AND (_idcategoria ="" OR categorias.idcategoria = _idcategoria)
-	AND (_nombre ="" OR libros.libro LIKE CONCAT("%", _nombre, "%"));
+	AND (_nombre ="" OR libros.libro LIKE CONCAT("%", _nombre, "%"))
+	GROUP BY libros.idlibro;
 END$$
 
 CALL spu_listar_libro_user(NULL, 6, 'funciona');
@@ -61,14 +62,15 @@ CREATE PROCEDURE spu_list_libro
 )
 BEGIN
 	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.codigo,
-	CONCAT(autores.autor, " ",autores.apellidos) AS "autor", editoriales.nombres AS "editorial", 
+	GROUP_CONCAT(CONCAT(autores.autor, " ",autores.apellidos)) AS "autor", editoriales.nombres AS "editorial", 
 	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial;
+	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
+	GROUP BY libros.idlibro;
 	
 END$$
 CALL spu_list_libro();
@@ -85,7 +87,7 @@ CREATE PROCEDURE spu_buscar_libro
 BEGIN
         SELECT libros.idlibro, libros.imagenportada, libros.libro, subcategorias.subcategoria,
         categorias.categoria, libros.tipo, libros.numeropaginas, libros.codigo,
-        CONCAT(autores.autor, " ", autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
+        GROUP_CONCAT(CONCAT(autores.autor, " ", autores.apellidos)) AS "autor", editoriales.nombres AS "editorial",
         libros.descripcion, (SELECT COUNT(*) FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
@@ -93,7 +95,8 @@ BEGIN
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
-	WHERE libros.idlibro = _idlibro;
+	WHERE libros.idlibro = _idlibro
+	GROUP BY libros.idlibro;
 END$$
 
 
@@ -144,7 +147,7 @@ END $$
 
 CALL spu_ejemplarlibro(2)
 
--- REGISTRAR SOLICITUD USUARIO
+-- REGISTRAR SOLICITUD USUARIO(DESACTIVAR ESTADO)
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_solicitud_usuario
 (
@@ -286,7 +289,7 @@ SELECT * FROM prestamos WHERE idbeneficiario = 2
 SELECT * FROM librosentregados
 SELECT * FROM libros
 
--- VALIDAR ESTADO USUARIOS(PRÉSTAMO)
+-- VALIDAR ESTADO USUARIOS(PRÉSTAMO)(ACTIVAR ESTADO)
 DELIMITER $$
 CREATE TRIGGER tg_validar_prestamo_usuario
 AFTER UPDATE ON prestamos 

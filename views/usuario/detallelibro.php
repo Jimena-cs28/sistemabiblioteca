@@ -99,7 +99,7 @@ $estado = $result[0]['estado'];
                                 echo '<button type="button" class="btn btn-primary" id="solicitar">Solicitar</button>';
                             }
                             else{
-                                echo '<span style="color:red ">Usted no puede solicitar porque está Sanciona@</span>';
+                                echo '<span style="color:red ">Usted no puede solicitar más libros</span>';
                             }
                             ?>
                         </div>
@@ -235,7 +235,7 @@ $estado = $result[0]['estado'];
                     <img src="../img/${datos.imagenportada}" width="250px" alt="Portada del libro" style="border-radius: 8px;"/>
                 </div>
                 <li class="descripcion"><strong>Nombre del libro:</strong> ${datos.libro}</li>
-                <li style="margin-left: 60px;"><strong>Descripción:</strong> ${datos.descripcion}</li>
+                ${datos.descripcion ?`<li style="margin-left: 60px;"><strong>Descripción:</strong> ${datos.descripcion}</li>`:''}
                 <li style="margin-left: 60px;"><strong>Autor:</strong> ${datos.autor}</li>
                 <li style="margin-left: 60px;"><strong>Editorial:</strong> ${datos.editorial}</li>
                 <li style="margin-left: 60px;"><strong>Categoría:</strong> ${datos.categoria}</li>
@@ -255,13 +255,45 @@ $estado = $result[0]['estado'];
                 contenedorlugar.classList.add("d-none")
                 }
             })
-            
+            const validarFecha = (fecha) => {
+            // Obtiene la fecha actual
+            const fechaActual = new Date();
+            fechaActual.setHours(0,0,0,0)
+
+            try {
+                // Convierte la fecha ingresada a un objeto Date
+                const fechaIngresada = new Date(fecha);
+                fechaIngresada.setHours(0,0,0,0)
+                // Calcula la diferencia en milisegundos entre las fechas
+                const diferenciaMilisegundos = fechaIngresada - fechaActual;
+
+                // Convierte la diferencia a días
+                const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+
+                // Valida si la fecha ingresada es igual o posterior a la fecha actual
+                // y no es más de 3 días en el futuro
+                if (fechaIngresada >= fechaActual && diferenciaDias <= 3) {
+                    return true;
+                }
+            } catch (error) {
+                // Maneja una excepción si la fecha ingresada no es válida
+            }
+
+            // Si no se cumple alguna condición, la fecha no es válida
+            return false;
+        };
             //Registrar préstamo de libros
             function RegistrarPrestamo(){
                 const cantidad = nombrerol == 'Estudiante'?1:Number(document.querySelector("#cantidad").value)
+                const fechasolicitud = document.querySelector("#fechaprestamo").value
                 //Variables
                 const lugarvalue =document.querySelector("#lugar").value
-                console.log(cantidad)
+                const parsetDate = new Date(fechasolicitud).toISOString().replace("Z","")
+                console.log(validarFecha(parsetDate))
+                if(!validarFecha(parsetDate)){
+                    toastError('Verificar fecha')
+                    return
+                }
                 //Validaciones
                 if(cantidad <= 0 || cantidad>cantidadmaxima){
                     toastError('Verifique la cantidad')
@@ -284,7 +316,7 @@ $estado = $result[0]['estado'];
                 parametros.append("descripcion", document.querySelector("#descripcion").value);
                 parametros.append("enbiblioteca", enbiblioteca.value);
                 parametros.append("lugardestino", lugarvalue);
-                parametros.append("fechaprestamo", document.querySelector("#fechaprestamo").value)
+                parametros.append("fechaprestamo", fechasolicitud)
                 
                 fetch("../../controller/userlibros.php" ,{
                     method: 'POST',
