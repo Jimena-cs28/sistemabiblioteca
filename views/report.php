@@ -57,6 +57,7 @@
     const descripcion = document.querySelector("#descripcion");
     const tabla = document.querySelector("tbody");
     const btExportar = document.querySelector("#btnexport");
+    const seelctUSUARIO = document.querySelector("#idusuario");
 
     function listarDescripcion(){
         const choiselistarStudent = new Choices(descripcion, {
@@ -143,11 +144,13 @@
     function PDFusuario(){
         const parametros = new URLSearchParams();
         parametros.append("idusuario", parseInt(document.querySelector("#idusuario").value));
+        // parametros.append("titulo", parseInt(document.querySelector("#idusuario").textContent));
+        parametros.append("titulo", seelctUSUARIO.options[seelctUSUARIO.selectedIndex].text);
         window.open(`../reports/usuario.report.php?${parametros}`,'_blank');
     }
 
     btExportar.addEventListener("click", PDFusuario)
-    document.querySelector("#idusuario").addEventListener("change", listarSolicitudUsu)
+    seelctUSUARIO.addEventListener("change", listarSolicitudUsu)
     listarprestamo();
     descripcion.addEventListener("change", listarprestamo);
 

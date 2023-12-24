@@ -2,14 +2,14 @@
 <div class="container-fluid border-0">
     <div class="card border-0">
         <div class="card-body border-0">
-            <div class="row mt-4 mb-5">
+            <!-- <div class="row mt-4 mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <img src="../img/book.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
                     Bienvenido a la sección para agregar nuevos libros a la biblioteca, deberas de llenar todos los campos para poder registrar el libro
                 </div>
-            </div>
+            </div> -->
             <!-- fila del titulo -->
             <div class="row mt-4">
                 <div class="col-md-12">
@@ -20,98 +20,123 @@
         <div class="card border-0">
             <div class="card-body">            
                 <form id="form-libro">
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">CATEGORIA</label>
-                            <select class="form-control" id="selectcategoria">
-                                
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">SUBCATEGORIA</label>
-                            <select class="form-control" id="selectsubcategoria">
-                                
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">EDITORIAL</label>
-                            <select class="form-control" id="selecteditorial">
-                            
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">NOMBRE</label>
-                            <input type="text" id="nombre" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">Condicion</label>
-                            <select name="" id="condicion" class="form-control">
-                                <option value="Nuevo">Nuevo</option>
-                                <option value="Usado">Usado</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="">CANTIDAD</label>
-                            <input type="number" class="form-control" id="cantidad">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="">Nº DE PAGINA</label>
-                            <input type="number" class="form-control" placeholder="55" id="paginas">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="">CODIGO</label>  
-                            <input type="text" class="form-control" required="" id="codigo">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">FORMATO</label>
-                            <input type="text" class="form-control" required="" maxlength="50"id="formato">
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">Descripcion</label>
-                            <input type="text" id="descripcion" class="form-control" maxlength="500">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">IDIOMA</label>
-                            <select class="form-control" id="idioma">
-                                <option value="Español" selected>Español</option>
-                                <option value="Ingles">Ingles</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">AÑO</label>
-                            <input type="date" id="anio" class="form-control" required="">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">TIPO</label>
-                            <input type="text" id="tipo" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row ml-5 mt-4">
-                        <div class="col-md-3">
-                            <label for="">Imagen</label>
-                            <input type="file" id="fotografia" class="form-control" placeholder="imagen del libro">
-                        </div>
-                        <div class="col-md-3">
-                            <img class="visor" alt="" id="img" width="200px">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">EDICION</label>
-                            <input type="text" id="edicion" class="form-control">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Autor</label>
-                            <select name="" id="autor" class="form-control">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="">CATEGORIA</label>
+                                    <select class="form-control" id="Rselectcategoria">
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">SUBCATEGORIA</label>
+                                    <select class="form-control" id="Rselectsubcategoria">
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="">NOMBRE</label>
+                                    <input type="text" id="Rnombre" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-3">
+                                    <label for="">CANTIDAD</label>
+                                    <input type="number" class="form-control" id="Rcantidad">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">CODIGO</label>  
+                                    <input type="text" class="form-control" id="Rcodigo">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">EDITORIAL</label>
+                                    <select name="" id="Rselecteditorial" class="form-control">
 
-                            </select>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">Condicion</label>
+                                    <select name="" id="Rcondicion" class="form-control">
+                                        <option value="Nuevo">Nuevo</option>
+                                        <option value="Usado" selected>Usado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-3">
+                                    <label for="">Nº PAGINAS</label>
+                                    <input type="number" class="form-control"  id="Rpaginas">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">EDICION</label>
+                                    <input type="text" class="form-control"  id="Redicion">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">FORMATO</label>
+                                    <input type="text" class="form-control" id="Rformato"> 
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">Imagen</label>
+                                    <input type="file" id="fotografia" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-3">
+                                    <label for="">IDIOMA</label>
+                                    <select class="form-control" id="Ridioma">
+                                        <option value="Español" selected>Español</option>
+                                        <option value="Ingles">Ingles</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">TIPO</label>
+                                    <input type="text" id="Rtipo" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="">Descripcion</label>
+                                    <textarea name=""id="Rdescripcion" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-3">
+                                    <label for="">AÑO</label>
+                                    <input type="date" id="Ranio" class="form-control">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">AUTOR</label>
+                                    <select name="" id="Rautor" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="col-sm-1 mt-4">
+                                    <a href="#" class="btn btn-danger" id="jimena">+</a>
+                                </div>
+                                <div class="col-sm-5 mt-3">
+                                    <table class="table table-bordered" id="tablaAutor"  width="100%">
+                                        <thead>
+                                            <tr>    
+                                                <th style="color:#574E4E;">ID</th>
+                                                <th style="color:#574E4E;">AUTOR</th>
+                                                <th style="color:#574E4E;">QUITAR</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  id="cuerpoAutor">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="content ml-3 mt-3">
+                                <img class="visor" alt="" id="img" width="300px" src="">
+                            </div>
                         </div>
                     </div>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-success" style="margin-right: 20px;">Limpiar</button>
-                        <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
+                        <!-- <button class="btn btn-success" style="margin-right: 20px;">Limpiar</button> -->
+                        <a href="#" class="btn btn-primary" id="btguardar">Guardar</a>
+                        <!-- <button  class="btn btn-primary" id="btguardar">Guardar</button> -->
                         <a href="index.php?view=listlibros.php" class="btn btn-info ml-2">Ver Libros</a>
                     </p>  
                 </form>
@@ -120,14 +145,78 @@
     </div>
 </div>
 <script>
-    const selectcategoria = document.querySelector("#selectcategoria");
-    const selectsubcategoria = document.querySelector("#selectsubcategoria");
-    const selectEditorial = document.querySelector("#selecteditorial");
-    const selectAutores  = document.querySelector("#autor");
+    const selectcategoria = document.querySelector("#Rselectcategoria");
+    const selectsubcategoria = document.querySelector("#Rselectsubcategoria");
+    const selectEditorial = document.querySelector("#Rselecteditorial");
+    const selectAutores  = document.querySelector("#Rautor");
     const img = document.querySelector("#img");
-    const nombre = document.querySelector("#nombre");
+    const Rnombre = document.querySelector("#Rnombre");
     const inputFile = document.querySelector("#fotografia");
     const btGuardar = document.querySelector("#btguardar");
+    const BtagregarAutor = document.querySelector("#jimena");
+    const tablaAutors = document.querySelector("#tablaAutor");
+    const cuerpoA = tablaAutors.querySelector("#cuerpoAutor");
+    let idlibro = '';
+
+    function agregarAutor(){
+        if(selectAutores.value > 0){
+        const AytirSeleccionada = selectAutores.options[selectAutores.selectedIndex];
+
+        if(AytirSeleccionada.value != ""){
+            let autorRepetida = false;
+            const filas  = tablaAutors.rows;
+            
+            for(let i=1; i < filas.length; i++){
+            const autorCelda = filas[i].cells[1].innerText;
+            console.log(autorCelda);
+            if(autorCelda === AytirSeleccionada.text){
+                autorRepetida = true;
+                break;
+            }          
+            } 
+            if(!autorRepetida){
+                let filanueva =            
+                `
+                <tr>
+                <td>${AytirSeleccionada.value}</td>
+                <td>${AytirSeleccionada.text}</td>
+                <td>
+                    <a class ="eliminar btn btn-sm btn-danger">Eliminar</a>
+                </td>
+                </tr>
+                `;
+                tablaAutors.innerHTML += filanueva;
+                selectAutores.value = 0;
+                SelectActor();
+            }
+            else{
+            toastError("No se puede repetir los autores");
+            }
+        }
+        }
+    }
+
+    tablaAutors.addEventListener("click", function(event) {
+        // Verificar si el clic fue en un botón de clase "btn-danger"
+        const element = event.target.closest(".eliminar");
+        if (element) {
+            // Obtener la fila a la que pertenece el botón
+            const filaAEliminar = event.target.closest("tr");
+
+            // Obtener el idejemplar de la fila
+            const idejemplarAEliminar = filaAEliminar.querySelector("td:first-child").textContent;
+
+            // Eliminar la fila de la tabla
+            filaAEliminar.remove();
+
+            // Eliminar el idejemplar del conjunto libroAgregados
+            // libroAgregados.delete(idejemplarAEliminar);
+        }
+    });
+
+    BtagregarAutor.addEventListener("click", function(){
+        agregarAutor()
+    });
 
     function listarCategoria(){
         const parametros = new URLSearchParams();
@@ -209,43 +298,99 @@
         })
     }
 
+    function traerLibro(){
+        const para = new URLSearchParams();
+        para.append("operacion", "traerIdlibro");
+        fetch("../controller/libros.php", {
+            method: 'POST',
+            body: para
+        })
+        .then(response => response.json())
+        .then(datos => {
+            if(datos.length > 0){
+                datos.forEach(element => {
+                    idlibro = element.idlibro;
+                    console.log(idlibro);
+                    registrarAutor(idlibro);
+                });
+            }else{
+                console.log("sin datos");
+            }
+        })
+    }
+    // traerLibro();
     function register(){
-        mostrarPregunta("LIBROS", "¿Estas seguro de guardar el libro").then((result)=>{
-            if(result.isConfirmed){
-                const fd = new FormData();
-                fd.append("operacion","registrarLibro");
-                fd.append("idsubcategoria",selectsubcategoria.value);
-                fd.append("ideditorial",selectEditorial.value);
-                fd.append("nombre",nombre.value);
-                fd.append("tipo",document.querySelector("#tipo").value);
-                fd.append("cantidad",document.querySelector("#cantidad").value);
-                fd.append("numeropaginas",document.querySelector("#paginas").value);
-                fd.append("codigo",document.querySelector("#codigo").value);
-                fd.append("edicion",document.querySelector("#edicion").value);
-                fd.append("formato",document.querySelector("#formato").value);
-                fd.append("anio",document.querySelector("#anio").value);
-                fd.append("idioma",document.querySelector("#idioma").value);
-                fd.append("descripcion",document.querySelector("#descripcion").value);
-                fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
-                fd.append("idautor",selectAutores.value);
-                fd.append("condicion", document.querySelector("#condicion").value)
 
-                fetch("../controller/libros.php",{
-                    method: "POST",
-                    body: fd
-                })
-                .then(response => response.json())
-                .then(datos => {
-                    
-                    if(datos.status){
-                        notificar("Libros","Se guardo correctamente", 2);
-                    }else{
-                        notificar("Libros","No se guardo", 2);
-                    }
-                })
-                
+        if(Rnombre.value = ''){
+            toastError("Escriba el nombre")
+        }
+
+        if(selectsubcategoria.value = ''){
+            toastError("Seleccione la subcategoria")
+        }
+        if(document.querySelector("#Rcodigo").value = ''){
+            toastError("Escriba el codigo")
+        }
+        if(document.querySelector("#Rcantidad").value = ''){
+            toastError("Escriba la cantidad")
+        }
+        if(document.querySelector("#Rcondicion").value = ''){
+            toastError("Escriba la condicion del libro")
+        }
+
+        const fd = new FormData();
+        fd.append("operacion","registrarLibro");
+        fd.append("idsubcategoria",selectsubcategoria.value);
+        fd.append("ideditorial",selectEditorial.value);
+        fd.append("nombre",Rnombre.value);
+        fd.append("tipo",document.querySelector("#Rtipo").value);
+        fd.append("cantidad",document.querySelector("#Rcantidad").value);
+        fd.append("numeropaginas",document.querySelector("#Rpaginas").value);
+        fd.append("codigo",document.querySelector("#Rcodigo").value);
+        fd.append("edicion",document.querySelector("#Redicion").value);
+        fd.append("formato",document.querySelector("#Rformato").value);
+        fd.append("anio",document.querySelector("#Ranio").value);
+        fd.append("idioma",document.querySelector("#Ridioma").value);
+        fd.append("descripcion",document.querySelector("#Rdescripcion").value);
+        fd.append("imagenportada",document.querySelector("#fotografia").files[0]);
+        fd.append("condicion", document.querySelector("#Rcondicion").value)
+
+        fetch("../controller/libros.php",{
+            method: "POST",
+            body: fd
+        })
+        .then(response => response.json())
+        .then(datos => {
+            if(datos.status){
+                traerLibro();
             }
         });
+    }
+
+    function registrarAutor(idlibro){
+        mostrarPregunta("LIBRO", "¿Estas seguro de registrar un libro?").then((result)=>{
+            if(result.isConfirmed){
+                const filas = tablaAutors.rows;
+                for (let i = 1; i < filas.length; i++) {
+                    const idautors = parseInt(filas[i].cells[0].innerText);
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion", "RegistrarAutor");
+                    parametros.append("idlibro", idlibro);
+                    parametros.append("idautor", idautors);
+                    
+                    fetch("../controller/libros.php",{
+                        method:'POST',
+                        body: parametros
+                    })
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        if(datos.status){
+                            toast("Excelente");
+                        }
+                    })
+                }
+            }
+        })
     }
 
     inputFile.addEventListener("change", (e) => {
@@ -257,8 +402,9 @@
     });
 
     selectcategoria.addEventListener("change", selectsubCategoria);
+    //selectsubCategoria();
     listarCategoria();
     listarEditorial();
     SelectActor();
-    btGuardar.addEventListener("click", register);
+    btGuardar.addEventListener("click",register );
 </script>

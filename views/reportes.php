@@ -53,8 +53,15 @@
         buttons: [
             {
                 extend: 'excel',
-                text: 'Excel',
-                className: 'btn btn-dark'
+                text: 'Excel'
+            },
+            {
+                extend: 'csv',
+                text: 'Csv'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
             }
         ],
         language: {
@@ -89,7 +96,7 @@
                 tablaP.row.add([
                     element.idcategoria,
                     element.categoria,
-                    element.codigo,
+                    element.codigo, 
                     element.CantidadPrestada,
                     // filaoperaciones
                 ]);

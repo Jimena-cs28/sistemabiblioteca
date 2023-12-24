@@ -186,6 +186,7 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 </style>
+
 <script>
     let idlibro = '';
     let idusuario = '';
@@ -222,7 +223,6 @@
             avisoFlotante.remove();
         }, 3000); // 5000 milisegundos (5 segundos)
     }
-
 
     function listarDevoluciones(){
         const parametros = new URLSearchParams();

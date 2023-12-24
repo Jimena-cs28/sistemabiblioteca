@@ -14,7 +14,8 @@ $permisos = [
     "Subdirector" => ["reportLibro.php", "ReportStudent.php", "prestamos.php", "reportmes.php","reportes.php","report.php", "dashboard.php","listprestamo.php"],
     "Administrador" => ["reportLibro.php", "ReportStudent.php", "prestamos.php", "reportmes.php","reportes.php","report.php", 
     "dashboard.php", "listlibros.php", "libros.php","category.php","liststudent.php","listteacher.php","config.php",
-    "listaprestamos.php","reservar.php","devolucionesp.php","prestamos.php", "reservas.php","solicitud.php", "listprestamo.php","profesores.php"]
+    "listaprestamos.php","reservar.php","devolucionesp.php","prestamos.php", "reservas.php","solicitud.php", "listprestamo.php",
+    "profesores.php", "editorial.php","categoria.php"]
 ];
 
 //4. Validar el acceso

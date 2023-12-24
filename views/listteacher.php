@@ -22,13 +22,13 @@
             <table class="table table-bordered" id="tablateacher" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ID</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>DNI</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Email</th>
-                        <th>Direccion</th>
+                        <th>Dirección</th>
                         <th>F.Nacimiento</th>
                         <th>Usuario</th>
                         <th>Operacion</th>
@@ -57,15 +57,15 @@
                     <table class="table table-bordered" id="tablaInactivoT" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>ID</th>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
                                 <th>DNI</th>
-                                <th>Telefono</th>
+                                <th>Teléfono</th>
                                 <th>Email</th>
-                                <th>Direccion</th>
-                                <th>nombreusuario</th>
-                                <th>operacion</th>
+                                <th>Dirección</th>
+                                <th>Usuario</th>
+                                <th>Operacion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -140,7 +140,6 @@
         </div>
     </div>
 </div>
-
     <script> 
         let idpersona = '';
         const cuerpo = document.querySelector("tbody");
@@ -150,52 +149,66 @@
         let idusuario = '';
         const modalInactivoT = new bootstrap.Modal(document.querySelector("#editar"));
         
-        function inicializarDataTablesTeacher() {
-            $('#tablateacher').DataTable({
-                // Personaliza según tus necesidades
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                },
-                order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
-                pageLength: 10  // Número de filas por página
-            });
-        }
+        const tablaTeacher = new DataTable('#tablateacher', {        
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'excel',
+                }
+            ],
+            language: {
+                url:'../js/Spanish.json'
+            },
+            "order": [[0,"desc"]],
+            "columnDefs" : [
+                {
+                    visible : true,
+                    searchable : true,
+                    serverSide : true,
+                    pageLength: 10
+                }
+            ]
+        });
 
-        function listarDocente(){
+        function listarDocente() {
             const parametros = new URLSearchParams();
-            parametros.append("operacion","listarDocente")
+            parametros.append('operacion', 'listarDocente');
 
             fetch("../controller/estudiantes.php", {
                 method: 'POST',
                 body: parametros
             })
             .then(response => response.json())
-            .then(datos => {
-                cuerpo.innerHTML = ``;
-                datos.forEach(element => {
-                    const estu = `
-                    <tr>
-                        <td>${element.idusuario}</td>
-                        <td>${element.nombres}</td>
-                        <td>${element.apellidos}</td>
-                        <td>${element.nrodocumento}</td>
-                        <td>${element.telefono}</td>
-                        <td>${element.email}</td>
-                        <td>${element.direccion}</td>
-                        <td>${element.fechanac}</td>
-                        <td>${element.nombreusuario}</td>
-                        <td>
-                            <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inhabilitar</a>
-                        </td>
-                        <td>
-                            <a href='#' type='button' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
-                        </td>
-                    </tr>
-                    `;
-                    cuerpo.innerHTML += estu;
+            .then(result => {
+                // Limpiar la tabla antes de agregar nuevas filas
+                tablaTeacher.clear();
+                // Agregar filas a la tabla
+                result.forEach(element => {
+                    const filaina =`<td>
+                                        <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inhabilitar</a>
+                                    </td>`;
+                    const edit =`<td>
+                                    <a href='#' type='button' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+                                </td>`;
+                    tablaTeacher.row.add([
+                        element.idusuario,
+                        element.nombres,
+                        element.apellidos, 
+                        element.nrodocumento,
+                        element.telefono,
+                        element.email,
+                        element.direccion,
+                        element.fechanac,
+                        element.nombreusuario,
+                        filaina,
+                        edit
+                    ]);
                 });
-                inicializarDataTablesTeacher();
+                // Dibujar la tabla
+                tablaTeacher.draw();
             })
+            .catch(error => console.error('Error en la solicitud fetch:', error));
         }
 
         function ProfesorInactivo(){

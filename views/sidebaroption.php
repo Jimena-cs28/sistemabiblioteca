@@ -19,7 +19,6 @@ switch ($permiso){
         </a>
         <div id='collapseTwo' class='collapse' aria-labelledby='headingTwo' data-parent='#accordionSidebar'>
             <div class='bg-white py-2 collapse-inner rounded'>
-                <h6 class='collapse-header'>Profesores:</h6>
                 <a class='collapse-item' href='index.php?view=profesores.php'>Nuevo Usuario</a>
                 <a class='collapse-item' href='index.php?view=listteacher.php'>Profesores</a>
                 <a class='collapse-item' href='index.php?view=liststudent.php'>Estudiantes</a>

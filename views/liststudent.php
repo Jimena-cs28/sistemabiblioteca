@@ -154,43 +154,104 @@
     const btGuardarE = document.querySelector("#guadarEditar");
     const Editar = new bootstrap.Modal(document.querySelector("#editar"));
 
+    const tablaEstudiantes = new DataTable('#tablasub', {        
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'excel',
+            }
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
 
-    function listarEstudiante(){
+    function listarEstudiante() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion","listarestudiantes")
+        parametros.append('operacion', 'listarestudiantes');
 
         fetch("../controller/estudiantes.php", {
             method: 'POST',
             body: parametros
         })
         .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                // idusuario = element.idusuario;
-                const estu = `
-                <tr>
-                    <td>${element.idusuario}</td>
-                    <td>${element.nombres}</td>
-                    <td>${element.apellidos}</td>
-                    <td>${element.nrodocumento}</td>
-                    <td>${element.telefono}</td>
-                    <td>${element.email}</td>
-                    <td>${element.direccion}</td>
-                    <td>${element.fechanac}</td>
-                    <td>${element.nombreusuario}</td>
-                    <td>
-                        <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
-                    </td>
-                    <td>
-                        <a href='#editar' type='button' data-toggle='modal' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += estu;
+        .then(result => {
+            // Limpiar la tabla antes de agregar nuevas filas
+            tablaEstudiantes.clear();
+            // Agregar filas a la tabla
+            result.forEach(element => {
+                const filaina =`<td>
+                                    <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                                </td>`;
+                const edit =`<td>
+                                <a href='#editar' type='button' data-toggle='modal' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+                            </td>`;
+                tablaEstudiantes.row.add([
+                    element.idusuario,
+                    element.nombres,
+                    element.apellidos, 
+                    element.nrodocumento,
+                    element.telefono,
+                    element.email,
+                    element.direccion,
+                    element.fechanac,
+                    element.nombreusuario,
+                    filaina,
+                    edit
+                ]);
             });
+            // Dibujar la tabla
+            tablaEstudiantes.draw();
         })
+        .catch(error => console.error('Error en la solicitud fetch:', error));
     }
+
+    // function listarEstudiante(){
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion","listarestudiantes")
+
+    //     fetch("../controller/estudiantes.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         cuerpo.innerHTML = ``;
+    //         datos.forEach(element => {
+    //             // idusuario = element.idusuario;
+    //             const estu = `
+    //             <tr>
+    //                 <td>${element.idusuario}</td>
+    //                 <td>${element.nombres}</td>
+    //                 <td>${element.apellidos}</td>
+    //                 <td>${element.nrodocumento}</td>
+    //                 <td>${element.telefono}</td>
+    //                 <td>${element.email}</td>
+    //                 <td>${element.direccion}</td>
+    //                 <td>${element.fechanac}</td>
+    //                 <td>${element.nombreusuario}</td>
+    //                 <td>
+    //                     <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+    //                 </td>
+    //                 <td>
+    //                     <a href='#editar' type='button' data-toggle='modal' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+    //                 </td>
+    //             </tr>
+    //             `;
+    //             cuerpo.innerHTML += estu;
+    //         });
+    //     })
+    // }
 
     function EstudianteInactivo(){
         const parametros = new URLSearchParams();

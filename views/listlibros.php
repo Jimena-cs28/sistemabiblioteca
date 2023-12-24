@@ -17,9 +17,9 @@
     <div class="card-body">
         <div class="table-responsive">
             <div class="col-md-6">
-                <label for="">Search
+                <!-- <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
-                </label>
+                </label> -->
                 <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
                 <button class="btn btn-primary mb-2 ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
             </div>
@@ -136,73 +136,73 @@
                 </button>
             </div>
             <div class="modal-body">
-            <form id="form-ejemplar">
+                <form id="form-ejemplar">
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="">CATEGORIA</label>
-                                    <input type="text" class="form-control"  disabled id="categoria">
+                                    <input type="text" class="form-control"  disabled id="Ccategoria">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="">SUB CATEGORIA</label>
-                                    <input type="text" class="form-control"  disabled id="subcategoria">
+                                    <input type="text" class="form-control"  disabled id="Csubcategoria">
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label for="">CANTIDAD</label>
-                                    <input type="" class="form-control" disabled id="cantidad">
+                                    <input type="" class="form-control" disabled id="Ccantidad">
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="">CODIGO</label>
-                                    <input type="number" class="form-control"  disabled id="codigo">
+                                    <input type="number" class="form-control"  disabled id="Ccodigo">
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="">AUTOR</label>
-                                    <input type="text" class="form-control"  disabled id="autor">
+                                    <input type="text" class="form-control"  disabled id="Cautor">
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-3">
                                     <label for="">Nº PAGINAS</label>
-                                    <input type="number" class="form-control"  disabled id="paginas">
+                                    <input type="number" class="form-control"  disabled id="Cpaginas">
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="">EDICION</label>
-                                    <input type="text" class="form-control"  disabled id="edicion">
+                                    <input type="text" class="form-control"  disabled id="Cedicion">
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="">FORMATO</label>
-                                    <input type="text" class="form-control"  disabled id="formato">
+                                    <input type="text" class="form-control"  disabled id="Cformato">
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="">AÑO</label>
-                                    <input type="text" class="form-control"  disabled id="anio">
+                                    <input type="text" class="form-control"  disabled id="Canio">
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label for="">EDITORIAL</label>
-                                    <input type="text" class="form-control"  disabled id="editorial">
+                                    <input type="text" class="form-control"  disabled id="Ceditorial">
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="">IDIOMA</label>
-                                    <input type="text" class="form-control"  disabled id="idioma">
+                                    <input type="text" class="form-control"  disabled id="Cidioma">
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="">TIPO</label>
-                                    <input type="text" class="form-control"  disabled id="tipo">
+                                    <input type="text" class="form-control"  disabled id="Ctipo">
                                 </div>
                             </div>
                             <div class="content mt-3">
                                 <label for="">DESCRIPCION</label>
-                                <textarea name="" id="descripcion" class="form-control" cols="0" rows="0" disabled></textarea>
+                                <textarea name="" id="Cdescripcion" class="form-control" cols="0" rows="0" disabled></textarea>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="content ml-3 mt-3">
-                                <img class="visor" alt="" id="img" width="300px" src="">
+                                <img class="visor" alt="" id="Cimg" width="300px" src="">
                             </div>
                         </div>
                     </div>
@@ -217,6 +217,7 @@
                                         <th>Ocupado</th>
                                         <th>Condicion</th>
                                         <th>Estado</th>
+                                        <th>Activar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -233,7 +234,6 @@
         </div>
     </div>
 </div>
-
 <!-- editar Libro -->
 <div class="modal fade" id="editar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -277,18 +277,6 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <label for="">AUTOR</label>
-                                    <select name="" class="form-control"  id="Eautor">
-
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="">Libro</label>
-                                    <input type="text" class="form-control"  id="Elibro">
-                                </div>
-                            </div>
-                            <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label for="">EDICION</label>
                                     <input type="text" class="form-control"  id="Eedicion">
@@ -298,12 +286,12 @@
                                     <input type="text" class="form-control"  id="Eformato">
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="">AÑO</label>
-                                    <input type="text" class="form-control"  id="Eanio">
+                                    <label for="">Libro</label>
+                                    <input type="text" class="form-control"  id="Elibro">
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-sm-4">
+                                <div class="content col-sm-4">
                                     <label for="">EDITORIAL</label>
                                     <select name="" id="Eeditorial" class="form-control"></select>
                                 </div>
@@ -317,12 +305,44 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-10">
-                                    <label for="">DESCRIPCION</label>
-                                    <textarea name="" id="Edescripcion" class="form-control" cols="0" rows="0"></textarea>
+                                <div class="col-sm-6">
+                                    <div class="content">
+                                        <label for="">AUTOR</label>
+                                            <div class="input-group mb-3">
+                                                <select name="" class="form-control"  id="Eautor">
+
+                                                </select>
+                                                <button type="button" class="btn btn-primary mb-2" id="btautor" autocomplete="off"><i class="bi bi-bookmark-plus"></i></button>
+                                            </div>
+                                        
+                                        <table class="table table-bordered mt-4" id="tablaA" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Autor</th>
+                                                    <th>Cambiar</th>
+                                                    <th>Quitar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 mt-4">
-                                    <button type="button" class="btn btn-success" id="GuadarE">Guardar</button>
+                                <div class="col-sm-1 mt-4">
+                                    <input type="checkbox" class="ml-3" id="idcheckA"> 
+                                    <a href="#" class="btn btn-info" style="display:none;" id="btplus" data-toggle="modal" data-target="#moreAutor">+</a>
+                                    <!-- <button >+</button> -->
+                                    <!-- <button class="btn btn-dark" id="btnoplus" >-</button> -->
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="content">
+                                        <label for="">AÑO</label>
+                                        <input type="date" class="form-control  mb-3"  id="Eanio">
+                                        <label for="">DESCRIPCION</label>
+                                        <textarea name="" id="Edescripcion" class="form-control" cols="0" rows="0"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -337,28 +357,13 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-md-12">
-                            <table class="table table-bordered" id="ejemplarA" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Libro</th>
-                                        <th>Codigo</th>
-                                        <th>Ocupado</th>
-                                        <th>Estado</th>
-                                        <th>Activar Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" id="GuadarE">Guardar</button>
             </div>
         </div>
     </div>
@@ -396,6 +401,53 @@
     </div>
 </div>
 
+<!-- aumentar autor -->
+<div class="modal fade" id="moreAutor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Aumentar Autor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" id="form-detallito" class="p-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Autor</label>
+                            <select name="" id="moreautorS" class="form-control">
+                                <!-- <option value="">rafa</option>
+                                <option value="">rafa</option>
+                                <option value="">rafa</option>
+                                <option value="">rafa</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <table class="table table-bordered mt-4" id="TAmentarA">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Autor</th>
+                                    <th>Quitar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="AumentarTA">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .estado-rojo {
         background-color: rgb(242, 201, 201);
@@ -404,32 +456,109 @@
 </style>
 
 <script>
-    const checkImg = document.querySelector("#changeimg")
+    const checkAutor = document.querySelector("#idcheckA");
+    const checkImg = document.querySelector("#changeimg");
+    const btPluss = document.querySelector("#btplus");
     const guardarEjem = document.querySelector("#GuadEditarEjem");
     const modalEditarE = new bootstrap.Modal(document.querySelector("#editarEjemplar"));
+    const modalEditarL = new bootstrap.Modal(document.querySelector("#editar"));
     const modalCantidad = new bootstrap.Modal(document.querySelector("#modal"));
-    const nombre = document.querySelector("#bookSearch");
+    const ModalAmentar = new bootstrap.Modal(document.querySelector("#moreAutor"));
+    const TAmentarA = document.querySelector("#TAmentarA");
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
     const cuerpoL = tabla.querySelector("tbody");
     const tablaE = document.querySelector("#ejemplarE");
-    const tablaA = document.querySelector("#ejemplarA");
+    const tablaA = document.querySelector("#tablaA");
     const cuerpoA = tablaA.querySelector("tbody");
     const cuerpoE = tablaE.querySelector("tbody");
     const selectcategoria = document.querySelector("#Ecategoria");
     const selectsubcategoria = document.querySelector("#Esubcategoria");
-    const selectAutores = document.querySelector("#Eautor");
+    const selectAutore = document.querySelector("#Eautor");
+    const SeletAutorA = document.querySelector("#moreautorS");
     const GuardarEditar = document.querySelector("#guadarlibroD");
     const inputFile = document.querySelector("#Efotografia");
     const selectEditorial = document.querySelector("#Eeditorial");
     const guardarUpadte = document.querySelector("#GuadarE");
     const librocantidad = document.querySelector("#libroCantidad");
     const imgE = document.querySelector("#Efotografia");
-    let iddetalleautor = '';
-    let idlibro = '';
+    let iddetalleautor;
+    let idlibro;
+    let idautor;
     checkImg.addEventListener('change', function() {
         imgE.disabled = !checkImg.checked;
     });
+
+    checkAutor.addEventListener('change', function() {
+        btPluss.style.display = checkAutor.checked ? 'inline-block' : 'none';
+    });
+
+    function agregarAutorU(){
+        if(selectAutore.value > 0){
+            const autorseleccionada = selectAutore.options[selectAutore.selectedIndex];
+            if(autorseleccionada.value != ""){
+                let file =            
+                `
+                <tr>
+                    <td>${autorseleccionada.value}</td>
+                    <td>${autorseleccionada.text}</td>
+                    <td>
+                        <a class ="eliminar btn btn-sm btn-danger">X</a>
+                    </td>
+                    <td>
+                        <a class ="disminuir btn btn-sm btn-info">-</a>
+                    </td>
+                </tr>
+                `;
+                tablaA.innerHTML += file;
+                // selectAutore.value = 0;
+                // SelectActor();
+            }
+        }
+    }
+
+    function agregarAutorAumentar(){
+        if(SeletAutorA.value > 0){
+            const autorseleccionadaA = SeletAutorA.options[SeletAutorA.selectedIndex];
+            if(autorseleccionadaA.value != ""){
+                let file =            
+                `
+                <tr>
+                    <td>${autorseleccionadaA.value}</td>
+                    <td>${autorseleccionadaA.text}</td>
+                    <td>
+                        <a class ="eliminar btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                `;
+                TAmentarA.innerHTML += file;
+                // selectAutore.value = 0;
+                // SelectActor();
+            }
+        }
+    }
+
+    SeletAutorA.addEventListener("change", agregarAutorAumentar);
+
+    tablaA.addEventListener("click", function(event) {
+        // Verificar si el clic fue en un botón de clase "btn-danger"
+        const element = event.target.closest(".eliminar");
+        if (element) {
+            // Obtener la fila a la que pertenece el botón
+            const filaAEliminar = event.target.closest("tr");
+
+            // Obtener el idejemplar de la fila
+            const idejemplarAEliminar = filaAEliminar.querySelector("td:first-child").textContent;
+
+            // Eliminar la fila de la tabla
+            filaAEliminar.remove();
+
+            // Eliminar el idejemplar del conjunto libroAgregados
+            // libroAgregados.delete(idejemplarAEliminar);
+        }
+    });
+
+    document.querySelector("#btautor").addEventListener("click", agregarAutorU);
 
     function Selectlibro(){
         const choiceLibro= new Choices(librocantidad, {
@@ -481,6 +610,27 @@
         })
     }
 
+    function listarSubCategoria(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarSubcategorias");
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+        selectsubcategoria.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                let selectS = `
+                    <option value='${element.idsubcategoria}'>${element.subcategoria}</option> 
+                `;
+                selectsubcategoria.innerHTML += selectS;
+            });
+        })
+    }
+
+    listarSubCategoria();
     listarCategoria();
 
     function selectsubCategoria(){
@@ -499,55 +649,68 @@
                     <option value='${element.idsubcategoria}'>${element.subcategoria}</option>`;
                     selectsubcategoria.innerHTML += opcion1;  
             });
-                
         });
     }
 
-    function inicializarDataTablesL() {
-        $('#tablalibros').DataTable({
-            // Personaliza según tus necesidades
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            },
-            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
-            pageLength: 10  // Número de filas por página
-        });
-    }
+    const tablaLibro = new DataTable('#tablalibros', {        
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'excel',
+            }
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
 
-    function listadoLibro(){
+    function listadoLibro() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion","listadolibro")
+        parametros.append('operacion', 'listadolibro');
 
         fetch("../controller/libros.php", {
             method: 'POST',
             body: parametros
         })
         .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const libro = `
-                <tr>
-                    <td>${element.idlibro}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.subcategoria}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.cantidad}</td>
-                    <td>${element.autor}</td>
-                    <td>${element.Disponible}</td>
-                    <td>
-                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
-                    </td>
-                    <td>
-                        <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += libro;
+        .then(result => {
+            // Limpiar la tabla antes de agregar nuevas filas
+            tablaLibro.clear();
+            // Agregar filas a la tabla
+            result.forEach(element => {
+                const filaina =`<td>
+                                    <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
+                                </td>`;
+                const edit =`<td>
+                                <a href='#' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
+                            </td>`;
+                tablaLibro.row.add([
+                    element.idlibro,
+                    element.categoria,
+                    element.subcategoria, 
+                    element.libro,
+                    element.codigo,
+                    element.cantidad,
+                    element.autor,
+                    element.Disponible,
+                    filaina,
+                    edit
+                ]);
             });
-            inicializarDataTablesL();
+            // Dibujar la tabla
+            tablaLibro.draw();
         })
+        .catch(error => console.error('Error en la solicitud fetch:', error));
     }
 
     function LibrosInactivo(){
@@ -616,9 +779,7 @@
             fd.append("anio",document.querySelector("#Eanio").value);
             fd.append("idioma", document.querySelector("#Eidioma").value);
             fd.append("descripcion",document.querySelector("#Edescripcion").value);
-            fd.append("idautor",selectAutores.value);
             
-
             fetch("../controller/libros.php",{
                 method: "POST",
                 body: fd
@@ -626,6 +787,7 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
+                    modalEditarL.toggle();
                     toast("Se hizo bien");
                 }else{
                     toastError("Seleccione la subcategoria");
@@ -640,6 +802,17 @@
             const fd = new FormData();
             fd.append("operacion","UpdateImg");
             fd.append("idlibro", idlibro);
+            fd.append("idsubcategoria",selectsubcategoria.value);
+            fd.append("ideditorial",selectEditorial.value);
+            fd.append("libro", document.querySelector("#Elibro").value);
+            fd.append("tipo",document.querySelector("#Etipo").value);
+            fd.append("numeropaginas",document.querySelector("#Epaginas").value);
+            fd.append("codigo",document.querySelector("#Ecodigo").value);
+            fd.append("edicion",document.querySelector("#Eedicion").value);
+            fd.append("formato",document.querySelector("#Eformato").value);
+            fd.append("anio",document.querySelector("#Eanio").value);
+            fd.append("idioma", document.querySelector("#Eidioma").value);
+            fd.append("descripcion",document.querySelector("#Edescripcion").value);
             fd.append("imagenportada",inputFile.files[0]);
 
             fetch("../controller/libros.php",{
@@ -653,21 +826,13 @@
                 }else{
                     if(datos.status){
                         // document.querySelector("#form-editar").resert();
-                        // notificar("LIBROS","Se Actualizo bien", 3)
+                        modalEditarL.toggle()
                         toast("Se hizo bien");
                     }else{
                         toastError("Seleccione la subcategoria");
                     }
                 }
             });
-        }
-    }
-
-    function ValidaImg(){
-        if(checkImg.checked){
-            UpdateImg();
-        }else{
-            UpdateBooks();
         }
     }
 
@@ -699,6 +864,38 @@
         }
     }
 
+    function traerAutor(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "traerAutor");
+        parametros.append("idlibro", idlibro);
+        fetch("../controller/libros.php",{
+            method : 'POST',
+            body:parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            cuerpoA.innerHTML = ``;
+            datos.forEach(element => {
+                iddetalleautor = element.iddetalleautor
+                idautor = element.idautor
+                console.log(iddetalleautor);
+                const ejemplar = `
+                <tr>
+                    <td>${element.idautor}</td>
+                    <td>${element.nombres}</td>
+                    <td>
+                        <a class ="eliminar btn btn-sm btn-danger">X</a>
+                    </td>
+                    <td>
+                        <a class ="disminuir btn btn-sm btn-info" data-idautor='${element.idautor}' data-iddetalleautor ='${element.iddetalleautor}'>-</a>
+                    </td>
+                </tr>`
+                ;
+                cuerpoA.innerHTML +=ejemplar;
+            });
+        });
+    }
+
     function traerEjemplar(){
         const parametros = new URLSearchParams();
         parametros.append("operacion", "TraerEjemplar");
@@ -712,6 +909,8 @@
             cuerpoE.innerHTML = ``;
             datos.forEach(element => {
                 const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
+                // Verificar el estado para decidir si agregar el atributo href
+                const linkHref = element.estado === '0' ? `class='activar'` : '';
                 const ejemplar = `
                 <tr  class='${estadoClase}'>
                     <td>${element.idejemplar}</td>
@@ -720,39 +919,12 @@
                     <td>${element.ocupado}</td>
                     <td>${element.condicion}</td>
                     <td>${element.estado}</td>
-                </tr>`
-                ;
-                cuerpoE.innerHTML +=ejemplar;
-            });
-        });
-    }
-
-    function traerEjemplar1(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "TraerEjemplar");
-        parametros.append("idlibro", idlibro);
-        fetch("../controller/libros.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpoA.innerHTML = ``;
-            datos.forEach(element => {
-                const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
-                const ejemplar = `
-                <tr  class='${estadoClase}'>
-                    <td>${element.idejemplar}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.codigo} - ${element.codigo_libro}</td>
-                    <td>${element.ocupado}</td>
-                    <td>${element.estado}</td>
                     <td>
-                        <a href='#' class='activar' type='button' data-idejemplar='${element.idejemplar}'>Activar</a>
+                        <a ${linkHref} href='#' type='button' data-idejemplar='${element.idejemplar}'>Activar</a>
                     </td>
                 </tr>`
                 ;
-                cuerpoA.innerHTML +=ejemplar;
+                cuerpoE.innerHTML +=ejemplar;
             });
         });
     }
@@ -767,17 +939,112 @@
         })
         .then(response => response.json())
         .then(datos => {
-            selectAutores.innerHTML = "<option value=''>Seleccione</option>";
+            selectAutore.innerHTML = "<option value=''>Seleccione</option>";
             datos.forEach(element => {
                 let selectAutor = `
-                    <option value='${element.idautor}'>${element.autor}-${element.apellidos}-${element.nacionalidad}</option> 
+                    <option value='${element.idautor}'>${element.autor}-${element.apellidos}</option> 
                 `;
-                selectAutores.innerHTML += selectAutor;
+                selectAutore.innerHTML += selectAutor;
             });
         })
     }
 
+    function SelectActorAumentar(){
+        // const choiseSAumentar = new Choices(SeletAutorA, {
+        //     searchEnabled: true,
+        //     itemSelectText: '',
+        //     allowHTML:true
+        // });
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectAutores");
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            SeletAutorA.innerHTML = "<option value=''>Seleccione</option>";
+            datos.forEach(element => {
+                let selectAutorS = `
+                    <option value='${element.idautor}'>${element.autor} - ${element.apellidos}</option> 
+                `;
+                SeletAutorA.innerHTML += selectAutorS;
+            });
+            // choiseSAumentar.setChoices([], 'value','label',true);
+            // choiseSAumentar.setChoices(datos, 'idautor','autor', true);
+        })
+    }
+
+    function AumentarAutor(){
+        const file = TAmentarA.rows;
+        for (let i = 1; i < file.length; i++) {
+            const idautorA = parseInt(file[i].cells[0].innerText);
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "AumentarAutor");
+            parametros.append("idlibro", idlibro);
+            parametros.append("idautor", idautorA);
+            
+            fetch("../controller/libros.php",{
+                method:'POST',
+                body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                if(datos.status){
+                    toast("Excelente");
+                    ModalAmentar.toggle();
+                    traerAutor();
+                }
+            })
+        }
+    }
+
+    document.querySelector("#AumentarTA").addEventListener("click", AumentarAutor);
+
     SelectActor();
+    SelectActorAumentar();
+
+    function UpdateAutor(){
+        const RowA = tablaA.rows;
+        for (let i = 1; i < RowA.length; i++) {
+            const Tidautor = parseInt(RowA[i].cells[0].innerText);
+            // const tdiddetalleauot = parseInt(RowA[i].dataset.iddetalleautor)
+            const fd = new URLSearchParams();
+            fd.append("operacion","ActualizarAutor");
+            fd.append("iddetalleautor",iddetalleautor);
+            fd.append("idlibro",idlibro);
+            fd.append("idautor",Tidautor);
+
+            fetch("../controller/libros.php",{
+                method: 'POST',
+                body: fd
+            })
+            .then(response => response.json())
+            .then(datos => {
+                console.log(idlibro)
+                console.log(iddetalleautor)
+                console.log(Tidautor)
+                if(datos.status){
+                    console.log("Hizo bien");
+                    modalEditarL.toggle();
+                }
+            })
+            .catch(error => {
+            console.error("Error en la solicitud fetch:", error);
+            });
+        }
+    }
+
+    function ValidaImg(){
+        if(checkImg.checked){
+            UpdateImg();
+            UpdateAutor();
+        }else{
+            UpdateBooks();
+            UpdateAutor();
+        }
+    }
 
     // codigo
     cuerpo.addEventListener("click", (event) => {
@@ -796,21 +1063,21 @@
             .then(datos => {
                 //console.log(idlibro)
                 datos.forEach(element => {
-                    document.querySelector("#categoria").value = element.categoria;
-                    document.querySelector("#subcategoria").value = element.subcategoria;
-                    document.querySelector("#editorial").value = element.nombres + " "+ element.paisorigen;
+                    document.querySelector("#Ccategoria").value = element.categoria;
+                    document.querySelector("#Csubcategoria").value = element.subcategoria;
+                    document.querySelector("#Ceditorial").value = element.nombres + " "+ element.paisorigen;
                     //document.querySelector("#libro").value = element.libro;
-                    document.querySelector("#cantidad").value = element.cantidad;
-                    document.querySelector("#paginas").value = element.numeropaginas;
-                    document.querySelector("#codigo").value = element.codigo;
-                    document.querySelector("#formato").value = element.formato;
-                    document.querySelector("#descripcion").value = element.descripcion;
-                    document.querySelector("#idioma").value = element.idioma;
-                    document.querySelector("#anio").value = element.anio;
-                    document.querySelector("#tipo").value = element.tipo;
-                    document.querySelector("#img").src = `./img/${element.imagenportada}`;
-                    document.querySelector("#edicion").value = element.edicion;
-                    document.querySelector("#autor").value = element.apellidos + " " + element.autor + " " + element.nacionalidad;
+                    document.querySelector("#Ccantidad").value = element.cantidad;
+                    document.querySelector("#Cpaginas").value = element.numeropaginas;
+                    document.querySelector("#Ccodigo").value = element.codigo;
+                    document.querySelector("#Cformato").value = element.formato;
+                    document.querySelector("#Cdescripcion").value = element.descripcion;
+                    document.querySelector("#Cidioma").value = element.idioma;
+                    document.querySelector("#Canio").value = element.anio;
+                    document.querySelector("#Ctipo").value = element.tipo;
+                    document.querySelector("#Cimg").src = `./img/${element.imagenportada}`;
+                    document.querySelector("#Cedicion").value = element.edicion;
+                    document.querySelector("#Cautor").value = element.apellidos + " " + element.autor + " " + element.nacionalidad;
                     // traerEjemplar();
                 });
                 traerEjemplar();
@@ -820,6 +1087,7 @@
 
     cuerpo.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'editar'){
+            modalEditarL.toggle();
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
             idlibro = parseInt(event.target.dataset.idlibro);
             const parametros = new URLSearchParams();
@@ -835,6 +1103,7 @@
                 result.forEach(element => {
                     selectcategoria.value = element.idcategoria;
                     selectsubcategoria.value = element.idsubcategoria;
+                    // console.log(element.idsubcategoria)
                     selectEditorial.value = element.ideditorial;
                     document.querySelector("#Elibro").value = element.libro;
                     document.querySelector("#Epaginas").value = element.numeropaginas;
@@ -846,13 +1115,35 @@
                     document.querySelector("#Etipo").value = element.tipo;
                     document.querySelector("#Eimg").src = `./img/${element.imagenportada}`;
                     document.querySelector("#Eedicion").value = element.edicion;
-                    selectAutores.value = element.idautor;
+                    // selectAutore.value = element.idautor;
                 });
-                traerEjemplar1();
+                traerAutor()
             })  
         }
     });
 
+    cuerpoA.addEventListener("click", (event) => {
+        const elementoDetalle = event.target.closest(".disminuir");
+        if(elementoDetalle){
+            idautor = parseInt(event.target.dataset.idautor);
+            iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
+            mostrarPregunta("AUTORES", "¿Estas seguro de borrar el autor?").then((result)=>{
+                if(result.isConfirmed){
+                    const parametros = new URLSearchParams();
+                    parametros.append("operacion","DesactivarDetalleautor");
+                    parametros.append("iddetalleautor", iddetalleautor);
+                    fetch("../controller/libros.php",{
+                        method: 'POST',
+                        body: parametros
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        traerAutor()
+                    })
+                }
+            })
+        }
+    });
     // guardarUpadte.addEventListener("click", UpdateBooks);
     guardarUpadte.addEventListener("click", ValidaImg);
     GuardarEditar.addEventListener("click", UpdateCantidad);
@@ -892,24 +1183,23 @@
         .then(datos => {
             if(datos.status){
                 modalEditarE.toggle();
-                traerEjemplar1();
+                traerEjemplar();
                 listadoLibro();
             }
         });
     }
 
-    cuerpoA.addEventListener("click", (event) => {
+    cuerpoE.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'activar'){
             idlibro = parseInt(event.target.dataset.idlibro);
             idejemplar = parseInt(event.target.dataset.idejemplar);
             modalEditarE.toggle();
-            
         }
     });
 
     guardarEjem.addEventListener("click",activarejemplar);
 
-    LibrosInactivo();
+    // LibrosInactivo();
 
     inputFile.addEventListener("change", (e) => {
         if(inputFile.files.length > 0) {  
@@ -919,46 +1209,11 @@
         }
     });
 
-    function seachBook(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "buscarBook");
-        parametros.append("nombre", nombre.value);
-        fetch("../controller/libros.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const libro = `
-                <tr>
-                    <td>${element.idlibro}</td>
-                    <td>${element.categoria}</td>
-                    <td>${element.subcategoria}</td>
-                    <td>${element.libro}</td>
-                    <td>${element.codigo}</td>
-                    <td>${element.cantidad}</td>
-                    <td>${element.autor}</td>
-                    <td>${element.Disponible}</td>
-                    <td>
-                        <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Codigo</a>
-                    </td>
-                    <td>
-                        <a href='#editar' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Actualizar</a>
-                    </td>
-                </tr>
-                `;
-                cuerpo.innerHTML += libro;
-            });
-        })
-    }
-
     Selectlibro();
     listarEditorial();
     listadoLibro();
     selectcategoria.addEventListener("change", selectsubCategoria);
-    nombre.addEventListener("keypress", (evt) => {
-        if(evt.charCode == 13) seachBook();
-    });
+    // nombre.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode == 13) seachBook();
+    // });
 </script>

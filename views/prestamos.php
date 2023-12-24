@@ -26,7 +26,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="dataTable" class="table" >
+            <table id="tablePtodo" class="table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -172,53 +172,92 @@
     const fentrega = document.querySelector("#Fentrega");
     const fdevolucion = document.querySelector("#Fdevolucion");
 
-    function inicializarDataTables() {
-        $('#dataTable').DataTable({
-            // Personaliza según tus necesidades
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            },
-            order: [[0, 'desc']],  // Orden inicial por la primera columna de forma descendente
-            pageLength: 10  // Número de filas por página
-        });
-    }
-
         // Tu función existente para cargar los datos
+    // function listarprestamo() {
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "listarcasiprestamo");
+
+    //     fetch("../controller/prestamos.php", {
+    //         method: 'POST',
+    //         body: parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         const cuerpo = document.getElementById('cuerpoTabla');
+    //         cuerpo.innerHTML = ``;
+    //         datos.forEach(element => {
+    //             const pres = `
+    //             <tr>
+    //                 <td>${element.idprestamo}</td>
+    //                 <td>${element.Nombres}</td>
+    //                 <td>${element.descripcion}</td>
+    //                 <td>${element.enbiblioteca}</td>
+    //                 <td>${element.fechasolicitud}</td>
+    //                 <td>${element.fechaentrega || "---------------"}</td>
+    //                 <td>${element.fechaprestamo}</td>
+    //                 <td>
+    //                     <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
+    //                 </td>               
+    //             </tr>
+    //             `;
+    //             cuerpo.innerHTML += pres;
+    //         });
+    //     });
+    // }
+
+    const tablaPres = new DataTable('#tablePtodo', {        
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'excel',
+            }
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
+
     function listarprestamo() {
         const parametros = new URLSearchParams();
-        parametros.append("operacion", "listarcasiprestamo");
+        parametros.append('operacion', 'listarcasiprestamo');
 
         fetch("../controller/prestamos.php", {
             method: 'POST',
             body: parametros
         })
         .then(response => response.json())
-        .then(datos => {
-            const cuerpo = document.getElementById('cuerpoTabla');
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const pres = `
-                <tr>
-                    <td>${element.idprestamo}</td>
-                    <td>${element.Nombres}</td>
-                    <td>${element.descripcion}</td>
-                    <td>${element.enbiblioteca}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaentrega || "---------------"}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>
-                        <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
-                    </td>               
-                </tr>
-                `;
-                cuerpo.innerHTML += pres;
+        .then(result => {
+            // Limpiar la tabla antes de agregar nuevas filas
+            tablaPres.clear();
+            // Agregar filas a la tabla
+            result.forEach(element => {
+                const filaoperaciones =`<td><a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a></td>`;
+                tablaPres.row.add([
+                    element.idprestamo,
+                    element.Nombres,
+                    element.descripcion, 
+                    element.enbiblioteca,
+                    element.fechasolicitud,
+                    element.fechaentrega,
+                    element.fechaprestamo,
+                    filaoperaciones
+                ]);
             });
-
-            // Después de cargar los datos, inicializa DataTables
-            inicializarDataTables();
-        });
+            // Dibujar la tabla
+            tablaPres.draw();
+        })
+        .catch(error => console.error('Error en la solicitud fetch:', error));
     }
-
     
     function listarEjemplare(){
     const parametros = new URLSearchParams();
@@ -289,42 +328,42 @@
         }
     });
 
-    function searchPrestamo(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "SeachPrestamo");
-        parametros.append("nombres", secharP.value);
-        fetch("../controller/prestamos.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpo.innerHTML = ``;
-            datos.forEach(element => {
-                const pres = `
-                <tr>
-                    <td>${element.idprestamo}</td>
-                    <td>${element.Nombres}</td>
-                    <td>${element.descripcion}</td>
-                    <td>${element.enbiblioteca}</td>
-                    <td>${element.fechasolicitud}</td>
-                    <td>${element.fechaentrega}</td>
-                    <td>${element.fechaprestamo}</td>
-                    <td>
-                        <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
-                    <td>               
-                </tr>
-                `;
-                cuerpo.innerHTML += pres;
-            });
-        });
-    }
+    // function searchPrestamo(){
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "SeachPrestamo");
+    //     parametros.append("nombres", secharP.value);
+    //     fetch("../controller/prestamos.php",{
+    //         method : 'POST',
+    //         body:parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         cuerpo.innerHTML = ``;
+    //         datos.forEach(element => {
+    //             const pres = `
+    //             <tr>
+    //                 <td>${element.idprestamo}</td>
+    //                 <td>${element.Nombres}</td>
+    //                 <td>${element.descripcion}</td>
+    //                 <td>${element.enbiblioteca}</td>
+    //                 <td>${element.fechasolicitud}</td>
+    //                 <td>${element.fechaentrega}</td>
+    //                 <td>${element.fechaprestamo}</td>
+    //                 <td>
+    //                     <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
+    //                 <td>               
+    //             </tr>
+    //             `;
+    //             cuerpo.innerHTML += pres;
+    //         });
+    //     });
+    // }
 
     listarprestamo();
 
-    secharP.addEventListener("keypress", (evt) => {
-        if(evt.charCode == 13) searchPrestamo();
-    });
+    // secharP.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode == 13) searchPrestamo();
+    // });
 
     // document.getElementById('exportButton').addEventListener('click', function () {
     //     exportToExcel('#dataTable');

@@ -68,7 +68,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_registrar_libro(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idsubcategoria"],
@@ -84,7 +84,6 @@ class Libro extends conexion{
           $datos["idioma"],
           $datos["descripcion"],
           $datos["imagenportada"],
-          $datos["idautor"],
           $datos["condicion"]
         )
       );
@@ -240,7 +239,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_update_libro(?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -254,8 +253,7 @@ class Libro extends conexion{
           $datos["formato"],
           $datos["anio"],
           $datos["idioma"],
-          $datos["descripcion"],
-          $datos["idautor"]
+          $datos["descripcion"]
         )
       );
     }
@@ -283,10 +281,21 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_update_img(?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_update_img(?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
-          $datos["idlibro"],
+          $datos["idlibro"],         
+          $datos["idsubcategoria"],
+          $datos["ideditorial"],
+          $datos["libro"],
+          $datos["tipo"],
+          $datos["numeropaginas"],
+          $datos["codigo"],
+          $datos["edicion"],
+          $datos["formato"],
+          $datos["anio"],
+          $datos["idioma"],
+          $datos["descripcion"],
           $datos["imagenportada"]
         )
       );
@@ -295,5 +304,82 @@ class Libro extends conexion{
       $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
     return $respuesta;
+  }
+
+  public function traerIdlibroA(){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_idlibro_autor()");
+      $consulta->execute();
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function registrarAutor($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_registrar_autores(?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idlibro"],
+          $datos["idautor"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
+
+  public function TraerAutor($idlibro){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_traer_Autor(?)");
+      $consulta->execute(array($idlibro));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function UpdateActor($datos = []){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_actualizar_actores(?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["iddetalleautor"],
+          $datos["idlibro"],
+          $datos["idautor"]
+        )
+      );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
+    }
+    return $respuesta;
+  }
+
+  public function DesactivarDetalleautor($iddetalleautor){
+    try{
+      $consulta = $this->acesso->prepare("CALL spu_desactivar_detalleautor(?)");
+      $consulta->execute(array($iddetalleautor));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
   }
 }
