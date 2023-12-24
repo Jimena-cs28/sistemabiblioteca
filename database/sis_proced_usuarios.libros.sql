@@ -1,6 +1,7 @@
 DROP DATABASE sistemabiblioteca;
 --  LIBROS Y USUARIOS
 SELECT * FROM libros
+SELECT *FROM detalleautores
 -- REGISTRAR LIBRO
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_libro
@@ -18,7 +19,6 @@ CREATE PROCEDURE spu_registrar_libro
     IN _idioma VARCHAR(30),
     IN _descripcion TEXT,
     IN _imagenportada VARCHAR(200),
-    IN _idautor  INT,
     IN _condicion VARCHAR(100)
 )
 BEGIN
@@ -31,9 +31,6 @@ BEGIN
 	
      SET @idlibro = LAST_INSERT_ID();
      
-     INSERT INTO detalleautores(idlibro, idautor) VALUES
-				(@idlibro, _idautor);
-
     -- Obtener la cantidad de libros para el ID 
     SELECT cantidad INTO cantidad_libros FROM libros WHERE idlibro = @idlibro;
 
@@ -58,7 +55,8 @@ BEGIN
     END WHILE;
 END $$
 
-DELIMITER $$
+ -- para aumentar la cantidad funciona
+DELIMITER $$ 
 CREATE PROCEDURE spu_actualizar_libro
 (
     IN p_idlibro INT, 
@@ -120,8 +118,7 @@ CREATE PROCEDURE spu_update_libro
     IN _formato VARCHAR(50),
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
-    IN _descripcion VARCHAR(200),
-    IN _idautor  INT
+    IN _descripcion VARCHAR(200)
 )
 BEGIN
 
@@ -139,10 +136,6 @@ BEGIN
         idioma = _idioma,
         descripcion = _descripcion
         WHERE idlibro = _idlibro;
-        
-        UPDATE detalleautores SET
-        idautor = _idautor
-        WHERE idlibro = _idlibro;
 END $$
 
 
@@ -150,21 +143,102 @@ DELIMITER $$
 CREATE PROCEDURE spu_update_img
 (
     IN _idlibro INT, 
+    IN _idsubcategoria INT,
+    IN _ideditorial INT,
+    IN _libro VARCHAR(100),
+    IN _tipo VARCHAR(50),
+    IN _numeropaginas SMALLINT,
+    IN _codigo DECIMAL(6,3),
+    IN _edicion VARCHAR(100),
+    IN _formato VARCHAR(50),
+    IN _anio	DATE,
+    IN _idioma  VARCHAR(20),
+    IN _descripcion VARCHAR(200),
     IN _imagenportada VARCHAR(100)
+    
 )
 BEGIN
-
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
+        idsubcategoria = _idsubcategoria,
+        ideditorial = _ideditorial,
+        libro = _libro,
+        tipo = _tipo,
+        numeropaginas = _numeropaginas,
+        codigo = _codigo,
+        edicion = _edicion,
+        formato = _formato,
+        anio = _anio,
+        idioma = _idioma,
+        descripcion = _descripcion,
         imagenportada = _imagenportada
         WHERE idlibro = _idlibro;
 END $$
 
+SELECT * FROM detalleautores
+-- traer el libro
+DELIMITER $$
+CREATE PROCEDURE spu_traer_idlibro_autor()
+BEGIN
+	SELECT libros.idlibro, libros.libro
+	FROM libros
+	ORDER BY libros.idlibro DESC LIMIT 1;
+END $$
+
+CALL spu_traer_Autor()
+ALTER TABLE autores ADD COLUMN estado CHAR(1) NOT NULL DEFAULT 1;
+
+
+-- UPDATE AUTORES
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_actores
+(
+	IN _iddetalleautor INT,
+	IN _idlibro INT,
+	IN _idautor INT
+)
+BEGIN
+	UPDATE detalleautores SET
+	idautor = _idautor,
+	idlibro = _idlibro
+	WHERE iddetalleautor = _iddetalleautor AND detalleautores.estado = 1;
+END $$
+
+CALL spu_actualizar_actores(34,34,10)
+CALL spu_actualizar_actores(34,34,3)
+SELECT * FROM detalleautores
+-- falta
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_autores
+(
+	IN _idlibro INT,
+	IN _idautor INT
+)
+BEGIN
+	INSERT INTO detalleautores(idlibro,idautor) VALUES
+		(_idlibro,_idautor);
+END $$
+
+
 CALL spu_update_libro(1,5,1,'fisica conceptual','text',142,'534','','','','español','','',2)
-SELECT * FROM ejemplares
+SELECT * FROM autores
 SELECT * FROM libros
 
+DELIMITER $$
+CREATE PROCEDURE spu_traer_Autor
+(
+	IN _idlibro INT
+)
+BEGIN
+	SELECT iddetalleautor, autores.idautor,libros.idlibro, CONCAT(autores.apellidos,' ', autores.autor) AS 'nombres'
+	FROM detalleautores
+	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	INNER JOIN autores ON autores.idautor = detalleautores.idautor
+	WHERE detalleautores.idlibro = _idlibro AND detalleautores.estado = 1;
+END $$
+CALL spu_traer_Autor(34)
 
+SELECT * FROM detalleautores
 INSERT INTO ejemplares (idlibro,codigo_libro,condicion) VALUES
 	(1,2,'Usado'),
 	(1,2,'Usado'),
@@ -172,6 +246,7 @@ INSERT INTO ejemplares (idlibro,codigo_libro,condicion) VALUES
 
 UPDATE ejemplares SET codigo_libro = 1 WHERE idejemplar = 1
 
+-- este no
 DELIMITER $$
 CREATE PROCEDURE spu_actualizar_libro
 (
@@ -536,66 +611,6 @@ CALL spu_activar_estado(24)
 SELECT * FROM ejemplares
 SELECT * FROM libros
 
-DELIMITER $$
-CREATE PROCEDURE spu_search_book
-(
-	IN _nombre VARCHAR(50)
-)
-BEGIN
-	SELECT 
-	    ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
-	    lib.codigo,
-	    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-	FROM 
-	    subcategorias sub
-	    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-	    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-	    JOIN detalleautores det ON lib.idlibro = det.idlibro
-	    JOIN autores aut ON det.idautor = aut.idautor
-	    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE 
-	    lib.estado IN (1,0) AND (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
-	GROUP BY 
-	    ej.idlibro
-	ORDER BY 
-	    ej.idlibro DESC;
-
-	-- Luego, la sentencia UPDATE
-	UPDATE libros AS lib
-	SET 
-	    lib.estado = 
-		CASE
-		    WHEN (
-			SELECT COUNT(*) 
-			FROM ejemplares ej
-			WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
-		    ) > 0 THEN 1
-		    ELSE 0
-		END
-	WHERE 
-	    EXISTS (
-		SELECT 1
-		FROM ejemplares ej
-		WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
-	    );
-END $$
-
-
-CALL spu_search_book('odi')
-SELECT * FROM usuarios
-DELIMITER $$
-CREATE PROCEDURE spu_search_user
-(
-	IN _nombre VARCHAR(50)
-)
-BEGIN
-	SELECT idusuario, roles.nombrerol, personas.nombres, personas.apellidos, personas.nrodocumento, personas.telefono, personas.email, personas.direccion, nombreusuario
-	FROM usuarios
-	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3 AND estado = 1 AND (_nombre ="" OR personas.nombres LIKE CONCAT("%", _nombre , "%"));
-END $$
-
 UPDATE ejemplares SET condicion = 'Deteriorado' WHERE idejemplar = 99
 
 SELECT * FROM ejemplares
@@ -630,6 +645,27 @@ BEGIN
 	ORDER BY subcategorias.idsubcategoria DESC;
 END $$
 
+ALTER TABLE detalleautores ADD COLUMN estado CHAR(1) NOT NULL DEFAULT '1'
+
+SELECT * FROM detalleautores
+-- desactivar Estado
+
+DELIMITER $$
+CREATE PROCEDURE spu_desactivar_detalleautor
+(
+	IN _iddetalleautor INT
+)
+BEGIN
+	UPDATE detalleautores SET
+	estado = '0'
+	WHERE iddetalleautor = _iddetalleautor;
+END $$
+
+
+CALL spu_desactivar_autor(1)
+
+UPDATE autores SET
+estado = 1 WHERE idautor = 18
 
 
 

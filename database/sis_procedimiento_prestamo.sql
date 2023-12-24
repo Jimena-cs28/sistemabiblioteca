@@ -32,19 +32,23 @@ CREATE PROCEDURE spu_libroentregado_register
 (
 	IN _idprestamo INT,
 	IN _idejemplar INT,
+	IN _condicionEntrega VARCHAR(40),
 	IN _fechadevolución DATETIME
 )
 BEGIN
 	DECLARE _idbene INT;
 	-- IF _fechadevolución = "" THEN SET _fechadevolución = NULL; END IF;
-
+	
 	SELECT idbeneficiario INTO _idbene
 	FROM prestamos
 	WHERE idprestamo = _idprestamo;
+	-- select * from prestamos
+		
+	    -- Verifica si hay suficientes libros disponibles para restar
     
         -- Registra el libro entregado
-	INSERT INTO librosentregados (idprestamo, idejemplar ,fechadevolucion) VALUES
-			(_idprestamo,_idejemplar,_fechadevolución);
+	INSERT INTO librosentregados (idprestamo, idejemplar, condicionentrega,fechadevolucion) VALUES
+			(_idprestamo,_idejemplar, _condicionEntrega,_fechadevolución);
         
         UPDATE prestamos SET
         estado = 'R'
@@ -53,59 +57,11 @@ BEGIN
         UPDATE ejemplares SET
         ocupado = 'SI'
         WHERE idejemplar = _idejemplar;
-     
+        
         UPDATE usuarios SET
         estado = '0',
         inactive_at = NOW()
         WHERE idusuario = _idbene;
-END $$
-
--- LISTO
-DELIMITER $$
-CREATE PROCEDURE spu_libroentregado_register
-(
-	IN _idprestamo INT,
-	IN _idejemplar INT,
-	IN _condicionentrega VARCHAR(30),
-	IN _fechadevolución DATETIME
-)
-BEGIN
-    DECLARE _rolusuario VARCHAR(50);
-
-    -- Obtiene el rol del usuario del préstamo
-    SELECT r.idrol INTO _rolusuario
-    FROM prestamos p
-    JOIN usuarios u ON p.idbeneficiario = u.idusuario
-    JOIN roles r ON u.idrol = r.idrol
-    WHERE p.idprestamo = _idprestamo;
-
-    -- Verifica si el rol del usuario es "Estudiante"
-    IF _rolusuario = 3 THEN
-        -- Verifica si ya hay un ejemplar registrado para el préstamo
-        IF EXISTS (SELECT 1 FROM librosentregados WHERE idprestamo = _idprestamo) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Los estudiantes solo pueden registrar un ejemplar por préstamo.';
-        END IF;
-    END IF;
-
-    -- Registra el libro entregado
-    INSERT INTO librosentregados (idprestamo, idejemplar,condicionentrega, fechadevolucion)
-    VALUES (_idprestamo, _idejemplar,_condicionentrega, _fechadevolución);
-
-    -- Actualiza el estado del préstamo y del ejemplar
-    UPDATE prestamos SET estado = 'R' WHERE idprestamo = _idprestamo;
-    UPDATE ejemplares SET ocupado = 'SI' WHERE idejemplar = _idejemplar;
-
-    -- Desactiva al usuario si es estudiante y ha entregado un ejemplar
-    IF _rolusuario = 'Estudiante' THEN
-        UPDATE usuarios
-        SET estado = '0', inactive_at = NOW()
-        WHERE idusuario = (SELECT idbeneficiario FROM prestamos WHERE idprestamo = _idprestamo);
-    ELSE
-	UPDATE usuarios
-        SET estado = '0', inactive_at = NOW()
-        WHERE idusuario = (SELECT idbeneficiario FROM prestamos WHERE idprestamo = _idprestamo);
-    END IF;
 END $$
 
 SELECT * FROM roles
@@ -125,10 +81,10 @@ BEGIN
 END $$
 
 -- AQUI SE TRAE EL PRESTAMO PARA REGISTRAR LOS LIBROS
-SELECT * FROM roles
+SELECT * FROM libros
 UPDATE libros SET cantidad = 12 WHERE idlibro = 6
-SELECT * FROM librosentregados
 SELECT * FROM prestamos
+SELECT * FROM usuarios
 
 DELIMITER $$
 CREATE PROCEDURE spu_traer_prestamo
@@ -139,7 +95,7 @@ BEGIN
 	SELECT prestamos.idprestamo, prestamos.idbeneficiario
 	FROM prestamos
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
-	WHERE prestamos.idbeneficiario = _idbeneficiario AND DATE(prestamos.fechasolicitud) = CURDATE()
+	WHERE prestamos.idbeneficiario = 4 AND DATE(prestamos.fechasolicitud) = CURDATE()
 	ORDER BY prestamos.idprestamo DESC LIMIT 1;
 END $$
 

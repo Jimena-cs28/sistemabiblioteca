@@ -53,7 +53,7 @@
                     <div class="ml-5 row mt-3">
                         <label style="color:#000000;" class="fw-bold">TIPO DE PRÉSTAMOS</label>
                         <div class="form-check ml-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora" checked>
                             <label class="form-check-label" for="flexRadioDefault1">PRESTAR</label>
                             <input class="form-check-input ml-4" type="radio" name="flexRadioDefault" id="reservar">
                             <label class="form-check-label ml-5" for="flexRadioDefault2">RESERVAR</label>
@@ -63,7 +63,7 @@
                             <h6>---------------------------------------------------------------------------------------------------------------</h6>
                         </div>
                     </div>
-                    <div id="prestamo-div">
+                    <div>
                         <div class="row ml-5 mt-4">
                             <div class="col-md-3" id="divPrestamo">
                                 <label for="" style="color:#000000;" class="fw-bolder">FECHA PRÉSTAMO</label>
@@ -87,42 +87,39 @@
                             </div>
                         </div>
                         <div class="row ml-5 mt-4">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label for="libro" class="fw-bolder" style="color:#000000;">Libro</label>
                                 <select name="" id="selectlibro" class="form-control">
 
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label class="fw-bolder" style="color:#000000;">Codigo</label>
                                 <select name="" id="filtroEjemplar" class="form-control mb-3">
                                     <!-- <option value="">Hola</option> -->
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="fw-bolder" style="color:#000000;">Cantidad</label>
                                 <input type="number" class="form-control" id="cantidad" value="1" required>
                             </div>
-                        </div>
-                        <div class="row ml-5 mt-4">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label class="fw-bolder" style="color:#000000;">Condición Entrega</label>
                                 <input type="text" class="form-control mb-3" id="condicionentrega" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label class="fw-bolder" style="color:#000000;">Fecha devolucion</label>
                                 <div class="input-group mb-4">
                                     <input type="date" class="form-control" id="fechadevolucion" required>
                                     
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-4">
-                            <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
+                            <div class="col-md-1 mt-4">
+                                <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
                             </div>
                         </div>
-                        
                     </div>
-                    <div class="row ml-5 mt-4">
+                    <div class="row ml-5 mt-2">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
@@ -193,7 +190,6 @@
         traerRol();
     })
 
-    
     function Reseteartabla(){
         const row = tablalibro.querySelectorAll('tbody tr');
         row.forEach((fila) => {
@@ -203,14 +199,14 @@
 
     Reservar.addEventListener("change", function (){
         if (Reservar.checked) {
-            prestamoDiv.style.display = 'block';
+            // prestamoDiv.style.display = 'block';
             divPrestamo.style.display = 'block';
         }
     });
 
     ahora.addEventListener("change", function() {
         if(ahora.checked){
-            prestamoDiv.style.display = 'block';
+            // prestamoDiv.style.display = 'block';
             divPrestamo.style.display = 'none';
         }
     });
@@ -427,14 +423,6 @@
                 toastError("Solo se permiten devoluciones hasta cuatro días después de mañana");
                 return;
             }
-
-            // const fechaHoy = new Date();
-            // const fechaDevolucionDate = new Date(fechaDevolucion);
-            // if (fechaDevolucionDate > fechaHoy) {
-            //     toastError("La fecha de devolución no puede ser anterior al día de hoy");
-            //     return;
-            // }
-
             // No agregar el libro si las fechas no son válidas o si ya ha sido agregado
             if (libroAgregados.has(idejemplar)) {
                 toastError("Este libro ya ha sido agregado");
@@ -446,12 +434,11 @@
                         <td>${fechaDevolucion}</td>
                         <td>${condicion}</td>
                         <td>
-                            <a href='#' class='btn btn-danger eliminar'>Eliminar</a>
+                            <a href='#' class=' btn btn-sm btn btn-danger eliminar'>Eliminar</a>
                         </td>
                     </tr>`;
                 tablalibro.innerHTML += nuevaFila;
                 libroAgregados.add(idejemplar);
-                // cantidadAgregada++;
             }
         }
     }
@@ -709,28 +696,6 @@
             });
         });
     }
-
-    // function TraerDescripcion() {
-    //     const parametros = new URLSearchParams();
-    //     parametros.append("operacion", "traerDescripcion");
-    //     parametros.append("idusuario", filtroStudent.value);
-
-    //     fetch("../controller/prestamos.php", {
-    //         method: 'POST',
-    //         body: parametros
-    //     })
-    //     .then(response => response.json())
-    //     .then(datos => {
-    //         console.log(datos);
-    //         // Check if datos array is empty
-    //         if (datos.length === 0) {
-    //             alert("No data available");
-    //         } else {
-    //             // Assuming you want to update 'des' with the first item in the array
-    //             des.value = datos[0].descripcion;
-    //         }
-    //     })
-    // }
 
     conseguirlibros();
     // listarprestamo();

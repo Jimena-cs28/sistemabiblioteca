@@ -54,7 +54,6 @@ if (isset($_POST['operacion'])){
       "idioma"            => $_POST['idioma'],
       "descripcion"       => $_POST['descripcion'],
       "imagenportada"     => $nombreGuardar,
-      "idautor"           => $_POST['idautor'],
       "condicion"         => $_POST['condicion']
     ];
 
@@ -62,14 +61,13 @@ if (isset($_POST['operacion'])){
     echo json_encode($respuesta);
   }
 
-  
   if($_POST['operacion'] == 'listadolibro'){
-
     $datos = $libro->listadolibro();
     if($datos){
       echo json_encode($datos);
     }
   }
+
   if($_POST['operacion'] == 'selectAutores'){
     $datos = $libro->selectAutor();
     if($datos){
@@ -78,7 +76,6 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'listarSubcategorias'){
-
     $datos = $libro->listarSubcategorias();
     if($datos){
       echo json_encode($datos);
@@ -86,7 +83,6 @@ if (isset($_POST['operacion'])){
   }
 
   if($_POST['operacion'] == 'librosInactivo'){
-
     $datos = $libro->librosInactivo();
     if($datos){
       echo json_encode($datos);
@@ -165,6 +161,17 @@ if (isset($_POST['operacion'])){
     }
     $datosGuardar = [
       "idlibro"           => $_POST['idlibro'],
+      "idsubcategoria"     => $_POST['idsubcategoria'],
+      "ideditorial"       => $_POST['ideditorial'],
+      "libro"            => $_POST['libro'],
+      "tipo"              => $_POST['tipo'],
+      "numeropaginas"     => $_POST['numeropaginas'],
+      "codigo"            => $_POST['codigo'],
+      "edicion"           => $_POST['edicion'],
+      "formato"           => $_POST['formato'],
+      "anio"              => $_POST['anio'],
+      "idioma"            => $_POST['idioma'],
+      "descripcion"       => $_POST['descripcion'],
       "imagenportada"       => $nombreGuardara
     ];
 
@@ -192,11 +199,56 @@ if (isset($_POST['operacion'])){
       "formato"           => $_POST['formato'],
       "anio"              => $_POST['anio'],
       "idioma"            => $_POST['idioma'],
-      "descripcion"       => $_POST['descripcion'],
-      "idautor"           => $_POST['idautor']
+      "descripcion"       => $_POST['descripcion']
     ];
 
     $respuesta = $libro->UpdateBook($datosGuardar);
     echo json_encode($respuesta);
+  }
+
+  if($_POST['operacion'] == 'traerIdlibro'){
+    $datos = $libro->traerIdlibroA();
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'RegistrarAutor'){
+    $datosGuardar = [
+      "idlibro"         => $_POST['idlibro'],
+      "idautor"        => $_POST['idautor']
+    ];
+    echo json_encode($libro->registrarAutor($datosGuardar));
+  }
+
+  if($_POST['operacion'] == 'traerAutor'){
+    $datos = $libro->TraerAutor($_POST['idlibro']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'ActualizarAutor'){
+    $datosGuardar = [
+      "iddetalleautor"      => $_POST['iddetalleautor'],
+      "idlibro"             => $_POST['idlibro'],
+      "idautor"             => $_POST['idautor']
+    ];
+    echo json_encode($libro->UpdateActor($datosGuardar));
+  }
+
+  if($_POST['operacion'] == 'AumentarAutor'){
+    $datosGuardar = [
+      "idlibro"         => $_POST['idlibro'],
+      "idautor"        => $_POST['idautor']
+    ];
+    echo json_encode($libro->registrarAutor($datosGuardar));
+  }
+
+  if($_POST['operacion'] == 'DesactivarDetalleautor'){
+    $datos = $libro->DesactivarDetalleautor($_POST['iddetalleautor']);
+    if($datos){
+      echo json_encode($datos);
+    }
   }
 }

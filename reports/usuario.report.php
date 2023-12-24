@@ -15,7 +15,6 @@ try {
 
     ob_start();
 
-
   //hoJa de estilos
     include './estilo.html';
     //archivo con datos(estaticos/dinamicoa)

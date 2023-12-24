@@ -1,4 +1,4 @@
-USE sistemabiblioteca;
+DROP DATABASE sistemabiblioteca;
 -- VALIDACIONEEEEEES
 
 SELECT * FROM prestamos

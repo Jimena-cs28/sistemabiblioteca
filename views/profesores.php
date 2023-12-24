@@ -30,7 +30,7 @@
                             <input class="form-control" maxlength="70"  required id="apellidos">
                         </div>
                         <div class="col-md-4">
-                            <label for="" style="color:#574E4E;">Elegir</label>
+                            <label for="" style="color:#574E4E;">ELEGIR</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="c-profesor" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">Profesor</label>
@@ -57,13 +57,13 @@
                             <input type="date" class="form-control" id="fechanacimiento">
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">Dirección</label>
+                            <label for="" style="color:#574E4E;">DIRECCIÓN</label>
                             <input type="text" class="form-control" maxlength="20" id="direccion">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">CORREO ELECTRONICO</label>
+                            <label for="" style="color:#574E4E;">CORREO ELECTRÓNICO</label>
                             <input type="text" class="form-control" placeholder="correo@com.pe"  id="correo" maxlength="50">
                         </div>
                         <div class="col-md-3">
@@ -75,12 +75,11 @@
                             <input type="text" class="form-control" required=""  id="usuario" maxlength="50" id="nombreusuario">
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color:#574E4E;">CONTRASEÑA</label>
+                            <label for="" style="color:#574E4E;">CONTRASEÑÁ</label>
                             <input type="text" class="form-control" required=""  id="contraseña" maxlength="50" id="contraseña">
                         </div>
                     </div>
                     <p class="text-center mt-4">
-                        <button type="reset" class="btn btn-secondary" style="margin-right: 20px;">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="btguardar">Guardar</button>
                         <a href="index.php?view=listteacher.php" class="btn btn-success ml-2">Ver Profesores</a>
                         <a href="index.php?view=liststudent.php" class="btn btn-info ml-2">Ver Estudiantes</a>
@@ -163,7 +162,7 @@
             parametros.append("telefono", document.querySelector("#telefono").value);
             parametros.append("email", document.querySelector("#correo").value);
             parametros.append("nombreusuario", document.querySelector("#usuario").value);
-            parametros.append("claveacceso", document.querySelector("#contraseña"));
+            parametros.append("claveacceso", document.querySelector("#contraseña").value);
             fetch("../controller/estudiantes.php" ,{
                 method: 'POST',
                 body: parametros

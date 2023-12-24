@@ -33,7 +33,10 @@ UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2
 WHERE idusuario = 3;
 
 SELECT * FROM usuarios
-SELECT * FROM roles
+SELECT * FROM libros
+INSERT INTO detalleautores(idlibro,idautor) VALUES
+	(1,2)
+SELECT * FROM detalleautores
 
 INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac, direccion, telefono, email) VALUES
 	('Berrocal paima', 'Luis Fernando', 'DNI', '76543001', '', 'Sunampe', '964513274', ''),
@@ -49,7 +52,7 @@ INSERT INTO personas (apellidos, nombres, tipodocumento, nrodocumento, fechanac,
 -- UPDATE personas SET direccion = 'Calle Grau #3'
 -- WHERE idpersona = 2;
 
-SELECT * FROM categorias
+SELECT * FROM libros
 
 INSERT INTO roles (nombrerol, cantidadmax) VALUES
 ('Administrador',5),
