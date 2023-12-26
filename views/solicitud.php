@@ -356,8 +356,13 @@
         // Elimina las horas, minutos, segundos y milisegundos de la fecha ingresada
         fechaIngresadaObj.setHours(0, 0, 0, 0);
 
+        const diferenciaMilisegundos = fechaIngresadaObj - fechaActual;
+
+        // Convierte la diferencia a días
+        const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+
         // Valida si la fecha ingresada es igual o posterior a la fecha actual
-        if (fechaIngresadaObj >= fechaActual) {
+        if (fechaIngresadaObj >= fechaActual && diferenciaDias <= 5) {
             return true;
         }
     } catch (error) {
