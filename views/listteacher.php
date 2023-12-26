@@ -2,10 +2,10 @@
 <div class="container-fluid" style="margin: 50px 0;">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-3">
-            <!-- <img src="../views/img/user01.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;"> -->
+            <img src="../img/undraw_profile_1.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran las reservaciones de libros hechas por los docentes y estudiantes, las cuales están pendientes para ser aprobadas por ti
+            Bienvenido a esta sección, aquí se muestran a todos los docentes lo cual pueden buscar por sus datos principales, tambien podran editar sus datos
         </div>
     </div>
 </div>
@@ -16,8 +16,7 @@
         <h6 class="m-0 font-weight-bold text-primary">LISTADO DE DOCENTE</h6>
     </div>
     <div class="card-body">
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#docente">Docentes</button>
-
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#docente">Docentes</button>
         <div class="table-responsive">
             <table class="table table-bordered" id="tablateacher" width="100%" cellspacing="0">
                 <thead>
@@ -152,10 +151,6 @@
         const tablaTeacher = new DataTable('#tablateacher', {        
             dom: 'Bfrtip',
             buttons: [
-                {
-                    extend: 'excel',
-                    text: 'excel',
-                }
             ],
             language: {
                 url:'../js/Spanish.json'
@@ -186,10 +181,10 @@
                 // Agregar filas a la tabla
                 result.forEach(element => {
                     const filaina =`<td>
-                                        <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inhabilitar</a>
+                                        <a href='#' type='button' class='btn btn-danger btn-sm inactivoT' data-idusuario='${element.idusuario}'>Inhabilitar</a>
                                     </td>`;
-                    const edit =`<td>
-                                    <a href='#' type='button' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+                    const editT =`<td>
+                                    <a href='#' type='button' class='btn btn-primary btn-sm editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
                                 </td>`;
                     tablaTeacher.row.add([
                         element.idusuario,
@@ -202,7 +197,7 @@
                         element.fechanac,
                         element.nombreusuario,
                         filaina,
-                        edit
+                        editT
                     ]);
                 });
                 // Dibujar la tabla
@@ -244,7 +239,8 @@
         }
 
         cuerpo.addEventListener("click", (event) => {
-            if(event.target.classList[0] === 'inactivo'){
+            const element = event.target.closest(".inactivoT");
+            if(element){
                 idusuario = parseInt(event.target.dataset.idusuario);
                 console.log(idusuario);
                 const parametros = new URLSearchParams();
@@ -258,8 +254,8 @@
                 .then(datos => {
                     if(datos.status){
                         listarDocente();
-                        ProfesorInactivo();
-                        document.querySelector("#tablateacher").innerHTML = ``;
+                        // ProfesorInactivo();
+                        // document.querySelector("#tablateacher").innerHTML = ``;
                     }
                 });
             }
@@ -285,7 +281,8 @@
         });
 
         cuerpo.addEventListener("click", (event) => {
-            if(event.target.classList[0] === 'editar'){
+            const elementE = event.target.closest(".editar");
+            if(elementE){
                 idusuario = parseInt(event.target.dataset.idusuario);
                 idpersona = parseInt(event.target.dataset.idpersona);
                 //console.log(idusuarios);

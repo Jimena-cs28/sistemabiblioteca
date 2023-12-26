@@ -30,14 +30,14 @@ switch ($permiso){
         <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseUtilities'
             aria-expanded='true' aria-controls='collapseUtilities' width='16' height='16'>
             <i class='bi bi-book' ></i>
-            <span>Libros</span>
+            <span>Librós</span>
         </a>
         <div id='collapseUtilities' class='collapse' aria-labelledby='headingUtilities'
             data-parent='#accordionSidebar'>
             <div class='bg-white py-2 collapse-inner rounded'>
                 <a class='collapse-item' href='index.php?view=listlibros.php'>Libros</a>
-                <a class='collapse-item' href='index.php?view=libros.php'>Registro libro</a>
-                <a class='collapse-item' href='index.php?view=category.php'>Registro categoria</a>
+                <a class='collapse-item' href='index.php?view=libros.php'>Registro librós</a>
+                <a class='collapse-item' href='index.php?view=category.php'>Subcategorias</a>
             </div>
         </div>
     </li>

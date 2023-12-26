@@ -5,7 +5,7 @@
             <img src="../img/undraw_profile_1.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran las reservaciones de libros hechas por los docentes y estudiantes, las cuales están pendientes para ser aprobadas por ti
+            Bienvenido a esta sección, aquí se muestran a todos los estudiantes lo cual pueden buscar por sus datos principales, tambien podran editar sus datos
         </div>
     </div>
 </div>
@@ -20,9 +20,9 @@
                 <!-- <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable">
                 </label> -->
-                <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Inactivos">Estudiantes</button>
             </div>
-            <table class="table" id="tablasub" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="tablasub" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -84,7 +84,7 @@
     </div>
 </div>  
 
-<div class="modal fade" id="editar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="editarE" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -152,16 +152,11 @@
     const Tabla = document.querySelector("#tablaInactivo");
     const cuerpo2 = Tabla.querySelector("tbody");
     const btGuardarE = document.querySelector("#guadarEditar");
-    const Editar = new bootstrap.Modal(document.querySelector("#editar"));
+    const EditarEfa = new bootstrap.Modal(document.querySelector("#editarE"));
 
     const tablaEstudiantes = new DataTable('#tablasub', {        
         dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'excel',
-            }
-        ],
+        buttons: [],
         language: {
             url:'../js/Spanish.json'
         },
@@ -190,11 +185,11 @@
             tablaEstudiantes.clear();
             // Agregar filas a la tabla
             result.forEach(element => {
-                const filaina =`<td>
-                                    <a href='#' type='button' class='inactivo' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                const filains =`<td>
+                                    <a href='#' type='button' class='btn btn-danger btn-sm inactivoS' data-idusuario='${element.idusuario}'>Inavilitar</a>
                                 </td>`;
                 const edit =`<td>
-                                <a href='#editar' type='button' data-toggle='modal' class='editar' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
+                                <a href='#' type='button' data-toggle='modal' class='btn btn-primary btn-sm editarS' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
                             </td>`;
                 tablaEstudiantes.row.add([
                     element.idusuario,
@@ -206,7 +201,7 @@
                     element.direccion,
                     element.fechanac,
                     element.nombreusuario,
-                    filaina,
+                    filains,
                     edit
                 ]);
             });
@@ -286,13 +281,13 @@
     }
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'inactivo'){
-            idusuarios = parseInt(event.target.dataset.idusuario);
+        const elementS = event.target.closest(".inactivoS");
+        if(elementS){
+            idusuario = parseInt(event.target.dataset.idusuario);
             //console.log(idusuarios);
-            
             const parametros = new URLSearchParams();
             parametros.append("operacion","SentenciarUser");
-            parametros.append("idusuario", idusuarios);
+            parametros.append("idusuario", idusuario);
             fetch("../controller/estudiantes.php",{
                 method: 'POST',
                 body: parametros
@@ -310,11 +305,11 @@
 
     cuerpo2.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'inabilitar'){
-            idusuarios = parseInt(event.target.dataset.idusuario);
+            idusuario = parseInt(event.target.dataset.idusuario);
             // console.log(idusuarios);
             const parametros = new URLSearchParams();
             parametros.append("operacion","HabilitarUser");
-            parametros.append("idusuario", idusuarios);
+            parametros.append("idusuario", idusuario);
             fetch("../controller/estudiantes.php",{
                 method: 'POST',
                 body: parametros
@@ -330,11 +325,11 @@
     });
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'editar'){
+        const InactivoS = event.target.closest(".editarS");
+        if(InactivoS){
             idusuario = parseInt(event.target.dataset.idusuario);
             idpersona = parseInt(event.target.dataset.idpersona);
-            //console.log(idusuarios);
-            
+            EditarEfa.toggle();
             const parametros = new URLSearchParams();
             parametros.append("operacion","traerUser");
             parametros.append("idusuario", idusuario);
@@ -374,7 +369,7 @@
             fd.append("nombreusuario",document.querySelector("#usuario").value);
             
             fetch("../controller/estudiantes.php",{
-                method: "POST",
+                method: 'POST',
                 body: fd
             }) 
             .then(response => response.json())
@@ -383,7 +378,7 @@
                     console.log("echo")
                     toast("Actualizado");
                     listarEstudiante();
-                    Editar.toggle();
+                    EditarEfa.toggle();
                 }else{
                     console.log("no echo")
                     toastError("Error de Actualización");

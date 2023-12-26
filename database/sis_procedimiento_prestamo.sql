@@ -20,8 +20,12 @@ END $$
 
 CALL spu_registrar_prestamo_reservar(5,1,'2023-12-20',"Ciencia","SI","");
 
-SELECT * FROM prestamos;
+SELECT * FROM libros; -- 30 33
+UPDATE libros SET
 
+
+WHERE idlibro = 30
+SELECT * FROM ejemplares;
 SELECT * FROM usuarios
 UPDATE ejemplares SET ocupado = 'NO' WHERE idejemplar = 38 -- 25
 
@@ -317,7 +321,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_cantidad_prestamos()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'prestamo'
-	FROM prestamos WHERE estado = 'T';
+	FROM prestamos  -- ("E","S","R","D","T","N","C")
 END$$
 
 SELECT * FROM prestamos

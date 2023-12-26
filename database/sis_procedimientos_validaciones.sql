@@ -207,8 +207,6 @@ UPDATE libros SET imagenportada = 'd6ce6ed8edfb40bcaee8671f91012b2f4a175597.jpg'
 
 -- CAMBIAR CONTRASEÑA
 
-
-
 DELIMITER $$
 CREATE PROCEDURE spu_olvidar_contraseña
 (

@@ -19,7 +19,7 @@
                             <label style="color:#000000;">NOMBRES Y APELLIDOS :</label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="datos" disabled>
+                            <input type="text" class="form-control" id="datosN" disabled>
                         </div>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="apellidos" disabled>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <p class="text-center mt-4">
-                        <a style="display:none;" class="btn btn-primary" id="btguardar"><i class="bi bi-pencil-square"></i>  EDITAR</a>
+                        <a style="display:none;" class="btn btn-primary" id="btguardarU"><i class="bi bi-pencil-square"></i>  EDITAR</a>
                     </p>
                 </form>
             </div>
@@ -73,9 +73,9 @@
 </div>
 
 <script>
-    const btEditar = document.querySelector("#btguardar");
+    const btEditarUser = document.querySelector("#btguardarU");
     const ckEditar = document.querySelector("#ckEDITAR");
-    const datosN = document.querySelector("#datos");
+    const datosN = document.querySelector("#datosN");
     const fechanac = document.querySelector("#fnacimiento");
     const rol = document.querySelector("#rol");
     const dni = document.querySelector("#dni");
@@ -95,7 +95,7 @@
         user.disabled = !ckEditar.checked;
         telefono.disabled = !ckEditar.checked;
         apellidos.disabled = !ckEditar.checked;
-        btEditar.style.display = ckEditar.checked ? 'inline-block' : 'none';
+        btEditarUser.style.display = ckEditar.checked ? 'inline-block' : 'none';
     });
 
     function traerDatos(){
@@ -146,16 +146,17 @@
     //         .then(datos => {
     //             if(datos.status){
     //                 console.log("echo")
+    //                 console.log(idUsuario)
     //                 toast("Actualizado");
-    //                 datosN.disabled = ckEditar.checked;
-    //                 fechanac.disabled = ckEditar.checked;
-    //                 dni.disabled = ckEditar.checked;
-    //                 correo.disabled = ckEditar.checked;
-    //                 direc.disabled = ckEditar.checked;
-    //                 user.disabled = ckEditar.checked;
-    //                 telefono.disabled = ckEditar.checked;
-    //                 apellidos.disabled = ckEditar.checked;
-    //                 btEditar.style.display = ckEditar.checked ? 'inline-none' : 'block';
+    //                 datosN.disabled
+    //                 fechanac.disabled
+    //                 dni.disabled
+    //                 correo.disabled
+    //                 direc.disabled
+    //                 user.disabled
+    //                 telefono.disabled
+    //                 apellidos.disabled
+    //                 btEditarUser.style.display ?'inline-none' : 'block';
     //                 // Editar.toggle();
     //             }else{
     //                 console.log("no echo")
@@ -165,6 +166,6 @@
     //     }
     // }
 
-    // btEditar.addEventListener("click", UpdateUsers);
+    // btEditarUser.addEventListener("click",UpdateUsers);
     traerDatos();
 </script>

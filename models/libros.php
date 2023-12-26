@@ -100,7 +100,7 @@ class Libro extends conexion{
       "message" =>""
     ];
     try{
-      $consulta = $this->acesso->prepare("CALL spu_actualizar_libro(?,?,?)");
+      $consulta = $this->acesso->prepare("CALL spu_aumentar_libro(?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["idlibro"],
@@ -204,7 +204,7 @@ class Libro extends conexion{
           $dato["condicion"]
         )
       );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      // return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
       $respuesta["message"] = "No se ha podido completar el proceso. Codigo error: " . $e->getMessage();

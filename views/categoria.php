@@ -53,7 +53,7 @@
     </div>
     <div class="col-md-6">
         <div class="table-responsive">
-            <table class="table table-bordered" id="" width="100%" cellspacing="0">
+            <table class="table table-bordered" style="color: #504a4a;" id="tablaCategoria" width="100%" cellspacing="0">
                 <thead >
                     <tr>
                         <th>#</th>
@@ -61,6 +61,9 @@
                         <th>CODIGO</th>
                     </tr>
                 </thead>
+                <tbody>
+
+                </tbody>
             </table>
         </div>
     </div>
@@ -68,6 +71,7 @@
 <script>
     
     btGuardarC = document.querySelector("#btguardarC");
+    const CuerpoCategoria = document.querySelector("tbody")
     
     function RegisterCategoria(){
         mostrarPregunta("REGISTRO", "¿Estas seguro de guardar la categpria?").then((result)=>{
@@ -84,10 +88,36 @@
                 .then(datos => {
                     if(datos.status){
                         document.querySelector("#form-categoria").reset();
+                        listadoCategoria();
                     }
                 })
             }
         })
     };
 
+    function listadoCategoria(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectcategoria");
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+        CuerpoCategoria.innerHTML = '';
+            datos.forEach(element => {
+                let litC =            
+                `<tr>
+                        <td>${element.idcategoria}</td>
+                        <td>${element.categoria}</td>
+                        <td>${element.codigo}</td>
+                    </tr>
+                `;
+                CuerpoCategoria.innerHTML += litC;
+            });
+        })
+    }
+    listadoCategoria()
+    btGuardarC.addEventListener("click", RegisterCategoria);
 </script>

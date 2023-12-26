@@ -7,7 +7,8 @@
                     <img src="../img/undraw_profile.svg" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-                    Bienvenido a la sección para registrar nuevos docentes. Para registrar un docente debes de llenar todos los campos del siguiente formulario, también puedes ver el listado de docentes registrados
+                    Bienvenido a la sección para registrar nuevos docentes. Para registrar docentes y estudiantes que debes de llenar todos los campos del 
+                    siguiente formulario, también puedes ver el listado de docentes y estudiantes registrados
                 </div>
             </div>
             <!-- fila del titulo -->
@@ -120,33 +121,36 @@
     }
 
     function profesor(){
-        if(confirm("esta seguro de guardar")){
-            const parametros = new URLSearchParams();
-            parametros.append("operacion", "registrarDocente");
-            parametros.append("apellidos", document.querySelector("#apellidos").value);
-            parametros.append("nombres", document.querySelector("#nombres").value);
-            parametros.append("nrodocumento", document.querySelector("#dni").value);
-            parametros.append("tipodocumento", document.querySelector("#documento").value);
-            parametros.append("fechanac", document.querySelector("#fechanacimiento").value);
-            parametros.append("direccion", document.querySelector("#direccion").value);
-            parametros.append("telefono", document.querySelector("#telefono").value);
-            parametros.append("email", document.querySelector("#correo").value);
-            parametros.append("nombreusuario", document.querySelector("#usuario").value);
-            parametros.append("claveacceso", document.querySelector("#contraseña").value);
+        mostrarPregunta("USUARIO", "¿Esta seguro de registrar el usuario?").then((result)=>{ 
+            if(result.isConfirmed){
+                const parametros = new URLSearchParams();
+                parametros.append("operacion", "registrarDocente");
+                parametros.append("apellidos", document.querySelector("#apellidos").value);
+                parametros.append("nombres", document.querySelector("#nombres").value);
+                parametros.append("nrodocumento", document.querySelector("#dni").value);
+                parametros.append("tipodocumento", document.querySelector("#documento").value);
+                parametros.append("fechanac", document.querySelector("#fechanacimiento").value);
+                parametros.append("direccion", document.querySelector("#direccion").value);
+                parametros.append("telefono", document.querySelector("#telefono").value);
+                parametros.append("email", document.querySelector("#correo").value);
+                parametros.append("nombreusuario", document.querySelector("#usuario").value);
+                parametros.append("claveacceso", document.querySelector("#contraseña").value);
 
-            fetch("../controller/estudiantes.php" ,{
-                method: 'POST',
-                body: parametros
-            })
-            .then(response => response.json())
-            .then(datos => {
-                if(datos.status){
-                    document.querySelector("#form-docente").reset();
-                }else{
-                    toastError("Ese dni ya ha sido ingresado");
-                }
-            })
-        }
+                fetch("../controller/estudiantes.php" ,{
+                    method: 'POST',
+                    body: parametros
+                })
+                .then(response => response.json())
+                .then(datos => {
+                    if(datos.status){
+                        document.querySelector("#form-docente").reset();
+                        toast("Listo");
+                    }else{
+                        toastError("Ese dni ya ha sido ingresado");
+                    }
+                })
+            }
+        })
     }
 
     function estudiante(){

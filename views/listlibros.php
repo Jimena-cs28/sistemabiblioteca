@@ -20,8 +20,8 @@
                 <!-- <label for="">Search
                     <input type="search" class="form-control form-control-sm" placeholder aria-controls="dataTable" id="bookSearch">
                 </label> -->
-                <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
-                <button class="btn btn-primary mb-2 ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
+                <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#libroI">Libros Desactivados</button>
+                <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#modal"><i class="bi bi-bookmark-plus-fill"></i></button>
             </div>
             <table class="table table-bordered" id="tablalibros" width="100%" cellspacing="0">
                 <thead>
@@ -109,7 +109,6 @@
                                 <th>Cantidad</th>
                                 <th>Paginas</th>
                                 <th>Codigo</th>
-                                <th>inactivo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -251,13 +250,13 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="">CATEGORIA</label>
-                                    <select name="" id="Ecategoria" class="form-control">
+                                    <select name="" id="Ecategoria" class="form-control" disabled>
 
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="">SUB CATEGORIA</label>
-                                    <select name="" id="Esubcategoria" class="form-control">
+                                    <select name="" id="Esubcategoria" class="form-control" disabled>
 
                                     </select>
                                 </div>
@@ -265,7 +264,7 @@
                             <div class="row mt-3">
                                 <div class="col-sm-4">
                                     <label for="">CODIGO</label>
-                                    <input type="number" class="form-control"  id="Ecodigo">
+                                    <input type="number" class="form-control"  id="Ecodigo" disabled>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="">Nº PAGINAS</label>
@@ -320,7 +319,6 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Autor</th>
-                                                    <th>Cambiar</th>
                                                     <th>Quitar</th>
                                                 </tr>
                                             </thead>
@@ -330,13 +328,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-sm-1 mt-4">
-                                    <input type="checkbox" class="ml-3" id="idcheckA"> 
-                                    <a href="#" class="btn btn-info" style="display:none;" id="btplus" data-toggle="modal" data-target="#moreAutor">+</a>
-                                    <!-- <button >+</button> -->
-                                    <!-- <button class="btn btn-dark" id="btnoplus" >-</button> -->
-                                </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <div class="content">
                                         <label for="">AÑO</label>
                                         <input type="date" class="form-control  mb-3"  id="Eanio">
@@ -391,58 +383,11 @@
                             </select>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" id="GuadEditarEjem">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- aumentar autor -->
-<div class="modal fade" id="moreAutor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: #5075da;">Aumentar Autor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form autocomplete="off" id="form-detallito" class="p-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">Autor</label>
-                            <select name="" id="moreautorS" class="form-control">
-                                <!-- <option value="">rafa</option>
-                                <option value="">rafa</option>
-                                <option value="">rafa</option>
-                                <option value="">rafa</option> -->
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <table class="table table-bordered mt-4" id="TAmentarA">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Autor</th>
-                                    <th>Quitar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-success" id="GuadEditarEjem">Guardar</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="AumentarTA">Guardar</button>
             </div>
         </div>
     </div>
@@ -458,12 +403,11 @@
 <script>
     const checkAutor = document.querySelector("#idcheckA");
     const checkImg = document.querySelector("#changeimg");
-    const btPluss = document.querySelector("#btplus");
+    // const btPluss = document.querySelector("#btplus");
     const guardarEjem = document.querySelector("#GuadEditarEjem");
     const modalEditarE = new bootstrap.Modal(document.querySelector("#editarEjemplar"));
     const modalEditarL = new bootstrap.Modal(document.querySelector("#editar"));
     const modalCantidad = new bootstrap.Modal(document.querySelector("#modal"));
-    const ModalAmentar = new bootstrap.Modal(document.querySelector("#moreAutor"));
     const TAmentarA = document.querySelector("#TAmentarA");
     const cuerpo = document.querySelector("tbody");
     const tabla =  document.querySelector("#tabla");
@@ -475,71 +419,20 @@
     const selectcategoria = document.querySelector("#Ecategoria");
     const selectsubcategoria = document.querySelector("#Esubcategoria");
     const selectAutore = document.querySelector("#Eautor");
-    const SeletAutorA = document.querySelector("#moreautorS");
+    // const SeletAutorA = document.querySelector("#moreautorS");
     const GuardarEditar = document.querySelector("#guadarlibroD");
     const inputFile = document.querySelector("#Efotografia");
     const selectEditorial = document.querySelector("#Eeditorial");
     const guardarUpadte = document.querySelector("#GuadarE");
     const librocantidad = document.querySelector("#libroCantidad");
     const imgE = document.querySelector("#Efotografia");
-    let iddetalleautor;
-    let idlibro;
-    let idautor;
+    let iddetalleautor = '';
+    let idlibro = '';
+    let idautor = '';
+    // let iddetalle = '';
     checkImg.addEventListener('change', function() {
         imgE.disabled = !checkImg.checked;
     });
-
-    checkAutor.addEventListener('change', function() {
-        btPluss.style.display = checkAutor.checked ? 'inline-block' : 'none';
-    });
-
-    function agregarAutorU(){
-        if(selectAutore.value > 0){
-            const autorseleccionada = selectAutore.options[selectAutore.selectedIndex];
-            if(autorseleccionada.value != ""){
-                let file =            
-                `
-                <tr>
-                    <td>${autorseleccionada.value}</td>
-                    <td>${autorseleccionada.text}</td>
-                    <td>
-                        <a class ="eliminar btn btn-sm btn-danger">X</a>
-                    </td>
-                    <td>
-                        <a class ="disminuir btn btn-sm btn-info">-</a>
-                    </td>
-                </tr>
-                `;
-                tablaA.innerHTML += file;
-                // selectAutore.value = 0;
-                // SelectActor();
-            }
-        }
-    }
-
-    function agregarAutorAumentar(){
-        if(SeletAutorA.value > 0){
-            const autorseleccionadaA = SeletAutorA.options[SeletAutorA.selectedIndex];
-            if(autorseleccionadaA.value != ""){
-                let file =            
-                `
-                <tr>
-                    <td>${autorseleccionadaA.value}</td>
-                    <td>${autorseleccionadaA.text}</td>
-                    <td>
-                        <a class ="eliminar btn btn-sm btn-danger">Eliminar</a>
-                    </td>
-                </tr>
-                `;
-                TAmentarA.innerHTML += file;
-                // selectAutore.value = 0;
-                // SelectActor();
-            }
-        }
-    }
-
-    SeletAutorA.addEventListener("change", agregarAutorAumentar);
-
     tablaA.addEventListener("click", function(event) {
         // Verificar si el clic fue en un botón de clase "btn-danger"
         const element = event.target.closest(".eliminar");
@@ -557,8 +450,6 @@
             // libroAgregados.delete(idejemplarAEliminar);
         }
     });
-
-    document.querySelector("#btautor").addEventListener("click", agregarAutorU);
 
     function Selectlibro(){
         const choiceLibro= new Choices(librocantidad, {
@@ -580,8 +471,8 @@
                 const optionTag = document.createElement("option");
                 optionTag.value = element.idlibro;
                 optionTag.text = element.libro;
-                optionTag.dataset.subcategoria = element.subcategoria;
-                optionTag.dataset.categoria = element.categoria;
+                // optionTag.dataset.subcategoria = element.subcategoria;
+                // optionTag.dataset.categoria = element.categoria;
 
                 librocantidad.appendChild(optionTag);
             });
@@ -655,10 +546,6 @@
     const tablaLibro = new DataTable('#tablalibros', {        
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'excel',
-                text: 'excel',
-            }
         ],
         language: {
             url:'../js/Spanish.json'
@@ -686,13 +573,13 @@
         .then(result => {
             // Limpiar la tabla antes de agregar nuevas filas
             tablaLibro.clear();
-            // Agregar filas a la tabla
+            // Agregando filas
             result.forEach(element => {
                 const filaina =`<td>
-                                    <a href='#ejemplar' class='codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
+                                    <a href='#ejemplar' class='btn btn-info btn-sm codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
                                 </td>`;
                 const edit =`<td>
-                                <a href='#' class='editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
+                                <a href='#' class='btn btn-secondary btn-sm editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
                             </td>`;
                 tablaLibro.row.add([
                     element.idlibro,
@@ -734,7 +621,6 @@
                     <td>${element.cantidad}</td>
                     <td>${element.numeropaginas}</td>
                     <td>${element.codigo}</td>
-                    <td>${element.inactive_at}</td>
                 </tr>
                 `;
                 cuerpoL.innerHTML += libro;
@@ -841,18 +727,18 @@
             //Para binarios
             const fd = new URLSearchParams();
             fd.append("operacion","ActualizarLibro");
-            fd.append("idlibro", librocantidad);
+            fd.append("idlibro", librocantidad.value);
             fd.append("cantidad",document.querySelector("#Ecantidad").value);
             fd.append("condicion",document.querySelector("#Econdicion").value);
             
             fetch("../controller/libros.php",{
-                method: "POST",
+                method: 'POST',
                 body: fd
             })
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    // modalCantidad.toggle();
+                    modalCantidad.toggle();
                     listadoLibro();
                     document.querySelector("#Ecantidad").value = ' '
                     document.querySelector("#Econdicion").value = ' '
@@ -884,10 +770,7 @@
                     <td>${element.idautor}</td>
                     <td>${element.nombres}</td>
                     <td>
-                        <a class ="eliminar btn btn-sm btn-danger">X</a>
-                    </td>
-                    <td>
-                        <a class ="disminuir btn btn-sm btn-info" data-idautor='${element.idautor}' data-iddetalleautor ='${element.iddetalleautor}'>-</a>
+                        <a class ="disminuir btn btn-sm btn-danger" data-idautor='${element.idautor}' data-iddetalleautor ='${element.iddetalleautor}'>X</a>
                     </td>
                 </tr>`
                 ;
@@ -910,8 +793,8 @@
             datos.forEach(element => {
                 const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
                 // Verificar el estado para decidir si agregar el atributo href
-                const linkHref = element.estado === '0' ? `class='activar'` : '';
-                const ejemplar = `
+                const linkHref = element.estado === '0' ? `class=' btn btn-success btn-sm activarE'` : '';
+                const ejemplars = `
                 <tr  class='${estadoClase}'>
                     <td>${element.idejemplar}</td>
                     <td>${element.libro}</td>
@@ -920,11 +803,11 @@
                     <td>${element.condicion}</td>
                     <td>${element.estado}</td>
                     <td>
-                        <a ${linkHref} href='#' type='button' data-idejemplar='${element.idejemplar}'>Activar</a>
+                        <a ${linkHref} href='#' type='button' data-idejemplar='${element.idejemplar}' data-toggle='modal' >Activar</a>
                     </td>
                 </tr>`
                 ;
-                cuerpoE.innerHTML +=ejemplar;
+                cuerpoE.innerHTML +=ejemplars;
             });
         });
     }
@@ -949,106 +832,45 @@
         })
     }
 
-    function SelectActorAumentar(){
-        // const choiseSAumentar = new Choices(SeletAutorA, {
-        //     searchEnabled: true,
-        //     itemSelectText: '',
-        //     allowHTML:true
-        // });
+    function AumentarAutor(){
         const parametros = new URLSearchParams();
-        parametros.append("operacion","selectAutores");
-
+        parametros.append("operacion", "AumentarAutor");
+        parametros.append("idlibro", idlibro);
+        parametros.append("idautor", selectAutore.value);
+        
         fetch("../controller/libros.php",{
-            method: 'POST',
+            method:'POST',
             body: parametros
         })
-        .then(response => response.json())
+        .then(respuesta => respuesta.json())
         .then(datos => {
-            SeletAutorA.innerHTML = "<option value=''>Seleccione</option>";
-            datos.forEach(element => {
-                let selectAutorS = `
-                    <option value='${element.idautor}'>${element.autor} - ${element.apellidos}</option> 
-                `;
-                SeletAutorA.innerHTML += selectAutorS;
-            });
-            // choiseSAumentar.setChoices([], 'value','label',true);
-            // choiseSAumentar.setChoices(datos, 'idautor','autor', true);
+            if(datos.status){
+                // ModalAmentar.toggle();
+                toast("Excelente");
+                selectAutore.value = '';
+                traerAutor();
+            }
         })
+        
     }
 
-    function AumentarAutor(){
-        const file = TAmentarA.rows;
-        for (let i = 1; i < file.length; i++) {
-            const idautorA = parseInt(file[i].cells[0].innerText);
-            const parametros = new URLSearchParams();
-            parametros.append("operacion", "AumentarAutor");
-            parametros.append("idlibro", idlibro);
-            parametros.append("idautor", idautorA);
-            
-            fetch("../controller/libros.php",{
-                method:'POST',
-                body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                if(datos.status){
-                    toast("Excelente");
-                    ModalAmentar.toggle();
-                    traerAutor();
-                }
-            })
-        }
-    }
-
-    document.querySelector("#AumentarTA").addEventListener("click", AumentarAutor);
+    document.querySelector("#btautor").addEventListener("click", AumentarAutor);
 
     SelectActor();
-    SelectActorAumentar();
-
-    function UpdateAutor(){
-        const RowA = tablaA.rows;
-        for (let i = 1; i < RowA.length; i++) {
-            const Tidautor = parseInt(RowA[i].cells[0].innerText);
-            // const tdiddetalleauot = parseInt(RowA[i].dataset.iddetalleautor)
-            const fd = new URLSearchParams();
-            fd.append("operacion","ActualizarAutor");
-            fd.append("iddetalleautor",iddetalleautor);
-            fd.append("idlibro",idlibro);
-            fd.append("idautor",Tidautor);
-
-            fetch("../controller/libros.php",{
-                method: 'POST',
-                body: fd
-            })
-            .then(response => response.json())
-            .then(datos => {
-                console.log(idlibro)
-                console.log(iddetalleautor)
-                console.log(Tidautor)
-                if(datos.status){
-                    console.log("Hizo bien");
-                    modalEditarL.toggle();
-                }
-            })
-            .catch(error => {
-            console.error("Error en la solicitud fetch:", error);
-            });
-        }
-    }
+    // SelectActorAumentar();
 
     function ValidaImg(){
         if(checkImg.checked){
             UpdateImg();
-            UpdateAutor();
         }else{
             UpdateBooks();
-            UpdateAutor();
         }
     }
 
     // codigo
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'codigo'){
+        const codigoL = event.target.closest(".codigo");
+        if(codigoL){
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
             idlibro = parseInt(event.target.dataset.idlibro);
             //console.log(iddetalleautor);
@@ -1086,7 +908,8 @@
     });
 
     cuerpo.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'editar'){
+        const editarL = event.target.closest(".editar");
+        if(editarL){
             modalEditarL.toggle();
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
             idlibro = parseInt(event.target.dataset.idlibro);
@@ -1127,8 +950,8 @@
         if(elementoDetalle){
             idautor = parseInt(event.target.dataset.idautor);
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
-            mostrarPregunta("AUTORES", "¿Estas seguro de borrar el autor?").then((result)=>{
-                if(result.isConfirmed){
+            mostrarPregunta("AUTORES", "¿Estas seguro de borrar el autor?").then((datos)=>{
+                if(datos.isConfirmed){
                     const parametros = new URLSearchParams();
                     parametros.append("operacion","DesactivarDetalleautor");
                     parametros.append("iddetalleautor", iddetalleautor);
@@ -1138,7 +961,7 @@
                     })
                     .then(response => response.json())
                     .then(result => {
-                        traerAutor()
+                        traerAutor();
                     })
                 }
             })
@@ -1182,15 +1005,15 @@
         .then(response => response.json())
         .then(datos => {
             if(datos.status){
-                modalEditarE.toggle();
                 traerEjemplar();
                 listadoLibro();
+                modalEditarE.toggle();
             }
         });
     }
 
     cuerpoE.addEventListener("click", (event) => {
-        if(event.target.classList[0] === 'activar'){
+        if(event.target.closest('activarE')){
             idlibro = parseInt(event.target.dataset.idlibro);
             idejemplar = parseInt(event.target.dataset.idejemplar);
             modalEditarE.toggle();
@@ -1199,7 +1022,7 @@
 
     guardarEjem.addEventListener("click",activarejemplar);
 
-    // LibrosInactivo();
+    LibrosInactivo();
 
     inputFile.addEventListener("change", (e) => {
         if(inputFile.files.length > 0) {  
