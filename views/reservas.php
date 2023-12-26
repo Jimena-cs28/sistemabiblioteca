@@ -5,7 +5,8 @@
             <img src="../img/calendar.png" alt="clock" class="img-responsive center-box" style="max-width: 110px;">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-        Bienvenido a esta sección, aquí se muestran las reservas echas por estudiantes y profesores, estas reservas faltan recojer por parte de los usuario y se podra ver detalladamente que cantidad de libro de pidio
+        Bienvenido a esta sección, aquí se muestran las reservas pedidas por estudiantes y profesores, estas reservas faltan recojer 
+        por parte de los usuarios y se podra ver detalladamente que cantidad de libro se registro
         </div>
     </div>
 </div>
@@ -23,18 +24,14 @@
 <div class="row mt-4" id="cardreserva">
 
 </div>
+
 <style>
-    .aviso-flotante {
-        position: fixed;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgb(86, 1, 17); /* Color de fondo rojo, ajusta según tus preferencias */
-        color: #fdfdfd; /* Color del texto blanco, ajusta según tus preferencias */
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+#hrfve{
+    color: #12970E;
+}
+#id{
+    color: #D81919;
+}
 </style>
 
 <div class="modal fade" id="Meditar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -171,21 +168,6 @@
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
 
-    function mostrarAvisoFlotante(mensaje) {
-        // Crear un elemento div para el aviso flotante
-        const avisoFlotante = document.createElement('div');
-        avisoFlotante.className = 'aviso-flotante';
-        avisoFlotante.textContent = mensaje;
-
-        // Agregar el aviso flotante al cuerpo del documento
-        document.body.appendChild(avisoFlotante);
-
-        // Después de un tiempo, eliminar el aviso flotante
-        setTimeout(() => {
-            avisoFlotante.remove();
-        }, 5000); // 5000 milisegundos (5 segundos)
-    }
-
     function listarEntregas(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarEpendientes")
@@ -221,8 +203,8 @@
                                     <li class="list-group-item" style="color:#635555;">F.Solicitud: ${element.fechasolicitud}</li>
                                     <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
-                                        <div class="col-md-4"><a href='#' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-4"><a href='#rechazareserva' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
+                                        <div class="col-md-4"><a href='#' id='hrfve' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
+                                        <div class="col-md-4"><a href='#rechazareserva' id='id' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
                                         <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
                                     </div>
                                 </ul>

@@ -5,13 +5,14 @@
             <img src="../img/reloj.PNG" alt="clock" class="img-responsive center-box" style="max-width: 120px;">
         </div>
         <div class="col-md-10 text-justify lead">
-            Bienvenido a esta sección, aquí se muestran los libros que faltan regresar y podra registrar el libro para que se pueda completar el prestamo
+            Bienvenido a esta sección, aquí se muestran los libros que faltan regresar por parte de los usuarios 
+            y podra verse los codigos de los ejemplares 
         </div>
     </div>
 </div>
 <!-- <tr id="fechaEnTabla">2023-11-18</tr> -->
 
-<h5 id="customAlert" class="custom-alert"></h5>
+<!-- <h5 id="customAlert" class="custom-alert"></h5> -->
 <!-- tablas -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -174,17 +175,17 @@
         /* Estilo para las fechas que son mayores que la fecha actual */
         color: rgb(243, 79, 79);
     }
-    .aviso-flotante {
+    /* .aviso-flotante {
         position: fixed;
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        background-color: rgb(218, 121, 121); /* Color de fondo rojo, ajusta según tus preferencias */
-        color: #090404; /* Color del texto blanco, ajusta según tus preferencias */
+        background-color: rgb(218, 121, 121); /* Color de fondo rojo, ajusta según tus preferencias
+        color: #090404; /* Color del texto blanco, ajusta según tus preferencias 
         padding: 10px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+    } */
 </style>
 
 <script>
@@ -206,23 +207,23 @@
 
     const modaldetallitos = new bootstrap.Modal(document.querySelector("#modal"));
 
-    function mostrarAvisoFlotante(mensaje, indice) {
-        // Crear un elemento div para el aviso flotante
-        const avisoFlotante = document.createElement('div');
-        avisoFlotante.className = 'aviso-flotante';
-        avisoFlotante.textContent = mensaje;
+    // function mostrarAvisoFlotante(mensaje, indice) {
+    //     // Crear un elemento div para el aviso flotante
+    //     const avisoFlotante = document.createElement('div');
+    //     avisoFlotante.className = 'aviso-flotante';
+    //     avisoFlotante.textContent = mensaje;
 
-        avisoFlotante.style.position = 'flex';
-        avisoFlotante.style.marginLeft = `${indice * 400}px`;
+    //     avisoFlotante.style.position = 'flex';
+    //     avisoFlotante.style.marginLeft = `${indice * 400}px`;
 
-        // Agregar el aviso flotante al cuerpo del documento
-        document.body.appendChild(avisoFlotante);
+    //     // Agregar el aviso flotante al cuerpo del documento
+    //     document.body.appendChild(avisoFlotante);
 
-        // Después de un tiempo, eliminar el aviso flotante
-        setTimeout(() => {
-            avisoFlotante.remove();
-        }, 3000); // 5000 milisegundos (5 segundos)
-    }
+    //     // Después de un tiempo, eliminar el aviso flotante
+    //     setTimeout(() => {
+    //         avisoFlotante.remove();
+    //     }, 3000); // 5000 milisegundos (5 segundos)
+    // }
 
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
@@ -368,6 +369,7 @@
     function updatedevolucionesTodo(){
         if(observacion.value ==''){
             toastError("No deje nada vacio");
+            return
         }
 
         mostrarPregunta("DEVOLUCION", "¿Estas seguro de devolver el libro?").then((result)=>{

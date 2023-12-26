@@ -6,11 +6,6 @@
         display: none;
         /* display: block; */
     }
-    #prestamo-div {
-        display: none;
-        /* display: block; */
-    }
-
     .error-input {
         border: 1px solid red;
     }
@@ -38,16 +33,6 @@
                             
                             </select>
                         </div>
-                        <!-- <div class="form-check col-md-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="filstudent" name="flexRadioDefault">
-                                <label class="form-check-label" for="flexRadioDefault1">ESTUDIANTES</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="filtteacher">
-                                <label class="form-check-label" for="flexRadioDefault2">PROFESORES</label>
-                            </div>
-                        </div> -->
                     </div>
                     <!-- aqui va lo que dijo irene -->
                     <div class="ml-5 row mt-3">
@@ -63,7 +48,7 @@
                             <h6>---------------------------------------------------------------------------------------------------------------</h6>
                         </div>
                     </div>
-                    <div>
+                    
                         <div class="row ml-5 mt-4">
                             <div class="col-md-3" id="divPrestamo">
                                 <label for="" style="color:#000000;" class="fw-bolder">FECHA PRÉSTAMO</label>
@@ -94,7 +79,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <label class="fw-bolder" style="color:#000000;">Codigo</label>
+                                <label class="fw-bolder" style="color:#000000;">Código</label>
                                 <select name="" id="filtroEjemplar" class="form-control mb-3">
                                     <!-- <option value="">Hola</option> -->
                                 </select>
@@ -108,7 +93,7 @@
                                 <input type="text" class="form-control mb-3" id="condicionentrega" required>
                             </div>
                             <div class="col-md-2">
-                                <label class="fw-bolder" style="color:#000000;">Fecha devolucion</label>
+                                <label class="fw-bolder" style="color:#000000;">Fecha devolución</label>
                                 <div class="input-group mb-4">
                                     <input type="date" class="form-control" id="fechadevolucion" required>
                                     
@@ -118,7 +103,6 @@
                                 <button class="btn btn-outline-info" type="button" id="Rguardarlibro"><i class="bi bi-cart-plus-fill"></i></button>
                             </div>
                         </div>
-                    </div>
                     <div class="row ml-5 mt-2">
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
@@ -146,10 +130,7 @@
 <script>
     let idprestamo = '';
     const biblioteca = document.querySelector("#enbiblioteca");
-    // const tablareset = document.querySelector("#tbody1");
     const divPrestamo =  document.querySelector("#divPrestamo");
-    const prestamoDiv = document.querySelector("#prestamo-div");
-    // const bt = document.querySelector("#kk");
     const divLugar = document.querySelector("#lugarD");
     const lugarDesti = document.querySelector("#lugardestino");
     const filtroStudent = document.querySelector("#filtroUser");
@@ -184,7 +165,7 @@
     const fecham = fechaActual
     fechadevolucion.min = fechaMinima
     fechadevolucion.max = fechamaxima
-    fechadevolucion.value = fecham
+    // fechadevolucion.value = fecham
 
     filtroStudent.addEventListener("change", function() {
         traerRol();
@@ -378,19 +359,21 @@
         });
     } 
 
-    function agregarLibros() {
+    // let ultimoIndiceSeleccionado = 0;
+    function agregarLibros(){
         const cantidadLibros = parseInt(document.getElementById('cantidad').value);
         const elementosSelect = Array.from(filtroEjempla.options);
         const usuarioSeleccionado = filtroStudent.value;
         const rolUsuario = filtroStudent.selectedOptions[0].dataset.nombrerol;
-        
+
+        const ultimoI = tablalibro.rows.length - 1;
         for (let i = 0; i < cantidadLibros; i++) {
 
             if (nombrerolUser == 'Estudiante' && tablalibro.rows.length > 1) {
                 toastError("Los estudiantes solo pueden agregar un ejemplar.");
                 return;
             }
-            const indiceActual = i % elementosSelect.length;
+            const indiceActual = (ultimoI + i) % elementosSelect.length;
             // Obtener el elemento del select en el índice actual
             const idlejemplarSeleccionado = elementosSelect[indiceActual];
             const idejemplar = idlejemplarSeleccionado.value;
@@ -402,8 +385,6 @@
                 marcarErrorInput(fechadevolucion);
                 toastError("Complete la fecha de devolucion");
                 return;
-            } else{
-                quitarErrorInput(fechadevolucion)
             }
 
             const fechaHoy = new Date();
@@ -440,6 +421,7 @@
                 tablalibro.innerHTML += nuevaFila;
                 libroAgregados.add(idejemplar);
             }
+            // ultimoIndiceSeleccionado = indiceActual;
         }
     }
 
@@ -476,6 +458,7 @@
         if(fecharegistar.value ==''){
             marcarErrorInput(fecharegistar);
             toastError('Debe seleccionar elegir fecha de prestamo');
+            return
         }else{
             quitarErrorInput(fecharegistar);
         }
@@ -483,6 +466,7 @@
         if(filtroStudent.value ==''){
             // marcarErrorInput(filtroStudent);
             toastError('Debes elegir al estudiante')
+            return
         }
         // else{
         //     quitarErrorInput(filtroStudent);
@@ -491,6 +475,7 @@
         if(biblioteca.value ==''){
             marcarErrorInput(biblioteca);
             toastError('Debes elegir el lugar');
+            return
         }else{
             quitarErrorInput(biblioteca);
         }
@@ -575,6 +560,7 @@
         mostrarPregunta("PRESTAMO", "¿Estas seguro de realizar el Prestamo?").then((result)=>{
             if(result.isConfirmed){
                 const row = tablalibro.rows;
+                const promesas1 = [];
                 for (let i = 1; i < row.length; i++) {
                     const idejemplar = parseInt(row[i].cells[0].innerText);
                     const condicionEntre   = String(row[i].cells[3].innerText);
@@ -586,17 +572,28 @@
                     parametros.append("condicionentrega", condicionEntre);
                     parametros.append("fechadevolucion", fechaD);
 
-                    fetch("../controller/prestamos.php",{
-                        method:'POST',
+                    const fetchPromises = fetch("../controller/prestamos.php", {
+                        method: "POST",
                         body: parametros
                     })
-                    .then(respuesta => respuesta.json())
-                    .then(datos => {
-                        // console.log(datos);
-                        if(datos.status){
+                    .then(response => {
+                        if (response.ok) {
+                            // Si la respuesta es exitosa, puedes realizar acciones adicionales aquí si es necesario.
+                            // console.log(`Detalle ${idejemplo} registrado con éxito.`);
+                            filtroEjempla.value = ''
+                            libro.value = ''
+                            filtroStudent.value = ''
                             Reseteartabla();
+                        } else {
+                        // Manejar errores de solicitud aquí
+                        console.error(`Error al registrar el detalle ${idejemplo}.`);
                         }
                     })
+                    .catch(error => {
+                        // Manejar errores de red aquí
+                        console.error(`Error de red al registrar el detalle ${idejemplo}.`, error);
+                    });
+                    promesas1.push(fetchPromises);
                 }
             }
         })
@@ -698,8 +695,7 @@
     }
 
     conseguirlibros();
-    // listarprestamo();
-    
+
     Guardar.addEventListener("click", ValidarRegistrar);
     libro.addEventListener("change", listarEjemplares);
     filtroStudent.addEventListener("change", TraerDescripcion);

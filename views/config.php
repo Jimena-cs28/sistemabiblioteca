@@ -18,7 +18,7 @@
                 <!-- fila del titulo -->
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR AUTOR</h3>
+                        <h3 class="fw-semibold text-center" style="color:#235384;">REGISTRAR AUTOR</h3>
                     </div>
                 </div>  
             </div>
@@ -64,10 +64,48 @@
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tablaAutores" width="100%" cellspacing="0" style="color: #504a4a;">
+                <thead >
+                    <tr>
+                        <th>#</th>
+                        <th>NOMBRE</th>
+                        <th>APELLIDOS</th>
+                        <th>SEUDONIMO</th>
+                        <th>NACIONALIDAD</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
-    btAutor = document.querySelector("#btAutor");
+    const btAutor = document.querySelector("#btAutor");
+    const cuerpoAutor = document.querySelector("tbody")
+    // const tablaAutore = document.querySelector("#tablaAutores");
+    
+    const tablaAutore = new DataTable('#tablaAutores', {        
+        dom: 'Bfrtip',
+        buttons: [
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
 
     function RegisterAutor(){
         mostrarPregunta("DEVOLVER", "¿Estas seguro de guardar el autor?").then((result)=>{
@@ -92,8 +130,30 @@
         })
     };
 
+    function listadoAutor(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectAutores");
 
-    btGuardaE.addEventListener("click", RegisterEditorial);
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+            tablaAutore.clear();
+            datos.forEach(element => {
+
+                tablaAutore.row.add([
+                    element.idautor,
+                    element.autor,
+                    element.apellidos, 
+                    element.pseudonimio,
+                    element.nacionalidad
+                ]);
+            });
+            tablaAutore.draw();
+        })
+    }
+    listadoAutor();
     btAutor.addEventListener("click", RegisterAutor);
-    btGuardarC.addEventListener("click", RegisterCategoria);
 </script>

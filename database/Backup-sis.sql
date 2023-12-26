@@ -29,32 +29,33 @@ CREATE TABLE `autores` (
   `create_at` datetime NOT NULL DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL,
+  `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idautor`),
   UNIQUE KEY `uk_autor` (`autor`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `autores` */
 
-insert  into `autores`(`idautor`,`apellidos`,`autor`,`pseudonimio`,`nacionalidad`,`create_at`,`update_at`,`inactive_at`) values 
-(1,'Crary','Jonathan','','Vermont','2023-11-14 20:09:45',NULL,NULL),
-(2,'Verdy','Luis','','Frances','2023-11-14 20:09:45',NULL,NULL),
-(3,'Cortes','Jeremy','','Estadunidence','2023-11-14 20:09:45',NULL,NULL),
-(4,'Vargas Llosa','Mario','','peruano','2023-12-04 23:31:48',NULL,NULL),
-(5,'Vallejo','Cesar','','Peruano','2023-12-04 23:34:19',NULL,NULL),
-(6,'Homero','','','Grecia','2023-12-10 20:40:17',NULL,NULL),
-(7,'Stoker','Bram','','Irlanda','2023-12-10 20:45:29',NULL,NULL),
-(8,'Rivera Martinez','Edgardo','','','2023-12-19 09:54:09',NULL,NULL),
-(9,' Rulfo','Juan','','','2023-12-19 10:05:54',NULL,NULL),
-(10,'Alegria bazan','Ciro','','Santirbanba','2023-12-19 10:12:17',NULL,NULL),
-(11,'Cortazar','Julio','','argentino','2023-12-19 10:21:07',NULL,NULL),
-(12,'Salinger','Jerome David','','estadonidense','2023-12-19 10:25:39',NULL,NULL),
-(13,'Rubio Correa','Marcial','','Peruano','2023-12-19 10:35:48',NULL,NULL),
-(16,'Verne','Jules','','frances','2023-12-19 10:47:12',NULL,NULL),
-(17,'Basadre ','Jorge','','Frances','2023-12-19 10:55:48',NULL,NULL),
-(18,'Cornejo','Miguel Angel','','Mexicano','2023-12-21 08:51:17',NULL,NULL),
-(19,'Gatica','Patricio ','','','2023-12-21 09:02:15',NULL,NULL),
-(20,'Ruiz Vaca','José María','','','2023-12-21 10:12:10',NULL,NULL),
-(21,'Ballard','Kim','','','2023-12-21 10:18:03',NULL,NULL);
+insert  into `autores`(`idautor`,`apellidos`,`autor`,`pseudonimio`,`nacionalidad`,`create_at`,`update_at`,`inactive_at`,`estado`) values 
+(1,'Crary','Jonathan','','Vermont','2023-11-14 20:09:45',NULL,NULL,'1'),
+(2,'Verdy','Luis','','Frances','2023-11-14 20:09:45',NULL,NULL,'1'),
+(3,'Cortes','Jeremy','','Estadunidence','2023-11-14 20:09:45',NULL,NULL,'1'),
+(4,'Vargas Llosa','Mario','','peruano','2023-12-04 23:31:48',NULL,NULL,'1'),
+(5,'Vallejo','Cesar','','Peruano','2023-12-04 23:34:19',NULL,NULL,'1'),
+(6,'Homero','','','Grecia','2023-12-10 20:40:17',NULL,NULL,'1'),
+(7,'Stoker','Bram','','Irlanda','2023-12-10 20:45:29',NULL,NULL,'1'),
+(8,'Rivera Martinez','Edgardo','','','2023-12-19 09:54:09',NULL,NULL,'1'),
+(9,' Rulfo','Juan','','','2023-12-19 10:05:54',NULL,NULL,'1'),
+(10,'Alegria bazan','Ciro','','Santirbanba','2023-12-19 10:12:17',NULL,NULL,'1'),
+(11,'Cortazar','Julio','','argentino','2023-12-19 10:21:07',NULL,NULL,'1'),
+(12,'Salinger','Jerome David','','estadonidense','2023-12-19 10:25:39',NULL,NULL,'1'),
+(13,'Rubio Correa','Marcial','','Peruano','2023-12-19 10:35:48',NULL,NULL,'1'),
+(16,'Verne','Jules','','frances','2023-12-19 10:47:12',NULL,NULL,'1'),
+(17,'Basadre ','Jorge','','Frances','2023-12-19 10:55:48',NULL,NULL,'1'),
+(18,'Cornejo','Miguel Angel','','Mexicano','2023-12-21 08:51:17',NULL,NULL,'1'),
+(19,'Gatica','Patricio ','','','2023-12-21 09:02:15',NULL,NULL,'1'),
+(20,'Ruiz Vaca','José María','','','2023-12-21 10:12:10',NULL,NULL,'1'),
+(21,'Ballard','Kim','','','2023-12-21 10:18:03',NULL,NULL,'1');
 
 /*Table structure for table `categorias` */
 
@@ -96,46 +97,63 @@ CREATE TABLE `detalleautores` (
   `creat_at` datetime NOT NULL DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL,
+  `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`iddetalleautor`),
   KEY `fk_idlibro` (`idlibro`),
   KEY `fk_idautor_text` (`idautor`),
   CONSTRAINT `fk_idautor_text` FOREIGN KEY (`idautor`) REFERENCES `autores` (`idautor`),
   CONSTRAINT `fk_idlibro` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `detalleautores` */
 
-insert  into `detalleautores`(`iddetalleautor`,`idlibro`,`idautor`,`creat_at`,`update_at`,`inactive_at`) values 
-(1,1,3,'2023-12-02 19:16:45',NULL,NULL),
-(2,2,2,'2023-12-02 19:25:15',NULL,NULL),
-(3,3,1,'2023-12-02 20:48:41',NULL,NULL),
-(4,4,3,'2023-12-02 20:50:05',NULL,NULL),
-(5,5,1,'2023-12-02 20:51:56',NULL,NULL),
-(6,6,1,'2023-12-03 15:30:08',NULL,NULL),
-(7,7,1,'2023-12-03 21:21:24',NULL,NULL),
-(8,8,3,'2023-12-05 22:19:19',NULL,NULL),
-(9,9,7,'2023-12-10 20:47:41',NULL,NULL),
-(10,10,4,'2023-12-10 20:56:57',NULL,NULL),
-(11,11,3,'2023-12-10 21:00:03',NULL,NULL),
-(12,12,3,'2023-12-12 19:49:41',NULL,NULL),
-(13,14,3,'2023-12-16 23:59:48',NULL,NULL),
-(14,15,8,'2023-12-19 10:02:51',NULL,NULL),
-(15,16,9,'2023-12-19 10:10:56',NULL,NULL),
-(16,17,10,'2023-12-19 10:16:43',NULL,NULL),
-(17,18,11,'2023-12-19 10:23:39',NULL,NULL),
-(18,19,12,'2023-12-19 10:29:34',NULL,NULL),
-(19,20,5,'2023-12-19 10:33:54',NULL,NULL),
-(20,21,13,'2023-12-19 10:39:50',NULL,NULL),
-(21,22,16,'2023-12-19 10:52:06',NULL,NULL),
-(22,23,17,'2023-12-19 10:59:52',NULL,NULL),
-(23,24,17,'2023-12-19 11:04:22',NULL,NULL),
-(24,25,2,'2023-12-21 08:38:36',NULL,NULL),
-(25,26,7,'2023-12-21 08:44:53',NULL,NULL),
-(26,27,18,'2023-12-21 08:56:08',NULL,NULL),
-(27,28,19,'2023-12-21 09:03:59',NULL,NULL),
-(28,29,7,'2023-12-21 09:07:19',NULL,NULL),
-(30,31,19,'2023-12-21 10:07:17',NULL,NULL),
-(31,32,20,'2023-12-21 10:07:53',NULL,NULL);
+insert  into `detalleautores`(`iddetalleautor`,`idlibro`,`idautor`,`creat_at`,`update_at`,`inactive_at`,`estado`) values 
+(1,1,2,'2023-12-02 19:16:45',NULL,NULL,'1'),
+(2,2,2,'2023-12-02 19:25:15',NULL,NULL,'1'),
+(3,3,1,'2023-12-02 20:48:41',NULL,NULL,'1'),
+(4,4,3,'2023-12-02 20:50:05',NULL,NULL,'1'),
+(5,5,1,'2023-12-02 20:51:56',NULL,NULL,'1'),
+(6,6,1,'2023-12-03 15:30:08',NULL,NULL,'1'),
+(7,7,1,'2023-12-03 21:21:24',NULL,NULL,'1'),
+(8,8,3,'2023-12-05 22:19:19',NULL,NULL,'1'),
+(9,9,7,'2023-12-10 20:47:41',NULL,NULL,'1'),
+(10,10,4,'2023-12-10 20:56:57',NULL,NULL,'1'),
+(11,11,3,'2023-12-10 21:00:03',NULL,NULL,'1'),
+(12,12,3,'2023-12-12 19:49:41',NULL,NULL,'1'),
+(13,14,3,'2023-12-16 23:59:48',NULL,NULL,'1'),
+(14,15,8,'2023-12-19 10:02:51',NULL,NULL,'1'),
+(15,16,9,'2023-12-19 10:10:56',NULL,NULL,'1'),
+(16,17,10,'2023-12-19 10:16:43',NULL,NULL,'1'),
+(17,18,11,'2023-12-19 10:23:39',NULL,NULL,'1'),
+(18,19,12,'2023-12-19 10:29:34',NULL,NULL,'1'),
+(19,20,5,'2023-12-19 10:33:54',NULL,NULL,'1'),
+(20,21,13,'2023-12-19 10:39:50',NULL,NULL,'1'),
+(21,22,16,'2023-12-19 10:52:06',NULL,NULL,'1'),
+(22,23,17,'2023-12-19 10:59:52',NULL,NULL,'1'),
+(23,24,17,'2023-12-19 11:04:22',NULL,NULL,'1'),
+(24,25,2,'2023-12-21 08:38:36',NULL,NULL,'1'),
+(25,26,7,'2023-12-21 08:44:53',NULL,NULL,'1'),
+(26,27,8,'2023-12-21 08:56:08',NULL,NULL,'1'),
+(27,28,19,'2023-12-21 09:03:59',NULL,NULL,'1'),
+(28,29,7,'2023-12-21 09:07:19',NULL,NULL,'1'),
+(30,31,19,'2023-12-21 10:07:17',NULL,NULL,'1'),
+(31,32,21,'2023-12-21 10:07:53',NULL,NULL,'1'),
+(33,34,19,'2023-12-23 15:23:11',NULL,NULL,'0'),
+(34,34,19,'2023-12-23 15:23:11',NULL,NULL,'1'),
+(35,32,18,'2023-12-23 18:39:52',NULL,NULL,'1'),
+(36,29,11,'2023-12-23 18:40:53',NULL,NULL,'1'),
+(37,34,19,'2023-12-23 18:43:26',NULL,NULL,'0'),
+(38,31,9,'2023-12-23 18:45:01',NULL,NULL,'1'),
+(39,28,19,'2023-12-23 18:46:22',NULL,NULL,'1'),
+(40,34,19,'2023-12-23 20:46:29',NULL,NULL,'0'),
+(41,25,18,'2023-12-23 20:55:21',NULL,NULL,'1'),
+(42,34,13,'2023-12-23 21:18:26',NULL,NULL,'0'),
+(43,34,17,'2023-12-23 21:20:03',NULL,NULL,'0'),
+(44,27,3,'2023-12-24 19:07:53',NULL,NULL,'1'),
+(45,3,17,'2023-12-25 17:32:47',NULL,NULL,'1'),
+(46,33,3,'2023-12-25 20:21:47',NULL,NULL,'1'),
+(47,33,11,'2023-12-25 20:21:47',NULL,NULL,'1'),
+(48,26,10,'2023-12-25 22:01:55',NULL,NULL,'1');
 
 /*Table structure for table `editoriales` */
 
@@ -193,7 +211,7 @@ CREATE TABLE `ejemplares` (
   PRIMARY KEY (`idejemplar`),
   KEY `fk_idlibro_ejemplar` (`idlibro`),
   CONSTRAINT `fk_idlibro_ejemplar` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`)
-) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `ejemplares` */
 
@@ -214,10 +232,10 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (14,2,14,'NO','1','Usado','2023-12-02 19:25:16',NULL,NULL),
 (15,3,15,'NO','1','Usado','2023-12-02 20:48:41','2023-12-16 00:31:24','2023-12-03 15:48:24'),
 (16,3,16,'NO','1','Usado','2023-12-02 20:48:41','2023-12-16 00:36:45',NULL),
-(17,3,17,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
-(18,3,18,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
-(19,3,19,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,'2023-12-03 00:27:41'),
-(20,3,20,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
+(17,3,17,'NO','1','Usado','2023-12-02 20:48:41','2023-12-25 17:19:22',NULL),
+(18,3,18,'NO','1','Usado','2023-12-02 20:48:41','2023-12-25 17:29:56',NULL),
+(19,3,19,'NO','1','Usado','2023-12-02 20:48:41','2023-12-25 17:30:12','2023-12-03 00:27:41'),
+(20,3,20,'NO','1','Usado','2023-12-02 20:48:41','2023-12-25 17:31:18',NULL),
 (21,3,21,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
 (22,3,22,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
 (23,3,23,'NO','0','Deteriorado','2023-12-02 20:48:41',NULL,NULL),
@@ -236,10 +254,10 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (36,4,36,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
 (37,4,37,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
 (38,4,38,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
-(39,5,39,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
+(39,5,39,'SI','1','Usado','2023-12-02 20:51:56',NULL,NULL),
 (40,5,40,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,'2023-12-02 23:47:06'),
 (41,5,41,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
-(42,5,42,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
+(42,5,42,'SI','1','Usado','2023-12-02 20:51:56',NULL,NULL),
 (43,5,43,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
 (44,5,44,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
 (45,5,45,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
@@ -262,7 +280,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (62,6,60,'NO','1','Nuevo','2023-12-03 15:30:08',NULL,NULL),
 (63,6,61,'NO','1','Nuevo','2023-12-03 15:30:08',NULL,NULL),
 (64,7,62,'NO','1','Usado','2023-12-03 21:21:24','2023-12-15 23:48:51',NULL),
-(65,7,63,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
+(65,7,63,'NO','1','Usado','2023-12-03 21:21:24','2023-12-25 22:21:06',NULL),
 (66,7,64,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
 (67,7,65,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
 (68,7,66,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
@@ -284,7 +302,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (84,7,82,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (85,7,83,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (86,1,50,'NO','1','Usado','2023-12-04 19:32:34','2023-12-17 20:43:07',NULL),
-(87,8,84,'SI','1','Usado','2023-12-05 22:19:19',NULL,NULL),
+(87,8,84,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (88,8,85,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (89,8,86,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (90,8,87,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
@@ -297,7 +315,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (97,8,94,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (98,8,95,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (99,9,96,'NO','0','Deteriorado','2023-12-10 20:47:41',NULL,NULL),
-(100,9,97,'SI','1','Usado','2023-12-10 20:47:41',NULL,NULL),
+(100,9,97,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
 (101,9,98,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
 (102,9,99,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
 (103,9,100,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
@@ -317,7 +335,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (117,9,114,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
 (118,9,115,'NO','1','Usado','2023-12-10 20:47:41',NULL,NULL),
 (119,9,116,'NO','1','Usado','2023-12-10 20:47:42',NULL,NULL),
-(120,10,117,'NO','0','Usado','2023-12-10 20:56:57',NULL,NULL),
+(120,10,117,'NO','1','Usado','2023-12-10 20:56:57','2023-12-23 23:27:02',NULL),
 (121,10,118,'NO','0','Mal','2023-12-10 20:56:57',NULL,'2023-12-11 21:51:20'),
 (122,10,119,'NO','1','Usado','2023-12-10 20:56:57',NULL,NULL),
 (123,10,120,'NO','1','Usado','2023-12-10 20:56:57',NULL,NULL),
@@ -355,7 +373,7 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (155,11,150,'NO','1','Nuevo','2023-12-16 00:20:38',NULL,NULL),
 (156,11,151,'NO','1','Usado','2023-12-16 00:22:14',NULL,NULL),
 (157,14,152,'NO','1','Nuevo','2023-12-16 23:59:48',NULL,NULL),
-(158,15,153,'NO','1','Usado','2023-12-19 10:02:51',NULL,NULL),
+(158,15,153,'SI','1','Usado','2023-12-19 10:02:51',NULL,NULL),
 (159,16,154,'NO','1','Usado','2023-12-19 10:10:56',NULL,NULL),
 (160,17,155,'NO','1','Usado','2023-12-19 10:16:43',NULL,NULL),
 (161,18,156,'NO','1','Usado','2023-12-19 10:23:39',NULL,NULL),
@@ -420,10 +438,10 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (220,16,163,'NO','1','Nuevo','2023-12-19 11:11:58',NULL,NULL),
 (221,16,164,'NO','1','Nuevo','2023-12-19 11:11:58',NULL,NULL),
 (222,16,165,'NO','1','Nuevo','2023-12-19 11:11:58',NULL,NULL),
-(223,15,154,'NO','1','Usado','2023-12-19 11:12:39',NULL,NULL),
-(224,15,155,'NO','1','Usado','2023-12-19 11:12:39',NULL,NULL),
-(225,15,156,'NO','1','Usado','2023-12-19 11:12:39',NULL,NULL),
-(226,15,157,'NO','1','Usado','2023-12-19 11:12:39',NULL,NULL),
+(223,15,154,'SI','1','Usado','2023-12-19 11:12:39',NULL,NULL),
+(224,15,155,'SI','1','Usado','2023-12-19 11:12:39',NULL,NULL),
+(225,15,156,'SI','1','Usado','2023-12-19 11:12:39',NULL,NULL),
+(226,15,157,'SI','1','Usado','2023-12-19 11:12:39',NULL,NULL),
 (227,15,158,'NO','1','Usado','2023-12-19 11:12:39',NULL,NULL),
 (228,15,159,'NO','1','Usado','2023-12-19 11:12:40',NULL,NULL),
 (229,15,160,'NO','1','Usado','2023-12-19 11:12:40',NULL,NULL),
@@ -441,23 +459,23 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (241,21,169,'NO','1','Usado','2023-12-19 11:13:23',NULL,NULL),
 (242,21,170,'NO','1','Usado','2023-12-19 11:13:23',NULL,NULL),
 (243,22,161,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(244,22,162,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(245,22,163,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(246,22,164,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(247,22,165,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(248,22,166,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(249,22,167,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(250,22,168,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(251,22,169,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(252,22,170,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(253,22,171,'NO','1','Usado','2023-12-19 11:14:05',NULL,NULL),
-(254,22,172,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(255,22,173,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(256,22,174,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(257,22,175,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(258,22,176,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(259,22,177,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
-(260,22,178,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(244,22,162,'NO','0','Deteriorado','2023-12-19 11:14:05',NULL,'2023-12-25 19:47:50'),
+(245,22,163,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(246,22,164,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(247,22,165,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(248,22,166,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(249,22,167,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(250,22,168,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(251,22,169,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(252,22,170,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(253,22,171,'SI','1','Usado','2023-12-19 11:14:05',NULL,NULL),
+(254,22,172,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(255,22,173,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(256,22,174,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(257,22,175,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(258,22,176,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(259,22,177,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
+(260,22,178,'SI','1','Usado','2023-12-19 11:14:06',NULL,NULL),
 (261,22,179,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
 (262,22,180,'NO','1','Usado','2023-12-19 11:14:06',NULL,NULL),
 (263,22,181,'NO','1','Usado','2023-12-19 11:14:54',NULL,NULL),
@@ -546,16 +564,16 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (346,29,249,'NO','1','Usado','2023-12-21 09:07:20',NULL,NULL),
 (347,29,250,'NO','1','Usado','2023-12-21 09:07:20',NULL,NULL),
 (348,29,251,'NO','1','Usado','2023-12-21 09:07:21',NULL,NULL),
-(349,31,252,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(350,31,253,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(351,31,254,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(352,31,255,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(353,31,256,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(354,31,257,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(355,31,258,'NO','1','Nuevo','2023-12-21 10:07:17','2023-12-21 10:21:07',NULL),
-(356,31,259,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(357,31,260,'NO','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
-(358,31,261,'NO','1','Nuevo','2023-12-21 10:07:18',NULL,NULL),
+(349,31,252,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(350,31,253,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(351,31,254,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(352,31,255,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(353,31,256,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(354,31,257,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(355,31,258,'SI','1','Nuevo','2023-12-21 10:07:17','2023-12-21 10:21:07',NULL),
+(356,31,259,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(357,31,260,'SI','1','Nuevo','2023-12-21 10:07:17',NULL,NULL),
+(358,31,261,'SI','1','Nuevo','2023-12-21 10:07:18',NULL,NULL),
 (359,31,262,'NO','1','Nuevo','2023-12-21 10:07:18',NULL,NULL),
 (360,31,263,'NO','1','Nuevo','2023-12-21 10:07:18',NULL,NULL),
 (361,31,264,'NO','1','Nuevo','2023-12-21 10:07:18',NULL,NULL),
@@ -605,7 +623,18 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (405,32,308,'NO','1','Nuevo','2023-12-21 10:07:55',NULL,NULL),
 (406,32,309,'NO','1','Nuevo','2023-12-21 10:07:55',NULL,NULL),
 (407,32,310,'NO','1','Nuevo','2023-12-21 10:07:55',NULL,NULL),
-(408,32,311,'NO','1','Nuevo','2023-12-21 10:07:55',NULL,NULL);
+(408,32,311,'NO','1','Nuevo','2023-12-21 10:07:55',NULL,NULL),
+(409,34,312,'NO','1','Usado','2023-12-23 15:23:09',NULL,NULL),
+(410,34,313,'NO','1','Usado','2023-12-23 15:23:09',NULL,NULL),
+(411,34,314,'NO','1','Usado','2023-12-23 15:23:09',NULL,NULL),
+(412,34,315,'NO','1','Usado','2023-12-23 15:23:09',NULL,NULL),
+(413,34,316,'NO','1','Usado','2023-12-23 15:23:09',NULL,NULL),
+(414,14,153,'NO','1','Nuevo','2023-12-25 17:53:56',NULL,NULL),
+(415,34,317,'NO','1','Nuevo','2023-12-25 18:03:51',NULL,NULL),
+(416,33,318,'SI','1','Usado','2023-12-25 20:19:25',NULL,NULL),
+(417,33,319,'NO','1','Usado','2023-12-25 20:19:25',NULL,NULL),
+(418,29,252,'NO','1','Nuevo','2023-12-25 23:25:16',NULL,NULL),
+(419,29,253,'NO','1','Nuevo','2023-12-25 23:25:16',NULL,NULL);
 
 /*Table structure for table `libros` */
 
@@ -635,7 +664,7 @@ CREATE TABLE `libros` (
   KEY `fk_ideditorial` (`ideditorial`),
   CONSTRAINT `fk_ideditorial` FOREIGN KEY (`ideditorial`) REFERENCES `editoriales` (`ideditorial`),
   CONSTRAINT `fk_idsubcategoria` FOREIGN KEY (`idsubcategoria`) REFERENCES `subcategorias` (`idsubcategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `libros` */
 
@@ -651,15 +680,15 @@ insert  into `libros`(`idlibro`,`idsubcategoria`,`ideditorial`,`libro`,`tipo`,`c
 (9,8,5,'Dracula','comic',21,120,820.008,'','Pequeño','2010-03-04','Español','Un texto inquietante y una dinámica distribución de planos y viñetas llenas de atractivos personajes, bien identificados y diferenciados, crean el ambiente adecuado para que el niño se sumerja en una ','ea56ead04647442a6f7662064151c69e298f2396.jpg','2023-12-10 20:47:41',NULL,NULL,'1'),
 (10,11,1,'La Ciudad de los perros','texo',30,121,869.056,'','Mediano','2011-04-13','Español','','62ff7ae3c091ba1df6bfb37d4c2c71b6320ab13f.jpg','2023-12-10 20:56:57',NULL,NULL,'1'),
 (11,3,1,'Precalculos IV','texto',5,144,531.000,'','Grande','2000-12-12','español','nada','ca952d7f67f9bc94620c547aaaf28a11a9952261.jpg','2023-12-10 21:00:03',NULL,'2023-12-15 23:36:17','1'),
-(12,3,3,'Dracula ','texto',1,121,58.000,'','Mediano','2010-04-24','Español','11111111111111111111111111111111111111111','2ff6f57f4a4409322485bb2db97c1d46339f2a28.jpg','2023-12-12 19:49:41',NULL,NULL,'1'),
-(14,3,1,'Calculo III','texto',1,144,531.000,'','mediano','2000-12-12','español','','33ad30a6cc39818397240665f474c66997f6e963.jpg','2023-12-16 23:59:48',NULL,NULL,'1'),
+(12,3,3,'Poesia en el tiempo','texto',1,121,58.000,'','Mediano','2010-04-24','Español','11111111111111111111111111111111111111111','2ff6f57f4a4409322485bb2db97c1d46339f2a28.jpg','2023-12-12 19:49:41',NULL,NULL,'1'),
+(14,3,1,'Calculo III','texto',2,144,531.000,'','mediano','2000-12-12','español','','33ad30a6cc39818397240665f474c66997f6e963.jpg','2023-12-16 23:59:48',NULL,NULL,'1'),
 (15,11,6,'País de jauja','texto',10,662,869.557,'enero 2012','Pequeño','2013-06-07','Español','','565c8e657055dd205ffd03115aea541988208e55.jpg','2023-12-19 10:02:51',NULL,NULL,'1'),
 (16,11,7,'Pedro Paramo','texto',12,262,869.150,'Junio 1983','pequeño','2017-06-06','Español','','fe457a3933580377bc4a1891e701d01bd2d80cdd.jpg','2023-12-19 10:10:56',NULL,NULL,'1'),
 (17,11,8,'Los perros hambrientos ','texto',12,150,869.556,'marzo 2009','pequeño','2009-06-06','Español','','b5c2caf93aa74c00b657fad711eccf83fa8ca2ef.jpg','2023-12-19 10:16:42',NULL,NULL,'1'),
 (18,11,6,'Cuentos Inolvidables','texto',12,400,869.226,'setiembre 2009','Mediano','2009-07-06','Español','','88150bf92fe86fb0d18ba67ee079cd77bb94c94a.jpg','2023-12-19 10:23:39',NULL,NULL,'1'),
 (19,7,9,'El Guardián entre el centeno ','texto',12,300,813.500,'','pequeño','2014-06-06','Español','','a3ca035187e93e3bc05c50a63d707882f15158e0.jpg','2023-12-19 10:29:34',NULL,NULL,'1'),
 (20,11,10,'Obra Poética ','texto',12,520,869.120,'marzo 2014','pequeño','2015-03-06','Español','','432d4ce6e6db389328e8a1ad9e79e8ae108b7867.jpg','2023-12-19 10:33:53',NULL,NULL,'1'),
-(21,50,11,'Para Conocer la Constitución de 1993','texto',12,309,343.300,'','pequeño','1993-02-08','Español','','afc90132a24d574a233d7cb7a89893fcdd3e650b.jpg','2023-12-19 10:39:50',NULL,NULL,'1'),
+(21,50,11,'Para Conocer la Constitución de 1993','texto',12,309,343.300,'','pequeño','1993-02-08','Español','','1232bcc68c7d47c788ae4d351030f9a14d9b0ce4.jpg','2023-12-19 10:39:50',NULL,NULL,'1'),
 (22,10,12,'La vuelta al mundo en 80 dias','historieta',51,188,843.800,'Ediciones 2013','mediano','2013-12-04','Español','','9cbe2044c53dd5a08cc65e7f0e6b5357425fc20a.jpg','2023-12-19 10:52:06',NULL,NULL,'1'),
 (23,14,13,'Historia de la republica del peru','',11,290,985.071,'2016','grande','2015-04-08','Español','','45c8cde896157281df588f0e8668d94c243ae799.jpg','2023-12-19 10:59:52',NULL,NULL,'1'),
 (24,14,14,'Historial del Perú','texto',6,1188,985.080,'Octubre 2013','Grande','2015-04-24','Español','','f7420dcb3e80ffcb79031bd4cbbf033f8d9289bd.jpg','2023-12-19 11:04:22',NULL,NULL,'1'),
@@ -667,11 +696,12 @@ insert  into `libros`(`idlibro`,`idsubcategoria`,`ideditorial`,`libro`,`tipo`,`c
 (26,61,15,'Diccionario de sinónimos y antónimos','Diccionario',11,1066,463.000,'','Pequeño','2012-02-08','Español','','063d003ac2dafbe7a1c900843290c898169512db.jpg','2023-12-21 08:44:53',NULL,NULL,'1'),
 (27,1,9,'Lideres del Tercer Milenio','texto',5,500,158.000,'','Pequeño','1999-03-05','Español','Líderes del Tercer Milenio es una conferencia magistral que hace un compendio de las principales claves de los Dirigentes de Excelencia pasados ​​y contemporáneos.','82a0b1a3cc8b525a2b813613a0f02eaa04251c3c.jpg','2023-12-21 08:56:07',NULL,NULL,'1'),
 (28,88,16,'Manual de educación física y deportes','Manual',3,659,796.000,'','Grande','2015-05-09','Español','','d51910513abb650c20c655db586974f53c7df2d8.jpg','2023-12-21 09:03:59',NULL,NULL,'1'),
-(29,49,6,'Economía para todos','texto',10,249,330.030,'','Mediano','2016-05-04','Español','','b4f919220a0400e682f2eb88323388499ad4e1a4.jpg','2023-12-21 09:07:19',NULL,NULL,'1'),
+(29,49,6,'Economía para todos','texto',12,249,330.030,'','Mediano','2016-05-04','Español','','b4f919220a0400e682f2eb88323388499ad4e1a4.jpg','2023-12-21 09:07:19',NULL,NULL,'1'),
 (30,57,17,'Collins pocket plus','texto',30,792,423.000,'','Pequeño','2011-05-20','Español','','a8a89ff455a5d8e7ae8d6c85628e5ed91845414a.jpg','2023-12-21 10:07:01',NULL,NULL,'1'),
 (31,57,17,'Collins pocket plus','texto',30,792,423.000,'','Pequeño','2011-05-20','Español','','4cddb73c07e96f24a10e4086d1b1d8862f96c9af.jpg','2023-12-21 10:07:17',NULL,NULL,'1'),
-(32,57,17,'Collins pocket plus','texto íntegro',30,792,423.000,'ES','Pequeño','2011-05-20','Español','','a7346ee7b3c930e5a9a3958da674835c273a658f.jpg','2023-12-21 10:07:53',NULL,NULL,'1'),
-(33,57,17,'Collins pocket plus','texto',30,792,423.000,'ES','Pequeño','2011-05-20','Español','','375b1f6e562eb5dbc721fa96bdc7b32f67f7351f.jpg','2023-12-21 10:08:11',NULL,NULL,'1');
+(32,18,12,'Las Fronteras del Pensamiento','texto',30,792,152.024,'ES','Pequeño','2011-05-20','Español','','67cc59405f59104caadcd84a4f1bdf43dcab29b8.jpg','2023-12-21 10:07:53',NULL,NULL,'1'),
+(33,57,17,'Historia del Cálculo','texto',2,792,423.000,'ES','Pequeño','2011-05-20','Español','','16f5bb9bfced20776e7c112708e7b6bd24245024.jpg','2023-12-21 10:08:11',NULL,NULL,'1'),
+(34,13,10,'Geografía e historia','texto',6,232,912.002,'2010','Mediano','2015-11-28','Español','','c1203af51b163796d76635449c93ba64fb82b5a2.jpg','2023-12-23 15:23:09',NULL,NULL,'1');
 
 /*Table structure for table `librosentregados` */
 
@@ -690,7 +720,7 @@ CREATE TABLE `librosentregados` (
   KEY `fk_prestamo_libentre` (`idprestamo`),
   CONSTRAINT `fk_idejemplar_libroentre` FOREIGN KEY (`idejemplar`) REFERENCES `ejemplares` (`idejemplar`),
   CONSTRAINT `fk_prestamo_libentre` FOREIGN KEY (`idprestamo`) REFERENCES `prestamos` (`idprestamo`)
-) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `librosentregados` */
 
@@ -918,9 +948,61 @@ insert  into `librosentregados`(`idlibroentregado`,`idprestamo`,`idejemplar`,`co
 (221,125,64,'Usado','Bien','bien','2023-12-16 21:39:35'),
 (222,126,52,'Nuevo','Bien','bien','2023-12-17 22:57:45'),
 (223,127,15,'Usado','Bien','bien','2023-12-17 22:57:39'),
-(224,128,100,'Usado',NULL,NULL,'2023-12-19 00:00:00'),
+(224,128,100,'Usado','Bien','bien','2023-12-23 17:28:47'),
 (225,129,122,'Usado','Bien','bien','2023-12-17 22:58:15'),
-(226,130,87,'Usado',NULL,NULL,'2023-12-19 00:00:00');
+(226,130,87,'Usado','Bien','bien','2023-12-23 17:28:34'),
+(227,132,39,'Usado','Bien','Bien','2023-12-25 00:00:00'),
+(228,133,15,'Usado','Bien','Bien','2023-12-26 00:00:00'),
+(229,134,165,'Nuevo','Bien','Bien','2023-12-25 00:00:00'),
+(230,135,158,'Usado','Bien','Bien','2023-12-24 00:00:00'),
+(231,136,157,'Nuevo','Bien','Bien','2023-12-24 00:00:00'),
+(232,131,339,'Usado','Bien','Bien','2023-12-24 00:00:00'),
+(233,137,11,'Usado','Bien','bien','2023-12-24 19:56:54'),
+(234,137,12,'Usado','Bien','bien','2023-12-24 19:56:54'),
+(235,137,13,'Usado','Bien','bien','2023-12-24 19:56:54'),
+(236,137,14,'Usado','Bien','bien','2023-12-24 19:56:54'),
+(237,138,331,'Usado','Bien','Bien','2023-12-26 00:00:00'),
+(238,139,336,'Usado','Bien','Bien','2023-12-25 00:00:00'),
+(239,140,120,'Usado','Bien','bien','2023-12-24 20:01:28'),
+(240,141,157,'Nuevo','Bien','bien','2023-12-24 20:20:30'),
+(241,142,64,'Usado','Bien','Bien','2023-12-25 00:00:00'),
+(242,143,39,'Usado',NULL,NULL,'2023-12-26 00:00:00'),
+(243,143,42,'Usado',NULL,NULL,'2023-12-26 00:00:00'),
+(244,144,150,'Nuevo','Bien','Bien','2023-12-26 00:00:00'),
+(245,145,158,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(246,145,223,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(247,145,224,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(248,145,225,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(249,145,226,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(250,146,349,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(251,146,352,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(252,146,351,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(253,146,353,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(254,146,350,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(255,146,354,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(256,146,355,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(257,146,356,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(258,146,358,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(259,146,357,'Nuevo',NULL,NULL,'2023-12-28 00:00:00'),
+(260,147,243,'Usado','Bien','Bien','2023-12-28 00:00:00'),
+(261,147,244,'Usado','Deteriorado','rayado','2023-12-28 00:00:00'),
+(262,147,245,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(263,147,246,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(264,147,248,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(265,147,247,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(266,147,249,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(267,147,251,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(268,147,250,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(269,147,253,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(270,147,252,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(271,147,254,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(272,147,255,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(273,147,257,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(274,147,256,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(275,147,258,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(276,147,259,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(277,147,260,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
+(278,149,416,'Usado',NULL,NULL,'2023-12-27 00:00:00');
 
 /*Table structure for table `personas` */
 
@@ -941,12 +1023,12 @@ CREATE TABLE `personas` (
   `inactive_at` datetime DEFAULT NULL,
   PRIMARY KEY (`idpersona`),
   UNIQUE KEY `ukDNI` (`nrodocumento`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `personas` */
 
 insert  into `personas`(`idpersona`,`apellidos`,`nombres`,`nrodocumento`,`tipodocumento`,`fechanac`,`direccion`,`telefono`,`email`,`create_at`,`update_at`,`inactive_at`) values 
-(1,'Berrocal paima','Luis Fernando','76543000','DNI','0000-00-00','Sunampe','964513274','','2023-11-14 20:04:43',NULL,NULL),
+(1,'Berrocal paima','Luis Fernando','76543010','DNI','0000-00-00','Sunampe','964513274','','2023-11-14 20:04:43',NULL,NULL),
 (2,'Cartagena Salazar','Jimena Adriana','73194180','DNI','0000-00-00','El carmen','','95107563','2023-11-14 20:04:43',NULL,NULL),
 (3,'Cardenas Martinez','Maria Luisa','88678671','DNI','2010-05-06','','961770778','','2023-11-15 17:34:31',NULL,NULL),
 (4,'Cartagena Salazar','Adriana Jimena','68754574','DNI','0000-00-00','Grocio Prado','950478703','','2023-11-17 22:10:26',NULL,NULL),
@@ -959,22 +1041,29 @@ insert  into `personas`(`idpersona`,`apellidos`,`nombres`,`nrodocumento`,`tipodo
 (11,'Tasayco Gomez','Raúl','72890192','DNI','1990-10-10','Chincha Alta','938789282','','2023-11-21 21:04:32',NULL,NULL),
 (12,'Moron Roblez','Jasira Angela','57468484','DNI','0000-00-00','Grocio Prado','956404584','','2023-11-22 22:10:20',NULL,NULL),
 (13,'Lopez García','Elizabeth','78290181','DNI','0000-00-00','Chincha Baja','928782981','','2023-11-25 19:45:10',NULL,NULL),
-(15,'Garcia','Fred alfredo','68725872','DNI','0000-00-00','chincha baja','','','2023-11-25 21:18:51',NULL,NULL),
+(15,'Garcia','Fred alfredo','68725872','DNI','2011-07-06','chincha baja','','','2023-11-25 21:18:51',NULL,NULL),
 (16,'Huaman Condori','Maria Alejandra','63527687','DNI','1980-08-07','','987204687','','2023-11-29 18:04:47',NULL,NULL),
-(17,'Palomino Hernández ','Carlos','79602857','DNI','0000-00-00','','','','2023-12-16 21:54:16',NULL,NULL),
+(17,'Palomino Hernández ','Carlos','79602857','DNI','2008-04-05','Sunampe','950680746','','2023-12-16 21:54:16',NULL,NULL),
 (18,'Salazar Urbano','Kenia ','62578726','DNI','0000-00-00','Grocio Prado','962485028','','2023-12-16 21:55:57',NULL,NULL),
 (20,'Tasayco Cardenas','Juan','72890123','DNI','2006-10-10','Chincha Alta','938789282','','2023-12-16 21:59:20',NULL,NULL),
 (21,'García Campos','Dominick','70056460','DNI','2008-05-31','Sunampe','925408054','','2023-12-16 22:06:23',NULL,NULL),
 (22,'Guillen Amoretti','Gabriela','65247872','DNI','2008-05-05','','9','','2023-12-16 22:07:18',NULL,NULL),
 (23,'Navarro Vilchez','Xiomara','52687268','DNI','2009-03-31','Chincha','','','2023-12-17 21:46:35',NULL,NULL),
-(24,'Sanchez Flores','Luisa','72089808','DNI','1980-03-09','','','','2023-12-17 21:47:56',NULL,NULL),
+(24,'Sanchez Flores','Luisa','72089808','DNI','1980-03-09','Chincha','954054014','','2023-12-17 21:47:56',NULL,NULL),
 (25,'Alcca Herrera','Viviana Luisa','56268787','DNI','2010-05-04','Grocio Prado','950680746','54514@gmail.com','2023-12-17 21:49:00',NULL,NULL),
 (26,'Garcia Monayco','Ursula','7654321','DNI','2010-06-04','Sunampe','925456406','Sunampe','2023-12-17 21:51:55',NULL,NULL),
-(28,'Cabrera Luque','Irene','73194181','DNI','0000-00-00','','','','2023-12-17 22:53:51',NULL,NULL),
+(28,'Cabrera Luque','Irene','73194181','DNI','2006-09-05','','','','2023-12-17 22:53:51',NULL,NULL),
 (29,'Campos De la cruz','Alexia','52787186','DNI','2023-10-10','Sunampe','','','2023-12-18 18:59:02',NULL,NULL),
 (30,'Campos De la cruz','Alexia','36734727','DNI','2023-12-14','Sunampe','903257468','','2023-12-18 19:00:12',NULL,NULL),
 (31,'bendenzu aquije','kaditxa yarumi','62723857','DNI','2023-02-28','avenida san martin ','958193798','kadit','2023-12-21 09:38:36',NULL,NULL),
-(32,'Palacios Fabian','Esmeralda','','DNI','2011-03-17','','955358573','','2023-12-21 09:40:17',NULL,NULL);
+(32,'Palacios Fabian','Esmeralda','72054008','DNI','2011-03-17','Av Luren','955358573','','2023-12-21 09:40:17',NULL,NULL),
+(33,'Acosta Pacaya','Tesy','62674202','DNI','2011-03-29','Sunampe','902045400','','2023-12-24 19:35:06',NULL,NULL),
+(34,'Almeyda Tipian','Maria','62787423','DNI','2010-07-05','Av Grau','925403500','','2023-12-24 19:37:24',NULL,NULL),
+(35,'Quintanilla Apolaya','Jessica','62787509','DNI','2010-08-31','Grocio Prado','905305060','','2023-12-24 19:39:00',NULL,NULL),
+(36,'Casapia Diaz','Kaine','63503645','DNI','2011-05-31','Av lima','905468704','','2023-12-24 19:39:47',NULL,NULL),
+(37,'Esquivel Pachas','Grace','62787416','DNI','0000-00-00','Grocio Prado','905300504','Grace.12@gmail.com','2023-12-24 19:40:32',NULL,NULL),
+(38,'Cabeza Herrera','Ramona Luisa','66505602','DNI','2010-04-04','Grocio Prado','950650650','','2023-12-25 18:39:44',NULL,NULL),
+(39,'Monte negro del Aguila','Maria Elena','71032046','DNI','0000-00-00','AV San Luis','905478502','','2023-12-25 18:41:07',NULL,NULL);
 
 /*Table structure for table `prestamos` */
 
@@ -1005,7 +1094,7 @@ CREATE TABLE `prestamos` (
   CONSTRAINT `fk_idlibro_prestamo` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`),
   CONSTRAINT `ck_enbiblio_presta` CHECK (`enbiblioteca` in ('SI','NO')),
   CONSTRAINT `ck_estado_ore` CHECK (`estado` in ('E','S','R','D','T','N','C'))
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `prestamos` */
 
@@ -1127,10 +1216,28 @@ insert  into `prestamos`(`idprestamo`,`idbeneficiario`,`idbibliotecario`,`idlibr
 (125,13,1,NULL,NULL,'2023-12-16 21:39:25','2023-12-16 21:39:25',NULL,'2023-12-16 21:39:25','5H','NO','Salón 5','T','1',NULL),
 (126,4,1,NULL,NULL,'2023-12-17 21:39:47','2023-12-17 21:39:47',NULL,'2023-12-17 21:39:47','3M','SI',NULL,'T','1',NULL),
 (127,17,1,NULL,NULL,'2023-12-17 21:42:15','2023-12-17 21:42:15',NULL,'2023-12-17 21:42:15','Quimica','SI',NULL,'T','1',NULL),
-(128,14,1,NULL,NULL,'2023-12-17 21:44:07','2023-12-19 00:00:00',NULL,NULL,'4A','SI',NULL,'R','1',NULL),
+(128,14,1,NULL,NULL,'2023-12-17 21:44:07','2023-12-19 00:00:00',NULL,'2023-12-23 17:28:39','4A','SI',NULL,'T','1',NULL),
 (129,2,NULL,10,1,'2023-12-17 21:56:31','2023-12-18 00:00:00','2023-12-17 21:57:23','2023-12-17 22:58:06','','NO','aula','T','1',NULL),
-(130,20,1,NULL,NULL,'2023-12-18 17:36:41','2023-12-18 17:36:41',NULL,'2023-12-18 17:36:41','3A','SI',NULL,'D','1',NULL),
-(131,29,NULL,29,1,'2023-12-21 09:48:01','2023-12-21 00:00:00',NULL,NULL,'primero A','SI','','S','1',NULL);
+(130,20,1,NULL,NULL,'2023-12-18 17:36:41','2023-12-18 17:36:41',NULL,'2023-12-18 17:36:41','3A','SI',NULL,'T','1',NULL),
+(131,29,NULL,29,1,'2023-12-21 09:48:01','2023-12-21 00:00:00','2023-12-24 15:20:58','2023-12-24 15:21:08','primero A','SI','','T','1',NULL),
+(132,28,1,NULL,NULL,'2023-12-23 23:53:52','2023-12-23 23:53:52',NULL,'2023-12-23 23:53:52','','SI',NULL,'T','1',NULL),
+(133,17,1,NULL,NULL,'2023-12-24 00:00:19','2023-12-25 00:00:00',NULL,'2023-12-24 18:57:30','Quimica','SI',NULL,'T','1',NULL),
+(134,4,1,NULL,NULL,'2023-12-24 15:12:39','2023-12-25 00:00:00',NULL,'2023-12-24 18:57:42','3M','SI',NULL,'T','1',NULL),
+(135,30,1,NULL,NULL,'2023-12-24 15:14:05','2023-12-24 00:00:00',NULL,'2023-12-24 15:18:05','4F','SI',NULL,'T','1',NULL),
+(136,21,1,NULL,NULL,'2023-12-24 15:20:06','2023-12-24 00:00:00',NULL,'2023-12-24 19:57:14','','SI',NULL,'T','1',NULL),
+(137,15,1,NULL,NULL,'2023-12-24 18:30:24','2023-12-25 00:00:00',NULL,'2023-12-24 19:56:45','Matematica','SI',NULL,'T','1',NULL),
+(138,20,1,NULL,NULL,'2023-12-24 19:11:13','2023-12-26 00:00:00',NULL,'2023-12-24 19:11:25','3A','SI',NULL,'T','1',NULL),
+(139,13,1,NULL,NULL,'2023-12-24 19:11:48','2023-12-25 00:00:00',NULL,'2023-12-24 19:41:33','5H','SI',NULL,'T','1',NULL),
+(140,4,1,NULL,NULL,'2023-12-24 20:01:17','2023-12-24 20:01:17',NULL,'2023-12-24 20:01:17','3M','SI',NULL,'T','1',NULL),
+(141,2,NULL,14,1,'2023-12-24 20:14:48','2023-12-26 00:00:00','2023-12-24 20:15:20','2023-12-24 20:20:19','3M','SI','','T','1',NULL),
+(142,29,1,NULL,NULL,'2023-12-25 18:07:52','2023-12-25 18:07:52',NULL,'2023-12-25 18:07:52','primero A','SI',NULL,'T','1',NULL),
+(143,28,1,NULL,NULL,'2023-12-25 18:08:47','2023-12-25 18:08:47',NULL,'2023-12-25 18:08:47','DPCC','SI',NULL,'D','1',NULL),
+(144,4,1,NULL,NULL,'2023-12-25 18:09:53','2023-12-26 00:00:00',NULL,'2023-12-25 19:24:57','3M','SI',NULL,'T','1',NULL),
+(145,17,1,NULL,NULL,'2023-12-25 18:11:52','2023-12-27 00:00:00',NULL,NULL,'Quimica','NO','Laboratorio','R','1',NULL),
+(146,18,1,NULL,NULL,'2023-12-25 18:12:49','2023-12-28 00:00:00',NULL,NULL,'Ingles','SI',NULL,'R','1',NULL),
+(147,21,1,NULL,NULL,'2023-12-25 18:27:42','2023-12-28 00:00:00',NULL,'2023-12-25 19:43:27','','SI',NULL,'D','1',NULL),
+(148,37,NULL,8,2,'2023-12-25 18:42:54','2023-12-28 00:00:00',NULL,NULL,'Personal Social ','SI','','S','1',NULL),
+(149,37,1,NULL,NULL,'2023-12-25 22:10:31','2023-12-27 00:00:00',NULL,NULL,'','SI',NULL,'R','1',NULL);
 
 /*Table structure for table `roles` */
 
@@ -1291,37 +1398,44 @@ CREATE TABLE `usuarios` (
   KEY `fk_idrol` (`idrol`),
   CONSTRAINT `fk_idpersona` FOREIGN KEY (`idpersona`) REFERENCES `personas` (`idpersona`),
   CONSTRAINT `fk_idrol` FOREIGN KEY (`idrol`) REFERENCES `roles` (`idrol`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `usuarios` */
 
 insert  into `usuarios`(`idusuario`,`idpersona`,`idrol`,`nombreusuario`,`claveacceso`,`create_at`,`update_at`,`inactive_at`,`estado`) values 
 (1,1,1,'75123489','$2y$10$ZQ0.NyzapEJ6.UJUUzmbMuXyYwk4gfIkKhXivhEFRwEmRwHEgLEEC','2023-11-14 20:04:56','2023-12-19 11:06:00','2023-12-12 21:19:21','1'),
-(2,2,3,'78674219','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-14 20:04:56',NULL,'2023-12-10 21:34:31','1'),
+(2,2,3,'78674219','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-14 20:04:56',NULL,'2023-12-24 20:20:30','1'),
 (3,3,3,'Maria12','$2y$10$pxX3igy8jxsXn0d6pIfhuOAgrqtyYllrjRoKExylPwWx5eV.sL5Wi','2023-11-15 17:34:31','2023-12-16 21:03:46','2023-12-10 23:00:42','1'),
-(4,4,3,'Adri12','$2y$10$BAFdgrEAUrbCiAvJqXK1JewmEmWD4z6elZ/SbjfPL6AtlAdtycXyK','2023-11-17 22:10:26',NULL,'2023-12-17 21:39:49','1'),
+(4,4,3,'Adri12','$2y$10$BAFdgrEAUrbCiAvJqXK1JewmEmWD4z6elZ/SbjfPL6AtlAdtycXyK','2023-11-17 22:10:26',NULL,'2023-12-25 18:09:54','1'),
 (5,5,2,'Juan12','$2y$10$DO47kyJla58I/3HnjIfwqODpmZpT0d92aC98PJvnhzt0iA.CAu.0a','2023-11-17 23:09:29',NULL,'2023-12-14 22:11:13','1'),
 (6,6,3,'Kiarabq','$2y$10$uwF4lFXTH1mw4yw.lXX7HeVTMGAr10dRPE4DnypxrX5oYb3quMvum','2023-11-17 23:10:50',NULL,'2023-12-14 00:39:58','1'),
 (7,7,3,'JhonF','$2y$10$Cp0BSJyKCFSKllRAZ/.DA.8Eu3BR/IC4IdUi0.Yj3rWAGUz7hPSRG','2023-11-17 23:12:24',NULL,'2023-12-14 17:38:34','1'),
 (11,11,2,'72890192','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-21 21:04:32',NULL,'2023-12-14 00:21:18','1'),
 (12,12,2,'54165','$2y$10$IAtQzGqfXelNXJfSkEt8i.5UxQkdDQgf0xTvrjxWcdbPLN0h.0NkO','2023-11-22 22:10:20',NULL,'2023-12-15 22:06:36','1'),
-(13,13,3,'78290181','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-25 19:45:10',NULL,'2023-12-16 21:39:26','1'),
-(14,15,3,'Fred12','$2y$10$DGRQGH1Ch28HBqHokIY6.u01dcMoXXz1/aJxq5Fah345UG5.zu9Oe','2023-11-25 21:18:51',NULL,'2023-12-17 21:44:08','0'),
-(15,16,2,'Ale12','$2y$10$hawx981.c.gQRjCAPIQQOeVPoUcibqg1lEhSLhUNCgPQtqOT72qgO','2023-11-29 18:04:47',NULL,'2023-12-14 17:31:30','1'),
+(13,13,3,'78290181','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-25 19:45:10',NULL,'2023-12-24 19:11:49','1'),
+(14,15,3,'Fred12','$2y$10$DGRQGH1Ch28HBqHokIY6.u01dcMoXXz1/aJxq5Fah345UG5.zu9Oe','2023-11-25 21:18:51',NULL,'2023-12-17 21:44:08','1'),
+(15,16,2,'Ale12','$2y$10$hawx981.c.gQRjCAPIQQOeVPoUcibqg1lEhSLhUNCgPQtqOT72qgO','2023-11-29 18:04:47',NULL,'2023-12-24 18:30:26','1'),
 (16,8,4,'73194188','$2y$10$M0PnVKniA4vjKwavvC1m9O1YdwzNM.XQInVKho5PJr0GjA6Bbt9gO','2023-12-06 22:43:32',NULL,NULL,'1'),
-(17,17,2,'79602857','$2y$10$a7KStvb08eV1c9PyS8PReOjjEiF7FfCdh8EwmiheLCuCVyFTNJKki','2023-12-16 21:54:16',NULL,'2023-12-17 21:42:17','1'),
-(18,18,2,'62578726','$2y$10$ez444zmhg4SzVdk35k/0W.QcA3bWt4W09C6.Pag26HkACSf7ZsoWa','2023-12-16 21:55:57',NULL,NULL,'1'),
+(17,17,2,'79602857','$2y$10$a7KStvb08eV1c9PyS8PReOjjEiF7FfCdh8EwmiheLCuCVyFTNJKki','2023-12-16 21:54:16',NULL,'2023-12-25 18:11:53','0'),
+(18,18,2,'62578726','$2y$10$ez444zmhg4SzVdk35k/0W.QcA3bWt4W09C6.Pag26HkACSf7ZsoWa','2023-12-16 21:55:57',NULL,'2023-12-25 18:12:51','0'),
 (19,20,2,'72890123','4321','2023-12-16 21:59:20',NULL,NULL,'1'),
-(20,21,3,'70056460','$2y$10$v.3w9UOJlIJMnXVODL7iF.47eZ6RDWl7pAi5hMk46Wo2ffnAzBmJa','2023-12-16 22:06:23',NULL,'2023-12-18 17:36:42','0'),
-(21,22,2,'65247872','$2y$10$za35/IWlsOy5Vb93DTpcfOwsF7KofQvqPNJEXty.lYNvcMSjmWQjG','2023-12-16 22:07:18',NULL,NULL,'1'),
+(20,21,3,'70056460','$2y$10$v.3w9UOJlIJMnXVODL7iF.47eZ6RDWl7pAi5hMk46Wo2ffnAzBmJa','2023-12-16 22:06:23',NULL,'2023-12-24 19:11:15','1'),
+(21,22,2,'65247872','$2y$10$za35/IWlsOy5Vb93DTpcfOwsF7KofQvqPNJEXty.lYNvcMSjmWQjG','2023-12-16 22:07:18',NULL,'2023-12-25 18:27:44','1'),
 (22,23,3,'52687268','$2y$10$uauysBK41DWsuuoIm/7cGeWwXduyl9yXL7/Ny8eQ.tI2tOnk.JQ6C','2023-12-17 21:46:35',NULL,NULL,'1'),
 (23,24,2,'72089808','$2y$10$UKTTfZx.q.T/4p3FzPNiYORp51padIo2brBwgvUziAmajFlKOZvM2','2023-12-17 21:47:56',NULL,NULL,'1'),
 (24,25,3,'56268787','$2y$10$XOJiHWnq5sfLQXhJw9FdXud1WwOZDv4jIQPns4NuqahrfSH8GeejS','2023-12-17 21:49:00',NULL,NULL,'1'),
 (25,26,3,'','$2y$10$Ej/6Z4Kr1ZWdBDN/RG26ieTvDX1VBzqGtmKx1oCSKjC/5Vw.w5OXm','2023-12-17 21:51:55',NULL,NULL,'1'),
 (26,28,3,'73194180','$2y$10$bPkn7xtfsjnJy5cYJ8q2TePbwjch8IUdF.AtGRiU3FcxqC.YZqGgS','2023-12-17 22:53:51','2023-12-17 22:54:44',NULL,'1'),
-(28,30,2,'36734727','$2y$10$pIv56NspMr2sFq1s9uHkzeOarKL545nfNTADnHwmQ8qy.0w7qZxGy','2023-12-18 19:00:12',NULL,NULL,'1'),
-(29,31,3,'kaditxa','$2y$10$96Kmc26m/dM8AZHQmEG6DuDUdKqlLGxbAk2a2CzoSSpKO9Jg3ZaXO','2023-12-21 09:38:36','2023-12-21 09:45:47',NULL,'0'),
-(30,32,3,'pato.34','$2y$10$vT1xKe/Fqd2kBEbD1bi.PuR0GuSBnLDRMJsjQHxq3xH2HmYDWBYNy','2023-12-21 09:40:17','2023-12-21 09:42:08',NULL,'1');
+(28,30,2,'36734727','$2y$10$pIv56NspMr2sFq1s9uHkzeOarKL545nfNTADnHwmQ8qy.0w7qZxGy','2023-12-18 19:00:12',NULL,'2023-12-25 18:08:48','0'),
+(29,31,3,'kaditxa','$2y$10$96Kmc26m/dM8AZHQmEG6DuDUdKqlLGxbAk2a2CzoSSpKO9Jg3ZaXO','2023-12-21 09:38:36','2023-12-21 09:45:47','2023-12-25 18:07:53','1'),
+(30,32,3,'pato.34','$2y$10$vT1xKe/Fqd2kBEbD1bi.PuR0GuSBnLDRMJsjQHxq3xH2HmYDWBYNy','2023-12-21 09:40:17','2023-12-21 09:42:08','2023-12-24 15:14:06','1'),
+(31,33,3,'Tesy12','$2y$10$JLeGIdt4Pr81vwkxOqX2iu04I0vawJFldpy.CwUFf9xz4hx526NBm','2023-12-24 19:35:06',NULL,NULL,'1'),
+(32,34,3,'62787423','$2y$10$myJ/8gDrb1ZQnut.ceahnes/ido3OqknXFl6cpIw7QRph4m5tjrFC','2023-12-24 19:37:24',NULL,NULL,'1'),
+(33,35,3,'62787509','$2y$10$kAwyOfk57xgxjjkGLajA5eRuJMK2HGM99WwXJzq4Zd7tN6N93.cdO','2023-12-24 19:39:00',NULL,NULL,'1'),
+(34,36,2,'63503645','$2y$10$UFXVjBTJyiRNC3I.vPBHwuQjICaHBTPNjaNNfef8OtEDeEgG1UQzm','2023-12-24 19:39:47',NULL,'2023-12-25 23:06:24','0'),
+(35,37,3,'62787416','$2y$10$rZHZGspJ2Y4TKcOUj1BJNeoDYmpuqP8jBtD9mcDGJiuBzNusmeWSq','2023-12-24 19:40:32',NULL,NULL,'1'),
+(36,38,3,'66505602','$2y$10$j32go81GgMq56Cc.oJKLE.mij5rt.ngNFFIfcVOjbM7hMar71Xd/K','2023-12-25 18:39:44',NULL,NULL,'1'),
+(37,39,2,'71032046','$2y$10$c2Lz5TC5XMgH4LAapcr.zOZNjRb/E5GJgWrkdXw1gd4EfAyO2lxlK','2023-12-25 18:41:07','2023-12-25 18:41:55','2023-12-25 22:10:32','0');
 
 /* Trigger structure for table `prestamos` */
 
@@ -1466,6 +1580,25 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_actualizar_actores` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_actualizar_actores` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_actualizar_actores`(
+	in _iddetalleautor int,
+	in _idlibro int,
+	in _idautor int
+)
+begin
+	update detalleautores set
+	idautor = _idautor,
+	idlibro = _idlibro
+	where iddetalleautor = _iddetalleautor and detalleautores.estado = 1;
+end */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_actualizar_ejemplares` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_actualizar_ejemplares` */;
@@ -1517,52 +1650,6 @@ DELIMITER $$
 )
 BEGIN
 	UPDATE prestamos SET estado = _estado WHERE idprestamo = _idprestamo;
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `spu_actualizar_libro` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `spu_actualizar_libro` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_actualizar_libro`(
-    IN p_idlibro INT, 
-    IN p_nueva_cantidad INT,
-    in _condicion varchar(50)
-)
-BEGIN
-      DECLARE v_ultimo_codigo_libro INT;
-      DECLARE v_nuevo_codigo_libro INT;
-      DECLARE contador INT DEFAULT 1;
-    -- Obtener el último número de código_libro
-     -- SELECT COALESCE(MAX(codigo_libro), 0) INTO v_ultimo_codigo_libro FROM ejemplares;
-     
-    SELECT MAX(codigo_libro) INTO v_ultimo_codigo_libro
-    FROM ejemplares
-    WHERE idlibro = p_idlibro;
-    -- Verificar si hay ejemplares existentes
-    IF v_ultimo_codigo_libro IS NOT NULL THEN
-        -- Calcular el nuevo número de código_libro
-        SET v_nuevo_codigo_libro = v_ultimo_codigo_libro + 1;
-        -- Insertar ejemplares para la nueva cantidad
-        
-        WHILE contador <= p_nueva_cantidad DO
-            INSERT INTO ejemplares (idlibro, codigo_libro, condicion)
-            VALUES (p_idlibro, v_nuevo_codigo_libro,_condicion);
-            SET contador = contador + 1;
-            SET v_nuevo_codigo_libro = v_nuevo_codigo_libro + 1;
-        END WHILE;
-        -- Actualizar la cantidad del libro          
-        UPDATE libros SET 
-        cantidad = cantidad + p_nueva_cantidad
-        WHERE idlibro = p_idlibro;
-        -- Imprimir mensaje o devolver resultado si es necesario
-        SELECT 'Cantidad y código_libro actualizados correctamente' AS 'Mensaje';
-    ELSE
-        -- Si no hay ejemplares existentes, mostrar mensaje de error
-        SELECT 'No hay ejemplares existentes para el libro especificado' AS 'Error';
-    END IF;
 END */$$
 DELIMITER ;
 
@@ -1649,6 +1736,59 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_aumentar_libro` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_aumentar_libro` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_aumentar_libro`(
+    IN p_idlibro INT, 
+    IN p_nueva_cantidad INT,
+    IN _condicion VARCHAR(50)
+)
+BEGIN
+      DECLARE v_ultimo_codigo_libro INT;
+      DECLARE v_nuevo_codigo_libro INT;
+      DECLARE contador INT DEFAULT 1;
+    -- Obtener el último número de código_libro
+     -- SELECT COALESCE(MAX(codigo_libro), 0) INTO v_ultimo_codigo_libro FROM ejemplares;
+     
+    SELECT MAX(codigo_libro) INTO v_ultimo_codigo_libro
+    FROM ejemplares
+    WHERE idlibro = p_idlibro;
+
+    -- Verificar si hay ejemplares existentes
+    IF v_ultimo_codigo_libro IS NOT NULL THEN
+        -- Calcular el nuevo número de código_libro
+        SET v_nuevo_codigo_libro = v_ultimo_codigo_libro + 1;
+
+        -- Insertar ejemplares para la nueva cantidad
+        
+        WHILE contador <= p_nueva_cantidad DO
+            INSERT INTO ejemplares (idlibro, codigo_libro, condicion)
+            VALUES (p_idlibro, v_nuevo_codigo_libro,_condicion);
+
+            SET contador = contador + 1;
+            SET v_nuevo_codigo_libro = v_nuevo_codigo_libro + 1;
+        END WHILE;
+
+        -- Actualizar la cantidad del libro          
+        UPDATE libros SET 
+        cantidad = cantidad + p_nueva_cantidad
+        WHERE idlibro = p_idlibro;
+
+
+        -- Imprimir mensaje o devolver resultado si es necesario
+        SELECT 'Cantidad y código_libro actualizados correctamente' AS 'Mensaje';
+    ELSE
+        -- Si no hay ejemplares existentes, mostrar mensaje de error
+        SELECT 'No hay ejemplares existentes para el libro especificado' AS 'Error';
+    END IF;
+
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_buscar_libro` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_buscar_libro` */;
@@ -1661,15 +1801,16 @@ DELIMITER $$
 BEGIN
         SELECT libros.idlibro, libros.imagenportada, libros.libro, subcategorias.subcategoria,
         categorias.categoria, libros.tipo, libros.numeropaginas, libros.codigo,
-        CONCAT(autores.autor, " ", autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
-        libros.descripcion, (SELECT COUNT(*) FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
+        GROUP_CONCAT(CONCAT(autores.autor, " ", autores.apellidos)) AS "autor", editoriales.nombres AS "editorial",
+        libros.descripcion, (SELECT COUNT(*) FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND ejemplares.estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
-	WHERE libros.idlibro = _idlibro;
+	WHERE libros.idlibro = _idlibro and libros.estado in (1,0)
+	GROUP BY libros.idlibro;
 END */$$
 DELIMITER ;
 
@@ -1800,7 +1941,7 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_cantidad_prestamos`()
 BEGIN
 	SELECT COUNT(idprestamo) AS 'prestamo'
-	FROM prestamos where estado = 'T';
+	FROM prestamos ;
 END */$$
 DELIMITER ;
 
@@ -1902,6 +2043,22 @@ BEGIN
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	WHERE usuarios.idusuario = _idusuario;
 END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_desactivar_detalleautor` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_desactivar_detalleautor` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_desactivar_detalleautor`(
+	in _iddetalleautor int
+)
+begin
+	update detalleautores set
+	estado = '0'
+	where iddetalleautor = _iddetalleautor;
+end */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_desactivar_ejemplar` */
@@ -2028,11 +2185,11 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_filtro_student`()
 BEGIN
-	SELECT usuarios.idusuario, concat(personas.nombres, ' ',personas.apellidos) as 'nombres' , usuarios.estado, roles.nombrerol
+	SELECT usuarios.idusuario, concat(personas.nombres, ' ',personas.apellidos, '-',roles.nombrerol) as 'nombres' , usuarios.estado, roles.nombrerol
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = 3 AND usuarios.estado = 1;
+	WHERE usuarios.idrol in (2,3) AND usuarios.estado = 1;
 END */$$
 DELIMITER ;
 
@@ -2048,7 +2205,7 @@ BEGIN
 	FROM usuarios
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
-	WHERE usuarios.idrol = 2 AND usuarios.estado = 1;
+	WHERE usuarios.idrol in (2,3) AND usuarios.estado = 1;
 END */$$
 DELIMITER ;
 
@@ -2126,7 +2283,7 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3 AND estado = 0
+	WHERE usuarios.idrol = 3 AND usuarios.estado = 0
 	ORDER BY idusuario DESC;
 END */$$
 DELIMITER ;
@@ -2146,7 +2303,7 @@ BEGIN
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE estado = 0
+	WHERE libros.estado = 0
 	ORDER BY iddetalleautor DESC;
 END */$$
 DELIMITER ;
@@ -2407,8 +2564,8 @@ DELIMITER $$
 )
 BEGIN
 	SELECT libros.idlibro,libros.imagenportada,libros.libro,subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.numeropaginas,libros.codigo,
-	CONCAT(autores.autor, ' ', autores.apellidos) AS "autor", editoriales.nombres AS "editorial",
-	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ejemplares.ocupado = 'NO' AND ejemplares.estado = 1) AS "cantidad"
+	GROUP_CONCAT(CONCAT(autores.autor, ' ', autores.apellidos)) AS "autor", editoriales.nombres AS "editorial",
+	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
@@ -2417,7 +2574,8 @@ BEGIN
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
 	WHERE (_idsubcategoria ="" OR libros.idsubcategoria = _idsubcategoria) 
 	AND (_idcategoria ="" OR categorias.idcategoria = _idcategoria)
-	AND (_nombre ="" OR libros.libro LIKE CONCAT("%", _nombre, "%"));
+	AND (_nombre ="" OR libros.libro LIKE CONCAT("%", _nombre, "%"))
+	GROUP BY libros.idlibro;
 END */$$
 DELIMITER ;
 
@@ -2524,14 +2682,15 @@ DELIMITER $$
 )
 BEGIN
 	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.codigo,
-	CONCAT(autores.autor, " ",autores.apellidos) AS "autor", editoriales.nombres AS "editorial", 
+	GROUP_CONCAT(CONCAT(autores.autor, " ",autores.apellidos)) AS "autor", editoriales.nombres AS "editorial", 
 	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial;
+	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
+	GROUP BY libros.idlibro;
 	
 END */$$
 DELIMITER ;
@@ -2725,6 +2884,22 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_registrar_autores` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_registrar_autores` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_registrar_autores`(
+	IN _idlibro INT,
+	IN _idautor INT
+)
+BEGIN
+	INSERT INTO detalleautores(idlibro,idautor) VALUES
+		(_idlibro,_idautor);
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_registrar_estudiante` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_registrar_estudiante` */;
@@ -2775,7 +2950,6 @@ DELIMITER $$
     IN _idioma VARCHAR(30),
     IN _descripcion TEXT,
     IN _imagenportada VARCHAR(200),
-    IN _idautor  INT,
     IN _condicion VARCHAR(100)
 )
 BEGIN
@@ -2788,20 +2962,22 @@ BEGIN
 	
      SET @idlibro = LAST_INSERT_ID();
      
-     INSERT INTO detalleautores(idlibro, idautor) VALUES
-				(@idlibro, _idautor);
     -- Obtener la cantidad de libros para el ID 
     SELECT cantidad INTO cantidad_libros FROM libros WHERE idlibro = @idlibro;
+
     -- Obtener el último código_libro global
     SELECT COALESCE(MAX(codigo_libro), 0) INTO nuevo_codigo FROM ejemplares;
+
     -- Incrementar el código_libro global
     SET nuevo_codigo = nuevo_codigo + 1;
+
     -- Insertar ejemplares para el ID del libro
     WHILE contador <= cantidad_libros DO
         -- Encontrar el próximo código_libro disponible
         WHILE EXISTS (SELECT 1 FROM ejemplares WHERE codigo_libro = nuevo_codigo AND idlibro = @idlibro ) DO
             SET nuevo_codigo = nuevo_codigo + 1;
         END WHILE;
+
         -- Insertar el nuevo ejemplar
         INSERT INTO ejemplares (idlibro, codigo_libro, condicion)
         VALUES (@idlibro , nuevo_codigo, _condicion);
@@ -3013,9 +3189,9 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_reporte_idusuario`(
-	in _idusuario int
+	IN _idusuario INT
 )
-begin
+BEGIN
 	SELECT c.idcategoria, c.categoria, c.codigo, COUNT(p.idprestamo) AS 'CantidadPrestada'
 	FROM categorias c
 	LEFT JOIN subcategorias sc ON c.idcategoria = sc.idcategoria
@@ -3025,9 +3201,9 @@ begin
 	LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
 	LEFT JOIN usuarios u ON p.idbeneficiario = u.idusuario
 	LEFT JOIN roles r ON u.idrol = r.idrol
-	WHERE r.idrol = _idusuario 
+	WHERE r.idrol = _idusuario and p.estado ='T'
 	GROUP BY c.idcategoria;
-end */$$
+END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_reporte_libro` */
@@ -3116,54 +3292,6 @@ BEGIN
 	INNER JOIN roles ON roles.idrol = usu1.idrol
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
 	WHERE prestamos.idbeneficiario = DESCRIPCION AND prestamos.estado = 'T';
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `spu_search_book` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `spu_search_book` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_search_book`(
-	IN _nombre VARCHAR(50)
-)
-BEGIN
-	SELECT 
-	    ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
-	    lib.codigo,
-	    CONCAT(aut.autor, ' ', aut.apellidos) AS 'autor'
-	FROM 
-	    subcategorias sub
-	    JOIN categorias cat ON sub.idcategoria = cat.idcategoria
-	    JOIN libros lib ON sub.idsubcategoria = lib.idsubcategoria
-	    JOIN detalleautores det ON lib.idlibro = det.idlibro
-	    JOIN autores aut ON det.idautor = aut.idautor
-	    LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
-	WHERE 
-	    lib.estado IN (1,0) and (_nombre ="" OR lib.libro LIKE CONCAT("%",_nombre, "%"))
-	GROUP BY 
-	    ej.idlibro
-	ORDER BY 
-	    ej.idlibro DESC;
-	-- Luego, la sentencia UPDATE
-	UPDATE libros AS lib
-	SET 
-	    lib.estado = 
-		CASE
-		    WHEN (
-			SELECT COUNT(*) 
-			FROM ejemplares ej
-			WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado = 1
-		    ) > 0 THEN 1
-		    ELSE 0
-		END
-	WHERE 
-	    EXISTS (
-		SELECT 1
-		FROM ejemplares ej
-		WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
-	    );
 END */$$
 DELIMITER ;
 
@@ -3259,6 +3387,24 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_traer_Autor` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_traer_Autor` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_traer_Autor`(
+	IN _idlibro INT
+)
+BEGIN
+	SELECT iddetalleautor, autores.idautor,libros.idlibro, CONCAT(autores.apellidos,' ', autores.autor) AS 'nombres'
+	FROM detalleautores
+	INNER JOIN libros ON libros.idlibro = detalleautores.idlibro
+	INNER JOIN autores ON autores.idautor = detalleautores.idautor
+	WHERE detalleautores.idlibro = _idlibro and detalleautores.estado = 1;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_traer_grado` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_traer_grado` */;
@@ -3277,6 +3423,20 @@ begin
 end */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_traer_idlibro_autor` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_traer_idlibro_autor` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_traer_idlibro_autor`()
+BEGIN
+	SELECT libros.idlibro, libros.libro
+	FROM libros
+	ORDER BY libros.idlibro DESC LIMIT 1;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_traer_prestamo` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_traer_prestamo` */;
@@ -3292,6 +3452,23 @@ BEGIN
 	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
 	WHERE prestamos.idbeneficiario = _idbeneficiario AND DATE(prestamos.fechasolicitud) = CURDATE()
 	ORDER BY prestamos.idprestamo DESC LIMIT 1;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_traer_rol` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_traer_rol` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_traer_rol`(
+	IN _idrol INT
+)
+BEGIN
+	SELECT idusuario, roles.idrol, roles.nombrerol
+	FROM usuarios 
+	INNER JOIN roles ON roles.idrol = usuarios.idrol
+	WHERE usuarios.idusuario = _idrol;
 END */$$
 DELIMITER ;
 
@@ -3549,11 +3726,34 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_update_img`(
     IN _idlibro INT, 
+    IN _idsubcategoria INT,
+    IN _ideditorial INT,
+    IN _libro VARCHAR(100),
+    IN _tipo VARCHAR(50),
+    IN _numeropaginas SMALLINT,
+    IN _codigo DECIMAL(6,3),
+    IN _edicion VARCHAR(100),
+    IN _formato VARCHAR(50),
+    IN _anio	DATE,
+    IN _idioma  VARCHAR(20),
+    IN _descripcion VARCHAR(200),
     IN _imagenportada VARCHAR(100)
+    
 )
 BEGIN
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
+        idsubcategoria = _idsubcategoria,
+        ideditorial = _ideditorial,
+        libro = _libro,
+        tipo = _tipo,
+        numeropaginas = _numeropaginas,
+        codigo = _codigo,
+        edicion = _edicion,
+        formato = _formato,
+        anio = _anio,
+        idioma = _idioma,
+        descripcion = _descripcion,
         imagenportada = _imagenportada
         WHERE idlibro = _idlibro;
 END */$$
@@ -3577,10 +3777,10 @@ DELIMITER $$
     IN _formato VARCHAR(50),
     IN _anio	DATE,
     IN _idioma  VARCHAR(20),
-    IN _descripcion VARCHAR(200),
-    IN _idautor  INT
+    IN _descripcion VARCHAR(200)
 )
 BEGIN
+
         -- Actualizar la cantidad del libro          
         UPDATE libros SET 
         idsubcategoria = _idsubcategoria,
@@ -3594,10 +3794,6 @@ BEGIN
         anio = _anio,
         idioma = _idioma,
         descripcion = _descripcion
-        WHERE idlibro = _idlibro;
-        
-        UPDATE detalleautores SET
-        idautor = _idautor
         WHERE idlibro = _idlibro;
 END */$$
 DELIMITER ;

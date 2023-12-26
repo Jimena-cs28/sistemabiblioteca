@@ -321,21 +321,26 @@
     // traerLibro();
     function register(){
 
-        if(Rnombre.value = ''){
+        if(Rnombre.value == ''){
             toastError("Escriba el nombre")
+            return
         }
 
-        if(selectsubcategoria.value = ''){
+        if(selectsubcategoria.value == ''){
             toastError("Seleccione la subcategoria")
+            return
         }
-        if(document.querySelector("#Rcodigo").value = ''){
+        if(document.querySelector("#Rcodigo").value == ''){
             toastError("Escriba el codigo")
+            return
         }
-        if(document.querySelector("#Rcantidad").value = ''){
+        if(document.querySelector("#Rcantidad").value == ''){
             toastError("Escriba la cantidad")
+            return
         }
-        if(document.querySelector("#Rcondicion").value = ''){
+        if(document.querySelector("#Rcondicion").value == ''){
             toastError("Escriba la condicion del libro")
+            return
         }
 
         const fd = new FormData();

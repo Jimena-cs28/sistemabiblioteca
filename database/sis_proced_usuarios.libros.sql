@@ -57,7 +57,7 @@ END $$
 
  -- para aumentar la cantidad funciona
 DELIMITER $$ 
-CREATE PROCEDURE spu_actualizar_libro
+CREATE PROCEDURE spu_aumentar_libro
 (
     IN p_idlibro INT, 
     IN p_nueva_cantidad INT,
@@ -103,6 +103,19 @@ BEGIN
     END IF;
 
 END $$
+
+CALL spu_actualizar_libro(14,1,'Nuevo')
+SELECT * FROM libros WHERE idlibro = 33    -- 31,32
+SELECT * FROM ejemplares WHERE idlibro = 33
+SELECT * FROM detalleautores WHERE detalleautores.idlibro = 33
+UPDATE libros SET
+libro = 'Historia del Cálculo',
+cantidad = 2
+WHERE idlibro = 33
+
+INSERT INTO detalleautores (idlibro,idautor) VALUES
+	(33,3),
+	(33,6);
 
 DELIMITER $$
 CREATE PROCEDURE spu_update_libro
@@ -175,8 +188,6 @@ BEGIN
         WHERE idlibro = _idlibro;
 END $$
 
-SELECT * FROM detalleautores
--- traer el libro
 DELIMITER $$
 CREATE PROCEDURE spu_traer_idlibro_autor()
 BEGIN
@@ -203,6 +214,8 @@ BEGIN
 	idlibro = _idlibro
 	WHERE iddetalleautor = _iddetalleautor AND detalleautores.estado = 1;
 END $$
+
+
 
 CALL spu_actualizar_actores(34,34,10)
 CALL spu_actualizar_actores(34,34,3)
@@ -408,7 +421,7 @@ BEGIN
 	FROM usuarios
 	INNER JOIN roles ON roles.idrol = usuarios.idrol
 	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
-	WHERE usuarios.idrol = 3 AND estado = 0
+	WHERE usuarios.idrol = 3 AND usuarios.estado = 0
 	ORDER BY idusuario DESC;
 END $$
 
@@ -451,7 +464,7 @@ BEGIN
 	WHERE idusuario = _idusuario;
 END $$
 
-SELECT * FROM usuarios
+SELECT * FROM prestamos
 CALL spu_abilitar_usuario(6);
 
 -- SECCION ESTUDIANTE Y PROFESOR

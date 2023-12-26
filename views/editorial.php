@@ -13,7 +13,7 @@
 </ul>
 
 <div class="row">
-    <div class="col-md-6" id="cac">
+    <div class="col-md-5" id="cac">
         <div class="card border-0">
             <div class="card-body border-0">
                 <!-- fila del titulo -->
@@ -76,12 +76,49 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-7">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="color: #504a4a;" id="tablaEditorial" width="100%" cellspacing="0">
+                <thead >
+                    <tr>
+                        <th>#</th>
+                        <th>NOMBRE</th>
+                        <th>TELEFONO</th>
+                        <th>WEBSITE</th>
+                        <th>EMAIL</th>
+                        <th>PAIS ORIGEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
     
     btGuardaE = document.querySelector("#btguardarE");
-
+    cuerpoEditorial = document.querySelector("tbody");
+    const tablaEditorial = new DataTable('#tablaEditorial', {        
+        dom: 'Bfrtip',
+        buttons: [
+        ],
+        language: {
+            url:'../js/Spanish.json'
+        },
+        "order": [[0,"desc"]],
+        "columnDefs" : [
+            {
+                visible : true,
+                searchable : true,
+                serverSide : true,
+                pageLength: 10
+            }
+        ]
+    });
     
     function RegisterEditorial(){
         mostrarPregunta("REGISTRO", "¿Estas seguro de guardar el editorial?").then((result)=>{
@@ -107,4 +144,31 @@
         })
     };
 
+    function listadoEditorial(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","selectEditorial");
+
+        fetch("../controller/libros.php",{
+            method: 'POST',
+            body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+        // cuerpoEditorial.innerHTML = '';
+        tablaEditorial.clear();
+            datos.forEach(element => {
+                tablaEditorial.row.add([
+                    element.ideditorial,
+                    element.nombres,
+                    element.telefono, 
+                    element.website,
+                    element.email,
+                    element.paisorigen
+                ]);
+            });
+            tablaEditorial.draw();
+        })
+    }
+    listadoEditorial()
+    btGuardaE.addEventListener("click", RegisterEditorial);
 </script>

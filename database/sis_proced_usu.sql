@@ -232,12 +232,12 @@ BEGIN
 	LEFT JOIN prestamos p ON le.idprestamo = p.idprestamo
 	LEFT JOIN usuarios u ON p.idbeneficiario = u.idusuario
 	LEFT JOIN roles r ON u.idrol = r.idrol
-	WHERE r.idrol = _idusuario 
+	WHERE r.idrol = _idusuario AND p.estado ='T'
 	GROUP BY c.idcategoria;
 END $$
 
 CALL spu_reporte_idusuario(3)
-SELECT * FROM prestamos
+SELECT * FROM roles
 
 DELIMITER $$
 CREATE PROCEDURE SPU_REPORT_USUARIO
@@ -256,7 +256,7 @@ BEGIN
 	INNER JOIN usuarios usu1 ON usu1.idusuario = prestamos.idbeneficiario
 	INNER JOIN roles ON roles.idrol = usu1.idrol
 	INNER JOIN personas ON personas.idpersona = usu1.idpersona
-	WHERE prestamos.idbeneficiario = 6 AND prestamos.estado = 'T';
+	WHERE prestamos.idbeneficiario = 3 AND prestamos.estado = 'T';
 END $$
 
 DELIMITER $$
