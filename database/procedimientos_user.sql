@@ -14,7 +14,7 @@ SELECT * FROM ejemplares WHERE idlibro = 6
 
 SELECT * FROM librosentregados
 
--- 3 FILTROS PARA BUSCAR
+-- BUSCADOR / 3 FILTROS
 DELIMITER $$
 CREATE PROCEDURE spu_listar_libro_user
 (
@@ -28,7 +28,7 @@ BEGIN
 	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
+	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro AND detalleautores.estado = 1
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
@@ -55,30 +55,30 @@ CALL spu_validar_libroprestado(2)
 SELECT * FROM prestamos
 
 
--- LISTAR LIBROS
+-- LISTAR LIBROS EN LA VISTA
 DELIMITER $$
 CREATE PROCEDURE spu_list_libro
-(	
+(
 )
 BEGIN
-	SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.codigo,
-	GROUP_CONCAT(CONCAT(autores.autor, " ",autores.apellidos)) AS "autor", editoriales.nombres AS "editorial", 
-	(SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
-	FROM libros
-	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
-	INNER JOIN autores ON autores.idautor = detalleautores.idautor
-	INNER JOIN  categorias ON categorias.idcategoria = subcategorias.idcategoria
-	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
-	GROUP BY libros.idlibro;
-	
+    SELECT libros.idlibro, libros.libro, libros.imagenportada, subcategorias.subcategoria, categorias.categoria, libros.tipo, libros.codigo,
+        GROUP_CONCAT(CONCAT(autores.autor, " ", autores.apellidos)) AS "autor", editoriales.nombres AS "editorial",
+        (SELECT COUNT(*) FROM ejemplares WHERE idlibro = libros.idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
+    FROM libros
+    INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
+    INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro AND detalleautores.estado = 1
+    INNER JOIN autores ON autores.idautor = detalleautores.idautor
+    INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
+    INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
+    GROUP BY libros.idlibro
+    ORDER BY libros.idlibro DESC;
 END$$
 CALL spu_list_libro();
 
 SELECT * FROM ejemplares WHERE idlibro = 2 AND ocupado = 'NO'
 SELECT * FROM libros
 
--- BUSCADOR
+-- DETALLES DE LIBROS
 DELIMITER $$
 CREATE PROCEDURE spu_buscar_libro
 (
@@ -91,7 +91,7 @@ BEGIN
         libros.descripcion, (SELECT COUNT(*) FROM ejemplares WHERE idlibro = _idlibro AND ocupado = 'NO' AND estado = 1) AS "cantidad"
 	FROM libros
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
-	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro
+	INNER JOIN detalleautores ON detalleautores.idlibro = libros.idlibro AND detalleautores.estado = 1
 	INNER JOIN autores ON autores.idautor = detalleautores.idautor
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial 
