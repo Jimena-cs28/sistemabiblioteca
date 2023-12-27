@@ -164,7 +164,17 @@
     }
 
     function registrarCategory(){
-        if(confirm("estas seguro de guardar?")){
+        if(document.querySelector("#subcategoria").value == ''){
+            toastError("Escriba la subcategoria")
+            return;
+        }
+
+        if(document.querySelector("#codigo").value == ''){
+            toastError("Escriba el codigo")
+            return;
+        }
+        mostrarPregunta("SUBCATEGORIA", "¿Estas seguro de registrar?").then((result)=>{
+            if(result.isConfirmed){
             const parametros = new URLSearchParams();
             parametros.append("operacion", "RegistrarCategory");
             parametros.append("idcategoria", selectcategoria.value);
@@ -182,8 +192,8 @@
                     document.querySelector("#form-categori").reset();
                 }
             });
-            
-        }
+            }
+        })
     }
 
     btGuardar.addEventListener("click", registrarCategory);

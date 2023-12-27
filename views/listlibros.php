@@ -749,34 +749,37 @@
         }
     }
 
-    function traerAutor(){
-        const parametros = new URLSearchParams();
-        parametros.append("operacion", "traerAutor");
-        parametros.append("idlibro", idlibro);
-        fetch("../controller/libros.php",{
-            method : 'POST',
-            body:parametros
-        })
-        .then(response => response.json())
-        .then(datos => {
-            cuerpoA.innerHTML = ``;
-            datos.forEach(element => {
-                iddetalleautor = element.iddetalleautor
-                idautor = element.idautor
-                console.log(iddetalleautor);
-                const ejemplar = `
+    function traerAutor() {
+    const parametros = new URLSearchParams();
+    parametros.append("operacion", "traerAutor");
+    parametros.append("idlibro", idlibro);
+
+    fetch("../controller/libros.php", {
+        method: 'POST',
+        body: parametros
+    })
+    .then(response => response.json())
+    .then(datos => {
+        cuerpoA.innerHTML = ``;
+
+        datos.forEach(element => {
+            iddetalleautor = element.iddetalleautor;
+            idautor = element.idautor;
+            console.log(iddetalleautor);
+
+            const ejemplar = `
                 <tr>
                     <td>${element.idautor}</td>
                     <td>${element.nombres}</td>
-                    <td>
-                        <a class ="disminuir btn btn-sm btn-danger" data-idautor='${element.idautor}' data-iddetalleautor ='${element.iddetalleautor}'>X</a>
-                    </td>
-                </tr>`
-                ;
-                cuerpoA.innerHTML +=ejemplar;
-            });
+                    ${datos.length > 1 ? `<td><a class="disminuir btn btn-sm btn-danger" data-idautor='${element.idautor}' data-iddetalleautor='${element.iddetalleautor}'>X</a></td>` : ''}
+                </tr>
+            `;
+
+            cuerpoA.innerHTML += ejemplar;
         });
-    }
+    });
+}
+
 
     function traerEjemplar(){
         const parametros = new URLSearchParams();
@@ -960,8 +963,8 @@
                     })
                     .then(response => response.json())
                     .then(result => {
+                        modalEditarL.toggle();
                         toast("Eliminado");
-                        traerAutor();
                     })
                 }
             })

@@ -328,36 +328,6 @@
         }
     });
 
-    // function searchPrestamo(){
-    //     const parametros = new URLSearchParams();
-    //     parametros.append("operacion", "SeachPrestamo");
-    //     parametros.append("nombres", secharP.value);
-    //     fetch("../controller/prestamos.php",{
-    //         method : 'POST',
-    //         body:parametros
-    //     })
-    //     .then(response => response.json())
-    //     .then(datos => {
-    //         cuerpo.innerHTML = ``;
-    //         datos.forEach(element => {
-    //             const pres = `
-    //             <tr>
-    //                 <td>${element.idprestamo}</td>
-    //                 <td>${element.Nombres}</td>
-    //                 <td>${element.descripcion}</td>
-    //                 <td>${element.enbiblioteca}</td>
-    //                 <td>${element.fechasolicitud}</td>
-    //                 <td>${element.fechaentrega}</td>
-    //                 <td>${element.fechaprestamo}</td>
-    //                 <td>
-    //                     <a href='#ejemplar' class='btn btn-primary todo' data-toggle='modal' data-idprestamo='${element.idprestamo}'>Ficha</a>
-    //                 <td>               
-    //             </tr>
-    //             `;
-    //             cuerpo.innerHTML += pres;
-    //         });
-    //     });
-    // }
 
     listarprestamo();
 

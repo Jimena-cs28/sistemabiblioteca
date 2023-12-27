@@ -21,9 +21,9 @@
     <div class="card-body">
         <div class="table-responsive">
         <div class="col-md-6">
-                <label for="">Buscar
+                <!-- <label for="">Buscar
                     <input type="search" class="form-control form-control-sm" id="bookSearchDevo">
-                </label>
+                </label> -->
             </div>
             <table class="table table-bordered" id="tablaD" width="100%" cellspacing="0">
                 <thead>
@@ -185,6 +185,7 @@
     let idlibro = '';
     let idusuario = '';
     let idejemplar = '';
+    // const seachdev  = document.querySelector("")
     const cuerpo = document.querySelector("tbody");
     const btbuscar = document.querySelector("#bookSearchDevo");
     const modaltodo = new bootstrap.Modal(document.querySelector("#modal-id"));
@@ -236,14 +237,6 @@
 
                     cuerpo.innerHTML += recibir;
                 });
-
-                // Mostrar los mensajes de avisos flotantes
-                // if (mensajesAvisosFlotantes.length > 0){
-                    // mensajesAvisosFlotantes.forEach((nombre, indice) => {
-                        // mostrarAvisoFlotante(`${nombre} no ha devuelto el libro`, indice);
-                    // })
-                    
-                // }
             }
         })
     }
@@ -292,6 +285,44 @@
             }
         });
     }
+
+    // function searchDevolucion(){
+    //     const parametros = new URLSearchParams();
+    //     parametros.append("operacion", "SeachPrestamo");
+    //     parametros.append("nombres", btbuscar.value);
+    //     fetch("../controller/prestamos.php",{
+    //         method : 'POST',
+    //         body:parametros
+    //     })
+    //     .then(response => response.json())
+    //     .then(datos => {
+    //         const actualA = new Date();
+    //         cuerpo.innerHTML = ``;
+    //         datos.forEach(element => {
+    //                 const fechadevolucion = new Date(element.fechadevolucion);
+    //                 const fechapasadas = fechadevolucion < actualA;
+
+    //                 const style = fechapasadas ? 'color: red;' : '';                 
+    //                 const recibir = `
+    //                 <tr style='${style}'>
+    //                     <td>${element.idprestamo}</td>
+    //                     <td>${element.nombres}</td>
+    //                     <td>${element.descripcion}</td>
+    //                     <td>${element.fechaentrega}</td>
+    //                     <td>${element.fechaprestamo}</td>
+    //                     <td>${element.fechadevolucion}</td>
+    //                     <td>
+    //                         <a type='button' data-toggle='modal' class='btn btn-info recibir' data-idprestamo='${element.idprestamo}' 
+    //                         data-idlibroentregado='${element.idlibroentregado}' data-idusuario='${element.idusuario}'>recibir</a>
+    //                     </td>
+    //                 </tr>
+    //                 `;
+
+    //                 cuerpo.innerHTML += recibir;
+    //             });
+            
+    //     });
+    // }
 
     function DesacEjem(){
         const parametros = new URLSearchParams();
@@ -494,6 +525,10 @@
         }
     }
 
+    
     listarDevoluciones();
     // bt.addEventListener("click", ValidarRegistrar);
+    // btbuscar.addEventListener("keypress", (evt) => {
+    //     if(evt.charCode == 13) searchDevolucion();
+    // });
 </script>
