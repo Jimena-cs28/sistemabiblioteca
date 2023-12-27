@@ -146,6 +146,7 @@
     const btnrechazarsolicitud = document.querySelector("#btnrechazarsolicitud");
     const txtrechazarsolicitud = document.querySelector("#txt-rechazarsolicitud"); 
     const listejemplaresrechazar = document.querySelector("#listejemplaresrechazar");
+    let fechasolicitud = '';
 
     function listarSolicitud(){
         const parametros = new URLSearchParams();
@@ -192,8 +193,12 @@
         idlibro = element.dataset.id;
         cantidad = element.dataset.cantidad;
         idprestamo = element.dataset.idprestamo;
-        console.log(element.dataset.fechasolicitud);
+        const parsetfechasolicitud = new Date(element.dataset.fechasolicitud) 
         fechadevolucion.min = new Date(element.dataset.fechasolicitud).toISOString().split('T')[0];
+        parsetfechasolicitud.setDate(parsetfechasolicitud.getDate()+3)
+        fechadevolucion.max =parsetfechasolicitud.toISOString().split('T')[0];
+        fechadevolucion.value = ''
+        fechasolicitud = element.dataset.fechasolicitud
         const parametros = new URLSearchParams();
         parametros.append("operacion", "listarEjemplaresdisponibles");
         parametros.append("idlibro", idlibro);
@@ -344,12 +349,13 @@
     }})
     })
 
-    const validarFechaNoAnterior = (fechaIngresada) => {
+    const validarFechaNoAnterior = (fechaIngresada, fechaMinima) => {
     try {
         // Obtiene la fecha actual sin horas, minutos, segundos ni milisegundos
-        const fechaActual = new Date();
+        const fechaActual = new Date(new Date(fechaMinima).toISOString().replace("Z", ""));
+        // const parsetDate = new Date(fechadevolucion.value).toISOString().replace("Z", "")
         fechaActual.setHours(0, 0, 0, 0);
-
+   
         // Convierte la fecha ingresada a un objeto Date
         const fechaIngresadaObj = new Date(fechaIngresada);
 
@@ -362,7 +368,7 @@
         const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
 
         // Valida si la fecha ingresada es igual o posterior a la fecha actual
-        if (fechaIngresadaObj >= fechaActual && diferenciaDias <= 5) {
+        if (fechaIngresadaObj >= fechaActual && diferenciaDias <= 3) {
             return true;
         }
     } catch (error) {
@@ -373,13 +379,14 @@
     return false;
 };
     btnaceptarsolicitud.addEventListener('click', function(){
+        console.log(fechasolicitud);
         
         if(fechadevolucion.value == ''){
             toastError('Debe colocar la fecha de devolución')
             return
         }
         const parsetDate = new Date(fechadevolucion.value).toISOString().replace("Z", "")
-        if(!validarFechaNoAnterior(parsetDate)){
+        if(!validarFechaNoAnterior(parsetDate, fechasolicitud)){
             toastError('Verificar fecha')
             return
         }
