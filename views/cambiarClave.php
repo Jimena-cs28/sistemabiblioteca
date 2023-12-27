@@ -78,7 +78,7 @@
                             document.querySelector("#exampleInputEmail").value = ''
                             document.querySelector("#passwordInput").value = ''
                         }else{
-                            toastError("Vuelva a Intertarlo");
+                            toastError("El usuario no existe");
                         }
                     });
                 }

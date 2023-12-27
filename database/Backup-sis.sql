@@ -32,7 +32,7 @@ CREATE TABLE `autores` (
   `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idautor`),
   UNIQUE KEY `uk_autor` (`autor`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `autores` */
 
@@ -55,7 +55,16 @@ insert  into `autores`(`idautor`,`apellidos`,`autor`,`pseudonimio`,`nacionalidad
 (18,'Cornejo','Miguel Angel','','Mexicano','2023-12-21 08:51:17',NULL,NULL,'1'),
 (19,'Gatica','Patricio ','','','2023-12-21 09:02:15',NULL,NULL,'1'),
 (20,'Ruiz Vaca','José María','','','2023-12-21 10:12:10',NULL,NULL,'1'),
-(21,'Ballard','Kim','','','2023-12-21 10:18:03',NULL,NULL,'1');
+(21,'Ballard','Kim','','','2023-12-21 10:18:03',NULL,NULL,'1'),
+(22,'de Cervantes Saavedra','Miguel','','español','2023-12-26 15:00:00',NULL,NULL,'1'),
+(23,'Saavedra','Isabel','','Español','2023-12-26 15:02:17',NULL,NULL,'1'),
+(26,'Mariátegui','Jorge Carlos','','','2023-12-26 15:12:53',NULL,NULL,'1'),
+(27,'Varela Gonzales','Blanca Leonor ','','','2023-12-26 15:19:54',NULL,NULL,'1'),
+(29,'Bryce Echenique','Alfredo Marcelo','','Peruano','2023-12-26 15:23:53',NULL,NULL,'1'),
+(30,'registrarAutor','registrarAutor','registrarAutor','registrarAutor','2023-12-26 16:02:28',NULL,NULL,'1'),
+(32,'Chocano Gastañodi','José Santos','','Peruano','2023-12-26 16:10:50',NULL,NULL,'1'),
+(33,' Cortés Espinosa','Juan Félix ','','Peruano','2023-12-26 16:12:36',NULL,NULL,'1'),
+(34,'Calderón Rey','Ventura García','','Peruano','2023-12-26 16:18:57',NULL,NULL,'1');
 
 /*Table structure for table `categorias` */
 
@@ -103,7 +112,7 @@ CREATE TABLE `detalleautores` (
   KEY `fk_idautor_text` (`idautor`),
   CONSTRAINT `fk_idautor_text` FOREIGN KEY (`idautor`) REFERENCES `autores` (`idautor`),
   CONSTRAINT `fk_idlibro` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `detalleautores` */
 
@@ -153,7 +162,9 @@ insert  into `detalleautores`(`iddetalleautor`,`idlibro`,`idautor`,`creat_at`,`u
 (45,3,17,'2023-12-25 17:32:47',NULL,NULL,'1'),
 (46,33,3,'2023-12-25 20:21:47',NULL,NULL,'1'),
 (47,33,11,'2023-12-25 20:21:47',NULL,NULL,'1'),
-(48,26,10,'2023-12-25 22:01:55',NULL,NULL,'1');
+(48,26,10,'2023-12-25 22:01:55',NULL,NULL,'1'),
+(49,12,18,'2023-12-26 13:48:26',NULL,NULL,'0'),
+(50,30,22,'2023-12-26 16:35:47',NULL,NULL,'1');
 
 /*Table structure for table `editoriales` */
 
@@ -170,7 +181,7 @@ CREATE TABLE `editoriales` (
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ideditorial`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `editoriales` */
 
@@ -192,7 +203,9 @@ insert  into `editoriales`(`ideditorial`,`nombres`,`telefono`,`website`,`email`,
 (15,'Gredos, S.A.U','','www.editorialgredos.com',NULL,'Madrid','2023-12-21 08:41:57',NULL,NULL),
 (16,'OCEANO','','www.oceano.com',NULL,'España','2023-12-21 09:02:04',NULL,NULL),
 (17,'GRIJALBO ','',NULL,NULL,'','2023-12-21 10:03:42',NULL,NULL),
-(18,'Palgrave Macmillan','',NULL,NULL,'','2023-12-21 10:19:08',NULL,NULL);
+(18,'Palgrave Macmillan','',NULL,NULL,'','2023-12-21 10:19:08',NULL,NULL),
+(19,'Lopez S.A.C','953607469',NULL,NULL,'Argentino','2023-12-26 15:07:59',NULL,NULL),
+(20,'Grupo Planeta','950178435',NULL,NULL,'Perú','2023-12-26 16:29:40',NULL,NULL);
 
 /*Table structure for table `ejemplares` */
 
@@ -211,7 +224,7 @@ CREATE TABLE `ejemplares` (
   PRIMARY KEY (`idejemplar`),
   KEY `fk_idlibro_ejemplar` (`idlibro`),
   CONSTRAINT `fk_idlibro_ejemplar` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`)
-) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=427 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `ejemplares` */
 
@@ -254,15 +267,15 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (36,4,36,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
 (37,4,37,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
 (38,4,38,'NO','1','Usado','2023-12-02 20:50:05',NULL,NULL),
-(39,5,39,'SI','1','Usado','2023-12-02 20:51:56',NULL,NULL),
-(40,5,40,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,'2023-12-02 23:47:06'),
-(41,5,41,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
-(42,5,42,'SI','1','Usado','2023-12-02 20:51:56',NULL,NULL),
+(39,5,39,'NO','1','Usado','2023-12-02 20:51:56','2023-12-26 13:37:34','2023-12-26 13:34:16'),
+(40,5,40,'NO','1','Usado','2023-12-02 20:51:56','2023-12-26 13:39:41','2023-12-02 23:47:06'),
+(41,5,41,'NO','1','Nuevo','2023-12-02 20:51:56','2023-12-26 13:40:45',NULL),
+(42,5,42,'NO','1','Usado','2023-12-02 20:51:56','2023-12-27 01:15:09','2023-12-26 13:35:18'),
 (43,5,43,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
 (44,5,44,'NO','1','Usado','2023-12-02 20:51:56',NULL,NULL),
-(45,5,45,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
-(46,5,46,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
-(47,5,47,'NO','0','Deteriorado','2023-12-02 20:51:56',NULL,NULL),
+(45,5,45,'NO','1','Usado','2023-12-02 20:51:56','2023-12-27 01:19:29',NULL),
+(46,5,46,'NO','1','Nuevo','2023-12-02 20:51:56','2023-12-27 01:20:06',NULL),
+(47,5,47,'NO','1','Nuevo','2023-12-02 20:51:56','2023-12-27 01:20:23',NULL),
 (48,1,4,'NO','1','Usado','2023-12-02 21:47:15','2023-12-17 20:42:48',NULL),
 (49,1,48,'NO','1','Nuevo','2023-12-02 22:48:44','2023-12-17 20:43:02',NULL),
 (50,1,49,'NO','1','Usado','2023-12-02 22:48:44','2023-12-17 20:42:50',NULL),
@@ -281,9 +294,9 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (63,6,61,'NO','1','Nuevo','2023-12-03 15:30:08',NULL,NULL),
 (64,7,62,'NO','1','Usado','2023-12-03 21:21:24','2023-12-15 23:48:51',NULL),
 (65,7,63,'NO','1','Usado','2023-12-03 21:21:24','2023-12-25 22:21:06',NULL),
-(66,7,64,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
-(67,7,65,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
-(68,7,66,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
+(66,7,64,'NO','1','Nuevo','2023-12-03 21:21:24','2023-12-27 01:20:40',NULL),
+(67,7,65,'NO','1','Usado','2023-12-03 21:21:24','2023-12-27 01:21:44',NULL),
+(68,7,66,'NO','1','Usado','2023-12-03 21:21:24','2023-12-27 01:22:31',NULL),
 (69,7,67,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
 (70,7,68,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
 (71,7,69,'NO','0','Mal','2023-12-03 21:21:24',NULL,NULL),
@@ -302,8 +315,8 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (84,7,82,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (85,7,83,'NO','0','Mal','2023-12-03 21:21:25',NULL,NULL),
 (86,1,50,'NO','1','Usado','2023-12-04 19:32:34','2023-12-17 20:43:07',NULL),
-(87,8,84,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
-(88,8,85,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
+(87,8,84,'SI','1','Usado','2023-12-05 22:19:19',NULL,NULL),
+(88,8,85,'SI','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (89,8,86,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (90,8,87,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
 (91,8,88,'NO','1','Usado','2023-12-05 22:19:19',NULL,NULL),
@@ -634,7 +647,14 @@ insert  into `ejemplares`(`idejemplar`,`idlibro`,`codigo_libro`,`ocupado`,`estad
 (416,33,318,'SI','1','Usado','2023-12-25 20:19:25',NULL,NULL),
 (417,33,319,'NO','1','Usado','2023-12-25 20:19:25',NULL,NULL),
 (418,29,252,'NO','1','Nuevo','2023-12-25 23:25:16',NULL,NULL),
-(419,29,253,'NO','1','Nuevo','2023-12-25 23:25:16',NULL,NULL);
+(419,29,253,'NO','1','Nuevo','2023-12-25 23:25:16',NULL,NULL),
+(420,6,62,'NO','1','Nuevo','2023-12-26 13:41:52',NULL,NULL),
+(421,33,320,'NO','1','Nuevo','2023-12-26 13:43:29',NULL,NULL),
+(422,28,242,'NO','1','Nuevo','2023-12-26 13:45:06',NULL,NULL),
+(423,28,243,'NO','1','Nuevo','2023-12-26 13:45:36',NULL,NULL),
+(424,33,321,'NO','1','Usado','2023-12-26 13:46:14',NULL,NULL),
+(425,30,322,'NO','1','Nuevo','2023-12-26 16:38:56',NULL,NULL),
+(426,30,323,'NO','1','Nuevo','2023-12-26 16:38:56',NULL,NULL);
 
 /*Table structure for table `libros` */
 
@@ -674,13 +694,13 @@ insert  into `libros`(`idlibro`,`idsubcategoria`,`ideditorial`,`libro`,`tipo`,`c
 (3,5,4,'La Biblia de la física y quimica','texto',12,122,533.000,'','Mediano','2020-03-24','Español','','3202e00ba85735c7a7e3a7426275081ad1426767.jpg','2023-12-02 20:48:41',NULL,'2023-12-16 00:31:08','1'),
 (4,15,3,'La Biblia de las ciencias naturales ','texto',12,121,581.000,'','Mediano','2009-05-31','Español','','34d5c98fd01b2b2cc48d1029fb46b61682aa7f6a.jpg','2023-12-02 20:50:05',NULL,NULL,'1'),
 (5,6,1,'Atlas del cuerpo Humano','texto',10,100,574.000,'','Mediano','2010-05-04','Español','trata del cuerpo humano','cee4cdd14588a258d38a114810164b887a053492.jpg','2023-12-02 20:51:56',NULL,NULL,'1'),
-(6,4,1,'Atlas del cielo','',12,111,525.000,'','Mediano','2010-02-22','Español','','a89d48460f4e35405f9bb15136900c9227d52b37.jpg','2023-12-03 15:30:08',NULL,NULL,'1'),
+(6,4,1,'Atlas del cielo','',13,113,525.000,'','Mediano','2010-02-22','Español','','a89d48460f4e35405f9bb15136900c9227d52b37.jpg','2023-12-03 15:30:08',NULL,NULL,'1'),
 (7,17,1,'La odisea','historieta',22,111,883.000,'a','pequeño','2010-02-22','Español','La Odisea narra las aventuras de Odiseo, popularmente conocido como Ulises, en su viaje de regreso a su patria, Ítaca, luego de pasar diez años combatiendo en la guerra de Troya.','773b6ef271458e20fa5c74942e6abbdd06392717.jpg','2023-12-03 21:21:24',NULL,'2023-12-15 23:48:43','1'),
 (8,18,2,'Los 7 hábitos de los adolescentes altamente afectivos','texto',12,210,150.001,'Madrid','Mediano','2003-03-31','Español','La época contemporánea fue el salto que provoco un gran cambio en la sociedad del siglo XVIII, la cual está marcada por grandes revoluciones y transformaciones en todos los aspectos que la constituyen','6fc68f5c4164cd8fba5802d6edd7408d1720622a.jpg','2023-12-05 22:19:19',NULL,NULL,'1'),
 (9,8,5,'Dracula','comic',21,120,820.008,'','Pequeño','2010-03-04','Español','Un texto inquietante y una dinámica distribución de planos y viñetas llenas de atractivos personajes, bien identificados y diferenciados, crean el ambiente adecuado para que el niño se sumerja en una ','ea56ead04647442a6f7662064151c69e298f2396.jpg','2023-12-10 20:47:41',NULL,NULL,'1'),
 (10,11,1,'La Ciudad de los perros','texo',30,121,869.056,'','Mediano','2011-04-13','Español','','62ff7ae3c091ba1df6bfb37d4c2c71b6320ab13f.jpg','2023-12-10 20:56:57',NULL,NULL,'1'),
 (11,3,1,'Precalculos IV','texto',5,144,531.000,'','Grande','2000-12-12','español','nada','ca952d7f67f9bc94620c547aaaf28a11a9952261.jpg','2023-12-10 21:00:03',NULL,'2023-12-15 23:36:17','1'),
-(12,3,3,'Poesia en el tiempo','texto',1,121,58.000,'','Mediano','2010-04-24','Español','11111111111111111111111111111111111111111','2ff6f57f4a4409322485bb2db97c1d46339f2a28.jpg','2023-12-12 19:49:41',NULL,NULL,'1'),
+(12,3,3,'Poesia en el tiempo','texto',1,121,58.000,'','Mediano','2010-04-24','Español','poesías en el tiempo es una antología ','2ff6f57f4a4409322485bb2db97c1d46339f2a28.jpg','2023-12-12 19:49:41',NULL,NULL,'1'),
 (14,3,1,'Calculo III','texto',2,144,531.000,'','mediano','2000-12-12','español','','33ad30a6cc39818397240665f474c66997f6e963.jpg','2023-12-16 23:59:48',NULL,NULL,'1'),
 (15,11,6,'País de jauja','texto',10,662,869.557,'enero 2012','Pequeño','2013-06-07','Español','','565c8e657055dd205ffd03115aea541988208e55.jpg','2023-12-19 10:02:51',NULL,NULL,'1'),
 (16,11,7,'Pedro Paramo','texto',12,262,869.150,'Junio 1983','pequeño','2017-06-06','Español','','fe457a3933580377bc4a1891e701d01bd2d80cdd.jpg','2023-12-19 10:10:56',NULL,NULL,'1'),
@@ -695,12 +715,12 @@ insert  into `libros`(`idlibro`,`idsubcategoria`,`ideditorial`,`libro`,`tipo`,`c
 (25,57,13,'Diccionario Pocket','Diccionario',12,900,423.000,'2010','Pequeño','2015-03-08','Español','Diccionario que traduce de ingles a español y de español a ingles','d0d1c278db13caa55a7ae458fa42b231095b577f.jpg','2023-12-21 08:38:36',NULL,NULL,'1'),
 (26,61,15,'Diccionario de sinónimos y antónimos','Diccionario',11,1066,463.000,'','Pequeño','2012-02-08','Español','','063d003ac2dafbe7a1c900843290c898169512db.jpg','2023-12-21 08:44:53',NULL,NULL,'1'),
 (27,1,9,'Lideres del Tercer Milenio','texto',5,500,158.000,'','Pequeño','1999-03-05','Español','Líderes del Tercer Milenio es una conferencia magistral que hace un compendio de las principales claves de los Dirigentes de Excelencia pasados ​​y contemporáneos.','82a0b1a3cc8b525a2b813613a0f02eaa04251c3c.jpg','2023-12-21 08:56:07',NULL,NULL,'1'),
-(28,88,16,'Manual de educación física y deportes','Manual',3,659,796.000,'','Grande','2015-05-09','Español','','d51910513abb650c20c655db586974f53c7df2d8.jpg','2023-12-21 09:03:59',NULL,NULL,'1'),
+(28,88,16,'Manual de educación física y deportes','Manual',5,659,796.000,'','Grande','2015-05-09','Español','','d51910513abb650c20c655db586974f53c7df2d8.jpg','2023-12-21 09:03:59',NULL,NULL,'1'),
 (29,49,6,'Economía para todos','texto',12,249,330.030,'','Mediano','2016-05-04','Español','','b4f919220a0400e682f2eb88323388499ad4e1a4.jpg','2023-12-21 09:07:19',NULL,NULL,'1'),
-(30,57,17,'Collins pocket plus','texto',30,792,423.000,'','Pequeño','2011-05-20','Español','','a8a89ff455a5d8e7ae8d6c85628e5ed91845414a.jpg','2023-12-21 10:07:01',NULL,NULL,'1'),
+(30,57,5,'Don Quijote de la mancha','texto',30,392,423.000,'','Pequeño','2015-05-20','Español','Don Alonso Quijano era un personaje que leía tantos libros de caballería que un día decidió que se haría caballero andante, llamándose Don Quijote de la Mancha.','a16c8f810ffc55ce916afe9d97773a24226dd8f2.jpg','2023-12-21 10:07:01',NULL,NULL,'1'),
 (31,57,17,'Collins pocket plus','texto',30,792,423.000,'','Pequeño','2011-05-20','Español','','4cddb73c07e96f24a10e4086d1b1d8862f96c9af.jpg','2023-12-21 10:07:17',NULL,NULL,'1'),
 (32,18,12,'Las Fronteras del Pensamiento','texto',30,792,152.024,'ES','Pequeño','2011-05-20','Español','','67cc59405f59104caadcd84a4f1bdf43dcab29b8.jpg','2023-12-21 10:07:53',NULL,NULL,'1'),
-(33,57,17,'Historia del Cálculo','texto',2,792,423.000,'ES','Pequeño','2011-05-20','Español','','16f5bb9bfced20776e7c112708e7b6bd24245024.jpg','2023-12-21 10:08:11',NULL,NULL,'1'),
+(33,57,17,'Historia del Cálculo','texto',4,792,423.000,'ES','Pequeño','2011-05-20','Español','','16f5bb9bfced20776e7c112708e7b6bd24245024.jpg','2023-12-21 10:08:11',NULL,NULL,'1'),
 (34,13,10,'Geografía e historia','texto',6,232,912.002,'2010','Mediano','2015-11-28','Español','','c1203af51b163796d76635449c93ba64fb82b5a2.jpg','2023-12-23 15:23:09',NULL,NULL,'1');
 
 /*Table structure for table `librosentregados` */
@@ -720,7 +740,7 @@ CREATE TABLE `librosentregados` (
   KEY `fk_prestamo_libentre` (`idprestamo`),
   CONSTRAINT `fk_idejemplar_libroentre` FOREIGN KEY (`idejemplar`) REFERENCES `ejemplares` (`idejemplar`),
   CONSTRAINT `fk_prestamo_libentre` FOREIGN KEY (`idprestamo`) REFERENCES `prestamos` (`idprestamo`)
-) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `librosentregados` */
 
@@ -966,8 +986,8 @@ insert  into `librosentregados`(`idlibroentregado`,`idprestamo`,`idejemplar`,`co
 (239,140,120,'Usado','Bien','bien','2023-12-24 20:01:28'),
 (240,141,157,'Nuevo','Bien','bien','2023-12-24 20:20:30'),
 (241,142,64,'Usado','Bien','Bien','2023-12-25 00:00:00'),
-(242,143,39,'Usado',NULL,NULL,'2023-12-26 00:00:00'),
-(243,143,42,'Usado',NULL,NULL,'2023-12-26 00:00:00'),
+(242,143,39,'Usado','Deteriorado','roto','2023-12-26 00:00:00'),
+(243,143,42,'Usado','Mal','no se devolvio','2023-12-26 00:00:00'),
 (244,144,150,'Nuevo','Bien','Bien','2023-12-26 00:00:00'),
 (245,145,158,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
 (246,145,223,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
@@ -1002,7 +1022,10 @@ insert  into `librosentregados`(`idlibroentregado`,`idprestamo`,`idejemplar`,`co
 (275,147,258,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
 (276,147,259,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
 (277,147,260,'Usado',NULL,NULL,'2023-12-28 00:00:00'),
-(278,149,416,'Usado',NULL,NULL,'2023-12-27 00:00:00');
+(278,149,416,'Usado',NULL,NULL,'2023-12-27 00:00:00'),
+(279,148,87,'Usado',NULL,NULL,'2024-01-04 00:00:00'),
+(280,148,88,'Usado',NULL,NULL,'2024-01-04 00:00:00'),
+(281,151,359,'Nuevo','Bien','Bien','2023-12-26 00:00:00');
 
 /*Table structure for table `personas` */
 
@@ -1028,7 +1051,7 @@ CREATE TABLE `personas` (
 /*Data for the table `personas` */
 
 insert  into `personas`(`idpersona`,`apellidos`,`nombres`,`nrodocumento`,`tipodocumento`,`fechanac`,`direccion`,`telefono`,`email`,`create_at`,`update_at`,`inactive_at`) values 
-(1,'Berrocal paima','Luis Fernando','76543010','DNI','0000-00-00','Sunampe','964513274','','2023-11-14 20:04:43',NULL,NULL),
+(1,'Berrocal paima','Luis Fernando','75123489','DNI','0000-00-00','Sunampe','964513275','','2023-11-14 20:04:43',NULL,NULL),
 (2,'Cartagena Salazar','Jimena Adriana','73194180','DNI','0000-00-00','El carmen','','95107563','2023-11-14 20:04:43',NULL,NULL),
 (3,'Cardenas Martinez','Maria Luisa','88678671','DNI','2010-05-06','','961770778','','2023-11-15 17:34:31',NULL,NULL),
 (4,'Cartagena Salazar','Adriana Jimena','68754574','DNI','0000-00-00','Grocio Prado','950478703','','2023-11-17 22:10:26',NULL,NULL),
@@ -1094,7 +1117,7 @@ CREATE TABLE `prestamos` (
   CONSTRAINT `fk_idlibro_prestamo` FOREIGN KEY (`idlibro`) REFERENCES `libros` (`idlibro`),
   CONSTRAINT `ck_enbiblio_presta` CHECK (`enbiblioteca` in ('SI','NO')),
   CONSTRAINT `ck_estado_ore` CHECK (`estado` in ('E','S','R','D','T','N','C'))
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `prestamos` */
 
@@ -1231,13 +1254,15 @@ insert  into `prestamos`(`idprestamo`,`idbeneficiario`,`idbibliotecario`,`idlibr
 (140,4,1,NULL,NULL,'2023-12-24 20:01:17','2023-12-24 20:01:17',NULL,'2023-12-24 20:01:17','3M','SI',NULL,'T','1',NULL),
 (141,2,NULL,14,1,'2023-12-24 20:14:48','2023-12-26 00:00:00','2023-12-24 20:15:20','2023-12-24 20:20:19','3M','SI','','T','1',NULL),
 (142,29,1,NULL,NULL,'2023-12-25 18:07:52','2023-12-25 18:07:52',NULL,'2023-12-25 18:07:52','primero A','SI',NULL,'T','1',NULL),
-(143,28,1,NULL,NULL,'2023-12-25 18:08:47','2023-12-25 18:08:47',NULL,'2023-12-25 18:08:47','DPCC','SI',NULL,'D','1',NULL),
+(143,28,1,NULL,NULL,'2023-12-25 18:08:47','2023-12-25 18:08:47',NULL,'2023-12-25 18:08:47','DPCC','SI',NULL,'T','1',NULL),
 (144,4,1,NULL,NULL,'2023-12-25 18:09:53','2023-12-26 00:00:00',NULL,'2023-12-25 19:24:57','3M','SI',NULL,'T','1',NULL),
 (145,17,1,NULL,NULL,'2023-12-25 18:11:52','2023-12-27 00:00:00',NULL,NULL,'Quimica','NO','Laboratorio','R','1',NULL),
 (146,18,1,NULL,NULL,'2023-12-25 18:12:49','2023-12-28 00:00:00',NULL,NULL,'Ingles','SI',NULL,'R','1',NULL),
 (147,21,1,NULL,NULL,'2023-12-25 18:27:42','2023-12-28 00:00:00',NULL,'2023-12-25 19:43:27','','SI',NULL,'D','1',NULL),
-(148,37,NULL,8,2,'2023-12-25 18:42:54','2023-12-28 00:00:00',NULL,NULL,'Personal Social ','SI','','S','1',NULL),
-(149,37,1,NULL,NULL,'2023-12-25 22:10:31','2023-12-27 00:00:00',NULL,NULL,'','SI',NULL,'R','1',NULL);
+(148,37,NULL,8,2,'2023-12-25 18:42:54','2023-12-28 00:00:00','2023-12-26 14:08:24',NULL,'Personal Social ','SI','','R','1',NULL),
+(149,37,1,NULL,NULL,'2023-12-25 22:10:31','2023-12-27 00:00:00',NULL,'2023-12-27 01:10:44','','SI',NULL,'D','1',NULL),
+(150,30,1,NULL,NULL,'2023-12-26 14:43:31','2023-12-30 00:00:00',NULL,NULL,'4F','SI',NULL,'E','1',NULL),
+(151,30,1,NULL,NULL,'2023-12-26 17:35:00','2023-12-26 17:35:00',NULL,'2023-12-26 17:35:00','4F','SI',NULL,'T','1',NULL);
 
 /*Table structure for table `roles` */
 
@@ -1405,9 +1430,9 @@ CREATE TABLE `usuarios` (
 insert  into `usuarios`(`idusuario`,`idpersona`,`idrol`,`nombreusuario`,`claveacceso`,`create_at`,`update_at`,`inactive_at`,`estado`) values 
 (1,1,1,'75123489','$2y$10$ZQ0.NyzapEJ6.UJUUzmbMuXyYwk4gfIkKhXivhEFRwEmRwHEgLEEC','2023-11-14 20:04:56','2023-12-19 11:06:00','2023-12-12 21:19:21','1'),
 (2,2,3,'78674219','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-14 20:04:56',NULL,'2023-12-24 20:20:30','1'),
-(3,3,3,'Maria12','$2y$10$pxX3igy8jxsXn0d6pIfhuOAgrqtyYllrjRoKExylPwWx5eV.sL5Wi','2023-11-15 17:34:31','2023-12-16 21:03:46','2023-12-10 23:00:42','1'),
+(3,3,3,'Maria12','$2y$10$ULdx84WDdrhrIf3c8ZYd2e92dQj7UkMeH4TGjBy1I6TDV4x2Z.6hG','2023-11-15 17:34:31','2023-12-26 15:44:17','2023-12-10 23:00:42','1'),
 (4,4,3,'Adri12','$2y$10$BAFdgrEAUrbCiAvJqXK1JewmEmWD4z6elZ/SbjfPL6AtlAdtycXyK','2023-11-17 22:10:26',NULL,'2023-12-25 18:09:54','1'),
-(5,5,2,'Juan12','$2y$10$DO47kyJla58I/3HnjIfwqODpmZpT0d92aC98PJvnhzt0iA.CAu.0a','2023-11-17 23:09:29',NULL,'2023-12-14 22:11:13','1'),
+(5,5,2,'Juan12','$2y$10$6dVgIugw6dppWCUHF0wSVOJ.2U.nExSccoKefuDr1RaacRpkn0TTS','2023-11-17 23:09:29','2023-12-26 15:44:51','2023-12-14 22:11:13','1'),
 (6,6,3,'Kiarabq','$2y$10$uwF4lFXTH1mw4yw.lXX7HeVTMGAr10dRPE4DnypxrX5oYb3quMvum','2023-11-17 23:10:50',NULL,'2023-12-14 00:39:58','1'),
 (7,7,3,'JhonF','$2y$10$Cp0BSJyKCFSKllRAZ/.DA.8Eu3BR/IC4IdUi0.Yj3rWAGUz7hPSRG','2023-11-17 23:12:24',NULL,'2023-12-14 17:38:34','1'),
 (11,11,2,'72890192','$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC','2023-11-21 21:04:32',NULL,'2023-12-14 00:21:18','1'),
@@ -1422,20 +1447,20 @@ insert  into `usuarios`(`idusuario`,`idpersona`,`idrol`,`nombreusuario`,`claveac
 (20,21,3,'70056460','$2y$10$v.3w9UOJlIJMnXVODL7iF.47eZ6RDWl7pAi5hMk46Wo2ffnAzBmJa','2023-12-16 22:06:23',NULL,'2023-12-24 19:11:15','1'),
 (21,22,2,'65247872','$2y$10$za35/IWlsOy5Vb93DTpcfOwsF7KofQvqPNJEXty.lYNvcMSjmWQjG','2023-12-16 22:07:18',NULL,'2023-12-25 18:27:44','1'),
 (22,23,3,'52687268','$2y$10$uauysBK41DWsuuoIm/7cGeWwXduyl9yXL7/Ny8eQ.tI2tOnk.JQ6C','2023-12-17 21:46:35',NULL,NULL,'1'),
-(23,24,2,'72089808','$2y$10$UKTTfZx.q.T/4p3FzPNiYORp51padIo2brBwgvUziAmajFlKOZvM2','2023-12-17 21:47:56',NULL,NULL,'1'),
+(23,24,2,'72089808','$2y$10$UKTTfZx.q.T/4p3FzPNiYORp51padIo2brBwgvUziAmajFlKOZvM2','2023-12-17 21:47:56',NULL,'2023-12-26 17:26:42','0'),
 (24,25,3,'56268787','$2y$10$XOJiHWnq5sfLQXhJw9FdXud1WwOZDv4jIQPns4NuqahrfSH8GeejS','2023-12-17 21:49:00',NULL,NULL,'1'),
 (25,26,3,'','$2y$10$Ej/6Z4Kr1ZWdBDN/RG26ieTvDX1VBzqGtmKx1oCSKjC/5Vw.w5OXm','2023-12-17 21:51:55',NULL,NULL,'1'),
 (26,28,3,'73194180','$2y$10$bPkn7xtfsjnJy5cYJ8q2TePbwjch8IUdF.AtGRiU3FcxqC.YZqGgS','2023-12-17 22:53:51','2023-12-17 22:54:44',NULL,'1'),
-(28,30,2,'36734727','$2y$10$pIv56NspMr2sFq1s9uHkzeOarKL545nfNTADnHwmQ8qy.0w7qZxGy','2023-12-18 19:00:12',NULL,'2023-12-25 18:08:48','0'),
+(28,30,2,'36734727','$2y$10$pIv56NspMr2sFq1s9uHkzeOarKL545nfNTADnHwmQ8qy.0w7qZxGy','2023-12-18 19:00:12',NULL,'2023-12-26 13:55:07','0'),
 (29,31,3,'kaditxa','$2y$10$96Kmc26m/dM8AZHQmEG6DuDUdKqlLGxbAk2a2CzoSSpKO9Jg3ZaXO','2023-12-21 09:38:36','2023-12-21 09:45:47','2023-12-25 18:07:53','1'),
-(30,32,3,'pato.34','$2y$10$vT1xKe/Fqd2kBEbD1bi.PuR0GuSBnLDRMJsjQHxq3xH2HmYDWBYNy','2023-12-21 09:40:17','2023-12-21 09:42:08','2023-12-24 15:14:06','1'),
+(30,32,3,'pato.34','$2y$10$vT1xKe/Fqd2kBEbD1bi.PuR0GuSBnLDRMJsjQHxq3xH2HmYDWBYNy','2023-12-21 09:40:17','2023-12-21 09:42:08','2023-12-26 17:35:01','1'),
 (31,33,3,'Tesy12','$2y$10$JLeGIdt4Pr81vwkxOqX2iu04I0vawJFldpy.CwUFf9xz4hx526NBm','2023-12-24 19:35:06',NULL,NULL,'1'),
 (32,34,3,'62787423','$2y$10$myJ/8gDrb1ZQnut.ceahnes/ido3OqknXFl6cpIw7QRph4m5tjrFC','2023-12-24 19:37:24',NULL,NULL,'1'),
 (33,35,3,'62787509','$2y$10$kAwyOfk57xgxjjkGLajA5eRuJMK2HGM99WwXJzq4Zd7tN6N93.cdO','2023-12-24 19:39:00',NULL,NULL,'1'),
 (34,36,2,'63503645','$2y$10$UFXVjBTJyiRNC3I.vPBHwuQjICaHBTPNjaNNfef8OtEDeEgG1UQzm','2023-12-24 19:39:47',NULL,'2023-12-25 23:06:24','0'),
 (35,37,3,'62787416','$2y$10$rZHZGspJ2Y4TKcOUj1BJNeoDYmpuqP8jBtD9mcDGJiuBzNusmeWSq','2023-12-24 19:40:32',NULL,NULL,'1'),
 (36,38,3,'66505602','$2y$10$j32go81GgMq56Cc.oJKLE.mij5rt.ngNFFIfcVOjbM7hMar71Xd/K','2023-12-25 18:39:44',NULL,NULL,'1'),
-(37,39,2,'71032046','$2y$10$c2Lz5TC5XMgH4LAapcr.zOZNjRb/E5GJgWrkdXw1gd4EfAyO2lxlK','2023-12-25 18:41:07','2023-12-25 18:41:55','2023-12-25 22:10:32','0');
+(37,39,2,'71032046','$2y$10$c2Lz5TC5XMgH4LAapcr.zOZNjRb/E5GJgWrkdXw1gd4EfAyO2lxlK','2023-12-25 18:41:07','2023-12-25 18:41:55','2023-12-26 17:27:10','0');
 
 /* Trigger structure for table `prestamos` */
 
@@ -2411,7 +2436,8 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_listado_libros`()
-begin
+BEGIN
+
 SELECT 
     ej.idlibro, det.iddetalleautor, cat.categoria, sub.subcategoria,lib.libro,lib.cantidad ,(SELECT COUNT(*) FROM ejemplares WHERE idlibro = lib.idlibro AND ocupado = 'NO' AND estado = 1) AS 'Disponible',
     lib.codigo,
@@ -2424,11 +2450,13 @@ FROM
     JOIN autores aut ON det.idautor = aut.idautor
     LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
 WHERE 
-    lib.estado in (1,0)
+    lib.estado IN (1,0) and det.estado = 1
 GROUP BY 
     ej.idlibro
 ORDER BY 
     ej.idlibro DESC;
+
+-- Luego, la sentencia UPDATE
 UPDATE libros AS lib
 SET 
     lib.estado = 
@@ -2446,7 +2474,7 @@ WHERE
         FROM ejemplares ej
         WHERE ej.idlibro = lib.idlibro AND ej.ocupado = 'NO' AND ej.estado IN (1, 0)
     );
-end */$$
+END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_listar_devolucionpendientes` */
@@ -2752,7 +2780,7 @@ BEGIN
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE detalleautores.idlibro = _idlibro;
+	WHERE detalleautores.idlibro = _idlibro and detalleautores.estado = 1;
 END */$$
 DELIMITER ;
 

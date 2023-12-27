@@ -55,7 +55,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off" id="form-detallito" class="p-3">
+                <form autocomplete="off" id="form-cantidad" class="p-3">
                     <div class="row">
                         <div class="col-md-12">
                             <label for="">Libro</label>
@@ -215,7 +215,6 @@
                                         <th>Codigo</th>
                                         <th>Ocupado</th>
                                         <th>Condicion</th>
-                                        <th>Estado</th>
                                         <th>Activar</th>
                                     </tr>
                                 </thead>
@@ -406,6 +405,7 @@
     // const btPluss = document.querySelector("#btplus");
     const guardarEjem = document.querySelector("#GuadEditarEjem");
     const modalEditarE = new bootstrap.Modal(document.querySelector("#editarEjemplar"));
+    const modaldetalle = new bootstrap.Modal(document.querySelector("#ejemplar"));
     const modalEditarL = new bootstrap.Modal(document.querySelector("#editar"));
     const modalCantidad = new bootstrap.Modal(document.querySelector("#modal"));
     const TAmentarA = document.querySelector("#TAmentarA");
@@ -576,7 +576,7 @@
             // Agregando filas
             result.forEach(element => {
                 const filaina =`<td>
-                                    <a href='#ejemplar' class='btn btn-info btn-sm codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
+                                    <a href='#' class='btn btn-info btn-sm codigo' data-toggle='modal' type='button' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Detalles</a>
                                 </td>`;
                 const edit =`<td>
                                 <a href='#' class='btn btn-secondary btn-sm editar' data-toggle='modal' data-idlibro='${element.idlibro}' data-iddetalleautor='${element.iddetalleautor}'>Editar</a>
@@ -738,7 +738,6 @@
             .then(response => response.json())
             .then(datos => {
                 if(datos.status){
-                    modalCantidad.toggle();
                     listadoLibro();
                     document.querySelector("#Ecantidad").value = ' '
                     document.querySelector("#Econdicion").value = ' '
@@ -791,9 +790,10 @@
         .then(datos => {
             cuerpoE.innerHTML = ``;
             datos.forEach(element => {
+                element.estado
                 const estadoClase = element.estado === '0' ? 'estado-rojo' : '';
                 // Verificar el estado para decidir si agregar el atributo href
-                const linkHref = element.estado === '0' ? `class=' btn btn-success btn-sm activarE'` : '';
+                const linkHref = element.estado === '0' ? `class='btn btn-success btn-sm activarE'` : '';
                 const ejemplars = `
                 <tr  class='${estadoClase}'>
                     <td>${element.idejemplar}</td>
@@ -801,7 +801,6 @@
                     <td>${element.codigo} - ${element.codigo_libro}</td>
                     <td>${element.ocupado}</td>
                     <td>${element.condicion}</td>
-                    <td>${element.estado}</td>
                     <td>
                         <a ${linkHref} href='#' type='button' data-idejemplar='${element.idejemplar}' data-toggle='modal' >Activar</a>
                     </td>
@@ -873,7 +872,7 @@
         if(codigoL){
             iddetalleautor = parseInt(event.target.dataset.iddetalleautor);
             idlibro = parseInt(event.target.dataset.idlibro);
-            //console.log(iddetalleautor);
+            modaldetalle.toggle();
             const parametros = new URLSearchParams();
             parametros.append("operacion","obtenerDetalleautores");
             parametros.append("idlibro", idlibro);
@@ -961,6 +960,7 @@
                     })
                     .then(response => response.json())
                     .then(result => {
+                        toast("Eliminado");
                         traerAutor();
                     })
                 }
@@ -1005,15 +1005,16 @@
         .then(response => response.json())
         .then(datos => {
             if(datos.status){
-                traerEjemplar();
-                listadoLibro();
                 modalEditarE.toggle();
+                modaldetalle.toggle();
+                // traerEjemplar();
+                listadoLibro();
             }
         });
     }
 
     cuerpoE.addEventListener("click", (event) => {
-        if(event.target.closest('activarE')){
+        if(event.target.closest('.activarE')){
             idlibro = parseInt(event.target.dataset.idlibro);
             idejemplar = parseInt(event.target.dataset.idejemplar);
             modalEditarE.toggle();

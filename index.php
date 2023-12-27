@@ -81,8 +81,9 @@
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    <script src="./js/sweetalert.js"></script>
     <!-- Custom scripts for all pages-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/sb-admin-2.min.js"></script>
   <!-- <script src="./js/login.js"></script> -->
   <script>
@@ -105,7 +106,7 @@
         .then(respuesta => respuesta.json())
         .then(datos => {
           if (!datos.status){
-            alert(datos.mensaje);
+            toastError(datos.mensaje);
             usuario.focus();
           } else {
             window.location.href = './views/index.php?view=dashboard.php';

@@ -46,37 +46,6 @@ if(isset($_POST['operacion'])) {
     echo json_encode($resultado);
   }
 
-  if($_POST['operacion'] == 'registrarAutor'){
-    $datosGuardar = [
-      "nombres"     => $_POST['nombres'],
-      "apellidos"    => $_POST['apellidos'],
-      "seudonimio"      => $_POST['seudonimio'],
-      "nacionalidad"       => $_POST['nacionalidad']
-    ];
-    $respuesta = $usuario->registrarAutor($datosGuardar);
-    echo json_encode($respuesta);
-  }
-
-  if($_POST['operacion'] == 'registrarEditorial'){
-    $datosGuardar = [
-      "nombres"     => $_POST['nombres'],
-      "telefono"    => $_POST['telefono'],
-      "web"      => $_POST['web'],
-      "email"       => $_POST['email'],
-      "paisorigen"       => $_POST['paisorigen']
-    ];
-    $respuesta = $usuario->registrarEditorial($datosGuardar);
-    echo json_encode($respuesta);
-  }
-
-  if($_POST['operacion'] == 'registrarCategoria'){
-    $datosGuardar = [
-      "categoria"     => $_POST['categoria'],
-      "codigo"    => $_POST['codigo']
-    ];
-    $respuesta = $usuario->registrarCategoria($datosGuardar);
-    echo json_encode($respuesta);
-  }
 
   if($_POST['operacion'] == 'nuevaclave'){
     $nuevo = [
@@ -86,24 +55,6 @@ if(isset($_POST['operacion'])) {
     $respuesta = $usuario->NuevaContraseña($nuevo);
     echo json_encode($respuesta);
   }
-
-  if($_POST['operacion'] == 'updateAdmin'){
-    $nuevo = [
-      "idusuario"     => $_POST['idusuario'],
-      "apellidos"       =>   $_POST['apellidos'],
-      "nombres"       =>   $_POST['nombres'],
-      "dni"       =>   $_POST['dni'],
-      "fechanc"       =>   $_POST['fechanc'],
-      "direccion"       =>   $_POST['direccion'],
-      "telefono"       =>   $_POST['telefono'],
-      "email"       =>   $_POST['email'],
-      "usuario"       =>   $_POST['usuario']
-    ];
-    $respuesta = $usuario->updateAdmin($nuevo);
-    echo json_encode($respuesta);
-  }
-  
-
 }
 
 if (isset($_GET['operacion']) == 'destroy'){

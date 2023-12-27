@@ -67,4 +67,51 @@ if (isset($_POST['operacion'])){
             echo json_encode($datos);
         }
     }
+    if($_POST['operacion'] == 'registrarAutor'){
+        $datosGuardar = [
+            "nombres"     => $_POST['nombres'],
+            "apellidos"    => $_POST['apellidos'],
+            "seudonimio"      => $_POST['seudonimio'],
+            "nacionalidad"       => $_POST['nacionalidad']
+        ];
+        $respuesta = $validacion->registrarAutor($datosGuardar);
+        echo json_encode($respuesta);
+    }
+    
+    if($_POST['operacion'] == 'registrarCategoria'){
+        $datosGuardar = [
+            "categoria"     => $_POST['categoria'],
+            "codigo"    => $_POST['codigo']
+        ];
+        $respuesta = $validacion->registrarCategoria($datosGuardar);
+        echo json_encode($respuesta);
+    }
+
+    if($_POST['operacion'] == 'registrarEditorial'){
+        $datosGuardar = [
+            "nombres"     => $_POST['nombres'],
+            "telefono"    => $_POST['telefono'],
+            "web"      => $_POST['web'],
+            "email"       => $_POST['email'],
+            "paisorigen"       => $_POST['paisorigen']
+        ];
+        $respuesta = $validacion->registrarEditorial($datosGuardar);
+        echo json_encode($respuesta);
+    }
+
+    if($_POST['operacion'] == 'updateAdmin'){
+        $nuevo = [
+            "idusuario"     => $_POST['idusuario'],
+            "apellidos"       =>   $_POST['apellidos'],
+            "nombres"       =>   $_POST['nombres'],
+            "dni"       =>   $_POST['dni'],
+            "fechanc"       =>   $_POST['fechanc'],
+            "direccion"       =>   $_POST['direccion'],
+            "telefono"       =>   $_POST['telefono'],
+            "email"       =>   $_POST['email'],
+            "usuario"       =>   $_POST['usuario']
+        ];
+        $respuesta = $validacion->updateAdmin($nuevo);
+        echo json_encode($respuesta);
+    }
 }

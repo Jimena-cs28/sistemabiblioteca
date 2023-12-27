@@ -385,7 +385,7 @@ $datoID = json_encode($_SESSION['login']);
         document.addEventListener("DOMContentLoaded", () => {
             const usuario = document.querySelector("#id");
             let idUsuario = usuario.dataset.id;
-            console.log(idUsuario); 
+            console.log(idUsuario);   
             function getURL(){
                 const url = new URL(window.location.href);
                 const vista = url.searchParams.get("view");
