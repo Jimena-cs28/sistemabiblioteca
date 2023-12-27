@@ -81,10 +81,10 @@ BEGIN
 	INNER JOIN editoriales ON editoriales.ideditorial = libros.ideditorial
 	INNER JOIN subcategorias ON subcategorias.idsubcategoria = libros.idsubcategoria
 	INNER JOIN categorias ON categorias.idcategoria = subcategorias.idcategoria
-	WHERE detalleautores.idlibro = _idlibro;
+	WHERE detalleautores.idlibro = _idlibro AND detalleautores.estado = 1;
 END $$
 SELECT * FROM autores
-CALL spu_obtener_detalleautores(2);
+CALL spu_obtener_detalleautores(34);
 
 SELECT * FROM editoriales
 SELECT * FROM librosentregados

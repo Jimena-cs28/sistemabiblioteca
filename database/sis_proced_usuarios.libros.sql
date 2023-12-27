@@ -328,7 +328,7 @@ FROM
     JOIN autores aut ON det.idautor = aut.idautor
     LEFT JOIN ejemplares ej ON lib.idlibro = ej.idlibro
 WHERE 
-    lib.estado IN (1,0)
+    lib.estado IN (1,0) AND det.estado = 1
 GROUP BY 
     ej.idlibro
 ORDER BY 
@@ -373,6 +373,8 @@ BEGIN
 	ORDER BY iddetalleautor DESC;
 END $$
 
+CALL spu_conseguir_libro()
+SELECT * FROM libros
 -- TRAER EJEMPLARES DE UN LIBRO
 DELIMITER $$
 CREATE PROCEDURE spu_mostrar_detallejemplar

@@ -56,8 +56,7 @@
                         </div>
                     </form>
                     <p class="text-center mt-4">
-                        <button type="button" class="btn btn-primary" style="margin-right: 20px;" id="">Ver</button>
-                        <button type="button" class="btn btn-info" id="btAutor" >Guardar</button>
+                        <a href="#" type="button" class="btn btn-info" id="Autor">Guardar</a>
                     </p>
                 </div>
             </div>
@@ -85,9 +84,6 @@
 </div>
 
 <script>
-    const btAutor = document.querySelector("#btAutor");
-    const cuerpoAutor = document.querySelector("tbody")
-    // const tablaAutore = document.querySelector("#tablaAutores");
     
     const tablaAutore = new DataTable('#tablaAutores', {        
         dom: 'Bfrtip',
@@ -108,24 +104,29 @@
     });
 
     function RegisterAutor(){
-        mostrarPregunta("DEVOLVER", "¿Estas seguro de guardar el autor?").then((result)=>{
+        mostrarPregunta("CONTRASEÑA", "¿Estas seguro de cambiar la clave").then((result)=>{
             if(result.isConfirmed){
-                const parametros = new URLSearchParams();
-                parametros.append("operacion","registrarAutor");
-                parametros.append("nombres", document.querySelector("#nombre").value);
-                parametros.append("apellidos", document.querySelector("#apellidos").value);
-                parametros.append("seudonimio", document.querySelector("#seudonimio").value);
-                parametros.append("nacionalidad",document.querySelector("#nacion").value );
-                fetch("../controller/usuario.controller.php",{
-                    method:'POST',
-                    body: parametros
+                const para = new URLSearchParams();
+                para.append("operacion", "registrarAutor");
+                para.append("nombres", document.querySelector("#nombre").value);
+                para.append("apellidos", document.querySelector("#apellidos").value);
+                para.append("seudonimio", document.querySelector("#seudonimio").value);
+                para.append("nacionalidad", document.querySelector("#nacion").value);
+                console.log("error");
+                const fecy = "../controller/validacion.php"
+                fetch(fecy,{
+                    method: 'POST',
+                    body: para
                 })
-                .then(respuesta => respuesta.json())
+                .then(response => response.json())
                 .then(datos => {
                     if(datos.status){
-                        document.querySelector("#form-autor").reset();
+                        toast("Excelente");
+                        listadoAutor();
+                    }else{
+                        toastError("El usuario no existe");
                     }
-                })
+                });
             }
         })
     };
@@ -155,5 +156,5 @@
         })
     }
     listadoAutor();
-    btAutor.addEventListener("click", RegisterAutor);
+    document.querySelector("#Autor").addEventListener("click", RegisterAutor);
 </script>

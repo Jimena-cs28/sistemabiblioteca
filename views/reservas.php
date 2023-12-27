@@ -104,11 +104,11 @@
                             <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th style="color:#574E4E;">#</th>
-                                        <th style="color:#574E4E;">Libro</th>
-                                        <th style="color:#574E4E;">Codigo</th>
-                                        <th style="color:#574E4E;">C. Entrega</th>
-                                        <th style="color:#574E4E;">F. Devolucion</th>
+                                        <th style="color:#574E4E;" width="5%">#</th>
+                                        <th style="color:#574E4E;" width="40%">Librós</th>
+                                        <th style="color:#574E4E;" width="20%">Código</th>
+                                        <th style="color:#574E4E;" width="15%">C. Entrega</th>
+                                        <th style="color:#574E4E;" width="20%">F. Devolución</th>
                                     </tr>
                                 </thead>
                                 <tbody>

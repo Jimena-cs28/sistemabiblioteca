@@ -221,10 +221,29 @@ BEGIN
 END $$
 
 
-SELECT * FROM usuarios -- 78290181
+SELECT * FROM libros -- 78290181
 
 UPDATE usuarios SET claveacceso = '$2y$10$1EwQL/puaUQHsn3KpLDQge.QJ5zTmDQ3PmQkd2du.4H91O8UsatWC'
 WHERE idusuario = 3;
 
-SELECT * FROM personas
+SELECT * FROM libros
+
+SELECT * FROM detalleautores WHERE idlibro = 30 -- 22
+
+UPDATE libros SET
+libro = 'Don quijote de la mancha',
+cantidad = 6,
+codigo = '',
+
+WHERE idlibro = 31
+SELECT * FROM ejemplares WHERE idlibro = 30
+SELECT 
+
+INSERT INTO detalleautores (idlibro,idautor) VALUES 
+(30,22);
+
+INSERT INTO ejemplares (idlibro, codigo_libro, condicion) VALUES
+(30,322,'Nuevo'),
+(30,323,'Nuevo');
+
 

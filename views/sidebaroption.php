@@ -30,7 +30,7 @@ switch ($permiso){
         <a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseUtilities'
             aria-expanded='true' aria-controls='collapseUtilities' width='16' height='16'>
             <i class='bi bi-book' ></i>
-            <span>Librós</span>
+            <span>Libros</span>
         </a>
         <div id='collapseUtilities' class='collapse' aria-labelledby='headingUtilities'
             data-parent='#accordionSidebar'>

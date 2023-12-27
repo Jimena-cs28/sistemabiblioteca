@@ -20,6 +20,11 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
+        <div class="col-md-6">
+                <label for="">Buscar
+                    <input type="search" class="form-control form-control-sm" id="bookSearchDevo">
+                </label>
+            </div>
             <table class="table table-bordered" id="tablaD" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -27,7 +32,7 @@
                         <th style="color:#574E4E;">Usuarios</th>
                         <th style="color:#574E4E;">Datos</th>
                         <th style="color:#574E4E;">F.Entregas</th>
-                        <th style="color:#574E4E;">F.Prestamos</th>
+                        <th style="color:#574E4E;">F.Préstamos</th>
                         <th style="color:#574E4E;">F.Devoluciones</th>
                         <th style="color:#574E4E;">Operaciones</th>
                     </tr>
@@ -41,7 +46,6 @@
 </div>
 
 <!-- modalejemplar -->
-
 <div class="modal fade" id="modal-id" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -175,17 +179,6 @@
         /* Estilo para las fechas que son mayores que la fecha actual */
         color: rgb(243, 79, 79);
     }
-    /* .aviso-flotante {
-        position: fixed;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgb(218, 121, 121); /* Color de fondo rojo, ajusta según tus preferencias
-        color: #090404; /* Color del texto blanco, ajusta según tus preferencias 
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    } */
 </style>
 
 <script>
@@ -193,6 +186,7 @@
     let idusuario = '';
     let idejemplar = '';
     const cuerpo = document.querySelector("tbody");
+    const btbuscar = document.querySelector("#bookSearchDevo");
     const modaltodo = new bootstrap.Modal(document.querySelector("#modal-id"));
     //const modal = $('#modal-id').modal();
     const tabla = document.querySelector("#tabla");
@@ -207,24 +201,6 @@
 
     const modaldetallitos = new bootstrap.Modal(document.querySelector("#modal"));
 
-    // function mostrarAvisoFlotante(mensaje, indice) {
-    //     // Crear un elemento div para el aviso flotante
-    //     const avisoFlotante = document.createElement('div');
-    //     avisoFlotante.className = 'aviso-flotante';
-    //     avisoFlotante.textContent = mensaje;
-
-    //     avisoFlotante.style.position = 'flex';
-    //     avisoFlotante.style.marginLeft = `${indice * 400}px`;
-
-    //     // Agregar el aviso flotante al cuerpo del documento
-    //     document.body.appendChild(avisoFlotante);
-
-    //     // Después de un tiempo, eliminar el aviso flotante
-    //     setTimeout(() => {
-    //         avisoFlotante.remove();
-    //     }, 3000); // 5000 milisegundos (5 segundos)
-    // }
-
     function listarDevoluciones(){
         const parametros = new URLSearchParams();
         parametros.append("operacion","listarDpendientes")
@@ -237,17 +213,11 @@
             const Factual = new Date();
             cuerpo.innerHTML = ``;
             if (datos) {
-                // Variable para almacenar mensajes de avisos flotantes
-                let mensajesAvisosFlotantes = [];
 
                 datos.forEach(element => {
                     const fechadevolucion = new Date(element.fechadevolucion);
                     const fechapasadas = fechadevolucion < Factual;
 
-                    if (fechapasadas) {
-                        // Agregar mensaje de aviso flotante al acumulador
-                        mensajesAvisosFlotantes.push(element.nombres);
-                    }
                     const style = fechapasadas ? 'color: red;' : '';                 
                     const recibir = `
                     <tr style='${style}'>

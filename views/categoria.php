@@ -69,7 +69,7 @@
     </div>
 </div>
 <script>
-    
+
     btGuardarC = document.querySelector("#btguardarC");
     const CuerpoCategoria = document.querySelector("tbody")
     
@@ -80,7 +80,8 @@
                 parametros.append("operacion","registrarCategoria");
                 parametros.append("categoria", document.querySelector("#nombre").value);
                 parametros.append("codigo", document.querySelector("#apellidos").value);
-                fetch("../controller/usuario.controller.php",{
+                const categoris = "../controller/validacion.php";
+                fetch(categoris,{
                     method:'POST',
                     body: parametros
                 })

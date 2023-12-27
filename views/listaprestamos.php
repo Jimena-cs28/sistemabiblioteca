@@ -36,7 +36,7 @@
                     </div>
                     <!-- aqui va lo que dijo irene -->
                     <div class="ml-5 row mt-3">
-                        <label style="color:#000000;" class="fw-bold">TIPO DE PRÉSTAMOS</label>
+                        <label style="color:#000000;" class="fw-bold ml-2">TIPO DE PRÉSTAMOS</label>
                         <div class="form-check ml-3">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="ahora" checked>
                             <label class="form-check-label" for="flexRadioDefault1">PRESTAR</label>
@@ -107,9 +107,9 @@
                         <table class="table table-bordered mt-4" id="tabla2" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Libro</th>
-                                    <th>F.Devolucion</th>
+                                    <th>ID</th>
+                                    <th>Librós</th>
+                                    <th>Fecha Devolución</th>
                                     <th>Condición</th>
                                     <th>Eliminar</th>
                                 </tr>
@@ -162,10 +162,17 @@
     fecharegistar.max = fechamaxima
     fecharegistar.min = fechaMinima
     fecharegistar.value = fechaMinima
-    const fecham = fechaActual
-    fechadevolucion.min = fechaMinima
-    fechadevolucion.max = fechamaxima
+
+    fechadevolucion.min = fecharegistar.value
     // fechadevolucion.value = fecham
+    fechadevolucion.min = fecharegistar.value
+        fechadevolucion.max = fechamaxima
+    fecharegistar.addEventListener("change", function (){  
+        const fecham = fechaActual
+        
+        fechadevolucion.min = fecharegistar.value
+        fechadevolucion.max = fechamaxima
+    })
 
     filtroStudent.addEventListener("change", function() {
         traerRol();
@@ -455,12 +462,22 @@
     }
 
     function AddPrestamoReservar(){
-        if(fecharegistar.value ==''){
-            marcarErrorInput(fecharegistar);
-            toastError('Debe seleccionar elegir fecha de prestamo');
-            return
-        }else{
-            quitarErrorInput(fecharegistar);
+        const today = new Date();
+        const fechaYesterday = new Date();
+        const fechaLimit = new Date();
+        fechaYesterday.setDate(today.getDate() - 1); // Obtener la fecha de ayer
+        fechaLimit.setDate(today.getDate() + 3); 
+
+        const fechaPDate = new Date(fecharegistar);
+
+        if (fechaPDate <= fechaYesterday) {
+            toastError("La fecha de devolución no puede ser anterior al día de ayer");
+            return;
+        }
+
+        if (fechaPDate > fechaLimit) {
+            toastError("Solo se permiten devoluciones hasta cuatro días después de mañana");
+            return;
         }
 
         if(filtroStudent.value ==''){
@@ -468,10 +485,8 @@
             toastError('Debes elegir al estudiante')
             return
         }
-        // else{
-        //     quitarErrorInput(filtroStudent);
-        // }
 
+        
         if(biblioteca.value ==''){
             marcarErrorInput(biblioteca);
             toastError('Debes elegir el lugar');

@@ -119,7 +119,7 @@
             }
         ]
     });
-    
+
     function RegisterEditorial(){
         mostrarPregunta("REGISTRO", "¿Estas seguro de guardar el editorial?").then((result)=>{
             if(result.isConfirmed){
@@ -130,7 +130,8 @@
                 parametros.append("web", document.querySelector("#webE").value);
                 parametros.append("email",document.querySelector("#emailE").value);
                 parametros.append("paisorigen",document.querySelector("#paisE").value);
-                fetch("../controller/usuario.controller.php",{
+                const direccion = "../controller/validacion.php";
+                fetch(direccion,{
                     method:'POST',
                     body: parametros
                 })
@@ -138,6 +139,7 @@
                 .then(datos => {
                     if(datos.status){
                         document.querySelector("#form-editorial").reset();
+                        listadoEditorial();
                     }
                 })
             }

@@ -297,7 +297,7 @@
                 if(datos.status){
                     // modalInactivos.toggle();
                     listarEstudiante();
-                    EstudianteInactivo();
+                    // EstudianteInactivo();
                 }
             });
         }
