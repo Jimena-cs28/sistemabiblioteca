@@ -91,20 +91,21 @@ BEGIN
 	WHERE prestamos.idprestamo = _prestamo AND prestamos.estado IN ('T','C');
 END $$
 UPDATE prestamos SET descripcion = '4B'WHERE idprestamo = 55
-
+SELECT *FROM libros
 -- UNICO = NOMBRE, ROL,DESCRIPCION
 -- IDEEJMPLO =IKN
 SELECT * FROM prestamos
 CALL spu_listar_fichaprestamo(90);
 
 UPDATE prestamos SET estado = 'D' WHERE idprestamo = 8
-
+SELECT * FROM detalleautores
 CALL spu_listar_profesor();
 SELECT * FROM librosentregados;
-
+UPDATE detalleautores SET
+estado = 0 WHERE iddetalleautor = 33
 -- libros
 
-SELECT * FROM subcategorias
+SELECT * FROM prestamos
 
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_libroentregado

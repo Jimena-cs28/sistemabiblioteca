@@ -129,7 +129,6 @@
       botonIniciarSesion.addEventListener("click", validarDatos);
       });
 
-
     function togglePasswordVisibility() {
       const passwordInput = document.getElementById("claveacceso");
       const togglePasswordIcon = document.getElementById("togglePassword");

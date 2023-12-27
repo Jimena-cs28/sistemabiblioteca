@@ -147,16 +147,21 @@ class Estudiantes extends conexion{
   }
 
   public function HabilitarUser($idusuario){
+    $respuesta = [
+      "status" => false,
+      "message" =>""
+    ];
     try {
       $consulta = $this->acesso->prepare("CALL spu_abilitar_usuario(?)");
-      $consulta->execute(array($idusuario));
+      $respuesta["status"] = $consulta->execute(array($idusuario));
 
       $datosObtenidos = $consulta->fetchAll(PDO::FETCH_ASSOC);    //Arreglo asociativo
       return $datosObtenidos; 
     }
     catch(Exception $e){
-      die($e->getMessage());
+      $respuesta["message"] = "No se pudo completar". $e->getMessage();
     }
+    return $respuesta;
   }
 
   public function traerUser($idusuario){

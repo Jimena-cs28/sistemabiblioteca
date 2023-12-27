@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DNI</label>
-                            <input type="text" class="form-control"  id="dni" placeholder="1234567" maxlength="8">
+                            <input type="text" class="form-control"  id="dni" maxlength="8">
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">FECHA NACIMIENTO</label>
@@ -59,17 +59,17 @@
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">DIRECCIÓN</label>
-                            <input type="text" class="form-control" maxlength="20" id="direccion">
+                            <input type="text" class="form-control" id="direccion">
                         </div>
                     </div>
                     <div class="row ml-5 mt-4">
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">CORREO ELECTRÓNICO</label>
-                            <input type="text" class="form-control" placeholder="correo@com.pe"  id="correo" maxlength="50">
+                            <input type="text" class="form-control" placeholder="correo@gmail.pe"  id="correo" >
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">TELEFONO</label>
-                            <input type="text" class="form-control" placeholder="123456789" id="telefono" maxlength="9">
+                            <input type="text" class="form-control"  id="telefono" maxlength="9">
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color:#574E4E;">NOMBRE USUARIO</label>  
@@ -121,6 +121,15 @@
     }
 
     function profesor(){
+        if(document.querySelector("#nombres").value == ''){
+            toastError("Escriba el nombre")
+            return;
+        }
+
+        if(document.querySelector("#apellidos").value == ''){
+            toastError("Escriba el apellido")
+            return;
+        }
         mostrarPregunta("USUARIO", "¿Esta seguro de registrar el usuario?").then((result)=>{ 
             if(result.isConfirmed){
                 const parametros = new URLSearchParams();
@@ -154,7 +163,17 @@
     }
 
     function estudiante(){
-        if(confirm("esta seguro de guardar?")){
+        if(document.querySelector("#nombres").value == ''){
+            toastError("Escriba el nombre")
+            return;
+        }
+
+        if(document.querySelector("#apellidos").value == ''){
+            toastError("Escriba el apellido")
+            return;
+        }
+        mostrarPregunta("USUARIO", "¿Esta seguro de registrar el usuario?").then((result)=>{ 
+            if(result.isConfirmed){
             const parametros = new URLSearchParams();
             parametros.append("operacion", "registrarEstudiante");
             parametros.append("apellidos", document.querySelector("#apellidos").value);
@@ -179,8 +198,10 @@
                     toastError("Ese dni ya ha sido ingresado");
                 }
             })
-        }
+            }
+        })
     }
+    
 
     btGuadar.addEventListener("click", fecha);
 </script>

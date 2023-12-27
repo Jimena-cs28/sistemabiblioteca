@@ -36,8 +36,8 @@ switch ($permiso){
             data-parent='#accordionSidebar'>
             <div class='bg-white py-2 collapse-inner rounded'>
                 <a class='collapse-item' href='index.php?view=listlibros.php'>Libros</a>
-                <a class='collapse-item' href='index.php?view=libros.php'>Registro librós</a>
-                <a class='collapse-item' href='index.php?view=category.php'>Subcategorias</a>
+                <a class='collapse-item' href='index.php?view=libros.php'>Registro libros</a>
+                <a class='collapse-item' href='index.php?view=category.php'>Subcategorías</a>
             </div>
         </div>
     </li>
@@ -64,7 +64,7 @@ switch ($permiso){
     <li class='nav-item'>
         <a class='nav-link' href='index.php?view=prestamos.php'>
         <i class='fas fa-fw fa-chart-area'></i>
-            <span>Prestamos</span></a>
+            <span>Préstamos</span></a>
     </li> 
 
     <li class='nav-item'>
@@ -85,8 +85,8 @@ switch ($permiso){
             data-parent='#accordionSidebar'>
             <div class='bg-white py-2 collapse-inner rounded'>
                 <a class='collapse-item' href='index.php?view=report.php'>Usuarios</a>
-                <a class='collapse-item' href='index.php?view=reportes.php'>Libros mas Pedidos</a>
-                <a class='collapse-item' href='index.php?view=reportmes.php'>Pedidos por Mes</a>
+                <a class='collapse-item' href='index.php?view=reportes.php'>Pedidos</a>
+                <a class='collapse-item' href='index.php?view=reportmes.php'>Tiempo</a>
             </div>
         </div>
     </li>
@@ -109,7 +109,7 @@ switch ($permiso){
     <li class='nav-item'>
         <a class='nav-link' href='index.php?view=config.php'>
             <i class='fas fa-fw fa-table'></i>
-            <span>Configuracion</span></a>
+            <span>Configuración</span></a>
     </li>
 
     ";
@@ -127,12 +127,6 @@ switch ($permiso){
         <div class='sidebar-heading'>
             HISTORIALES
         </div>
-
-        <li class='nav-item'>
-        <a class='nav-link' href='index.php?view=reportLibro.php'>
-            <i class='fas fa-fw fa-table'></i>
-            <span>Libros</span></a>
-        </li>
 
         <li class='nav-item'>
         <a class='nav-link' href='index.php?view=ReportStudent.php'>

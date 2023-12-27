@@ -186,7 +186,7 @@
             // Agregar filas a la tabla
             result.forEach(element => {
                 const filains =`<td>
-                                    <a href='#' type='button' class='btn btn-danger btn-sm inactivoS' data-idusuario='${element.idusuario}'>Inavilitar</a>
+                                    <a href='#' type='button' class='btn btn-danger btn-sm inactivoA' data-idusuario='${element.idusuario}'>Inhabilitar</a>
                                 </td>`;
                 const edit =`<td>
                                 <a href='#' type='button' data-toggle='modal' class='btn btn-primary btn-sm editarS' data-idusuario='${element.idusuario}' data-idpersona='${element.idpersona}'>Editar</a>
@@ -281,12 +281,12 @@
     }
 
     cuerpo.addEventListener("click", (event) => {
-        const elementS = event.target.closest(".inactivoS");
+        const elementS = event.target.closest(".inactivoA");
         if(elementS){
             idusuario = parseInt(event.target.dataset.idusuario);
             //console.log(idusuarios);
             const parametros = new URLSearchParams();
-            parametros.append("operacion","SentenciarUser");
+            parametros.append("operacion","SentenciarUsuario");
             parametros.append("idusuario", idusuario);
             fetch("../controller/estudiantes.php",{
                 method: 'POST',
@@ -296,7 +296,8 @@
             .then(datos => {
                 if(datos.status){
                     // modalInactivos.toggle();
-                    listarEstudiante();
+                    // listarEstudiante();
+                    console.log("nono")
                     // EstudianteInactivo();
                 }
             });
@@ -319,7 +320,6 @@
                 if(datos.status){
                     listarEstudiante();
                 }
-                
             });
         }
     });

@@ -2,7 +2,7 @@
 <h4 class="fw-semibold text-center mb-4" style="color:#0B5993 ;">CONFIGURACIONES</h4>
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="">Categoria</a>
+        <a class="nav-link active" aria-current="page" href="">Categoría</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="index.php?view=config.php">Autores</a>
@@ -19,7 +19,7 @@
                 <!-- fila del titulo -->
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR CATEGORIA</h3>
+                        <h3 class="fw-semibold text-center" style="color:#0B5993 ;">REGISTRAR CATEGORíA</h3>
                     </div>
                 </div>  
             </div>

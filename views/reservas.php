@@ -164,6 +164,8 @@
     const fechaprestamo = document.querySelector("#fechaprestamo");
     const btguardar = document.querySelector("#guardar");
     const btcancelar = document.querySelector("#btnrechazareserva");
+    const ModalCancelarReserva = new bootstrap.Modal(document.querySelector("#rechazareserva"));
+
 
     const tabla = document.querySelector("#tabla");
     const CuerpoP = tabla.querySelector("tbody");
@@ -204,7 +206,7 @@
                                     <li class="list-group-item" style="${style}">F.Prestamo: ${element.fechaprestamo}</li>
                                     <div class="row">
                                         <div class="col-md-4"><a href='#' id='hrfve' class='entrega' data-idprestamo='${element.idprestamo}'>Entregar</a></div>
-                                        <div class="col-md-4"><a href='#rechazareserva' id='id' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
+                                        <div class="col-md-4"><a href='#' id='id' class='cancelar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Cancelar</a></div>
                                         <div class="col-md-4"><a href='#traerE' class='editar' data-toggle='modal' data-nombres='${element.nombres}' data-idprestamo='${element.idprestamo}' data-idlibroentregado='${element.idlibroentregado}'>Ver</a></div>
                                     </div>
                                 </ul>
@@ -276,11 +278,13 @@
 
     card.addEventListener("click", (event) => {
         if(event.target.classList[0] === 'cancelar'){
+            ModalCancelarReserva.toggle();
             function ni(){
                 mostrarPreguntaEliminar("ELIMINAR","¿Estas seguro de Cancelar la Reserva?").then((result)=>{
                     if(result.isConfirmed){
                         idprestamo = parseInt(event.target.dataset.idprestamo);
-                        console.log(idprestamo);
+                        // console.log(idprestamo);
+                        
                         const parametros = new URLSearchParams();
                         parametros.append("operacion","cancelarRevesva");
                         parametros.append("idprestamo", idprestamo);
@@ -293,6 +297,7 @@
                             .then(response => response.json())
                             .then(datos => {
                                 listarEntregas();
+                                ModalCancelarReserva.toggle()
                             })
                     }
                 })

@@ -15,7 +15,26 @@ BEGIN
 	GROUP  BY prestamos.idprestamo
 	ORDER BY idlibroentregado DESC;
 END $$
-SELECT * FROM prestamos
+SELECT * FROM prestamos WHERE prestamos.estado= 'N' 
+DELIMITER $$
+CREATE PROCEDURE spu_search_prestamo
+(
+	IN _nombres VARCHAR(50)
+)
+BEGIN
+	SELECT idlibroentregado,prestamos.idprestamo, prestamos.descripcion, libros.idlibro, ejemplares.codigo_libro, libros.libro, usuarios.idusuario, CONCAT( personas.nombres, ' ', personas.apellidos) AS 'nombres', 
+	libros.tipo, prestamos.fechasolicitud,prestamos.fechaentrega, DATE(prestamos.fechaprestamo) AS 'fechaprestamo', prestamos.estado,MIN(DATE(librosentregados.fechadevolucion)) AS 'fechadevolucion'
+	FROM librosentregados
+	INNER JOIN prestamos ON prestamos.idprestamo = librosentregados.idprestamo
+	INNER JOIN ejemplares ON ejemplares.idejemplar = librosentregados.idejemplar
+	INNER JOIN libros ON libros.idlibro = ejemplares.idlibro
+	INNER JOIN usuarios ON usuarios.idusuario = prestamos.idbeneficiario
+	INNER JOIN personas ON personas.idpersona = usuarios.idpersona
+	WHERE prestamos.estado = 'D' AND (_nombres ="" OR personas.apellidos LIKE CONCAT("%",_nombres, "%"));
+END$$
+CALL spu_search_prestamo('Guillen');
+DELIMITER ;
+SELECT * FROM personas
 -- PASO 6 ACTUALIZAR FECHADEVOLUCION
 
 CALL spu_obtener_libroentregado(1);
